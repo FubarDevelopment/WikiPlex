@@ -1,0 +1,5 @@
+﻿{rss:url=http://local/Data/RssFeedFormatting/Rss.xml}
+
+{rss:url=http://local/Data/RssFeedFormatting/Rss.xml,max=2}
+
+{rss:url=http://local/Data/RssFeedFormatting/Rss.xml,titlesOnly=true}

@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="WikiPlex">
+  <DataContextMoniker Name="/WikiPlexDataContext" />
+  <nestedChildShapes>
+    <classShape Id="cb7a076d-b5fb-4357-b744-282f641fe6c9" absoluteBounds="0.75, 1, 2, 1.3862939453125">
+      <DataClassMoniker Name="/WikiPlexDataContext/Title" />
+      <nestedChildShapes>
+        <elementListCompartment Id="3c133dff-3271-4aec-b404-828c898f5b0e" absoluteBounds="0.765, 1.46, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="dd956aa3-fd0a-4c22-bdf8-e1e98ed45791" absoluteBounds="3.75, 0.875, 2, 1.7708968098958331">
+      <DataClassMoniker Name="/WikiPlexDataContext/Content" />
+      <nestedChildShapes>
+        <elementListCompartment Id="e4b224c8-27dd-400c-ba19-81b198009d37" absoluteBounds="3.7649999999999997, 1.335, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(2.75 : 1.69314697265625); (3.75 : 1.69314697265625)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/WikiPlexDataContext/Title/Title_Content" />
+      <nodes>
+        <classShapeMoniker Id="cb7a076d-b5fb-4357-b744-282f641fe6c9" />
+        <classShapeMoniker Id="dd956aa3-fd0a-4c22-bdf8-e1e98ed45791" />
+      </nodes>
+    </associationConnector>
+  </nestedChildShapes>
+</ordesignerObjectsDiagram>

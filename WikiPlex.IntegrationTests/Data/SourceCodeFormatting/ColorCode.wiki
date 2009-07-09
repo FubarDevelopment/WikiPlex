@@ -1,0 +1,71 @@
+﻿{code:ashx}
+<%@ Webhandler Language="C#" CodeBehind="Global.asax.cs" Inherits="Microsoft.Foundation.Web.Global" %>bool public false
+{code:ashx}
+
+{code:aspx c#}
+<%
+    public string Foo()
+    {
+        return "foo";
+    }
+%>
+{code:aspx c#}
+
+{code:aspx vb.net}
+<%
+    Public Function Foo() As String
+        Return "foo"
+    End Function
+%>
+{code:aspx vb.net}
+
+{code:c#}
+public class Foo
+{
+	// code goes here
+}
+{code:c#}
+
+{code:html}
+<span class="className"></span>
+{code:html}
+
+{code:javascript}
+function FunctionName(argOne, argTwo) {
+    return argOne + argTwo;
+}
+{code:javascript}
+
+{code:sql}
+SELECT * FROM [TableName]
+{code:sql}
+
+{code:vb.net}
+Public Class Foo
+	'' code goes here
+End Class
+{code:vb.net}
+
+{code:xml}
+<elementName attributeName="attributeValue">
+{code:xml}
+
+{code:php}
+<?php
+// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+// ** Test
+// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+class DB {
+    // Determines whether a new link resource is created for each connection
+    private $NEW_LINK = FALSE;
+    
+    function doSomething($value) {
+        return $value;
+    }
+}
+?>
+{code:php}
+
+{code:css}
+.body { color:black; }
+{code:css}

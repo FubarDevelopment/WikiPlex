@@ -1,0 +1,11 @@
+﻿{video:url=http://localhost/video,type=Flash}
+
+{video:url=http://localhost/video,type=QuickTime}
+
+{video:url=http://localhost/video,type=Real}
+
+{video:url=http://localhost/video,type=Soapbox}
+
+{video:url=http://localhost/video,type=Windows}
+
+{video:url=http://www.youtube.com/watch?v=1234,type=YouTube}

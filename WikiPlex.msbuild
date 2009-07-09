@@ -1,0 +1,57 @@
+<Project DefaultTargets="FullBuild" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <UsingTask AssemblyFile="3rdParty\CodePlex.MSBuildTasks.dll" TaskName="CodePlex.MSBuildTasks.RegexReplace"/>
+  <UsingTask AssemblyFile="3rdParty\CodePlex.MSBuildTasks.dll" TaskName="CodePlex.MSBuildTasks.Zip"/>
+  <UsingTask AssemblyFile="3rdParty\xUnit\xunit.runner.msbuild.dll" TaskName="Xunit.Runner.MSBuild.xunit"/>
+
+  <PropertyGroup Condition="'$(Condition)' == ''">
+    <Configuration>Debug</Configuration>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(BuildNumber)' == ''">
+    <BuildNumber>$(build_number)</BuildNumber>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(BuildNumber)' == ''">
+    <BuildNumber>1.0.0.0</BuildNumber>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(ArchivePath)' == ''">
+    <ArchivePath>$(MSBuildProjectDirectory)\_Zip</ArchivePath>
+  </PropertyGroup>
+
+  <Target Name="CI" DependsOnTargets="set-version;FullBuild;build-package" />
+  <Target Name="FullBuild" DependsOnTargets="run-clean;run-build;run-tests" />
+
+  <Target Name="run-clean">
+    <MSBuild Projects="WikiPlex.sln" Targets="Clean" Properties="Configuration=$(Configuration)" />
+  </Target>
+
+  <Target Name="run-build">
+    <MSBuild Projects="WikiPlex.sln" Targets="Build" Properties="Configuration=$(Configuration)" />
+    <AspNetCompiler PhysicalPath="$(MSBuildProjectDirectory)\WikiPlex.Web.Sample" VirtualPath="/WikiPlex.Web.Sample" />
+  </Target>
+
+  <Target Name="run-tests">
+    <xunit Assembly="WikiPlex.Tests\bin\$(Configuration)\WikiPlex.Tests.dll" />
+    <xunit Assembly="WikiPlex.IntegrationTests\bin\$(Configuration)\WikiPlex.IntegrationTests.dll" ShadowCopy="false" WorkingFolder="WikiPlex.IntegrationTests\bin\$(Configuration)" />
+  </Target>
+
+  <Target Name="set-version">
+    <Exec Command="attrib -r GlobalAssemblyInfo.cs"/>
+    <RegexReplace Pattern='AssemblyVersion\("\d+\.\d+\.\d+\.\d+"\)' Replacement='AssemblyVersion("$(BuildNumber)")' Files='GlobalAssemblyInfo.cs'/>
+    <RegexReplace Pattern='AssemblyFileVersion\("\d+\.\d+\.\d+\.\d+"\)' Replacement='AssemblyFileVersion("$(BuildNumber)")' Files='GlobalAssemblyInfo.cs'/>
+  </Target>
+  
+  <Target Name="build-package">
+    <CreateItem Include="WikiPlex\bin\$(Configuration)\*.dll;WikiPlex\bin\$(Configuration)\*.pdb">
+      <Output TaskParameter="Include" ItemName="FilesToArchive"/>
+    </CreateItem>
+    <CreateItem Include="WikiPlex.Web.Sample\**\*.*" Exclude="**\.svn\**\*.*">
+      <Output TaskParameter="Include" ItemName="SampleSite"/>
+    </CreateItem>
+    <MakeDir Directories="$(ArchivePath)" Condition="!Exists('$(ArchivePath)')" />
+    <Delete Files="$(ArchivePath)\WikiPlex-Sample.zip" />
+    <Delete Files="$(ArchivePath)\WikiPlex.zip" />
+    <Zip ZipFileName="$(ArchivePath)\WikiPlex.zip" Files="@(FilesToArchive)" StripPath="true" />
+    <Zip ZipFileName="$(ArchivePath)\WikiPlex-Sample.zip" Files="@(SampleSite)" StripPath="false" />
+  </Target>
+</Project>

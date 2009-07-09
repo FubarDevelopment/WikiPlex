@@ -1,0 +1,7 @@
+﻿{rss:url=http://local/Data/RssFeedFormatting/GoogleAtom.xml}
+
+{rss:url=http://local/Data/RssFeedFormatting/Atom.xml}
+
+{rss:url=http://local/Data/RssFeedFormatting/Atom.xml,max=2}
+
+{rss:url=http://local/Data/RssFeedFormatting/Atom.xml,titlesOnly=true}

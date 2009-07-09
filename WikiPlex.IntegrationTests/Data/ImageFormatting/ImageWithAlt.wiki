@@ -1,0 +1,2 @@
+﻿[image:My Image|http://localhost/image.gif]
+[image:My Image|https://localhost/image.gif]
