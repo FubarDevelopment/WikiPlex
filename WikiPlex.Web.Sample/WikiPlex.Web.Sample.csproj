@@ -75,9 +75,6 @@
     </Compile>
     <Compile Include="Helpers\SlugHelper.cs" />
     <Compile Include="Models\Content.cs" />
-    <Compile Include="Models\WikiPlex.cs">
-      <DependentUpon>WikiPlex.dbml</DependentUpon>
-    </Compile>
     <Compile Include="Models\WikiPlex.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
