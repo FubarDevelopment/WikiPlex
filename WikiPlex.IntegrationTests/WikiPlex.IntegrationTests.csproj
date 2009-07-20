@@ -310,10 +310,16 @@
     <Content Include="Data\SourceCodeFormatting\NestedCodeBlocks.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Data\SourceCodeFormatting\NonMatchingCodeSyntax.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <Content Include="Data\SourceCodeFormatting\SingleLine.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="Data\SourceCodeFormatting\NestedCodeBlocks.wiki">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Data\SourceCodeFormatting\NonMatchingCodeSyntax.wiki">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Data\SourceCodeFormatting\SingleLine.wiki">

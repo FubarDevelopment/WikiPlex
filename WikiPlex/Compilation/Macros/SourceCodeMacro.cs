@@ -120,6 +120,14 @@ namespace WikiPlex.Compilation.Macros
                                            {1, ScopeName.Remove},
                                            {2, ScopeName.ColorCodeCss},
                                            {3, ScopeName.Remove}
+                                       }),
+                               new MacroRule(
+                                   @"(?si)(\{code:[^\}]+\}\r?\n)(.*?)(\r?\n\{code:[^\}]+}(?:\r?\n)?)",
+                                   new Dictionary<int, string>
+                                       {
+                                           {1, ScopeName.Remove},
+                                           {2, ScopeName.MultiLineCode},
+                                           {3, ScopeName.Remove}
                                        })
                            };
             }
