@@ -144,7 +144,7 @@ namespace WikiPlex.Tests.Compilation
                 CompiledMacro compiledMacro = compiler.Compile(macro.Object);
 
                 Assert.Equal(@"(?x)
-(?-x-i-s)(?m)(abc)(?x)", compiledMacro.Regex.ToString());
+(?-xis)(?m)(abc)(?x)", compiledMacro.Regex.ToString());
                 Assert.Null(compiledMacro.Captures[0]);
                 Assert.Equal("All", compiledMacro.Captures[1]);
             }
@@ -160,7 +160,7 @@ namespace WikiPlex.Tests.Compilation
                 CompiledMacro compiledMacro = compiler.Compile(macro.Object);
 
                 Assert.Equal(@"(?x)
-(?-x-i-s)(?m)((a) (b) (c))(?x)", compiledMacro.Regex.ToString());
+(?-xis)(?m)((a) (b) (c))(?x)", compiledMacro.Regex.ToString());
                 Assert.Null(compiledMacro.Captures[0]);
                 Assert.Null(compiledMacro.Captures[1]);
                 Assert.Equal("a", compiledMacro.Captures[2]);
@@ -179,7 +179,7 @@ namespace WikiPlex.Tests.Compilation
                 CompiledMacro compiledMacro = compiler.Compile(macro.Object);
 
                 Assert.Equal(@"(?x)
-(?-x-i-s)(?m)((a) (b) (c))(?x)", compiledMacro.Regex.ToString());
+(?-xis)(?m)((a) (b) (c))(?x)", compiledMacro.Regex.ToString());
                 Assert.Null(compiledMacro.Captures[0]);
                 Assert.Equal("whole", compiledMacro.Captures[1]);
                 Assert.Equal("a", compiledMacro.Captures[2]);
@@ -202,11 +202,11 @@ namespace WikiPlex.Tests.Compilation
                 CompiledMacro compiledMacro = compiler.Compile(macro.Object);
 
                 Assert.Equal(@"(?x)
-(?-x-i-s)(?m)((a) (b) (c))(?x)
+(?-xis)(?m)((a) (b) (c))(?x)
 
 |
 
-(?-x-i-s)(?m)(a (second) rule)(?x)", compiledMacro.Regex.ToString());
+(?-xis)(?m)(a (second) rule)(?x)", compiledMacro.Regex.ToString());
                 Assert.Null(compiledMacro.Captures[0]);
                 Assert.Equal("whole", compiledMacro.Captures[1]);
                 Assert.Equal("a", compiledMacro.Captures[2]);

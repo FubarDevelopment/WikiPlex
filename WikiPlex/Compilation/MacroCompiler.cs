@@ -114,7 +114,7 @@ namespace WikiPlex.Compilation
                 regex.AppendLine();
             }
 
-            regex.AppendFormat("(?-x-i-s)(?m)({0})(?x)", rule.Regex);
+            regex.AppendFormat("(?-xis)(?m)({0})(?x)", rule.Regex);
 
             int numberOfCaptures = GetNumberOfCaptures(rule.Regex);
 
