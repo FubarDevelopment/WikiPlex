@@ -10,7 +10,6 @@ namespace WikiPlex.Syndication
         }
 
         public string Title { get; set; }
-        public string Link { get; set; }
         public IList<SyndicationItem> Items { get; private set; }
     }
 }

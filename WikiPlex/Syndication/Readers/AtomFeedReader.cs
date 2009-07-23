@@ -29,7 +29,6 @@ namespace WikiPlex.Syndication
             return new SyndicationFeed
                        {
                            Title = GetValue(root, "./atom:title"),
-                           Link = GetRootLink(root)
                        };
         }
 
@@ -39,26 +38,23 @@ namespace WikiPlex.Syndication
                        {
                            Title = GetValue(item, "./atom:title"),
                            Description = GetDescriptionValue(item),
-                           Link = GetValue(item, "./atom:link[@rel='alternate']"),
-                           Date = GetValue(item, "./atom:updated")
+                           Link = GetItemLink(item),
+                           Date = new SyndicationDate(GetItemDate(item))
                        };
         }
 
-        private string GetRootLink(XmlNode root)
+        private string GetItemLink(XmlNode item)
         {
-            XmlNode selfLink = root.SelectSingleNode("./atom:link[@rel='self']", Namespaces);
+            XmlNode link = item.SelectSingleNode("./atom:link[@rel='alternate']", Namespaces);
+            if (link == null)
+                return string.Empty;
 
-            if (selfLink != null)
-                return selfLink.InnerText;
+            return link.Attributes.GetNamedItem("href").InnerText;
+        }
 
-            XmlNodeList linkNodes = root.SelectNodes("//atom:link", Namespaces);
-            foreach (XmlElement node in linkNodes)
-            {
-                if (string.IsNullOrEmpty(node.GetAttribute("rel")))
-                    return node.InnerText;
-            }
-
-            return string.Empty;
+        protected virtual string GetItemDate(XmlNode item)
+        {
+            return GetValue(item, "./atom:updated");
         }
 
         private string GetDescriptionValue(XmlNode parent)

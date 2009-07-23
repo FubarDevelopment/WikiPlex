@@ -2,6 +2,7 @@
 using System.IO;
 using System.Text.RegularExpressions;
 using WikiPlex.Formatting;
+using WikiPlex.Syndication;
 using Xunit;
 using Xunit.Extensions;
 
@@ -13,7 +14,7 @@ namespace WikiPlex.IntegrationTests
 
         public FormattingFacts()
         {
-            Renderers.Register(new RssFeedRenderer(new LocalXmlReader(), new SyndicationFeedFactory()));
+            Renderers.Register(new RssFeedRenderer(new LocalXmlReader(), new SyndicationReader()));
         }
 
         public void Dispose()

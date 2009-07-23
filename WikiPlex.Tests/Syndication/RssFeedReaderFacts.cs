@@ -92,7 +92,6 @@ namespace WikiPlex.Tests.Syndication
 
                 Assert.NotNull(feed);
                 Assert.Equal("RssSample", feed.Title);
-                Assert.Equal("http://rsssample.com", feed.Link);
             }
 
             [Fact]
@@ -108,11 +107,11 @@ namespace WikiPlex.Tests.Syndication
                 Assert.Equal("Item 1 Title", feed.Items[0].Title);
                 Assert.Equal("Item 1 Description", feed.Items[0].Description);
                 Assert.Equal("http://item1.com", feed.Items[0].Link);
-                Assert.Equal("Sun, 19 May 2002 15:21:36 GMT", feed.Items[0].Date);
+                Assert.Equal("Sun, 19 May 2002 15:21:36 GMT", feed.Items[0].Date.Value);
                 Assert.Equal("Item 2 Title", feed.Items[1].Title);
                 Assert.Equal("Item 2 Description", feed.Items[1].Description);
                 Assert.Equal("http://item2.com", feed.Items[1].Link);
-                Assert.Equal("Mon, 20 May 2002 15:21:36 GMT", feed.Items[1].Date);
+                Assert.Equal("Mon, 20 May 2002 15:21:36 GMT", feed.Items[1].Date.Value);
             }
 
             [Fact]

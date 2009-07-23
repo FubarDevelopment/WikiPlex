@@ -1,28 +1,28 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using System.ServiceModel.Syndication;
 using System.Text;
 using System.Web.UI;
 using System.Xml;
 using WikiPlex.Common;
+using WikiPlex.Syndication;
 
 namespace WikiPlex.Formatting
 {
     public class RssFeedRenderer : IRenderer
     {
         private readonly IXmlDocumentReader xmlDocumentReader;
-        private readonly ISyndicationFeedFactory syndicationFeedFactory;
+        private readonly ISyndicationReader syndicationReader;
 
         public RssFeedRenderer()
-            : this(new XmlDocumentReaderWrapper(), new SyndicationFeedFactory())
+            : this(new XmlDocumentReaderWrapper(), new SyndicationReader())
         {
         }
 
-        public RssFeedRenderer(IXmlDocumentReader xmlDocumentReader, ISyndicationFeedFactory syndicationFeedFactory)
+        public RssFeedRenderer(IXmlDocumentReader xmlDocumentReader, ISyndicationReader syndicationReader)
         {
             this.xmlDocumentReader = xmlDocumentReader;
-            this.syndicationFeedFactory = syndicationFeedFactory;
+            this.syndicationReader = syndicationReader;
         }
 
         public string Id
@@ -90,17 +90,12 @@ namespace WikiPlex.Formatting
 
             try
             {
-                var feed = CreateSyndicationFeed(xdoc);
-                if (feed == null)
-                {
-                    writer.Write(RenderUnresolvedMacro("url"));
-                    return;
-                }
+                SyndicationFeed feed = syndicationReader.Read(xdoc);
 
                 writer.AddAttribute(HtmlTextWriterAttribute.Class, "rss");
                 writer.RenderBeginTag(HtmlTextWriterTag.Div);
 
-                RenderAccentBar(writer, feed.Title.Text);
+                RenderAccentBar(writer, feed.Title);
 
                 for (int i = 0; i < feed.Items.Count(); i++)
                 {
@@ -113,9 +108,9 @@ namespace WikiPlex.Formatting
                     writer.RenderBeginTag(HtmlTextWriterTag.Div);
                     writer.AddAttribute(HtmlTextWriterAttribute.Class, "title");
                     writer.RenderBeginTag(HtmlTextWriterTag.Div);
-                    writer.AddAttribute(HtmlTextWriterAttribute.Href, item.Links[0].Uri.ToString(), false);
+                    writer.AddAttribute(HtmlTextWriterAttribute.Href, item.Link, false);
                     writer.RenderBeginTag(HtmlTextWriterTag.A);
-                    writer.Write(item.Title.Text);
+                    writer.Write(item.Title);
                     writer.RenderEndTag(); //a
                     writer.RenderEndTag(); // div
 
@@ -123,7 +118,7 @@ namespace WikiPlex.Formatting
                     writer.RenderBeginTag(HtmlTextWriterTag.Div);
                     writer.AddAttribute(HtmlTextWriterAttribute.Class, "date");
                     writer.RenderBeginTag(HtmlTextWriterTag.Span);
-                    writer.Write(GetPublishDate(item));
+                    writer.Write(item.Date);
                     writer.RenderEndTag(); // span
                     writer.Write(" &nbsp;|&nbsp; ");
                     writer.AddAttribute(HtmlTextWriterAttribute.Class, "source");
@@ -132,7 +127,7 @@ namespace WikiPlex.Formatting
                     writer.AddAttribute(HtmlTextWriterAttribute.Target, "_blank");
                     writer.AddAttribute(HtmlTextWriterAttribute.Href, url, false);
                     writer.RenderBeginTag(HtmlTextWriterTag.A);
-                    writer.Write(feed.Title.Text);
+                    writer.Write(feed.Title);
                     writer.RenderEndTag(); // a
                     writer.RenderEndTag(); // span
                     writer.RenderEndTag(); // div
@@ -140,58 +135,20 @@ namespace WikiPlex.Formatting
                     if (!titlesOnly)
                     {
                         writer.RenderBeginTag(HtmlTextWriterTag.P);
-                        writer.Write(item.Summary.Text);
+                        writer.Write(item.Description);
                         writer.RenderEndTag(); // p
                     }
 
                     writer.RenderEndTag(); // div
                 }
 
-                RenderAccentBar(writer, feed.Title.Text);
+                RenderAccentBar(writer, feed.Title);
                 writer.RenderEndTag(); // div
             }
             catch
             {
                 writer.Write(RenderUnresolvedMacro("url"));
             }
-        }
-
-        private static string GetPublishDate(SyndicationItem item)
-        {
-            string publishedDate = String.Empty;
-
-            bool hasPublishedDateCategory = false;
-            if (item.Categories.Count > 0)
-            {
-                var categories = item.Categories.ToDictionary(k => k.Name);
-                SyndicationCategory category;
-                hasPublishedDateCategory = categories.TryGetValue(SyndicationFeedFactory.PublishedDateCategoryName, out category);
-                if (hasPublishedDateCategory)
-                    publishedDate = category.Label;
-            }
-
-            if (!hasPublishedDateCategory)
-            {
-                publishedDate = item.PublishDate.Date.ToLongDateString();
-            }
-
-            return publishedDate;
-        }
-
-        private SyndicationFeed CreateSyndicationFeed(XmlDocument xdoc)
-        {
-            SyndicationFeed feed;
-            try
-            {
-                feed = SyndicationFeed.Load(new XmlNodeReader(xdoc));
-            }
-            catch
-            {
-                // Try doing manual syndication feed parsing
-                feed = syndicationFeedFactory.Create(xdoc);
-            }
-
-            return feed;
         }
 
         protected static void RenderAccentBar(HtmlTextWriter writer, string title)

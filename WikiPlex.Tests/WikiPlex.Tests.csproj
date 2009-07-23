@@ -46,9 +46,6 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
-    <Reference Include="System.ServiceModel.Web">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -79,9 +76,10 @@
     <Compile Include="Compilation\Macros\OrderedListMacroFacts.cs" />
     <Compile Include="Compilation\Macros\UnorderedListMacroFacts.cs" />
     <Compile Include="Formatting\ContentAlignmentRendererFacts.cs" />
-    <Compile Include="Formatting\SyndicationFeedFactoryFacts.cs" />
     <Compile Include="Formatting\TableRendererFacts.cs" />
     <Compile Include="Syndication\AtomFeedReaderFacts.cs" />
+    <Compile Include="Syndication\GoogleAtomFeedReaderFacts.cs" />
+    <Compile Include="Syndication\SyndicationDateFacts.cs" />
     <Compile Include="Syndication\SyndicationReaderFacts.cs" />
     <Compile Include="Syndication\RssFeedReaderFacts.cs" />
     <Compile Include="UtilityFacts.cs" />

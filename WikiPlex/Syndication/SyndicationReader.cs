@@ -23,9 +23,11 @@ namespace WikiPlex.Syndication
 
             if (string.Compare(root, "feed", StringComparison.OrdinalIgnoreCase) == 0)
             {
-                if (string.Compare(xmlns, "http://www.w3.org/2005/Atom", StringComparison.OrdinalIgnoreCase) == 0
-                    || string.Compare(xmlns, "http://purl.org/atom/ns#", StringComparison.OrdinalIgnoreCase) == 0)
+                if (string.Compare(xmlns, "http://www.w3.org/2005/Atom", StringComparison.OrdinalIgnoreCase) == 0)
                     return new AtomFeedReader(xmlDocument);
+
+                if (string.Compare(xmlns, "http://purl.org/atom/ns#", StringComparison.OrdinalIgnoreCase) == 0)
+                    return new GoogleAtomFeedReader(xmlDocument);
             }
 
             throw new ArgumentException("Syndication Feed Not Supported", "xmlDocument");

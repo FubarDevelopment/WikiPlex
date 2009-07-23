@@ -5,55 +5,55 @@ using Xunit;
 
 namespace WikiPlex.Tests.Syndication
 {
-    public class AtomFeedReaderFacts
+    public class GoogleAtomFeedReaderFacts
     {
         private const string contentBasedXml = @"<?xml version=""1.0"" encoding=""ISO-8859-1""?>
-<feed xmlns=""http://www.w3.org/2005/Atom"">
+<feed xmlns=""http://purl.org/atom/ns#"">
 	<title>AtomSample</title> 
 	<entry>
 		<title type=""text"">Item 1 Title</title> 
 		<link rel=""alternate"" href=""http://item1.com"" />
         <content type=""html"">The html content</content>
 		<summary type=""text"">Item 1 Description</summary>
-        <updated>2003-12-13T18:30:02Z</updated> 
+        <modified>2003-12-13T18:30:02Z</modified> 
     </entry>
 	<entry>
 		<title type=""text"">Item 2 Title</title> 
 		<link rel=""alternate"" href=""http://item2.com"" />
 		<summary type=""html"">Item 2 Description</summary> 
-        <updated>2003-12-14T18:30:02Z</updated>
+        <modified>2003-12-14T18:30:02Z</modified>
 	</entry>
 </feed>";
         private const string encodedXml = @"<?xml version=""1.0"" encoding=""ISO-8859-1""?>
-<feed xmlns=""http://www.w3.org/2005/Atom"">
+<feed xmlns=""http://purl.org/atom/ns#"">
 	<title>AtomSample</title> 
 	<entry>
 		<title type=""text"">Item 1 Title</title> 
 		<link rel=""alternate"" href=""http://item1.com"" />
 		<summary type=""text"">&lt;strong&gt;Hello&lt;/strong&gt;</summary>
-        <updated>2003-12-13T18:30:02Z</updated> 
+        <modified>2003-12-13T18:30:02Z</modified> 
     </entry>
 	<entry>
 		<title type=""text"">Item 2 Title</title> 
 		<link rel=""alternate"" href=""http://item2.com"" />
 		<summary type=""html""><![CDATA[<strong>Hello</strong>]]></summary> 
-        <updated>2003-12-14T18:30:02Z</updated>
+        <modified>2003-12-14T18:30:02Z</modified>
 	</entry>
 </feed>";
         private const string xml = @"<?xml version=""1.0"" encoding=""ISO-8859-1""?>
-<feed xmlns=""http://www.w3.org/2005/Atom"">
+<feed xmlns=""http://purl.org/atom/ns#"">
 	<title>AtomSample</title> 
 	<entry>
 		<title type=""text"">Item 1 Title</title> 
 		<link rel=""alternate"" href=""http://item1.com"" />
 		<summary type=""text"">Item 1 Description</summary>
-        <updated>2003-12-13T18:30:02Z</updated> 
+        <modified>2003-12-13T18:30:02Z</modified> 
     </entry>
 	<entry>
 		<title type=""text"">Item 2 Title</title> 
 		<link rel=""alternate"" href=""http://item2.com"" />
 		<summary type=""html"">Item 2 Description</summary> 
-        <updated>2003-12-14T18:30:02Z</updated>
+        <modified>2003-12-14T18:30:02Z</modified>
 	</entry>
 </feed>";
 
@@ -62,7 +62,7 @@ namespace WikiPlex.Tests.Syndication
             [Fact]
             public void Will_throw_ArgumentNullException_when_xml_document_is_null()
             {
-                var reader = new AtomFeedReader(null);
+                var reader = new GoogleAtomFeedReader(null);
 
                 Exception ex = Record.Exception(() => reader.Read());
 
@@ -74,7 +74,7 @@ namespace WikiPlex.Tests.Syndication
             {
                 var xmlDoc = new XmlDocument();
                 xmlDoc.LoadXml(xml);
-                var reader = new AtomFeedReader(xmlDoc);
+                var reader = new GoogleAtomFeedReader(xmlDoc);
 
                 SyndicationFeed feed = reader.Read();
 
@@ -87,7 +87,7 @@ namespace WikiPlex.Tests.Syndication
             {
                 var xmlDoc = new XmlDocument();
                 xmlDoc.LoadXml(xml);
-                var reader = new AtomFeedReader(xmlDoc);
+                var reader = new GoogleAtomFeedReader(xmlDoc);
 
                 SyndicationFeed feed = reader.Read();
 
@@ -107,7 +107,7 @@ namespace WikiPlex.Tests.Syndication
             {
                 var xmlDoc = new XmlDocument();
                 xmlDoc.LoadXml(encodedXml);
-                var reader = new AtomFeedReader(xmlDoc);
+                var reader = new GoogleAtomFeedReader(xmlDoc);
 
                 SyndicationFeed feed = reader.Read();
 
@@ -121,7 +121,7 @@ namespace WikiPlex.Tests.Syndication
             {
                 var xmlDoc = new XmlDocument();
                 xmlDoc.LoadXml(contentBasedXml);
-                var reader = new AtomFeedReader(xmlDoc);
+                var reader = new GoogleAtomFeedReader(xmlDoc);
 
                 SyndicationFeed feed = reader.Read();
 

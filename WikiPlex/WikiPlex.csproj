@@ -45,9 +45,6 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
-    <Reference Include="System.ServiceModel.Web">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -94,13 +91,11 @@
     <Compile Include="Compilation\Macros\OrderedListMacro.cs" />
     <Compile Include="Compilation\Macros\UnorderedListMacro.cs" />
     <Compile Include="Compilation\Macros\VideoMacro.cs" />
-    <Compile Include="Common\ISyndicationFeedFactory.cs" />
     <Compile Include="Formatting\ContentAlignmentRenderer.cs" />
     <Compile Include="Formatting\FloatAlignment.cs" />
     <Compile Include="Formatting\RenderedScopeEventArgs.cs" />
     <Compile Include="Formatting\RssFeedRenderer.cs" />
     <Compile Include="Formatting\SilverlightRenderer.cs" />
-    <Compile Include="Common\SyndicationFeedFactory.cs" />
     <Compile Include="Formatting\SilverlightRendering\BaseSilverlightRenderer.cs" />
     <Compile Include="Formatting\SilverlightRendering\ISilverlightRenderer.cs" />
     <Compile Include="Formatting\SilverlightRendering\Silverlight2Renderer.cs" />
@@ -117,10 +112,12 @@
     <Compile Include="Formatting\VideoRendering\YouTubeVideoRenderer.cs" />
     <Compile Include="IWikiEngine.cs" />
     <Compile Include="Syndication\Readers\FeedReader.cs" />
+    <Compile Include="Syndication\Readers\GoogleAtomFeedReader.cs" />
     <Compile Include="Syndication\Readers\IFeedReader.cs" />
     <Compile Include="Syndication\ISyndicationReader.cs" />
     <Compile Include="Syndication\Readers\AtomFeedReader.cs" />
     <Compile Include="Syndication\Readers\RssFeedReader.cs" />
+    <Compile Include="Syndication\SyndicationDate.cs" />
     <Compile Include="Syndication\SyndicationFeed.cs" />
     <Compile Include="Syndication\SyndicationReader.cs" />
     <Compile Include="Syndication\SyndicationItem.cs" />

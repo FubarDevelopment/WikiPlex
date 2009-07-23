@@ -28,8 +28,7 @@ namespace WikiPlex.Syndication
         {
             return new SyndicationFeed
                        {
-                           Title = GetValue(root, "./title"),
-                           Link = GetValue(root, "./link")
+                           Title = GetValue(root, "./title")
                        };
         }
 
@@ -40,7 +39,7 @@ namespace WikiPlex.Syndication
                            Title = GetValue(item, "./title"),
                            Description = GetValue(item, "./description"),
                            Link = GetValue(item, "./link"),
-                           Date = GetValue(item, "./pubDate")
+                           Date = new SyndicationDate(GetValue(item, "./pubDate"))
                        };
         }
     }

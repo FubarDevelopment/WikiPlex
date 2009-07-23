@@ -6,6 +6,7 @@ using System.Threading;
 using System.Xml;
 using WikiPlex.Common;
 using WikiPlex.Formatting;
+using WikiPlex.Syndication;
 
 namespace WikiPlex.PerformanceHarnass
 {
@@ -30,7 +31,7 @@ namespace WikiPlex.PerformanceHarnass
 
             if (!PerformanceCounterCreation.Exists())
                 PerformanceCounterCreation.Create();
-            Renderers.Register(new RssFeedRenderer(new LocalXmlReader(), new SyndicationFeedFactory()));
+            Renderers.Register(new RssFeedRenderer(new LocalXmlReader(), new SyndicationReader()));
 
             AvgTimeTicks = new PerformanceCounter("WikiPlex.PerformanceCounters", "Avg Rendering Time (seconds)", string.Empty, false);
             AvgTimeTicksBase = new PerformanceCounter("WikiPlex.PerformanceCounters", "Avg Rendering Time Base", string.Empty, false);

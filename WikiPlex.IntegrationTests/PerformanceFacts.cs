@@ -7,6 +7,7 @@ using System.Threading;
 using WikiPlex.Compilation;
 using WikiPlex.Compilation.Macros;
 using WikiPlex.Formatting;
+using WikiPlex.Syndication;
 using Xunit;
 using ThreadState=System.Threading.ThreadState;
 
@@ -21,7 +22,7 @@ namespace WikiPlex.IntegrationTests
                 Macros.Unregister(macro);
 
             // register the local rss reader
-            Renderers.Register(new RssFeedRenderer(new LocalXmlReader(), new SyndicationFeedFactory()));
+            Renderers.Register(new RssFeedRenderer(new LocalXmlReader(), new SyndicationReader()));
 
             var compiler = (MacroCompiler) typeof (WikiEngine).GetField("compiler", BindingFlags.Static | BindingFlags.NonPublic).GetValue(null);
             compiler.Flush();
