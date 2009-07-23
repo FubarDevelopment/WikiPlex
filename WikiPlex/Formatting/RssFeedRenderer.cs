@@ -11,7 +11,7 @@ namespace WikiPlex.Formatting
 {
     public class RssFeedRenderer : IRenderer
     {
-        private readonly IXmlDocumentReader rmlDocumentReader;
+        private readonly IXmlDocumentReader xmlDocumentReader;
         private readonly ISyndicationFeedFactory syndicationFeedFactory;
 
         public RssFeedRenderer()
@@ -19,9 +19,9 @@ namespace WikiPlex.Formatting
         {
         }
 
-        public RssFeedRenderer(IXmlDocumentReader XmlDocumentReader, ISyndicationFeedFactory syndicationFeedFactory)
+        public RssFeedRenderer(IXmlDocumentReader xmlDocumentReader, ISyndicationFeedFactory syndicationFeedFactory)
         {
-            this.rmlDocumentReader = XmlDocumentReader;
+            this.xmlDocumentReader = xmlDocumentReader;
             this.syndicationFeedFactory = syndicationFeedFactory;
         }
 
@@ -80,7 +80,7 @@ namespace WikiPlex.Formatting
 
         protected virtual void RenderFeed(string url, bool titlesOnly, int max, HtmlTextWriter writer)
         {
-            XmlDocument xdoc = rmlDocumentReader.Read(url);
+            XmlDocument xdoc = xmlDocumentReader.Read(url);
 
             if (xdoc == null)
             {
