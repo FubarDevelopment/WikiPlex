@@ -5,7 +5,14 @@ namespace WikiPlex.Syndication
 {
     public class AtomFeedReader : IFeedReader
     {
-        public SyndicationFeed Read(XmlDocument xmlDocument)
+        private readonly XmlDocument xmlDocument;
+
+        public AtomFeedReader(XmlDocument xmlDocument)
+        {
+            this.xmlDocument = xmlDocument;
+        }
+
+        public SyndicationFeed Read()
         {
             return ReadImpl(xmlDocument);
         }

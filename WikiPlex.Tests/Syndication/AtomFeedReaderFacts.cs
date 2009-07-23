@@ -7,50 +7,6 @@ namespace WikiPlex.Tests.Syndication
 {
     public class AtomFeedReaderFacts
     {
-        private const string xml = @"<?xml version=""1.0"" encoding=""ISO-8859-1""?>
-<feed xmlns=""http://www.w3.org/2005/Atom"">
-	<title>AtomSample</title> 
-	<link>http://AtomSample.com</link> 
-	<entry>
-		<title type=""text"">Item 1 Title</title> 
-		<link rel=""alternate"">http://item1.com</link> 
-		<summary type=""text"">Item 1 Description</summary>
-        <updated>2003-12-13T18:30:02Z</updated> 
-    </entry>
-	<entry>
-		<title type=""text"">Item 2 Title</title> 
-		<link rel=""alternate"">http://item2.com</link> 
-		<summary type=""html"">Item 2 Description</summary> 
-        <updated>2003-12-14T18:30:02Z</updated>
-	</entry>
-</feed>";
-
-        private const string multipleLinkXml = @"<?xml version=""1.0"" encoding=""ISO-8859-1""?>
-<feed xmlns=""http://www.w3.org/2005/Atom"">
-	<title>AtomSample</title> 
-	<link rel=""self"">http://AtomSample.com</link> 
-    <link rel=""alternate"">http://NotAtomSample.com</link> 
-    <link>http://AlsoNotAtomSample.com</link> 
-</feed>";
-
-        private const string encodedXml = @"<?xml version=""1.0"" encoding=""ISO-8859-1""?>
-<feed xmlns=""http://www.w3.org/2005/Atom"">
-	<title>AtomSample</title> 
-	<link>http://AtomSample.com</link> 
-	<entry>
-		<title type=""text"">Item 1 Title</title> 
-		<link rel=""alternate"">http://item1.com</link> 
-		<summary type=""text"">&lt;strong&gt;Hello&lt;/strong&gt;</summary>
-        <updated>2003-12-13T18:30:02Z</updated> 
-    </entry>
-	<entry>
-		<title type=""text"">Item 2 Title</title> 
-		<link rel=""alternate"">http://item2.com</link> 
-		<summary type=""html""><![CDATA[<strong>Hello</strong>]]></summary> 
-        <updated>2003-12-14T18:30:02Z</updated>
-	</entry>
-</feed>";
-
         private const string contentBasedXml = @"<?xml version=""1.0"" encoding=""ISO-8859-1""?>
 <feed xmlns=""http://www.w3.org/2005/Atom"">
 	<title>AtomSample</title> 
@@ -69,15 +25,56 @@ namespace WikiPlex.Tests.Syndication
         <updated>2003-12-14T18:30:02Z</updated>
 	</entry>
 </feed>";
+        private const string encodedXml = @"<?xml version=""1.0"" encoding=""ISO-8859-1""?>
+<feed xmlns=""http://www.w3.org/2005/Atom"">
+	<title>AtomSample</title> 
+	<link>http://AtomSample.com</link> 
+	<entry>
+		<title type=""text"">Item 1 Title</title> 
+		<link rel=""alternate"">http://item1.com</link> 
+		<summary type=""text"">&lt;strong&gt;Hello&lt;/strong&gt;</summary>
+        <updated>2003-12-13T18:30:02Z</updated> 
+    </entry>
+	<entry>
+		<title type=""text"">Item 2 Title</title> 
+		<link rel=""alternate"">http://item2.com</link> 
+		<summary type=""html""><![CDATA[<strong>Hello</strong>]]></summary> 
+        <updated>2003-12-14T18:30:02Z</updated>
+	</entry>
+</feed>";
+        private const string multipleLinkXml = @"<?xml version=""1.0"" encoding=""ISO-8859-1""?>
+<feed xmlns=""http://www.w3.org/2005/Atom"">
+	<title>AtomSample</title> 
+	<link rel=""self"">http://AtomSample.com</link> 
+    <link rel=""alternate"">http://NotAtomSample.com</link> 
+    <link>http://AlsoNotAtomSample.com</link> 
+</feed>";
+        private const string xml = @"<?xml version=""1.0"" encoding=""ISO-8859-1""?>
+<feed xmlns=""http://www.w3.org/2005/Atom"">
+	<title>AtomSample</title> 
+	<link>http://AtomSample.com</link> 
+	<entry>
+		<title type=""text"">Item 1 Title</title> 
+		<link rel=""alternate"">http://item1.com</link> 
+		<summary type=""text"">Item 1 Description</summary>
+        <updated>2003-12-13T18:30:02Z</updated> 
+    </entry>
+	<entry>
+		<title type=""text"">Item 2 Title</title> 
+		<link rel=""alternate"">http://item2.com</link> 
+		<summary type=""html"">Item 2 Description</summary> 
+        <updated>2003-12-14T18:30:02Z</updated>
+	</entry>
+</feed>";
 
         public class Read
         {
             [Fact]
             public void Will_throw_ArgumentNullException_when_xml_document_is_null()
             {
-                var reader = new AtomFeedReader();
+                var reader = new AtomFeedReader(null);
 
-                var ex = Record.Exception(() => reader.Read(null));
+                Exception ex = Record.Exception(() => reader.Read());
 
                 Assert.IsType<ArgumentNullException>(ex);
             }
@@ -85,11 +82,11 @@ namespace WikiPlex.Tests.Syndication
             [Fact]
             public void Will_read_the_feed_info_correctly()
             {
-                var reader = new AtomFeedReader();
                 var xmlDoc = new XmlDocument();
                 xmlDoc.LoadXml(xml);
+                var reader = new AtomFeedReader(xmlDoc);
 
-                SyndicationFeed feed = reader.Read(xmlDoc);
+                SyndicationFeed feed = reader.Read();
 
                 Assert.NotNull(feed);
                 Assert.Equal("AtomSample", feed.Title);
@@ -99,11 +96,11 @@ namespace WikiPlex.Tests.Syndication
             [Fact]
             public void Will_read_the_items_correctly()
             {
-                var reader = new AtomFeedReader();
                 var xmlDoc = new XmlDocument();
                 xmlDoc.LoadXml(xml);
+                var reader = new AtomFeedReader(xmlDoc);
 
-                SyndicationFeed feed = reader.Read(xmlDoc);
+                SyndicationFeed feed = reader.Read();
 
                 Assert.Equal(2, feed.Items.Count);
                 Assert.Equal("Item 1 Title", feed.Items[0].Title);
@@ -119,11 +116,11 @@ namespace WikiPlex.Tests.Syndication
             [Fact]
             public void Will_read_the_correct_link()
             {
-                var reader = new AtomFeedReader();
                 var xmlDoc = new XmlDocument();
                 xmlDoc.LoadXml(multipleLinkXml);
+                var reader = new AtomFeedReader(xmlDoc);
 
-                SyndicationFeed feed = reader.Read(xmlDoc);
+                SyndicationFeed feed = reader.Read();
 
                 Assert.Equal("http://AtomSample.com", feed.Link);
             }
@@ -131,11 +128,11 @@ namespace WikiPlex.Tests.Syndication
             [Fact]
             public void Will_read_the_encoded_content_correctly()
             {
-                var reader = new AtomFeedReader();
                 var xmlDoc = new XmlDocument();
                 xmlDoc.LoadXml(encodedXml);
+                var reader = new AtomFeedReader(xmlDoc);
 
-                SyndicationFeed feed = reader.Read(xmlDoc);
+                SyndicationFeed feed = reader.Read();
 
                 Assert.Equal(2, feed.Items.Count);
                 Assert.Equal("<strong>Hello</strong>", feed.Items[0].Description);
@@ -145,11 +142,11 @@ namespace WikiPlex.Tests.Syndication
             [Fact]
             public void Will_read_the_content_element_over_summary()
             {
-                var reader = new AtomFeedReader();
                 var xmlDoc = new XmlDocument();
                 xmlDoc.LoadXml(contentBasedXml);
+                var reader = new AtomFeedReader(xmlDoc);
 
-                SyndicationFeed feed = reader.Read(xmlDoc);
+                SyndicationFeed feed = reader.Read();
 
                 Assert.Equal(2, feed.Items.Count);
                 Assert.Equal("The html content", feed.Items[0].Description);

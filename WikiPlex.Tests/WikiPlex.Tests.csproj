@@ -82,7 +82,7 @@
     <Compile Include="Formatting\SyndicationFeedFactoryFacts.cs" />
     <Compile Include="Formatting\TableRendererFacts.cs" />
     <Compile Include="Syndication\AtomFeedReaderFacts.cs" />
-    <Compile Include="Syndication\FeedReaderFactoryFacts.cs" />
+    <Compile Include="Syndication\SyndicationReaderFacts.cs" />
     <Compile Include="Syndication\RssFeedReaderFacts.cs" />
     <Compile Include="UtilityFacts.cs" />
     <Compile Include="Formatting\ImageRendererFacts.cs" />

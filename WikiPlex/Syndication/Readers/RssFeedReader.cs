@@ -6,7 +6,14 @@ namespace WikiPlex.Syndication
 {
     public class RssFeedReader : IFeedReader
     {
-        public SyndicationFeed Read(XmlDocument xmlDocument)
+        private readonly XmlDocument xmlDocument;
+
+        public RssFeedReader(XmlDocument xmlDocument)
+        {
+            this.xmlDocument = xmlDocument;
+        }
+
+        public SyndicationFeed Read()
         {
             Guard.NotNull(xmlDocument, "xmlDocument");
             XmlNodeList channels = xmlDocument.SelectNodes("//rss/channel");
