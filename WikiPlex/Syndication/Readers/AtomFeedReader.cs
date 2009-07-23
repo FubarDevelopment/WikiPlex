@@ -1,63 +1,57 @@
 ﻿using System.Xml;
-using WikiPlex.Common;
 
 namespace WikiPlex.Syndication
 {
-    public class AtomFeedReader : IFeedReader
+    public class AtomFeedReader : FeedReader
     {
-        private readonly XmlDocument xmlDocument;
-
-        public AtomFeedReader(XmlDocument xmlDocument)
+        public AtomFeedReader(XmlDocument xmlFeed)
+            : base(xmlFeed)
         {
-            this.xmlDocument = xmlDocument;
         }
 
-        public SyndicationFeed Read()
+        protected override string NamespacePrefix
         {
-            return ReadImpl(xmlDocument);
+            get { return "atom"; }
         }
 
-        protected SyndicationFeed ReadImpl(XmlDocument xmlDocument)
+        protected override XmlNode GetRoot()
         {
-            Guard.NotNull(xmlDocument, "xmlDocument");
-            var namespaces = new XmlNamespaceManager(xmlDocument.NameTable);
-            namespaces.AddNamespace("x", xmlDocument.DocumentElement.NamespaceURI);
-
-            var feed = new SyndicationFeed
-                           {
-                               Title = GetValue(xmlDocument.DocumentElement, namespaces, "./x:title"),
-                               Link = GetLinkValue(xmlDocument.DocumentElement, namespaces)
-                           };
-
-            XmlNodeList items = xmlDocument.DocumentElement.SelectNodes("//x:entry", namespaces);
-            foreach (XmlNode item in items)
-            {
-                feed.Items.Add(new SyndicationItem
-                                   {
-                                       Title = GetValue(item, namespaces, "./x:title"),
-                                       Description = GetDescriptionValue(item, namespaces),
-                                       Link = GetValue(item, namespaces, "./x:link[@rel='alternate']"),
-                                       Date = GetValue(item, namespaces, "./x:updated")
-                                   });
-            }
-
-            return feed;
+            return XmlFeed.DocumentElement;
         }
 
-        private static string GetValue(XmlNode parent, XmlNamespaceManager namespaces, string xpath)
+        protected override XmlNodeList GetItems(XmlNode root)
         {
-            XmlNode child = parent.SelectSingleNode(xpath, namespaces);
-            return child == null ? string.Empty : child.InnerText;
+            return root.SelectNodes("//atom:entry", Namespaces);
         }
 
-        private static string GetLinkValue(XmlNode parent, XmlNamespaceManager namespaces)
+        protected override SyndicationFeed CreateFeed(XmlNode root)
         {
-            XmlNode selfLink = parent.SelectSingleNode("./x:link[@rel='self']", namespaces);
+            return new SyndicationFeed
+                       {
+                           Title = GetValue(root, "./atom:title"),
+                           Link = GetRootLink(root)
+                       };
+        }
+
+        protected override SyndicationItem CreateFeedItem(XmlNode item)
+        {
+            return new SyndicationItem
+                       {
+                           Title = GetValue(item, "./atom:title"),
+                           Description = GetDescriptionValue(item),
+                           Link = GetValue(item, "./atom:link[@rel='alternate']"),
+                           Date = GetValue(item, "./atom:updated")
+                       };
+        }
+
+        private string GetRootLink(XmlNode root)
+        {
+            XmlNode selfLink = root.SelectSingleNode("./atom:link[@rel='self']", Namespaces);
 
             if (selfLink != null)
                 return selfLink.InnerText;
 
-            XmlNodeList linkNodes = parent.SelectNodes("//x:link", namespaces);
+            XmlNodeList linkNodes = root.SelectNodes("//atom:link", Namespaces);
             foreach (XmlElement node in linkNodes)
             {
                 if (string.IsNullOrEmpty(node.GetAttribute("rel")))
@@ -67,13 +61,13 @@ namespace WikiPlex.Syndication
             return string.Empty;
         }
 
-        private static string GetDescriptionValue(XmlNode parent, XmlNamespaceManager namespaces)
+        private string GetDescriptionValue(XmlNode parent)
         {
-            string content = GetValue(parent, namespaces, "./x:content");
+            string content = GetValue(parent, "./atom:content");
             if (!string.IsNullOrEmpty(content))
                 return content;
 
-            return GetValue(parent, namespaces, "./x:summary");
+            return GetValue(parent, "./atom:summary");
         }
     }
 }

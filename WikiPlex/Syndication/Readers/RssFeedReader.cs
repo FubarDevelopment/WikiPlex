@@ -1,52 +1,47 @@
-﻿using System;
-using System.Xml;
-using WikiPlex.Common;
+﻿using System.Xml;
 
 namespace WikiPlex.Syndication
 {
-    public class RssFeedReader : IFeedReader
+    public class RssFeedReader : FeedReader
     {
-        private readonly XmlDocument xmlDocument;
-
-        public RssFeedReader(XmlDocument xmlDocument)
+        public RssFeedReader(XmlDocument xmlFeed)
+            : base(xmlFeed)
         {
-            this.xmlDocument = xmlDocument;
         }
 
-        public SyndicationFeed Read()
+        protected override string NamespacePrefix
         {
-            Guard.NotNull(xmlDocument, "xmlDocument");
-            XmlNodeList channels = xmlDocument.SelectNodes("//rss/channel");
-
-            if (channels.Count == 0)
-                throw new ArgumentException("No Channels Found.");
-
-            XmlNode channel = channels[0];
-            var feed = new SyndicationFeed
-                           {
-                               Title = GetValue(channel, "./title"),
-                               Link = GetValue(channel, "./link")
-                           };
-
-            XmlNodeList items = channel.SelectNodes("//item");
-            foreach (XmlNode item in items)
-            {
-                feed.Items.Add(new SyndicationItem
-                                   {
-                                       Title = GetValue(item, "./title"),
-                                       Description = GetValue(item, "./description"),
-                                       Link = GetValue(item, "./link"),
-                                       Date = GetValue(item, "./pubDate")
-                                   });
-            }
-
-            return feed;
+            get { return null; }
         }
 
-        private static string GetValue(XmlNode parent, string xpath)
+        protected override XmlNode GetRoot()
         {
-            XmlNode child = parent.SelectSingleNode(xpath);
-            return child == null ? string.Empty : child.InnerText;
+            return XmlFeed.DocumentElement.SelectSingleNode("./channel");
+        }
+
+        protected override XmlNodeList GetItems(XmlNode root)
+        {
+            return root.SelectNodes("//item");
+        }
+
+        protected override SyndicationFeed CreateFeed(XmlNode root)
+        {
+            return new SyndicationFeed
+                       {
+                           Title = GetValue(root, "./title"),
+                           Link = GetValue(root, "./link")
+                       };
+        }
+
+        protected override SyndicationItem CreateFeedItem(XmlNode item)
+        {
+            return new SyndicationItem
+                       {
+                           Title = GetValue(item, "./title"),
+                           Description = GetValue(item, "./description"),
+                           Link = GetValue(item, "./link"),
+                           Date = GetValue(item, "./pubDate")
+                       };
         }
     }
 }
