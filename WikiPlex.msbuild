@@ -62,7 +62,7 @@
   
   <Target Name="prepare-sample">
     <ItemGroup>
-        <SampleFiles Include="WikiPlex.Web.Sample\**\*.*" Exclude="**\.svn\**\*.*" />
+        <SampleFiles Include="WikiPlex.Web.Sample\**\*.*" Exclude="**\.svn\**\*.*;**\..svnbridge\**\*.*" />
         <GlobalAssemFile Include="GlobalAssemblyInfo.cs" />
     </ItemGroup>
     <Copy SourceFiles="@(SampleFiles)" DestinationFolder="$(SamplePath)\%(RecursiveDir)" />
