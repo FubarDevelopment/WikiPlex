@@ -17,6 +17,10 @@
   <PropertyGroup Condition="'$(ArchivePath)' == ''">
     <ArchivePath>$(MSBuildProjectDirectory)\_Zip</ArchivePath>
   </PropertyGroup>
+  
+  <PropertyGroup>
+    <SamplePath>$(MSBuildProjectDirectory)\Sample</SamplePath>
+  </PropertyGroup>
 
   <Target Name="CI" DependsOnTargets="set-version;FullBuild;build-package" />
   <Target Name="FullBuild" DependsOnTargets="run-clean;run-build;run-tests" />
@@ -41,17 +45,30 @@
     <RegexReplace Pattern='AssemblyFileVersion\("\d+\.\d+\.\d+\.\d+"\)' Replacement='AssemblyFileVersion("$(BuildNumber)")' Files='GlobalAssemblyInfo.cs'/>
   </Target>
   
-  <Target Name="build-package">
-    <CreateItem Include="WikiPlex\bin\$(Configuration)\*.dll;WikiPlex\bin\$(Configuration)\*.pdb">
-      <Output TaskParameter="Include" ItemName="FilesToArchive"/>
-    </CreateItem>
-    <CreateItem Include="WikiPlex.Web.Sample\**\*.*" Exclude="**\.svn\**\*.*">
-      <Output TaskParameter="Include" ItemName="SampleSite"/>
-    </CreateItem>
-    <MakeDir Directories="$(ArchivePath)" Condition="!Exists('$(ArchivePath)')" />
-    <Delete Files="$(ArchivePath)\WikiPlex-Sample.zip" />
-    <Delete Files="$(ArchivePath)\WikiPlex.zip" />
+  <Target Name="build-package" DependsOnTargets="prepare-sample">
+    <ItemGroup>
+        <FilesToArchive Include="WikiPlex\bin\$(Configuration)\*.dll;WikiPlex\bin\$(Configuration)\*.pdb" />
+        <SampleSite Include="Sample\**\*.*" />
+    </ItemGroup>
+    
+    <RemoveDir Directories="$(ArchivePath)" Condition="Exists('$(ArchivePath)')" />
+    <MakeDir Directories="$(ArchivePath)" />
+    
     <Zip ZipFileName="$(ArchivePath)\WikiPlex.zip" Files="@(FilesToArchive)" StripPath="true" />
     <Zip ZipFileName="$(ArchivePath)\WikiPlex-Sample.zip" Files="@(SampleSite)" StripPath="false" />
+    
+    <RemoveDir Directories="$(SamplePath)" Condition="Exists('$(SamplePath)')" />
+  </Target>
+  
+  <Target Name="prepare-sample">
+    <ItemGroup>
+        <SampleFiles Include="WikiPlex.Web.Sample\**\*.*" Exclude="**\.svn\**\*.*" />
+        <GlobalAssemFile Include="GlobalAssemblyInfo.cs" />
+    </ItemGroup>
+    <Copy SourceFiles="@(SampleFiles)" DestinationFolder="$(SamplePath)\%(RecursiveDir)" />
+    <Copy SourceFiles="@(GlobalAssemFile)" DestinationFolder="$(SamplePath)\Properties" />
+    
+    <RegexReplace Pattern='Include="\.\.\\GlobalAssemblyInfo.cs"' Replacement='Include="Properties\\GlobalAssemblyInfo.cs"' Files='$(SamplePath)\WikiPlex.Web.Sample.csproj' />
+    <RegexReplace Pattern='&lt;Link&gt;Properties\\GlobalAssemblyInfo.cs&lt;/Link&gt;' Replacement=' ' Files='$(SamplePath)\WikiPlex.Web.Sample.csproj' />
   </Target>
 </Project>
