@@ -5,6 +5,7 @@ using System.Web.UI;
 using WikiPlex.Formatting;
 using WikiPlex.Web.Sample.Models;
 using WikiPlex.Web.Sample.Repositories;
+using WikiPlex.Web.Sample.Views.Home;
 using WikiPlex.Web.Sample.Wiki;
 
 namespace WikiPlex.Web.Sample.Controllers
@@ -29,24 +30,30 @@ namespace WikiPlex.Web.Sample.Controllers
         [ActionName("View")]
         public ActionResult ViewWiki(string slug)
         {
-            Content content = repository.Get(slug);
+            var viewData = new ViewContent();
+            viewData.Content = repository.Get(slug);
 
-            if (content == null)
+            if (viewData.Content == null)
                 return RedirectToAction("Edit", new {slug});
 
-            content.RenderedSource = wikiEngine.Render(content.Source, GetFormatter());
-            return View(content);
+            viewData.Content.RenderedSource = wikiEngine.Render(viewData.Content.Source, GetFormatter());
+            viewData.History = repository.GetHistory(slug);
+
+            return View(viewData);
         }
 
         public ActionResult ViewWikiVersion(string slug, int version)
         {
-            Content content = repository.GetByVersion(slug, version);
+            var viewData = new ViewContent();
+            viewData.Content = repository.GetByVersion(slug, version);
 
-            if (content == null)
+            if (viewData.Content == null)
                 return RedirectToAction("View", new {slug});
 
-            content.RenderedSource = wikiEngine.Render(content.Source, GetFormatter());
-            return View("View", content);
+            viewData.Content.RenderedSource = wikiEngine.Render(viewData.Content.Source, GetFormatter());
+            viewData.History = repository.GetHistory(slug);
+
+            return View("View", viewData);
         }
 
         private MacroFormatter GetFormatter()

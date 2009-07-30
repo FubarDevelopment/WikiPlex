@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using WikiPlex.Web.Sample.Models;
 
 namespace WikiPlex.Web.Sample.Repositories
@@ -6,6 +7,7 @@ namespace WikiPlex.Web.Sample.Repositories
     {
         Content Get(string slug);
         Content GetByVersion(string slug, int version);
+        ICollection<Content> GetHistory(string slug);
         void Save(string slug, string title, string source);
     }
 }

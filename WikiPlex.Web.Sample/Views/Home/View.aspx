@@ -1,6 +1,6 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<WikiPlex.Web.Sample.Models.Content>" %>
+﻿<%@ Page Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<WikiPlex.Web.Sample.Views.Home.ViewContent>" %>
 <asp:Content ID="titleContent" ContentPlaceHolderID="head" runat="server">
-    <title>WikiPlex Sample - <%= Html.Encode(Model.Title.Name) %></title>
+    <title>WikiPlex Sample - <%= Html.Encode(Model.Content.Title.Name) %></title>
     <script type="text/javascript">
         var timeout = null;
         $(function() {
@@ -16,7 +16,7 @@
                       });
             cnt.click(function() {
                 if (!dlg.dialog('isOpen')) {
-                    $.post('<%= Url.RouteUrl("Source", new { Model.Title.Slug, Model.Version }) %>', function(data) {
+                    $.post('<%= Url.RouteUrl("Source", new { Model.Content.Title.Slug, Model.Content.Version }) %>', function(data) {
                         $('#Source').val(data);
                         var original = $('#originalWikiContent');
                         original.hide();
@@ -36,7 +36,7 @@
                 
                 var self = $(this);
                 timeout = setTimeout(function() {
-                    $.post('<%= Url.RouteUrl("Act", new { action = "preview", Model.Title.Slug }) %>',
+                $.post('<%= Url.RouteUrl("Act", new { action = "preview", Model.Content.Title.Slug }) %>',
                            { source: self.val() },
                            function(data) { $('#previewWikiContent').html(data); });
                 }, 250);
@@ -57,28 +57,28 @@
     <div id="wikiHistory">
         <h3>Page History</h3>
         <ul>
-            <% foreach (var content in Model.Title.Contents.OrderByDescending(x => x.Version)) {
-                   if (Model.Version == content.Version) { %>
+            <% foreach (var content in Model.History) {
+                   if (Model.Content.Version == content.Version) { %>
             <li><%= content.VersionDate.ToString() %></li>
                 <% } else { %>
-            <li><a href="<%= Url.RouteUrl("History", new {Model.Title.Slug, content.Version}) %>"><%= content.VersionDate.ToString() %></a></li>
+            <li><a href="<%= Url.RouteUrl("History", new {Model.Content.Title.Slug, content.Version}) %>"><%= content.VersionDate.ToString() %></a></li>
             <% } } %>
         </ul>
     </div>
     
     <div id="wikiContent">
-        <div id="originalWikiContent"><%= Model.RenderedSource %></div>
+        <div id="originalWikiContent"><%= Model.Content.RenderedSource%></div>
         <div id="previewWikiContent" style="display:none;"></div>
     </div>
     
     <div class="clear"></div>
     
     <div id="editWikiForm">
-        <% using (Html.BeginRouteForm("Act", new { action = "edit", Model.Title.Slug }, FormMethod.Post)) { %>
-            <%= Html.Hidden("Name", Model.Title.Name) %>
+        <% using (Html.BeginRouteForm("Act", new { action = "edit", Model.Content.Title.Slug }, FormMethod.Post)) { %>
+            <%= Html.Hidden("Name", Model.Content.Title.Name)%>
             <fieldset>
                 <label for="Source">Source:</label>
-                <% if (Model.Version != Model.Title.Contents.Max(x => x.Version)) { %>
+                <% if (Model.Content.Version != Model.Content.Title.MaxVersion) { %>
                 <span id="editWikiNotLatest">
                     Note: Not editing latest source
                 </span>
