@@ -77,6 +77,8 @@
     <Compile Include="Compilation\Macros\UnorderedListMacroFacts.cs" />
     <Compile Include="Formatting\ContentAlignmentRendererFacts.cs" />
     <Compile Include="Formatting\TableRendererFacts.cs" />
+    <Compile Include="Parsing\ListScopeAugmenterFacts.cs" />
+    <Compile Include="Parsing\TableScopeAugmenterFacts.cs" />
     <Compile Include="Syndication\AtomFeedReaderFacts.cs" />
     <Compile Include="Syndication\GoogleAtomFeedReaderFacts.cs" />
     <Compile Include="Syndication\SyndicationDateFacts.cs" />

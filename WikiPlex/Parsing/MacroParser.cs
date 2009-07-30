@@ -27,7 +27,7 @@ namespace WikiPlex.Parsing
                 Parse(wikiContent, compiler.Compile(macro), parseHandler);
         }
 
-        private void Parse(string wikiContent, CompiledMacro macro, Action<IList<Scope>> parseHandler)
+        private static void Parse(string wikiContent, CompiledMacro macro, Action<IList<Scope>> parseHandler)
         {
             Match regexMatch = macro.Regex.Match(wikiContent);
             if (!regexMatch.Success)

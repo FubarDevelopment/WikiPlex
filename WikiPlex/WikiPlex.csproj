@@ -111,6 +111,9 @@
     <Compile Include="Formatting\VideoRendering\WindowsMediaPlayerVideoRenderer.cs" />
     <Compile Include="Formatting\VideoRendering\YouTubeVideoRenderer.cs" />
     <Compile Include="IWikiEngine.cs" />
+    <Compile Include="Parsing\Augmenters\ListScopeAugmenter.cs" />
+    <Compile Include="Parsing\Augmenters\TableScopeAugmenter.cs" />
+    <Compile Include="Parsing\IScopeAugmenter.cs" />
     <Compile Include="Syndication\Readers\FeedReader.cs" />
     <Compile Include="Syndication\Readers\GoogleAtomFeedReader.cs" />
     <Compile Include="Syndication\Readers\IFeedReader.cs" />
