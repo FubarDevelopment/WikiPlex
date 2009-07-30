@@ -25,21 +25,21 @@ namespace WikiPlex.Web.Sample
             routes.MapRoute(
                 "Source",
                 "{slug}/source/v{version}",
-                new {controller = "Home", action = "Source"},
+                new { controller = "Home", action = "GetWikiSource" },
                 new {version = @"\d+"}
                 );
 
             routes.MapRoute(
                 "Act",
                 "{slug}/{action}",
-                new {controller = "Home", action = "view"},
+                new { controller = "Home", action = "ViewWiki" },
                 new {action = @"\w+"}
                 );
 
             routes.MapRoute(
                 "Default",
                 "{slug}",
-                new {controller = "Home", action = "view", slug = "home"}
+                new { controller = "Home", action = "ViewWiki", slug = "home" }
                 );
         }
 

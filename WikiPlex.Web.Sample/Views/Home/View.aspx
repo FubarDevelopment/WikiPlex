@@ -36,7 +36,7 @@
                 
                 var self = $(this);
                 timeout = setTimeout(function() {
-                $.post('<%= Url.RouteUrl("Act", new { action = "preview", Model.Content.Title.Slug }) %>',
+                $.post('<%= Url.RouteUrl("Act", new { action = "GetWikiPreview", Model.Content.Title.Slug }) %>',
                            { source: self.val() },
                            function(data) { $('#previewWikiContent').html(data); });
                 }, 250);
@@ -74,7 +74,7 @@
     <div class="clear"></div>
     
     <div id="editWikiForm">
-        <% using (Html.BeginRouteForm("Act", new { action = "edit", Model.Content.Title.Slug }, FormMethod.Post)) { %>
+        <% using (Html.BeginRouteForm("Act", new { action = "EditWiki", Model.Content.Title.Slug }, FormMethod.Post)) { %>
             <%= Html.Hidden("Name", Model.Content.Title.Name)%>
             <fieldset>
                 <label for="Source">Source:</label>

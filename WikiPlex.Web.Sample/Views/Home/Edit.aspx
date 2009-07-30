@@ -7,7 +7,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
     <h2>Edit</h2>
-    <% using (Html.BeginRouteForm("Act", new { action = "edit", Model.Title.Slug }, FormMethod.Post)) { %>
+    <% using (Html.BeginRouteForm("Act", new { action = "EditWiki", Model.Title.Slug }, FormMethod.Post)) { %>
         <fieldset>
             <label for="Name">Title:</label>
             <%= Html.TextBox("Name", Model.Title.Name) %>

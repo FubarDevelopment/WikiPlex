@@ -27,19 +27,18 @@ namespace WikiPlex.Web.Sample.Controllers
             this.wikiEngine = wikiEngine;
         }
 
-        [ActionName("View")]
         public ActionResult ViewWiki(string slug)
         {
             var viewData = new ViewContent();
             viewData.Content = repository.Get(slug);
 
             if (viewData.Content == null)
-                return RedirectToAction("Edit", new {slug});
+                return RedirectToAction("EditWiki", new {slug});
 
             viewData.Content.RenderedSource = wikiEngine.Render(viewData.Content.Source, GetFormatter());
             viewData.History = repository.GetHistory(slug);
 
-            return View(viewData);
+            return View("View", viewData);
         }
 
         public ActionResult ViewWikiVersion(string slug, int version)
@@ -48,7 +47,7 @@ namespace WikiPlex.Web.Sample.Controllers
             viewData.Content = repository.GetByVersion(slug, version);
 
             if (viewData.Content == null)
-                return RedirectToAction("View", new {slug});
+                return RedirectToAction("ViewWiki", new {slug});
 
             viewData.Content.RenderedSource = wikiEngine.Render(viewData.Content.Source, GetFormatter());
             viewData.History = repository.GetHistory(slug);
@@ -63,7 +62,6 @@ namespace WikiPlex.Web.Sample.Controllers
             return new MacroFormatter(allRenderers);
         }
 
-        [ActionName("Edit")]
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult EditWiki(string slug)
         {
@@ -72,19 +70,17 @@ namespace WikiPlex.Web.Sample.Controllers
             if (content == null)
                 content = new Content {Title = new Title {Slug = slug}};
 
-            return View(content);
+            return View("Edit", content);
         }
 
-        [ActionName("Edit")]
         [AcceptVerbs(HttpVerbs.Post)]
         [ValidateInput(false)]
         public ActionResult EditWiki(string slug, string name, string source)
         {
             repository.Save(slug, name, source);
-            return RedirectToAction("View", new {slug});
+            return RedirectToAction("ViewWiki", new {slug});
         }
 
-        [ActionName("Source")]
         [AcceptVerbs(HttpVerbs.Post)]
         [OutputCache(Location = OutputCacheLocation.None)]
         public string GetWikiSource(string slug, int version)
@@ -94,7 +90,6 @@ namespace WikiPlex.Web.Sample.Controllers
             return content.Source;
         }
 
-        [ActionName("Preview")]
         [AcceptVerbs(HttpVerbs.Post)]
         [OutputCache(Location = OutputCacheLocation.None)]
         [ValidateInput(false)]
