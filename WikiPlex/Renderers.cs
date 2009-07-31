@@ -33,10 +33,10 @@ namespace WikiPlex
             get { return loadedRenderers.Values; }
         }
 
-        public static void Register<T>()
-            where T : IRenderer, new()
+        public static void Register<TRenderer>()
+            where TRenderer : class, IRenderer, new()
         {
-            Register(new T());
+            Register(new TRenderer());
         }
 
         public static void Register(IRenderer renderer)
@@ -55,10 +55,10 @@ namespace WikiPlex
             }
         }
 
-        public static void Unregister<T>()
-            where T : IRenderer, new()
+        public static void Unregister<TRenderer>()
+            where TRenderer : class, IRenderer, new()
         {
-            Unregister(new T());
+            Unregister(new TRenderer());
         }
 
         public static void Unregister(IRenderer renderer)

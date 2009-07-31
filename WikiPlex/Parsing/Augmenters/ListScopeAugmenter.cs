@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using WikiPlex.Compilation.Macros;
 
 namespace WikiPlex.Parsing
@@ -9,13 +8,6 @@ namespace WikiPlex.Parsing
         public IList<Scope> Augment(INestedBlockMacro macro, IList<Scope> capturedScopes, string content)
         {
             IList<Scope> newScopes = new List<Scope>();
-
-            //if (scopes.Count == 1)
-            //{
-            //    scopes.Insert(0, new Scope(macro.BlockStartScope, scopes[0].Index));
-            //    scopes.Add(new Scope(macro.BlockEndScope, scopes[1].Index + scopes[1].Length));
-            //    return scopes;
-            //}
 
             string firstScopeContent = content.Substring(capturedScopes[0].Index, capturedScopes[0].Length);
             int startLevel = macro.DetermineLevel(firstScopeContent);
@@ -31,7 +23,9 @@ namespace WikiPlex.Parsing
             return newScopes;
         }
 
-        private static int AugmentRecursively(string wikiContent, INestedBlockMacro macro, IList<Scope> scopes, IList<Scope> newScopes, int currentIndex, int currentLevel, int startingLevel)
+        private static int AugmentRecursively(string wikiContent, INestedBlockMacro macro, IList<Scope> scopes,
+                                              IList<Scope> newScopes, int currentIndex, int currentLevel,
+                                              int startingLevel)
         {
             for (; (currentIndex + 1) < scopes.Count; currentIndex++)
             {
@@ -90,7 +84,8 @@ namespace WikiPlex.Parsing
                         // starting a new nested block
                         newScopes.Add(new Scope(macro.BlockStartScope, peek.Index, peek.Length));
 
-                        currentIndex = AugmentRecursively(wikiContent, macro, scopes, newScopes, currentIndex + 2, peekLevel, startingLevel);
+                        currentIndex = AugmentRecursively(wikiContent, macro, scopes, newScopes, currentIndex + 2,
+                                                          peekLevel, startingLevel);
                         Scope lastNewScope = scopes[currentIndex + 1];
 
                         // ending the nested block

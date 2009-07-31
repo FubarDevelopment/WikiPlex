@@ -43,10 +43,10 @@ namespace WikiPlex
             get { return loadedMacros.Values; }
         }
 
-        public static void Register<T>()
-            where T : IMacro, new()
+        public static void Register<TMacro>()
+            where TMacro : class, IMacro, new()
         {
-            Register(new T());
+            Register(new TMacro());
         }
 
         public static void Register(IMacro macro)
@@ -65,10 +65,10 @@ namespace WikiPlex
             }
         }
 
-        public static void Unregister<T>()
-            where T : IMacro, new()
+        public static void Unregister<TMacro>()
+            where TMacro : class, IMacro, new()
         {
-            Unregister(new T());
+            Unregister(new TMacro());
         }
 
         public static void Unregister(IMacro macro)
