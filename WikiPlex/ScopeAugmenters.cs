@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading;
 using WikiPlex.Common;
 using WikiPlex.Compilation.Macros;
@@ -10,30 +9,35 @@ namespace WikiPlex
     public static class ScopeAugmenters
     {
         private static readonly ReaderWriterLockSlim augmenterLock;
-        private static readonly IDictionary<Type, object> loadedAugmenters;
+        private static readonly IDictionary<string, IScopeAugmenter> loadedAugmenters;
 
         static ScopeAugmenters()
         {
-            loadedAugmenters = new Dictionary<Type, object>();
+            loadedAugmenters = new Dictionary<string, IScopeAugmenter>();
             augmenterLock = new ReaderWriterLockSlim();
+
+            // register the default scope augmenters
+            Register<TableMacro, TableScopeAugmenter>();
+            Register<OrderedListMacro, ListScopeAugmenter<OrderedListMacro>>();
+            Register<UnorderedListMacro, ListScopeAugmenter<UnorderedListMacro>>();
         }
 
         public static void Register<TMacro, TAugmenter>()
-            where TMacro : class, IMacro
-            where TAugmenter : class, IScopeAugmenter<TMacro>, new()
+            where TMacro : class, IMacro, new()
+            where TAugmenter : class, IScopeAugmenter, new()
         {
-            Register(new TAugmenter());
+            Register<TMacro>(new TAugmenter());
         }
 
-        public static void Register<TMacro>(IScopeAugmenter<TMacro> augmenter)
-            where TMacro : class, IMacro
+        public static void Register<TMacro>(IScopeAugmenter augmenter)
+            where TMacro : class, IMacro, new()
         {
             Guard.NotNull(augmenter, "augmenter");
 
             augmenterLock.EnterWriteLock();
             try
             {
-                loadedAugmenters[typeof (TMacro)] = augmenter;
+                loadedAugmenters[(new TMacro()).Id] = augmenter;
             }
             finally
             {
@@ -42,14 +46,14 @@ namespace WikiPlex
         }
 
         public static void Unregister<TMacro>()
-            where TMacro : class, IMacro
+            where TMacro : class, IMacro, new()
         {
             augmenterLock.EnterWriteLock();
             try
             {
-                Type type = typeof (TMacro);
-                if (loadedAugmenters.ContainsKey(type))
-                    loadedAugmenters.Remove(type);
+                var macro = new TMacro();
+                if (loadedAugmenters.ContainsKey(macro.Id))
+                    loadedAugmenters.Remove(macro.Id);
             }
             finally
             {
@@ -57,13 +61,13 @@ namespace WikiPlex
             }
         }
 
-        public static IScopeAugmenter<TMacro> FindByMacro<TMacro>()
+        public static IScopeAugmenter FindByMacro<TMacro>()
             where TMacro : class, IMacro, new()
         {
             return FindByMacro(new TMacro());
         }
 
-        public static IScopeAugmenter<TMacro> FindByMacro<TMacro>(TMacro macro)
+        public static IScopeAugmenter FindByMacro<TMacro>(TMacro macro)
             where TMacro : class, IMacro
         {
             Guard.NotNull(macro, "macro");
@@ -71,9 +75,8 @@ namespace WikiPlex
             augmenterLock.EnterReadLock();
             try
             {
-                Type type = typeof (TMacro);
-                if (loadedAugmenters.ContainsKey(type))
-                    return (IScopeAugmenter<TMacro>) loadedAugmenters[type];
+                if (loadedAugmenters.ContainsKey(macro.Id))
+                    return loadedAugmenters[macro.Id];
             }
             finally
             {

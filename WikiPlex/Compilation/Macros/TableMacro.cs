@@ -3,26 +3,11 @@ using WikiPlex.Common;
 
 namespace WikiPlex.Compilation.Macros
 {
-    public class TableMacro : IBlockMacro
+    public class TableMacro : IMacro
     {
         public string Id
         {
             get { return "Table"; }
-        }
-
-        public string BlockStartScope
-        {
-            get { return ScopeName.TableBegin; }
-        }
-
-        public string BlockEndScope
-        {
-            get { return ScopeName.TableEnd; }
-        }
-
-        public string ItemEndScope
-        {
-            get { return ScopeName.TableRowEnd; }
         }
 
         public IList<MacroRule> Rules

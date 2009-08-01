@@ -76,15 +76,6 @@ namespace WikiPlex.Compilation
 
             CompileRules(macro.Rules, out regex, out captures);
 
-            var nestedBlockMacro = macro as INestedBlockMacro;
-            if (nestedBlockMacro != null)
-                return new CompiledNestedBlockMacro(nestedBlockMacro.Id, regex, captures, nestedBlockMacro.BlockStartScope, nestedBlockMacro.BlockEndScope,
-                                                    nestedBlockMacro.ItemStartScope, nestedBlockMacro.ItemEndScope, nestedBlockMacro.DetermineLevel);
-
-            var blockMacro = macro as IBlockMacro;
-            if (blockMacro != null)
-                return new CompiledBlockMacro(blockMacro.Id, regex, captures, blockMacro.BlockStartScope, blockMacro.BlockEndScope, blockMacro.ItemEndScope);
-
             return new CompiledMacro(macro.Id, regex, captures);
         }
 

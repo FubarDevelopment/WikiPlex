@@ -59,7 +59,9 @@ namespace WikiPlex.Tests.Parsing
                 var compiler = new Mock<IMacroCompiler>();
                 compiler.Setup(x => x.Compile(It.IsAny<IMacro>())).Returns(new CompiledMacro("foo", new Regex("abc"), new List<string> {"All"}));
                 var parser = new MacroParser(compiler.Object);
-                var macros = new List<IMacro> {new Mock<IMacro>().Object};
+                var macro = new Mock<IMacro>();
+                macro.Setup(x => x.Id).Returns("Macro");
+                var macros = new List<IMacro> {macro.Object};
                 var scopeStack = new Stack<IList<Scope>>();
 
                 parser.Parse("this is abc content", macros, scopeStack.Push);
@@ -72,346 +74,40 @@ namespace WikiPlex.Tests.Parsing
             }
 
             [Fact]
-            public void Will_yield_the_correct_matches_from_a_compiled_block_macro()
+            public void Will_yield_the_scopes_from_the_augmenter()
             {
                 var compiler = new Mock<IMacroCompiler>();
-                compiler.Setup(x => x.Compile(It.IsAny<IMacro>())).Returns(new CompiledBlockMacro("foo", new Regex(@"(\n?\*\s).*?(\n?)"), new List<string> { "<tr><td>", "</td></tr>", null }, "<table>", "</table>", "</td></tr>"));
+                var macro = new FakeMacro();
+                var augmenter = new Mock<IScopeAugmenter>();
+                compiler.Setup(x => x.Compile(macro)).Returns(new CompiledMacro("foo", new Regex("abc"), new List<string> {"All"}));
+                ScopeAugmenters.Register<FakeMacro>(augmenter.Object);
+                var scope = new Scope("Scope", 1);
+                augmenter.Setup(x => x.Augment(macro, It.IsAny<IList<Scope>>(), It.IsAny<string>())).Returns(new List<Scope> { scope });
                 var parser = new MacroParser(compiler.Object);
-                var macros = new List<IMacro> {new Mock<IMacro>().Object};
+                var macros = new List<IMacro> {macro};
                 var scopeStack = new Stack<IList<Scope>>();
 
-                parser.Parse("* a\n* a", macros, scopeStack.Push);
+                parser.Parse("abc", macros, scopeStack.Push);
 
+                ScopeAugmenters.Unregister<FakeMacro>();
                 Assert.Equal(1, scopeStack.Count);
                 var popped = scopeStack.Pop();
-                Assert.Equal(6, popped.Count);
-                Assert.Equal("<table>", popped[0].Name);
-                Assert.Equal("<tr><td>", popped[1].Name);
-                Assert.Equal("</td></tr>", popped[2].Name);
-                Assert.Equal("<tr><td>", popped[3].Name);
-                Assert.Equal("</td></tr>", popped[4].Name);
-                Assert.Equal("</table>", popped[5].Name);
+                Assert.Equal(1, popped.Count);
+                Assert.Equal("Scope", popped[0].Name);
+                Assert.Equal(1, popped[0].Index);
+            }
+        }
+
+        class FakeMacro : IMacro
+        {
+            public string Id
+            {
+                get { return "Fake"; }
             }
 
-            [Fact]
-            public void Will_yield_the_correct_matches_from_a_compiled_block_macro_with_two_entries()
+            public IList<MacroRule> Rules
             {
-                var compiler = new Mock<IMacroCompiler>();
-                compiler.Setup(x => x.Compile(It.IsAny<IMacro>())).Returns(new CompiledBlockMacro("foo", new Regex(@"(\n?\*\s).*?(\n?)"), new List<string> { "<tr><td>", "</td></tr>", null }, "<table>", "</table>", "</td></tr>"));
-                var parser = new MacroParser(compiler.Object);
-                var macros = new List<IMacro> { new Mock<IMacro>().Object };
-                var scopeStack = new Stack<IList<Scope>>();
-
-                parser.Parse("* a\n* a\n\n* a\n* a", macros, scopeStack.Push);
-
-                Assert.Equal(1, scopeStack.Count);
-                var popped = scopeStack.Pop();
-                Assert.Equal(12, popped.Count);
-                Assert.Equal("<table>", popped[0].Name);
-                Assert.Equal("<tr><td>", popped[1].Name);
-                Assert.Equal("</td></tr>", popped[2].Name);
-                Assert.Equal("<tr><td>", popped[3].Name);
-                Assert.Equal("</td></tr>", popped[4].Name);
-                Assert.Equal("</table>", popped[5].Name);
-                Assert.Equal("<table>", popped[6].Name);
-                Assert.Equal("<tr><td>", popped[7].Name);
-                Assert.Equal("</td></tr>", popped[8].Name);
-                Assert.Equal("<tr><td>", popped[9].Name);
-                Assert.Equal("</td></tr>", popped[10].Name);
-                Assert.Equal("</table>", popped[11].Name);
-            }
-
-            [Fact]
-            public void Will_yield_the_correct_matches_from_a_compiled_and_macro_single_scope_with_supports_nested_block()
-            {
-                var compiler = new Mock<IMacroCompiler>();
-                compiler.Setup(x => x.Compile(It.IsAny<IMacro>())).Returns(new CompiledNestedBlockMacro("foo", new Regex("abc"), new List<string> { "All" }, "<ul><li>", "</li></ul>", "<li>", "</li>", x => 1));
-                var parser = new MacroParser(compiler.Object);
-                var macros = new List<IMacro> { new Mock<IMacro>().Object };
-                var scopeStack = new Stack<IList<Scope>>();
-
-                parser.Parse("this is abc content", macros, scopeStack.Push);
-
-                Assert.Equal(1, scopeStack.Count);
-                var popped = scopeStack.Pop();
-                Assert.Equal(3, popped.Count);
-                Assert.Equal(8, popped[0].Index);
-                Assert.Equal(0, popped[0].Length);
-                Assert.Equal("<ul><li>", popped[0].Name);
-                Assert.Equal(8, popped[1].Index);
-                Assert.Equal(3, popped[1].Length);
-                Assert.Equal("All", popped[1].Name);
-                Assert.Equal(11, popped[2].Index);
-                Assert.Equal(0, popped[2].Length);
-                Assert.Equal("</li></ul>", popped[2].Name);
-            }
-
-            [Fact]
-            public void Will_yield_the_correct_matches_from_a_compiled_nested_block_macro()
-            {
-                var compiler = new Mock<IMacroCompiler>();
-                compiler.Setup(x => x.Compile(It.IsAny<IMacro>())).Returns(new CompiledNestedBlockMacro("foo", new Regex(@"(\n?\*\s).*?(\n?)"), new List<string> { "<li>", "</li>", null }, "<ul><li>", "</li></ul>", "<li>", "</li>", x => 1));
-                var parser = new MacroParser(compiler.Object);
-                var macros = new List<IMacro> { new Mock<IMacro>().Object };
-                var scopeStack = new Stack<IList<Scope>>();
-
-                parser.Parse("* a\n* a", macros, scopeStack.Push);
-
-                Assert.Equal(1, scopeStack.Count);
-                var popped = scopeStack.Pop();
-                Assert.Equal(4, popped.Count);
-                Assert.Equal("<ul><li>", popped[0].Name);
-                Assert.Equal("</li>", popped[1].Name);
-                Assert.Equal("<li>", popped[2].Name);
-                Assert.Equal("</li></ul>", popped[3].Name);
-            }
-            
-            [Fact]
-            public void Will_yield_the_correct_matches_from_a_compiled_nested_block_macro_with_multiple_blocks()
-            {
-                var compiler = new Mock<IMacroCompiler>();
-                compiler.Setup(x => x.Compile(It.IsAny<IMacro>())).Returns(new CompiledNestedBlockMacro("foo", new Regex(@"(\n?\*\s).*?(\n?)"), new List<string> { "<li>", "</li>", null }, "<ul><li>", "</li></ul>", "<li>", "</li>", x => 1));
-                var parser = new MacroParser(compiler.Object);
-                var macros = new List<IMacro> { new Mock<IMacro>().Object };
-                var scopeStack = new Stack<IList<Scope>>();
-
-                parser.Parse("* a\n* a\n\n* a\n* a", macros, scopeStack.Push);
-
-                Assert.Equal(1, scopeStack.Count);
-                var popped = scopeStack.Pop();
-                Assert.Equal(8, popped.Count);
-                Assert.Equal("<ul><li>", popped[0].Name);
-                Assert.Equal("</li>", popped[1].Name);
-                Assert.Equal("<li>", popped[2].Name);
-                Assert.Equal("</li></ul>", popped[3].Name);
-                Assert.Equal("<ul><li>", popped[4].Name);
-                Assert.Equal("</li>", popped[5].Name);
-                Assert.Equal("<li>", popped[6].Name);
-                Assert.Equal("</li></ul>", popped[7].Name);
-            }
-
-            [Fact]
-            public void Will_yield_the_correct_matches_from_a_compiled_nested_block_macro_with_nested_item_at_end()
-            {
-                var compiler = new Mock<IMacroCompiler>();
-                compiler.Setup(x => x.Compile(It.IsAny<IMacro>())).Returns(new CompiledNestedBlockMacro("foo", new Regex(@"(\n?\*+\s).*?(\n?)"), new List<string> { "<li>", "</li>", null }, "<ul><li>", "</li></ul>", "<li>", "</li>", x => x.Trim().Length));
-                var parser = new MacroParser(compiler.Object);
-                var macros = new List<IMacro> { new Mock<IMacro>().Object };
-                var scopeStack = new Stack<IList<Scope>>();
-
-                parser.Parse("* a\n** a", macros, scopeStack.Push);
-
-                Assert.Equal(1, scopeStack.Count);
-                var popped = scopeStack.Pop();
-                Assert.Equal(4, popped.Count);
-                Assert.Equal("<ul><li>", popped[0].Name);
-                Assert.Equal("<ul><li>", popped[1].Name);
-                Assert.Equal("</li></ul>", popped[2].Name);
-                Assert.Equal("</li></ul>", popped[3].Name);
-            }
-
-            [Fact]
-            public void Will_yield_the_correct_matches_from_a_compiled_nested_block_macro_with_nested_item_in_middle()
-            {
-                var compiler = new Mock<IMacroCompiler>();
-                compiler.Setup(x => x.Compile(It.IsAny<IMacro>())).Returns(new CompiledNestedBlockMacro("foo", new Regex(@"(\n?\*+\s).*?(\n?)"), new List<string> { "<li>", "</li>", null }, "<ul><li>", "</li></ul>", "<li>", "</li>", x => x.Trim().Length));
-                var parser = new MacroParser(compiler.Object);
-                var macros = new List<IMacro> { new Mock<IMacro>().Object };
-                var scopeStack = new Stack<IList<Scope>>();
-
-                parser.Parse("* a\n** a\n* a", macros, scopeStack.Push);
-
-                Assert.Equal(1, scopeStack.Count);
-                var popped = scopeStack.Pop();
-                Assert.Equal(6, popped.Count);
-                Assert.Equal("<ul><li>", popped[0].Name);
-                Assert.Equal("<ul><li>", popped[1].Name);
-                Assert.Equal("</li></ul>", popped[2].Name);
-                Assert.Equal("</li>", popped[3].Name);
-                Assert.Equal("<li>", popped[4].Name);
-                Assert.Equal("</li></ul>", popped[5].Name);
-            }
-
-            [Fact]
-            public void Will_yield_the_correct_matches_from_a_compiled_nested_block_macro_with_nested_item_in_middle_three_deep()
-            {
-                var compiler = new Mock<IMacroCompiler>();
-                compiler.Setup(x => x.Compile(It.IsAny<IMacro>())).Returns(new CompiledNestedBlockMacro("foo", new Regex(@"(\n?\*+\s).*?(\n?)"), new List<string> { "<li>", "</li>", null }, "<ul><li>", "</li></ul>", "<li>", "</li>", x => x.Trim().Length));
-                var parser = new MacroParser(compiler.Object);
-                var macros = new List<IMacro> { new Mock<IMacro>().Object };
-                var scopeStack = new Stack<IList<Scope>>();
-
-                parser.Parse("* a\n** a\n*** a\n* a", macros, scopeStack.Push);
-
-                Assert.Equal(1, scopeStack.Count);
-                var popped = scopeStack.Pop();
-                Assert.Equal(8, popped.Count);
-                Assert.Equal("<ul><li>", popped[0].Name);
-                Assert.Equal("<ul><li>", popped[1].Name);
-                Assert.Equal("<ul><li>", popped[2].Name);
-                Assert.Equal("</li></ul>", popped[3].Name);
-                Assert.Equal("</li></ul>", popped[4].Name);
-                Assert.Equal("</li>", popped[5].Name);
-                Assert.Equal("<li>", popped[6].Name);
-                Assert.Equal("</li></ul>", popped[7].Name);
-            }
-
-            [Fact]
-            public void Will_yield_the_correct_matches_from_a_compiled_nested_block_macro_with_nested_item_in_middle_multiple_nested()
-            {
-                var compiler = new Mock<IMacroCompiler>();
-                compiler.Setup(x => x.Compile(It.IsAny<IMacro>())).Returns(new CompiledNestedBlockMacro("foo", new Regex(@"(\n?\*+\s).*?(\n?)"), new List<string> { "<li>", "</li>", null }, "<ul><li>", "</li></ul>", "<li>", "</li>", x => x.Trim().Length));
-                var parser = new MacroParser(compiler.Object);
-                var macros = new List<IMacro> { new Mock<IMacro>().Object };
-                var scopeStack = new Stack<IList<Scope>>();
-
-                parser.Parse("* a\n** a\n** a\n* a", macros, scopeStack.Push);
-
-                Assert.Equal(1, scopeStack.Count);
-                var popped = scopeStack.Pop();
-                Assert.Equal(8, popped.Count);
-                Assert.Equal("<ul><li>", popped[0].Name);
-                Assert.Equal("<ul><li>", popped[1].Name);
-                Assert.Equal("</li>", popped[2].Name);
-                Assert.Equal("<li>", popped[3].Name);
-                Assert.Equal("</li></ul>", popped[4].Name);
-                Assert.Equal("</li>", popped[5].Name);
-                Assert.Equal("<li>", popped[6].Name);
-                Assert.Equal("</li></ul>", popped[7].Name);
-            }
-
-            [Fact]
-            public void Will_yield_the_correct_matches_from_a_compiled_nested_block_macro_with_nested_item_at_end_with_multiple_blocks()
-            {
-                var compiler = new Mock<IMacroCompiler>();
-                compiler.Setup(x => x.Compile(It.IsAny<IMacro>())).Returns(new CompiledNestedBlockMacro("foo", new Regex(@"(\n?\*+\s).*?(\n?)"), new List<string> { "<li>", "</li>", null }, "<ul><li>", "</li></ul>", "<li>", "</li>", x => x.Trim().Length));
-                var parser = new MacroParser(compiler.Object);
-                var macros = new List<IMacro> { new Mock<IMacro>().Object };
-                var scopeStack = new Stack<IList<Scope>>();
-
-                parser.Parse("* a\n** a\n\n* a", macros, scopeStack.Push);
-
-                Assert.Equal(1, scopeStack.Count);
-                var popped = scopeStack.Pop();
-                Assert.Equal(6, popped.Count);
-                Assert.Equal("<ul><li>", popped[0].Name);
-                Assert.Equal("<ul><li>", popped[1].Name);
-                Assert.Equal("</li></ul>", popped[2].Name);
-                Assert.Equal("</li></ul>", popped[3].Name);
-                Assert.Equal("<ul><li>", popped[4].Name);
-                Assert.Equal("</li></ul>", popped[5].Name);
-            }
-
-            [Fact]
-            public void Will_yield_the_correct_matches_from_a_compiled_nested_block_macro_when_first_items_index_is_not_one_in_length()
-            {
-                var compiler = new Mock<IMacroCompiler>();
-                compiler.Setup(x => x.Compile(It.IsAny<IMacro>())).Returns(new CompiledNestedBlockMacro("foo", new Regex(@"(\n?\*+\s).*?(\n?)"), new List<string> { "<li>", "</li>", null }, "<ul><li>", "</li></ul>", "<li>", "</li>", x => x.Trim().Length));
-                var parser = new MacroParser(compiler.Object);
-                var macros = new List<IMacro> { new Mock<IMacro>().Object };
-                var scopeStack = new Stack<IList<Scope>>();
-
-                parser.Parse("** a\n** a\n** a", macros, scopeStack.Push);
-
-                Assert.Equal(1, scopeStack.Count);
-                var popped = scopeStack.Pop();
-                Assert.Equal(6, popped.Count);
-                Assert.Equal("<ul><li>", popped[0].Name);
-                Assert.Equal("</li>", popped[1].Name);
-                Assert.Equal("<li>", popped[2].Name);
-                Assert.Equal("</li>", popped[3].Name);
-                Assert.Equal("<li>", popped[4].Name);
-                Assert.Equal("</li></ul>", popped[5].Name);
-            }
-
-            [Fact]
-            public void Will_yield_the_correct_matches_from_a_compiled_nested_block_macro_when_first_items_index_is_two_in_length_and_last_item_index_is_one_in_length()
-            {
-                var compiler = new Mock<IMacroCompiler>();
-                compiler.Setup(x => x.Compile(It.IsAny<IMacro>())).Returns(new CompiledNestedBlockMacro("foo", new Regex(@"(\n?\*+\s).*?(\n?)"), new List<string> { "<li>", "</li>", null }, "<ul><li>", "</li></ul>", "<li>", "</li>", x => x.Trim().Length));
-                var parser = new MacroParser(compiler.Object);
-                var macros = new List<IMacro> { new Mock<IMacro>().Object };
-                var scopeStack = new Stack<IList<Scope>>();
-
-                parser.Parse("** a\n** a\n* a", macros, scopeStack.Push);
-
-                Assert.Equal(1, scopeStack.Count);
-                var popped = scopeStack.Pop();
-                Assert.Equal(6, popped.Count);
-                Assert.Equal("<ul><li>", popped[0].Name);
-                Assert.Equal("</li>", popped[1].Name);
-                Assert.Equal("<li>", popped[2].Name);
-                Assert.Equal("</li></ul>", popped[3].Name);
-                Assert.Equal("<ul><li>", popped[4].Name);
-                Assert.Equal("</li></ul>", popped[5].Name);
-            }
-
-            [Fact]
-            public void Will_yield_the_correct_matches_from_a_compiled_nested_block_macro_when_first_items_index_is_three_in_length_and_last_item_index_is_one_in_length()
-            {
-                var compiler = new Mock<IMacroCompiler>();
-                compiler.Setup(x => x.Compile(It.IsAny<IMacro>())).Returns(new CompiledNestedBlockMacro("foo", new Regex(@"(\n?\*+\s).*?(\n?)"), new List<string> { "<li>", "</li>", null }, "<ul><li>", "</li></ul>", "<li>", "</li>", x => x.Trim().Length));
-                var parser = new MacroParser(compiler.Object);
-                var macros = new List<IMacro> { new Mock<IMacro>().Object };
-                var scopeStack = new Stack<IList<Scope>>();
-
-                parser.Parse("*** a\n*** a\n* a", macros, scopeStack.Push);
-
-                Assert.Equal(1, scopeStack.Count);
-                var popped = scopeStack.Pop();
-                Assert.Equal(6, popped.Count);
-                Assert.Equal("<ul><li>", popped[0].Name);
-                Assert.Equal("</li>", popped[1].Name);
-                Assert.Equal("<li>", popped[2].Name);
-                Assert.Equal("</li></ul>", popped[3].Name);
-                Assert.Equal("<ul><li>", popped[4].Name);
-                Assert.Equal("</li></ul>", popped[5].Name);
-            }
-
-            [Fact]
-            public void Will_yield_the_correct_matches_from_a_compiled_nested_block_macro_when_second_list_first_items_index_is_not_one_in_length()
-            {
-                var compiler = new Mock<IMacroCompiler>();
-                compiler.Setup(x => x.Compile(It.IsAny<IMacro>())).Returns(new CompiledNestedBlockMacro("foo", new Regex(@"(\n?\*+\s).*?(\n?)"), new List<string> { "<li>", "</li>", null }, "<ul><li>", "</li></ul>", "<li>", "</li>", x => x.Trim().Length));
-                var parser = new MacroParser(compiler.Object);
-                var macros = new List<IMacro> { new Mock<IMacro>().Object };
-                var scopeStack = new Stack<IList<Scope>>();
-
-                parser.Parse("* a\n\n** a\n** a", macros, scopeStack.Push);
-
-                Assert.Equal(1, scopeStack.Count);
-                var popped = scopeStack.Pop();
-                Assert.Equal(6, popped.Count);
-                Assert.Equal("<ul><li>", popped[0].Name);
-                Assert.Equal("</li></ul>", popped[1].Name);
-                Assert.Equal("<ul><li>", popped[2].Name);
-                Assert.Equal("</li>", popped[3].Name);
-                Assert.Equal("<li>", popped[4].Name);
-                Assert.Equal("</li></ul>", popped[5].Name);
-            }
-
-            [Fact]
-            public void Will_yield_the_correct_matches_from_a_compiled_nested_block_macro_when_second_list_first_items_index_is_not_one_in_length_in_middle()
-            {
-                var compiler = new Mock<IMacroCompiler>();
-                compiler.Setup(x => x.Compile(It.IsAny<IMacro>())).Returns(new CompiledNestedBlockMacro("foo", new Regex(@"(\n?\*+\s).*?(\n?)"), new List<string> { "<li>", "</li>", null }, "<ul><li>", "</li></ul>", "<li>", "</li>", x => x.Trim().Length));
-                var parser = new MacroParser(compiler.Object);
-                var macros = new List<IMacro> { new Mock<IMacro>().Object };
-                var scopeStack = new Stack<IList<Scope>>();
-
-                parser.Parse("* a\n\n** a\n** a\n\n* a", macros, scopeStack.Push);
-
-                Assert.Equal(1, scopeStack.Count);
-                var popped = scopeStack.Pop();
-                Assert.Equal(8, popped.Count);
-                Assert.Equal("<ul><li>", popped[0].Name);
-                Assert.Equal("</li></ul>", popped[1].Name);
-                Assert.Equal("<ul><li>", popped[2].Name);
-                Assert.Equal("</li>", popped[3].Name);
-                Assert.Equal("<li>", popped[4].Name);
-                Assert.Equal("</li></ul>", popped[5].Name);
-                Assert.Equal("<ul><li>", popped[6].Name);
-                Assert.Equal("</li></ul>", popped[7].Name);
+                get { throw new NotImplementedException(); }
             }
         }
     }

@@ -3,9 +3,8 @@ using WikiPlex.Compilation.Macros;
 
 namespace WikiPlex.Parsing
 {
-    public interface IScopeAugmenter<T>
-        where T : IMacro
+    public interface IScopeAugmenter
     {
-        IList<Scope> Augment(T macro, IList<Scope> capturedScopes, string content);
+        IList<Scope> Augment(IMacro macro, IList<Scope> capturedScopes, string content);
     }
 }

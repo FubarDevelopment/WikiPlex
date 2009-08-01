@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Reflection;
 using Moq;
-using Xunit;
 using WikiPlex.Compilation;
 using WikiPlex.Compilation.Macros;
+using Xunit;
 
 namespace WikiPlex.Tests.Compilation
 {
@@ -85,52 +85,12 @@ namespace WikiPlex.Tests.Compilation
                 var compiler = new MacroCompiler();
                 var macro = new Mock<IMacro>();
                 macro.Setup(x => x.Id).Returns("foo");
-                macro.Setup(x => x.Rules).Returns(new List<MacroRule> {new MacroRule("abc", new Dictionary<int, string> {{0, "All"}})});
+                macro.Setup(x => x.Rules).Returns(new List<MacroRule>
+                                                      {new MacroRule("abc", new Dictionary<int, string> {{0, "All"}})});
 
                 CompiledMacro compiledMacro = compiler.Compile(macro.Object);
 
                 Assert.Equal("foo", compiledMacro.Id);
-            }
-
-            [Fact]
-            public void Will_correctly_compile_a_nested_block_macro_using_the_identifier_from_the_macro()
-            {
-                var compiler = new MacroCompiler();
-                var macro = new Mock<INestedBlockMacro>();
-                macro.Setup(x => x.Id).Returns("foo");
-                macro.Setup(x => x.Rules).Returns(new List<MacroRule> { new MacroRule("abc", new Dictionary<int, string> { { 0, "All" } }) });
-                macro.Setup(x => x.BlockStartScope).Returns("start");
-                macro.Setup(x => x.BlockEndScope).Returns("end");
-                macro.Setup(x => x.ItemStartScope).Returns("startitem");
-                macro.Setup(x => x.ItemEndScope).Returns("enditem");
-                macro.Setup(x => x.DetermineLevel).Returns(x => 1);
-
-                var compiledMacro = compiler.Compile(macro.Object) as CompiledNestedBlockMacro;
-
-                Assert.Equal("foo", compiledMacro.Id);
-                Assert.Equal("start", compiledMacro.BlockStartScope);
-                Assert.Equal("end", compiledMacro.BlockEndScope);
-                Assert.Equal("startitem", compiledMacro.ItemStartScope);
-                Assert.Equal("enditem", compiledMacro.ItemEndScope);
-            }
-
-            [Fact]
-            public void Will_correctly_compile_a_block_macro_using_the_identifier_from_the_macro()
-            {
-                var compiler = new MacroCompiler();
-                var macro = new Mock<IBlockMacro>();
-                macro.Setup(x => x.Id).Returns("foo");
-                macro.Setup(x => x.Rules).Returns(new List<MacroRule> { new MacroRule("abc", new Dictionary<int, string> { { 0, "All" } }) });
-                macro.Setup(x => x.BlockStartScope).Returns("start");
-                macro.Setup(x => x.BlockEndScope).Returns("end");
-                macro.Setup(x => x.ItemEndScope).Returns("itemend");
-                
-                var compiledMacro = compiler.Compile(macro.Object) as CompiledBlockMacro;
-
-                Assert.Equal("foo", compiledMacro.Id);
-                Assert.Equal("start", compiledMacro.BlockStartScope);
-                Assert.Equal("end", compiledMacro.BlockEndScope);
-                Assert.Equal("itemend", compiledMacro.ItemEndScope);
             }
 
             [Fact]
@@ -139,7 +99,8 @@ namespace WikiPlex.Tests.Compilation
                 var compiler = new MacroCompiler();
                 var macro = new Mock<IMacro>();
                 macro.Setup(x => x.Id).Returns("foo");
-                macro.Setup(x => x.Rules).Returns(new List<MacroRule> {new MacroRule("abc", new Dictionary<int, string> {{0, "All"}})});
+                macro.Setup(x => x.Rules).Returns(new List<MacroRule>
+                                                      {new MacroRule("abc", new Dictionary<int, string> {{0, "All"}})});
 
                 CompiledMacro compiledMacro = compiler.Compile(macro.Object);
 
@@ -155,7 +116,12 @@ namespace WikiPlex.Tests.Compilation
                 var compiler = new MacroCompiler();
                 var macro = new Mock<IMacro>();
                 macro.Setup(x => x.Id).Returns("foo");
-                macro.Setup(x => x.Rules).Returns(new List<MacroRule> {new MacroRule("(a) (b) (c)", new Dictionary<int, string> {{1, "a"}, {2, "b"}, {3, "c"}})});
+                macro.Setup(x => x.Rules).Returns(new List<MacroRule>
+                                                      {
+                                                          new MacroRule("(a) (b) (c)",
+                                                                        new Dictionary<int, string>
+                                                                            {{1, "a"}, {2, "b"}, {3, "c"}})
+                                                      });
 
                 CompiledMacro compiledMacro = compiler.Compile(macro.Object);
 
@@ -174,7 +140,12 @@ namespace WikiPlex.Tests.Compilation
                 var compiler = new MacroCompiler();
                 var macro = new Mock<IMacro>();
                 macro.Setup(x => x.Id).Returns("foo");
-                macro.Setup(x => x.Rules).Returns(new List<MacroRule> {new MacroRule("(a) (b) (c)", new Dictionary<int, string> {{0, "whole"}, {1, "a"}, {2, "b"}, {3, "c"}})});
+                macro.Setup(x => x.Rules).Returns(new List<MacroRule>
+                                                      {
+                                                          new MacroRule("(a) (b) (c)",
+                                                                        new Dictionary<int, string>
+                                                                            {{0, "whole"}, {1, "a"}, {2, "b"}, {3, "c"}})
+                                                      });
 
                 CompiledMacro compiledMacro = compiler.Compile(macro.Object);
 
@@ -194,10 +165,13 @@ namespace WikiPlex.Tests.Compilation
                 var macro = new Mock<IMacro>();
                 macro.Setup(x => x.Id).Returns("foo");
                 macro.Setup(x => x.Rules).Returns(new List<MacroRule>
-                                                       {
-                                                           new MacroRule("(a) (b) (c)", new Dictionary<int, string> {{0, "whole"}, {1, "a"}, {2, "b"}, {3, "c"}}),
-                                                           new MacroRule("a (second) rule", new Dictionary<int, string> {{1, "second"}})
-                                                       });
+                                                      {
+                                                          new MacroRule("(a) (b) (c)",
+                                                                        new Dictionary<int, string>
+                                                                            {{0, "whole"}, {1, "a"}, {2, "b"}, {3, "c"}}),
+                                                          new MacroRule("a (second) rule",
+                                                                        new Dictionary<int, string> {{1, "second"}})
+                                                      });
 
                 CompiledMacro compiledMacro = compiler.Compile(macro.Object);
 
@@ -206,7 +180,8 @@ namespace WikiPlex.Tests.Compilation
 
 |
 
-(?-xis)(?m)(a (second) rule)(?x)", compiledMacro.Regex.ToString());
+(?-xis)(?m)(a (second) rule)(?x)",
+                             compiledMacro.Regex.ToString());
                 Assert.Null(compiledMacro.Captures[0]);
                 Assert.Equal("whole", compiledMacro.Captures[1]);
                 Assert.Equal("a", compiledMacro.Captures[2]);
@@ -222,7 +197,12 @@ namespace WikiPlex.Tests.Compilation
                 var compiler = new MacroCompiler();
                 var macro = new Mock<IMacro>();
                 macro.Setup(x => x.Id).Returns("foo");
-                macro.Setup(x => x.Rules).Returns(new List<MacroRule> {new MacroRule("(a) (b) (c)", new Dictionary<int, string> {{0, "whole"}, {1, "a"}, {2, "b"}, {3, "c"}})});
+                macro.Setup(x => x.Rules).Returns(new List<MacroRule>
+                                                      {
+                                                          new MacroRule("(a) (b) (c)",
+                                                                        new Dictionary<int, string>
+                                                                            {{0, "whole"}, {1, "a"}, {2, "b"}, {3, "c"}})
+                                                      });
 
                 CompiledMacro compiledMacro1 = compiler.Compile(macro.Object);
                 CompiledMacro compiledMacro2 = compiler.Compile(macro.Object);
@@ -239,12 +219,18 @@ namespace WikiPlex.Tests.Compilation
                 var compiler = new MacroCompiler();
                 var macro = new Mock<IMacro>();
                 macro.Setup(x => x.Id).Returns("foo");
-                macro.Setup(x => x.Rules).Returns(new List<MacroRule> { new MacroRule("(a) (b) (c)", new Dictionary<int, string> { { 0, "whole" }, { 1, "a" }, { 2, "b" }, { 3, "c" } }) });
+                macro.Setup(x => x.Rules).Returns(new List<MacroRule>
+                                                      {
+                                                          new MacroRule("(a) (b) (c)",
+                                                                        new Dictionary<int, string>
+                                                                            {{0, "whole"}, {1, "a"}, {2, "b"}, {3, "c"}})
+                                                      });
                 compiler.Compile(macro.Object);
 
                 compiler.Flush();
 
-                FieldInfo macrosField = typeof (MacroCompiler).GetField("compiledMacros", BindingFlags.Instance | BindingFlags.NonPublic);
+                FieldInfo macrosField = typeof (MacroCompiler).GetField("compiledMacros",
+                                                                        BindingFlags.Instance | BindingFlags.NonPublic);
                 var compiledMacros = (Dictionary<string, CompiledMacro>) macrosField.GetValue(compiler);
                 Assert.Equal(0, compiledMacros.Count);
             }

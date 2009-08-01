@@ -18,7 +18,7 @@ namespace WikiPlex.Tests.Parsing
                                                          new Scope(ScopeName.ListItemBegin, 0, 2),
                                                          new Scope(ScopeName.ListItemEnd, 3, 0)
                                                      });
-                var augmenter = new ListScopeAugmenter();
+                var augmenter = new ListScopeAugmenter<UnorderedListMacro>();
 
                 var actualScopes = augmenter.Augment(new UnorderedListMacro(), origScopes, "* a");
 
@@ -41,7 +41,7 @@ namespace WikiPlex.Tests.Parsing
                                                          new Scope(ScopeName.ListItemBegin, 4, 2),
                                                          new Scope(ScopeName.ListItemEnd, 7, 0)
                                                      });
-                var augmenter = new ListScopeAugmenter();
+                var augmenter = new ListScopeAugmenter<UnorderedListMacro>();
 
                 var actualScopes = augmenter.Augment(new UnorderedListMacro(), origScopes, "* a\n* b");
 
@@ -62,7 +62,7 @@ namespace WikiPlex.Tests.Parsing
                                                          new Scope(ScopeName.ListItemBegin, 4, 3),
                                                          new Scope(ScopeName.ListItemEnd, 7, 0)
                                                      });
-                var augmenter = new ListScopeAugmenter();
+                var augmenter = new ListScopeAugmenter<UnorderedListMacro>();
 
                 var actualScopes = augmenter.Augment(new UnorderedListMacro(), origScopes, "* a\n** b");
 
@@ -85,7 +85,7 @@ namespace WikiPlex.Tests.Parsing
                                                          new Scope(ScopeName.ListItemBegin, 8, 2),
                                                          new Scope(ScopeName.ListItemEnd, 10, 0)
                                                      });
-                var augmenter = new ListScopeAugmenter();
+                var augmenter = new ListScopeAugmenter<UnorderedListMacro>();
 
                 var actualScopes = augmenter.Augment(new UnorderedListMacro(), origScopes, "* a\n** b\n* a");
 
@@ -112,7 +112,7 @@ namespace WikiPlex.Tests.Parsing
                                                          new Scope(ScopeName.ListItemBegin, 13, 3),
                                                          new Scope(ScopeName.ListItemEnd, 17, 0)
                                                      });
-                var augmenter = new ListScopeAugmenter();
+                var augmenter = new ListScopeAugmenter<UnorderedListMacro>();
 
                 var actualScopes = augmenter.Augment(new UnorderedListMacro(), origScopes, "* a\n* a\n** b\n** b");
 
@@ -144,7 +144,7 @@ namespace WikiPlex.Tests.Parsing
                                                          new Scope(ScopeName.ListItemEnd, 20, 0)
                                                      });
 
-                var augmenter = new ListScopeAugmenter();
+                var augmenter = new ListScopeAugmenter<UnorderedListMacro>();
 
                 var actualScopes = augmenter.Augment(new UnorderedListMacro(), origScopes, "* a\n* a\n** b\n** b\n* a");
 
@@ -178,7 +178,7 @@ namespace WikiPlex.Tests.Parsing
                                                          new Scope(ScopeName.ListItemEnd, 20, 0)
                                                      });
 
-                var augmenter = new ListScopeAugmenter();
+                var augmenter = new ListScopeAugmenter<UnorderedListMacro>();
 
                 var actualScopes = augmenter.Augment(new UnorderedListMacro(), origScopes, "* a\n* a\n** b\n*** c\n* a");
 
@@ -208,7 +208,7 @@ namespace WikiPlex.Tests.Parsing
                                                          new Scope(ScopeName.ListItemEnd, 12, 0)
                                                      });
 
-                var augmenter = new ListScopeAugmenter();
+                var augmenter = new ListScopeAugmenter<UnorderedListMacro>();
 
                 var actualScopes = augmenter.Augment(new UnorderedListMacro(), origScopes, "* a\n** b\n\n* a");
 
@@ -234,7 +234,7 @@ namespace WikiPlex.Tests.Parsing
                                                          new Scope(ScopeName.ListItemEnd, 14)
                                                      });
 
-                var augmenter = new ListScopeAugmenter();
+                var augmenter = new ListScopeAugmenter<UnorderedListMacro>();
 
                 var actualScopes = augmenter.Augment(new UnorderedListMacro(), origScopes, "** a\n** a\n** a");
 
@@ -260,7 +260,7 @@ namespace WikiPlex.Tests.Parsing
                                                          new Scope(ScopeName.ListItemEnd, 13)
                                                      });
 
-                var augmenter = new ListScopeAugmenter();
+                var augmenter = new ListScopeAugmenter<UnorderedListMacro>();
 
                 var actualScopes = augmenter.Augment(new UnorderedListMacro(), origScopes, "** a\n** a\n* a");
 
@@ -286,7 +286,7 @@ namespace WikiPlex.Tests.Parsing
                                                          new Scope(ScopeName.ListItemEnd, 14)
                                                      });
 
-                var augmenter = new ListScopeAugmenter();
+                var augmenter = new ListScopeAugmenter<UnorderedListMacro>();
 
                 var actualScopes = augmenter.Augment(new UnorderedListMacro(), origScopes, "* a\n\n** a\n** a");
 
@@ -314,7 +314,7 @@ namespace WikiPlex.Tests.Parsing
                                                          new Scope(ScopeName.ListItemEnd, 18)
                                                      });
 
-                var augmenter = new ListScopeAugmenter();
+                var augmenter = new ListScopeAugmenter<UnorderedListMacro>();
 
                 var actualScopes = augmenter.Augment(new UnorderedListMacro(), origScopes, "* a\n\n** a\n** a\n\n* a");
 

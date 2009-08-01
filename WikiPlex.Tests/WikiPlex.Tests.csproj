@@ -68,9 +68,7 @@
     <Compile Include="..\GlobalAssemblyInfo.cs">
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Compilation\CompiledBlockMacroFacts.cs" />
     <Compile Include="Compilation\CompiledMacroFacts.cs" />
-    <Compile Include="Compilation\CompiledNestedBlockMacroFacts.cs" />
     <Compile Include="Compilation\MacroCompilerFacts.cs" />
     <Compile Include="Compilation\MacroRuleFacts.cs" />
     <Compile Include="Compilation\Macros\OrderedListMacroFacts.cs" />

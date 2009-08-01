@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Moq;
 using WikiPlex.Compilation;
 using WikiPlex.Compilation.Macros;
 using WikiPlex.Parsing;
@@ -10,19 +9,30 @@ namespace WikiPlex.Tests
 {
     public class ScopeAugmentersFacts
     {
-        public class FakeAugmenter : IScopeAugmenter<FakeMacro>
+        private class Constructor
         {
-            public IList<Scope> Augment(FakeMacro macro, IList<Scope> capturedScopes, string content)
+            [Fact]
+            public void Should_contain_the_correct_scope_augmenters()
+            {
+                Assert.IsType<TableScopeAugmenter>(ScopeAugmenters.FindByMacro<TableMacro>());
+                Assert.IsType<ListScopeAugmenter<OrderedListMacro>>(ScopeAugmenters.FindByMacro<OrderedListMacro>());
+                Assert.IsType<ListScopeAugmenter<UnorderedListMacro>>(ScopeAugmenters.FindByMacro<UnorderedListMacro>());
+            }
+        }
+
+        private class FakeAugmenter : IScopeAugmenter
+        {
+            public IList<Scope> Augment(IMacro macro, IList<Scope> capturedScopes, string content)
             {
                 throw new NotImplementedException();
             }
         }
 
-        public class FakeMacro : IMacro
+        private class FakeMacro : IMacro
         {
             public string Id
             {
-                get { throw new NotImplementedException(); }
+                get { return "Fake"; }
             }
 
             public IList<MacroRule> Rules
@@ -36,7 +46,7 @@ namespace WikiPlex.Tests
             [Fact]
             public void Will_return_null_if_augmenter_not_found()
             {
-                IScopeAugmenter<FakeMacro> result = ScopeAugmenters.FindByMacro<FakeMacro>();
+                IScopeAugmenter result = ScopeAugmenters.FindByMacro<FakeMacro>();
 
                 Assert.Null(result);
             }
@@ -44,19 +54,19 @@ namespace WikiPlex.Tests
             [Fact]
             public void Will_return_the_augmenter_for_a_macro()
             {
-                var augmenter = new Mock<IScopeAugmenter<FakeMacro>>();
-                ScopeAugmenters.Register(augmenter.Object);
+                var augmenter = new FakeAugmenter();
+                ScopeAugmenters.Register<FakeMacro>(augmenter);
 
-                IScopeAugmenter<FakeMacro> result = ScopeAugmenters.FindByMacro<FakeMacro>();
+                IScopeAugmenter result = ScopeAugmenters.FindByMacro<FakeMacro>();
 
-                Assert.Equal(augmenter.Object, result);
+                Assert.Equal(augmenter, result);
                 ScopeAugmenters.Unregister<FakeMacro>();
             }
 
             [Fact]
             public void Will_throw_ArgumentNullException_if_macro_object_is_null()
             {
-                var ex = Record.Exception(() => ScopeAugmenters.FindByMacro<FakeMacro>(null));
+                Exception ex = Record.Exception(() => ScopeAugmenters.FindByMacro<FakeMacro>(null));
 
                 Assert.IsType<ArgumentNullException>(ex);
             }
@@ -64,12 +74,12 @@ namespace WikiPlex.Tests
             [Fact]
             public void Will_return_the_augmenter_for_a_macro_object()
             {
-                var augmenter = new Mock<IScopeAugmenter<FakeMacro>>();
-                ScopeAugmenters.Register(augmenter.Object);
+                var augmenter = new FakeAugmenter();
+                ScopeAugmenters.Register<FakeMacro>(augmenter);
 
-                IScopeAugmenter<FakeMacro> result = ScopeAugmenters.FindByMacro(new FakeMacro());
+                IScopeAugmenter result = ScopeAugmenters.FindByMacro(new FakeMacro());
 
-                Assert.Equal(augmenter.Object, result);
+                Assert.Equal(augmenter, result);
                 ScopeAugmenters.Unregister<FakeMacro>();
             }
         }
@@ -79,7 +89,7 @@ namespace WikiPlex.Tests
             [Fact]
             public void Will_throw_ArgumentNullException_when_augmenter_is_null()
             {
-                var ex = Record.Exception(() => ScopeAugmenters.Register<FakeMacro>(null));
+                Exception ex = Record.Exception(() => ScopeAugmenters.Register<FakeMacro>(null));
 
                 Assert.IsType<ArgumentNullException>(ex);
             }
@@ -87,11 +97,11 @@ namespace WikiPlex.Tests
             [Fact]
             public void Will_correctly_load_the_augmenter()
             {
-                var augmenter = new Mock<IScopeAugmenter<FakeMacro>>();
+                var augmenter = new FakeAugmenter();
 
-                ScopeAugmenters.Register(augmenter.Object);
+                ScopeAugmenters.Register<FakeMacro>(augmenter);
 
-                Assert.Equal(augmenter.Object, ScopeAugmenters.FindByMacro<FakeMacro>());
+                Assert.Equal(augmenter, ScopeAugmenters.FindByMacro<FakeMacro>());
 
                 ScopeAugmenters.Unregister<FakeMacro>();
             }
@@ -109,12 +119,12 @@ namespace WikiPlex.Tests
             [Fact]
             public void Will_correctly_replace_augmenter_with_same_macro_type()
             {
-                var augmenter = new Mock<IScopeAugmenter<FakeMacro>>();
+                var augmenter = new FakeAugmenter();
                 ScopeAugmenters.Register<FakeMacro, FakeAugmenter>();
 
-                ScopeAugmenters.Register(augmenter.Object);
+                ScopeAugmenters.Register<FakeMacro>(augmenter);
 
-                Assert.Equal(augmenter.Object, ScopeAugmenters.FindByMacro<FakeMacro>());
+                Assert.Equal(augmenter, ScopeAugmenters.FindByMacro<FakeMacro>());
 
                 ScopeAugmenters.Unregister<FakeMacro>();
             }
@@ -122,25 +132,33 @@ namespace WikiPlex.Tests
             [Fact]
             public void Will_correctly_load_multiple_augmenters()
             {
-                var augmenter1 = new Mock<IScopeAugmenter<FakeMacro>>();
-                var augmenter2 = new Mock<IScopeAugmenter<SecondFakeMacro>>();
+                var augmenter1 = new FakeAugmenter();
+                var augmenter2 = new SecondFakeAugmenter();
 
-                ScopeAugmenters.Register(augmenter1.Object);
-                ScopeAugmenters.Register(augmenter2.Object);
+                ScopeAugmenters.Register<FakeMacro>(augmenter1);
+                ScopeAugmenters.Register<SecondFakeMacro>(augmenter2);
 
-                Assert.Equal(augmenter1.Object, ScopeAugmenters.FindByMacro<FakeMacro>());
-                Assert.Equal(augmenter2.Object, ScopeAugmenters.FindByMacro<SecondFakeMacro>());
+                Assert.Equal(augmenter1, ScopeAugmenters.FindByMacro<FakeMacro>());
+                Assert.Equal(augmenter2, (SecondFakeAugmenter) ScopeAugmenters.FindByMacro<SecondFakeMacro>());
 
                 ScopeAugmenters.Unregister<FakeMacro>();
                 ScopeAugmenters.Unregister<SecondFakeMacro>();
             }
         }
 
-        public class SecondFakeMacro : IMacro
+        private class SecondFakeAugmenter : IScopeAugmenter
+        {
+            public IList<Scope> Augment(IMacro macro, IList<Scope> capturedScopes, string content)
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        private class SecondFakeMacro : IMacro
         {
             public string Id
             {
-                get { throw new NotImplementedException(); }
+                get { return "SecondFake"; }
             }
 
             public IList<MacroRule> Rules
@@ -154,15 +172,15 @@ namespace WikiPlex.Tests
             [Fact]
             public void Will_unregister_augmenter_by_macro_type_correctly()
             {
-                var augmenter1 = new Mock<IScopeAugmenter<FakeMacro>>();
-                var augmenter2 = new Mock<IScopeAugmenter<SecondFakeMacro>>();
-                ScopeAugmenters.Register(augmenter1.Object);
-                ScopeAugmenters.Register(augmenter2.Object);
+                var augmenter1 = new FakeAugmenter();
+                var augmenter2 = new SecondFakeAugmenter();
+                ScopeAugmenters.Register<FakeMacro>(augmenter1);
+                ScopeAugmenters.Register<SecondFakeMacro>(augmenter2);
 
                 ScopeAugmenters.Unregister<FakeMacro>();
 
                 Assert.Null(ScopeAugmenters.FindByMacro<FakeMacro>());
-                Assert.Equal(augmenter2.Object, ScopeAugmenters.FindByMacro<SecondFakeMacro>());
+                Assert.Equal(augmenter2, (SecondFakeAugmenter) ScopeAugmenters.FindByMacro<SecondFakeMacro>());
                 ScopeAugmenters.Unregister<SecondFakeMacro>();
             }
         }

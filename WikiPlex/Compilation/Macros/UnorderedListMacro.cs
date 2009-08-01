@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using WikiPlex.Common;
 
 namespace WikiPlex.Compilation.Macros
 {
-    public class UnorderedListMacro : INestedBlockMacro
+    public class UnorderedListMacro : IListMacro
     {
         private static readonly Regex LevelRegex = new Regex(@"\*", RegexOptions.Compiled);
 
@@ -14,29 +13,19 @@ namespace WikiPlex.Compilation.Macros
             get { return "UnorderedList"; }
         }
 
-        public string BlockStartScope
+        public string ListStartScopeName
         {
             get { return ScopeName.UnorderedListBeginTag; }
         }
 
-        public string BlockEndScope
+        public string ListEndScopeName
         {
             get { return ScopeName.UnorderedListEndTag; }
         }
 
-        public string ItemStartScope
+        public int DetermineLevel(string content)
         {
-            get { return ScopeName.ListItemBegin; }
-        }
-
-        public string ItemEndScope
-        {
-            get { return ScopeName.ListItemEnd; }
-        }
-
-        public Func<string, int> DetermineLevel
-        {
-            get { return x => LevelRegex.Matches(x).Count; }
+            return LevelRegex.Matches(content).Count;
         }
 
         public IList<MacroRule> Rules

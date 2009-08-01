@@ -1,29 +1,32 @@
 ﻿using System.Collections.Generic;
+using WikiPlex.Common;
 using WikiPlex.Compilation.Macros;
 
 namespace WikiPlex.Parsing
 {
-    public class ListScopeAugmenter : IScopeAugmenter<INestedBlockMacro>
+    public class ListScopeAugmenter<TMacro> : IScopeAugmenter
+        where TMacro : class, IListMacro
     {
-        public IList<Scope> Augment(INestedBlockMacro macro, IList<Scope> capturedScopes, string content)
+        public IList<Scope> Augment(IMacro macro, IList<Scope> capturedScopes, string content)
         {
             IList<Scope> newScopes = new List<Scope>();
+            TMacro actualMacro = (TMacro)macro;
 
             string firstScopeContent = content.Substring(capturedScopes[0].Index, capturedScopes[0].Length);
-            int startLevel = macro.DetermineLevel(firstScopeContent);
+            int startLevel = actualMacro.DetermineLevel(firstScopeContent);
 
-            AugmentRecursively(content, macro, capturedScopes, newScopes, 0, startLevel, startLevel);
+            AugmentRecursively(content, actualMacro, capturedScopes, newScopes, 0, startLevel, startLevel);
 
             // add the ending block scope as it was intentionally skipped
             Scope lastScope = capturedScopes[capturedScopes.Count - 1];
 
             // add the last scope as it was explicitly excluded
-            newScopes.Add(new Scope(macro.BlockEndScope, lastScope.Index, lastScope.Length));
+            newScopes.Add(new Scope(actualMacro.ListEndScopeName, lastScope.Index, lastScope.Length));
 
             return newScopes;
         }
 
-        private static int AugmentRecursively(string wikiContent, INestedBlockMacro macro, IList<Scope> scopes,
+        private static int AugmentRecursively(string wikiContent, IListMacro macro, IList<Scope> scopes,
                                               IList<Scope> newScopes, int currentIndex, int currentLevel,
                                               int startingLevel)
         {
@@ -34,24 +37,24 @@ namespace WikiPlex.Parsing
 
                 if (currentIndex == 0)
                 {
-                    newScopes.Add(new Scope(macro.BlockStartScope, current.Index, current.Length));
+                    newScopes.Add(new Scope(macro.ListStartScopeName, current.Index, current.Length));
                     continue;
                 }
 
-                if (current.Name == macro.ItemEndScope && (current.Index + current.Length + 1) < peek.Index)
+                if (current.Name == ScopeName.ListItemEnd && (current.Index + current.Length + 1) < peek.Index)
                 {
                     // ending a block and starting a new block
                     if (currentLevel > startingLevel)
                         return currentIndex - 1;
 
-                    newScopes.Add(new Scope(macro.BlockEndScope, current.Index, current.Length));
-                    newScopes.Add(new Scope(macro.BlockStartScope, peek.Index, peek.Length));
+                    newScopes.Add(new Scope(macro.ListEndScopeName, current.Index, current.Length));
+                    newScopes.Add(new Scope(macro.ListStartScopeName, peek.Index, peek.Length));
                     currentLevel = startingLevel = macro.DetermineLevel(wikiContent.Substring(peek.Index, peek.Length));
                     currentIndex++;
                     continue;
                 }
 
-                if (current.Name == macro.ItemEndScope)
+                if (current.Name == ScopeName.ListItemEnd)
                 {
                     string peekContent = wikiContent.Substring(peek.Index, peek.Length);
                     int peekLevel = macro.DetermineLevel(peekContent);
@@ -64,10 +67,10 @@ namespace WikiPlex.Parsing
                         // ending the blocks since the current level is
                         // the same level as the starting level
                         Scope lastNewScope = scopes[currentIndex + 1];
-                        newScopes.Add(new Scope(macro.BlockEndScope, lastNewScope.Index, lastNewScope.Length));
+                        newScopes.Add(new Scope(macro.ListEndScopeName, lastNewScope.Index, lastNewScope.Length));
 
                         // starting a new nested block
-                        newScopes.Add(new Scope(macro.BlockStartScope, peek.Index, peek.Length));
+                        newScopes.Add(new Scope(macro.ListStartScopeName, peek.Index, peek.Length));
 
                         // now skip the current item because the block
                         // start scope contains this start. We also 
@@ -82,7 +85,7 @@ namespace WikiPlex.Parsing
                     if (currentLevel < peekLevel)
                     {
                         // starting a new nested block
-                        newScopes.Add(new Scope(macro.BlockStartScope, peek.Index, peek.Length));
+                        newScopes.Add(new Scope(macro.ListStartScopeName, peek.Index, peek.Length));
 
                         currentIndex = AugmentRecursively(wikiContent, macro, scopes, newScopes, currentIndex + 2,
                                                           peekLevel, startingLevel);
@@ -90,7 +93,7 @@ namespace WikiPlex.Parsing
 
                         // ending the nested block
                         for (int j = peekLevel - currentLevel; j > 0; j--)
-                            newScopes.Add(new Scope(macro.BlockEndScope, lastNewScope.Index, lastNewScope.Length));
+                            newScopes.Add(new Scope(macro.ListEndScopeName, lastNewScope.Index, lastNewScope.Length));
 
                         continue;
                     }
