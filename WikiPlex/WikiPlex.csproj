@@ -59,12 +59,12 @@
     <Compile Include="..\GlobalAssemblyInfo.cs">
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Common\EscapeRegexPatterns.cs" />
+    <Compile Include="EscapeRegexPatterns.cs" />
     <Compile Include="Common\TextPart.cs" />
     <Compile Include="Common\Utility.cs" />
     <Compile Include="Common\Guard.cs" />
-    <Compile Include="Common\IXmlDocumentReader.cs" />
-    <Compile Include="Common\XmlDocumentReaderWrapper.cs" />
+    <Compile Include="Syndication\IXmlDocumentReader.cs" />
+    <Compile Include="Syndication\XmlDocumentReaderWrapper.cs" />
     <Compile Include="Compilation\CompiledMacro.cs" />
     <Compile Include="Compilation\IMacroCompiler.cs" />
     <Compile Include="Compilation\MacroCompiler.cs" />
@@ -128,7 +128,7 @@
     <Compile Include="Formatting\IRenderer.cs" />
     <Compile Include="Formatting\LinkRenderer.cs" />
     <Compile Include="Formatting\MacroFormatter.cs" />
-    <Compile Include="Common\ScopeName.cs" />
+    <Compile Include="ScopeName.cs" />
     <Compile Include="Compilation\MacroRule.cs" />
     <Compile Include="Compilation\Macros\HeadingsMacro.cs" />
     <Compile Include="Compilation\Macros\IMacro.cs" />

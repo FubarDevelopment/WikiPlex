@@ -1,6 +1,6 @@
 ﻿using System.Web.UI;
 
-namespace WikiPlex.Formatting.SilverlightRendering
+namespace WikiPlex.Formatting
 {
     internal interface ISilverlightRenderer
     {

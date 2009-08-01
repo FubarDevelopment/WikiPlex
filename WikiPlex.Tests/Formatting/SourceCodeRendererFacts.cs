@@ -5,7 +5,6 @@ using Moq;
 using Xunit;
 using Xunit.Extensions;
 using WikiPlex.Formatting;
-using ScopeName = WikiPlex.Common.ScopeName;
 
 namespace WikiPlex.Tests.Formatting
 {

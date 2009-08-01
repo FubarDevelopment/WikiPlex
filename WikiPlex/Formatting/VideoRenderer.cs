@@ -5,7 +5,6 @@ using System.Text;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using WikiPlex.Common;
-using WikiPlex.Formatting.VideoRendering;
 
 namespace WikiPlex.Formatting
 {

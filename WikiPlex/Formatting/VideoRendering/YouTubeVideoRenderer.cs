@@ -1,7 +1,7 @@
 ﻿using System.Text.RegularExpressions;
 using System.Web.UI;
 
-namespace WikiPlex.Formatting.VideoRendering
+namespace WikiPlex.Formatting
 {
     public class YouTubeVideoRenderer : IVideoRenderer
     {

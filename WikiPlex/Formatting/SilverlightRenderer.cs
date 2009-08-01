@@ -3,8 +3,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Web.UI;
-using WikiPlex.Common;
-using WikiPlex.Formatting.SilverlightRendering;
 
 namespace WikiPlex.Formatting
 {

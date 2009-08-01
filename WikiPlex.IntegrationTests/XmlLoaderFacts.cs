@@ -2,9 +2,9 @@
 using System.Linq;
 using System.Reflection;
 using System.Xml;
+using WikiPlex.Syndication;
 using Xunit;
 using Xunit.Extensions;
-using WikiPlex.Common;
 
 namespace WikiPlex.IntegrationTests
 {

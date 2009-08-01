@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace WikiPlex.Compilation.Macros
+﻿namespace WikiPlex.Compilation.Macros
 {
     public interface IListMacro : IMacro
     {

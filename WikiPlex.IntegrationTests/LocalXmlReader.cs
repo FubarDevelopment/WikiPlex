@@ -1,5 +1,5 @@
 using System.Xml;
-using WikiPlex.Common;
+using WikiPlex.Syndication;
 
 namespace WikiPlex.IntegrationTests
 {

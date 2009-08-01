@@ -36,14 +36,6 @@ namespace WikiPlex.Common
                 throw new ArgumentException(message, paramName);
         }
 
-        public static void NotNullOrEmpty<TKey, TValue>(IDictionary<TKey, TValue> @object, string paramName)
-        {
-            NotNull(@object, paramName);
-
-            if (@object.Count == 0)
-                throw new ArgumentException("Parameter cannot be empty.", paramName);
-        }
-
         public static void NotNullOrEmpty<T>(IEnumerable<T> @object, string paramName)
         {
             NotNull(@object, paramName);

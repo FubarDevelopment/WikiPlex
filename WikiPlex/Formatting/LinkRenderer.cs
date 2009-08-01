@@ -8,8 +8,6 @@ namespace WikiPlex.Formatting
         private const string ExternalLinkFormat = "<a href=\"{0}\" class=\"externalLink\">{1}<span class=\"externalLinkIcon\"></span></a>";
         private const string LinkFormat = "<a href=\"{0}\">{1}</a>";
 
-        #region IRenderer Members
-
         public string Id
         {
             get { return "LinkFormatting"; }
@@ -65,8 +63,6 @@ namespace WikiPlex.Formatting
 
             return input;
         }
-
-        #endregion
 
         private static string RenderUnresolvedMacro()
         {

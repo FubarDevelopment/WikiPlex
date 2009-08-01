@@ -18,9 +18,7 @@ namespace WikiPlex.Web.Sample.Wiki
             {
                 return new List<MacroRule>
                            {
-                               new MacroRule(
-                                   EscapeRegexPatterns.CurlyBraceEscape,
-                                   new Dictionary<int, string>()),
+                               new MacroRule(EscapeRegexPatterns.CurlyBraceEscape),
                                new MacroRule(@"(?i)(\[)(?!\#|[a-z]+:)((?>[^\]]+))(\])",
                                              new Dictionary<int, string>
                                                  {

@@ -1,7 +1,7 @@
 ﻿using System.Text.RegularExpressions;
 using System.Web.UI;
 
-namespace WikiPlex.Formatting.VideoRendering
+namespace WikiPlex.Formatting
 {
     internal class SoapboxVideoRenderer : IVideoRenderer
     {

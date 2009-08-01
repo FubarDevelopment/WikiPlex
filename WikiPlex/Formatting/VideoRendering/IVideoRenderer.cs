@@ -1,6 +1,6 @@
 ﻿using System.Web.UI;
 
-namespace WikiPlex.Formatting.VideoRendering
+namespace WikiPlex.Formatting
 {
     internal interface IVideoRenderer
     {
