@@ -26,7 +26,7 @@ namespace WikiPlex.Formatting
 
         public string Id
         {
-            get { return "Rss Feed Renderer"; }
+            get { return "Syndicated Feed Renderer"; }
         }
 
         public bool CanExpand(string scopeName)
@@ -168,7 +168,7 @@ namespace WikiPlex.Formatting
 
         private static string RenderUnresolvedMacro(string parameterName)
         {
-            return string.Format("<span class=\"unresolved\">Cannot resolve rss macro, invalid parameter '{0}'.</span>", parameterName);
+            return string.Format("<span class=\"unresolved\">Cannot resolve syndicated feed macro, invalid parameter '{0}'.</span>", parameterName);
         }
     }
 }

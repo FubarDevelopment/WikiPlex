@@ -32,7 +32,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string output = renderer.Expand(ScopeName.SyndicatedFeed, "foo", x => x, x => x);
 
-                Assert.Equal("<span class=\"unresolved\">Cannot resolve rss macro, invalid parameter 'url'.</span>", output);
+                Assert.Equal("<span class=\"unresolved\">Cannot resolve syndicated feed macro, invalid parameter 'url'.</span>", output);
             }
 
             [Fact]
@@ -42,7 +42,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string output = renderer.Expand(ScopeName.SyndicatedFeed, "url=foo", x => x, x => x);
 
-                Assert.Equal("<span class=\"unresolved\">Cannot resolve rss macro, invalid parameter 'url'.</span>", output);
+                Assert.Equal("<span class=\"unresolved\">Cannot resolve syndicated feed macro, invalid parameter 'url'.</span>", output);
             }
 
             [Fact]
@@ -52,7 +52,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string output = renderer.Expand(ScopeName.SyndicatedFeed, "url=http://localhost/rss,max=a", x => x, x => x);
 
-                Assert.Equal("<span class=\"unresolved\">Cannot resolve rss macro, invalid parameter 'max'.</span>", output);
+                Assert.Equal("<span class=\"unresolved\">Cannot resolve syndicated feed macro, invalid parameter 'max'.</span>", output);
             }
 
             [Theory]
@@ -65,7 +65,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string output = renderer.Expand(ScopeName.SyndicatedFeed, "url=http://localhost/rss,max=" + max, x => x, x => x);
 
-                Assert.Equal("<span class=\"unresolved\">Cannot resolve rss macro, invalid parameter 'max'.</span>", output);
+                Assert.Equal("<span class=\"unresolved\">Cannot resolve syndicated feed macro, invalid parameter 'max'.</span>", output);
             }
 
             [Fact]
@@ -75,7 +75,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string output = renderer.Expand(ScopeName.SyndicatedFeed, "url=http://localhost/rss,titlesOnly=a", x => x, x => x);
 
-                Assert.Equal("<span class=\"unresolved\">Cannot resolve rss macro, invalid parameter 'titlesOnly'.</span>", output);
+                Assert.Equal("<span class=\"unresolved\">Cannot resolve syndicated feed macro, invalid parameter 'titlesOnly'.</span>", output);
             }
 
             [Fact]
@@ -87,7 +87,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string output = renderer.Expand(ScopeName.SyndicatedFeed, "url=http://localhost/rss", x => x, x => x);
 
-                Assert.Equal("<span class=\"unresolved\">Cannot resolve rss macro, invalid parameter 'url'.</span>", output);
+                Assert.Equal("<span class=\"unresolved\">Cannot resolve syndicated feed macro, invalid parameter 'url'.</span>", output);
             }
 
             [Fact]
@@ -200,7 +200,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string output = renderer.Expand(ScopeName.SyndicatedFeed, "url=http://localhost/rss", x => x, x => x);
 
-                Assert.Equal("<span class=\"unresolved\">Cannot resolve rss macro, invalid parameter 'url'.</span>", output);
+                Assert.Equal("<span class=\"unresolved\">Cannot resolve syndicated feed macro, invalid parameter 'url'.</span>", output);
             }
         }
     }
