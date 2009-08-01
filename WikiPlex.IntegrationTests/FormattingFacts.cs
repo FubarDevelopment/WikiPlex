@@ -14,12 +14,12 @@ namespace WikiPlex.IntegrationTests
 
         public FormattingFacts()
         {
-            Renderers.Register(new RssFeedRenderer(new LocalXmlReader(), new SyndicationReader()));
+            Renderers.Register(new SyndicatedFeedRenderer(new LocalXmlReader(), new SyndicationReader()));
         }
 
         public void Dispose()
         {
-            Renderers.Register<RssFeedRenderer>();
+            Renderers.Register<SyndicatedFeedRenderer>();
         }
 
         [Theory]
@@ -29,7 +29,7 @@ namespace WikiPlex.IntegrationTests
         [InputData("ImageFormatting")]
         [InputData("SourceCodeFormatting")]
         [InputData("ListFormatting")]
-        [InputData("RssFeedFormatting")]
+        [InputData("SyndicatedFeedFormatting")]
         [InputData("SilverlightFormatting")]
         [InputData("VideoFormatting")]
         [InputData("TableFormatting")]

@@ -21,7 +21,7 @@ namespace WikiPlex
             Register<ImageRenderer>();
             Register<SourceCodeRenderer>();
             Register<ListItemRenderer>();
-            Register<RssFeedRenderer>();
+            Register<SyndicatedFeedRenderer>();
             Register<SilverlightRenderer>();
             Register<VideoRenderer>();
             Register<TableRenderer>();

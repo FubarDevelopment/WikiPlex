@@ -61,10 +61,10 @@ _The rss macro allows for the importing of external rss feeds into your wiki pag
 
 !!!!! Source Markup
 {{
-{rss:url=http://local/Data/RssFeedFormatting/Rss.xml,max=1,titlesOnly=false}
+{rss:url=http://local/Data/SyndicatedFeedFormatting/Rss.xml,max=1,titlesOnly=false}
 }}
 !!!!! Rendered Markup
-{rss:url=http://local/Data/RssFeedFormatting/Rss.xml,max=1,titlesOnly=false}
+{rss:url=http://local/Data/SyndicatedFeedFormatting/Rss.xml,max=1,titlesOnly=false}
 
 !! Video Macro
 _The video macro allows you to insert video media into your wiki page_

@@ -30,7 +30,7 @@ namespace WikiPlex
             Register<OrderedListMacro>();
             Register<UnorderedListMacro>();
             Register<EscapedMarkupMacro>();
-            Register<RssFeedMacro>();
+            Register<SyndicatedFeedMacro>();
             Register<SilverlightMacro>();
             Register<VideoMacro>();
             Register<TableMacro>();

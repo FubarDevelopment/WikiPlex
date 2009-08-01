@@ -61,7 +61,7 @@
         public const string RealPlayerVideo = "Real Player Video";
         public const string Remove = "Text to Remove";
         public const string RightAlign = "Right Alignment Tag";
-        public const string RssFeed = "Rss Feed";
+        public const string SyndicatedFeed = "Syndicated Feed";
         public const string Silverlight = "Silverlight Block";
         public const string SingleLineCode = "Single Line Code Block";
         public const string SoapboxVideo = "Soapbox Video";

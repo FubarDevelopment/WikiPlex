@@ -76,7 +76,7 @@
     <Compile Include="Compilation\Macros\ImageMacro.cs" />
     <Compile Include="Compilation\Macros\ItalicsMacro.cs" />
     <Compile Include="Compilation\Macros\LinkMacro.cs" />
-    <Compile Include="Compilation\Macros\RssFeedMacro.cs" />
+    <Compile Include="Compilation\Macros\SyndicatedFeedMacro.cs" />
     <Compile Include="Compilation\Macros\SilverlightMacro.cs" />
     <Compile Include="Compilation\Macros\SourceCodeMacro.cs" />
     <Compile Include="Compilation\Macros\StrikethroughMacro.cs" />
@@ -91,7 +91,7 @@
     <Compile Include="Formatting\ContentAlignmentRenderer.cs" />
     <Compile Include="Formatting\FloatAlignment.cs" />
     <Compile Include="Formatting\RenderedScopeEventArgs.cs" />
-    <Compile Include="Formatting\RssFeedRenderer.cs" />
+    <Compile Include="Formatting\SyndicatedFeedRenderer.cs" />
     <Compile Include="Formatting\SilverlightRenderer.cs" />
     <Compile Include="Formatting\SilverlightRendering\BaseSilverlightRenderer.cs" />
     <Compile Include="Formatting\SilverlightRendering\ISilverlightRenderer.cs" />

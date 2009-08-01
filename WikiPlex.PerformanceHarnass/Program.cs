@@ -31,7 +31,7 @@ namespace WikiPlex.PerformanceHarnass
 
             if (!PerformanceCounterCreation.Exists())
                 PerformanceCounterCreation.Create();
-            Renderers.Register(new RssFeedRenderer(new LocalXmlReader(), new SyndicationReader()));
+            Renderers.Register(new SyndicatedFeedRenderer(new LocalXmlReader(), new SyndicationReader()));
 
             AvgTimeTicks = new PerformanceCounter("WikiPlex.PerformanceCounters", "Avg Rendering Time (seconds)", string.Empty, false);
             AvgTimeTicksBase = new PerformanceCounter("WikiPlex.PerformanceCounters", "Avg Rendering Time Base", string.Empty, false);

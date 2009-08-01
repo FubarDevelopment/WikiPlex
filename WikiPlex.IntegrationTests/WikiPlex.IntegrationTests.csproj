@@ -256,19 +256,19 @@
     <None Include="Data\ListFormatting\SingleNestedOrderedList.wiki">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <Content Include="Data\RssFeedFormatting\Atom.xml">
+    <Content Include="Data\SyndicatedFeedFormatting\Atom.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Data\RssFeedFormatting\Atom.html">
+    <Content Include="Data\SyndicatedFeedFormatting\Atom.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <None Include="Data\RssFeedFormatting\Atom.wiki">
+    <None Include="Data\SyndicatedFeedFormatting\Atom.wiki">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <Content Include="Data\RssFeedFormatting\Rss.html">
+    <Content Include="Data\SyndicatedFeedFormatting\Rss.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <None Include="Data\RssFeedFormatting\Rss.wiki">
+    <None Include="Data\SyndicatedFeedFormatting\Rss.wiki">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <Content Include="Data\SilverlightFormatting\Silverlight.html">
@@ -433,10 +433,10 @@
     <None Include="Data\VideoFormatting\UnsupportedValues.wiki">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <Content Include="Data\RssFeedFormatting\GoogleAtom.xml">
+    <Content Include="Data\SyndicatedFeedFormatting\GoogleAtom.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Data\RssFeedFormatting\Rss.xml">
+    <Content Include="Data\SyndicatedFeedFormatting\Rss.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Data\VideoFormatting\AllSupported.html">

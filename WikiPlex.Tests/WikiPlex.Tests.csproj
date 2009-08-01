@@ -88,7 +88,7 @@
     <Compile Include="Formatting\LinkRendererFacts.cs" />
     <Compile Include="Formatting\ListItemRendererFacts.cs" />
     <Compile Include="Formatting\MacroFormatterFacts.cs" />
-    <Compile Include="Formatting\RssFeedRendererFacts.cs" />
+    <Compile Include="Formatting\SyndicatedFeedRendererFacts.cs" />
     <Compile Include="Formatting\SilverlightRendererFacts.cs" />
     <Compile Include="Formatting\SourceCodeRendererFacts.cs" />
     <Compile Include="Formatting\TextFormattingRendererFacts.cs" />

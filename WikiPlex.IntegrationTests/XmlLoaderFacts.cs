@@ -18,7 +18,7 @@ namespace WikiPlex.IntegrationTests
             [InlineData("Rss")]
             public void Will_return_the_xml_document_with_the_xml_from_the_path_specified(string xmlFeed)
             {
-                string baseDirectory = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Data\\RssFeedFormatting");
+                string baseDirectory = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Data\\SyndicatedFeedFormatting");
 
                 string[] files = Directory.GetFiles(baseDirectory, xmlFeed + ".xml");
                 if (files.Count() != 1)

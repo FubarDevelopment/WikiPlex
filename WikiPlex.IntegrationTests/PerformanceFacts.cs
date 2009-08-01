@@ -22,7 +22,7 @@ namespace WikiPlex.IntegrationTests
                 Macros.Unregister(macro);
 
             // register the local rss reader
-            Renderers.Register(new RssFeedRenderer(new LocalXmlReader(), new SyndicationReader()));
+            Renderers.Register(new SyndicatedFeedRenderer(new LocalXmlReader(), new SyndicationReader()));
 
             var compiler = (MacroCompiler) typeof (WikiEngine).GetField("compiler", BindingFlags.Static | BindingFlags.NonPublic).GetValue(null);
             compiler.Flush();
@@ -208,7 +208,7 @@ namespace WikiPlex.IntegrationTests
         {
             RegisterMacros();
 
-            Renderers.Register<RssFeedRenderer>();
+            Renderers.Register<SyndicatedFeedRenderer>();
         }
 
         static void RegisterMacros()
@@ -227,7 +227,7 @@ namespace WikiPlex.IntegrationTests
             Macros.Register<OrderedListMacro>();
             Macros.Register<UnorderedListMacro>();
             Macros.Register<EscapedMarkupMacro>();
-            Macros.Register<RssFeedMacro>();
+            Macros.Register<SyndicatedFeedMacro>();
             Macros.Register<SilverlightMacro>();
             Macros.Register<VideoMacro>();
             Macros.Register<TableMacro>();
