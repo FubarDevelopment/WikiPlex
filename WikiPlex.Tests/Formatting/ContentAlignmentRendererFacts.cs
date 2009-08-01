@@ -1,5 +1,4 @@
-﻿using WikiPlex.Common;
-using WikiPlex.Formatting;
+﻿using WikiPlex.Formatting;
 using Xunit;
 using Xunit.Extensions;
 
@@ -45,6 +44,16 @@ namespace WikiPlex.Tests.Formatting
                 string result = renderer.Expand(scopeName, "in", x => x, x => x);
 
                 Assert.Equal(string.Format("<div style=\"text-align:{0};float:{0};\">", alignment), result);
+            }
+
+            [Fact]
+            public void Should_return_content_for_invalid_scope_name()
+            {
+                var renderer = new ContentAlignmentRenderer();
+
+                string result = renderer.Expand("foo", "in", x => x, x => x);
+
+                Assert.Equal("in", result);
             }
         }
     }

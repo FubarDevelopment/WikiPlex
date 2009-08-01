@@ -1,5 +1,4 @@
-﻿using WikiPlex.Common;
-using Xunit;
+﻿using Xunit;
 using Xunit.Extensions;
 using WikiPlex.Formatting;
 
@@ -86,6 +85,16 @@ namespace WikiPlex.Tests.Formatting
                 string result = renderer.Expand(ScopeName.ListItemEnd, string.Empty, x => x, x => x);
 
                 Assert.Equal("</li>", result);
+            }
+
+            [Fact]
+            public void Should_return_content_for_invalid_scope_name()
+            {
+                var renderer = new ListItemRenderer();
+
+                string result = renderer.Expand("foo", "in", x => x, x => x);
+
+                Assert.Equal("in", result);
             }
         }
     }

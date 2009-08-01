@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Xml;
 using Moq;
-using WikiPlex.Common;
 using WikiPlex.Formatting;
 using WikiPlex.Syndication;
 using Xunit;
@@ -77,6 +76,18 @@ namespace WikiPlex.Tests.Formatting
                 string output = renderer.Expand(ScopeName.RssFeed, "url=http://localhost/rss,titlesOnly=a", x => x, x => x);
 
                 Assert.Equal("<span class=\"unresolved\">Cannot resolve rss macro, invalid parameter 'titlesOnly'.</span>", output);
+            }
+
+            [Fact]
+            public void Will_parse_the_content_and_return_an_unresolved_macro_xml_document_is_null()
+            {
+                var xmlLoader = new Mock<IXmlDocumentReader>();
+                xmlLoader.Setup(x => x.Read(It.IsAny<string>())).Returns<XmlDocument>(null);
+                var renderer = new RssFeedRenderer(xmlLoader.Object, new Mock<ISyndicationReader>().Object);
+
+                string output = renderer.Expand(ScopeName.RssFeed, "url=http://localhost/rss", x => x, x => x);
+
+                Assert.Equal("<span class=\"unresolved\">Cannot resolve rss macro, invalid parameter 'url'.</span>", output);
             }
 
             [Fact]

@@ -1,6 +1,4 @@
-﻿using Moq;
-using WikiPlex.Common;
-using Xunit;
+﻿using Xunit;
 using Xunit.Extensions;
 using WikiPlex.Formatting;
 

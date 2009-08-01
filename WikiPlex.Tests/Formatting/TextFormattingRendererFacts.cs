@@ -1,5 +1,4 @@
 ﻿using System.Web;
-using WikiPlex.Common;
 using Xunit;
 using Xunit.Extensions;
 using WikiPlex.Formatting;
@@ -123,6 +122,16 @@ namespace WikiPlex.Tests.Formatting
                 string result = renderer.Expand(ScopeName.EscapedMarkup, "this is &content", HttpUtility.HtmlEncode, x => x);
 
                 Assert.Equal("this is &amp;content", result);
+            }
+
+            [Fact]
+            public void Should_return_content_for_invalid_scope_name()
+            {
+                var renderer = new TextFormattingRenderer();
+
+                string result = renderer.Expand("foo", "in", x => x, x => x);
+
+                Assert.Equal("in", result);
             }
         }
     }

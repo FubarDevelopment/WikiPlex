@@ -1,5 +1,4 @@
 ﻿using System.Web;
-using WikiPlex.Common;
 using Xunit;
 using Xunit.Extensions;
 using WikiPlex.Formatting;
@@ -186,6 +185,16 @@ namespace WikiPlex.Tests.Formatting
                 string result = renderer.Expand(ScopeName.LinkToAnchor, " test ", x => x, x => x);
 
                 Assert.Equal("<a href=\"#test\">test</a>", result);
+            }
+
+            [Fact]
+            public void Should_return_content_for_invalid_scope_name()
+            {
+                var renderer = new LinkRenderer();
+
+                string result = renderer.Expand("foo", "in", x => x, x => x);
+
+                Assert.Equal("in", result);
             }
         }
     }

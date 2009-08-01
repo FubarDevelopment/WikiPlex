@@ -1,5 +1,4 @@
-﻿using WikiPlex.Common;
-using Xunit;
+﻿using Xunit;
 using Xunit.Extensions;
 using WikiPlex.Formatting;
 
@@ -285,6 +284,16 @@ namespace WikiPlex.Tests.Formatting
                 string result = renderer.Expand(scopeName, "a|b|c|d", x => x, x => x);
 
                 Assert.Equal("<span class=\"unresolved\">Cannot resolve image macro, invalid number of parameters.</span>", result);
+            }
+
+            [Fact]
+            public void Should_return_content_for_invalid_scope_name()
+            {
+                var renderer = new ImageRenderer();
+
+                string result = renderer.Expand("foo", "in", x => x, x => x);
+
+                Assert.Equal("in", result);
             }
         }
     }

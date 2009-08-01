@@ -110,6 +110,16 @@ namespace WikiPlex.Tests.Formatting
 
                 Assert.Equal("I am colorized!", result);
             }
+
+            [Fact]
+            public void Should_return_content_for_invalid_scope_name()
+            {
+                var renderer = new SourceCodeRenderer();
+
+                string result = renderer.Expand("foo", "in", x => x, x => x);
+
+                Assert.Equal("in", result);
+            }
         }
     }
 }
