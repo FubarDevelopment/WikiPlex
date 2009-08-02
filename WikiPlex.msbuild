@@ -70,5 +70,6 @@
     
     <RegexReplace Pattern='Include="\.\.\\GlobalAssemblyInfo.cs"' Replacement='Include="Properties\\GlobalAssemblyInfo.cs"' Files='$(SamplePath)\WikiPlex.Web.Sample.csproj' />
     <RegexReplace Pattern='&lt;Link&gt;Properties\\GlobalAssemblyInfo.cs&lt;/Link&gt;' Replacement=' ' Files='$(SamplePath)\WikiPlex.Web.Sample.csproj' />
+    <RegexReplace Pattern='(?s)&lt;ProjectReference Include=\"..\\WikiPlex\\WikiPlex.csproj\"&gt;.*?&lt;/ProjectReference&gt;' Replacement='&lt;Reference Include="WikiPlex" /&gt;' Files='$(SamplePath)\WikiPlex.Web.Sample.csproj' />
   </Target>
 </Project>
