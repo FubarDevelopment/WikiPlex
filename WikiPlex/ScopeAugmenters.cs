@@ -24,7 +24,18 @@ namespace WikiPlex
 
         public static IDictionary<string, IScopeAugmenter> All
         {
-            get { return new ReadOnlyDictionary<string, IScopeAugmenter>(loadedAugmenters); }
+            get
+            {
+                augmenterLock.EnterReadLock();
+                try
+                {
+                    return new Dictionary<string, IScopeAugmenter>(loadedAugmenters);
+                }
+                finally
+                {
+                    augmenterLock.ExitReadLock();
+                }
+            }
         }
 
         public static void Register<TMacro, TAugmenter>()
