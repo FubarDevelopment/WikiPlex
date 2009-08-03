@@ -45,7 +45,7 @@ namespace WikiPlex
             var parser = new MacroParser(compiler);
             var buffer = new StringBuilder(wikiContent.Length);
 
-            parser.Parse(wikiContent, macros, formatter.RecordParse);
+            parser.Parse(wikiContent, macros, ScopeAugmenters.All, formatter.RecordParse);
 
             formatter.Format(wikiContent, buffer);
 

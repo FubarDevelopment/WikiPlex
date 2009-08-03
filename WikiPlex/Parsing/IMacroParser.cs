@@ -6,6 +6,6 @@ namespace WikiPlex.Parsing
 {
     public interface IMacroParser
     {
-        void Parse(string wikiContent, IEnumerable<IMacro> macros, Action<IList<Scope>> parseHandler);
+        void Parse(string wikiContent, IEnumerable<IMacro> macros, IDictionary<string, IScopeAugmenter> scopeAugmenters, Action<IList<Scope>> parseHandler);
     }
 }

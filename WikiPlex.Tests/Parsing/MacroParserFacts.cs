@@ -23,7 +23,7 @@ namespace WikiPlex.Tests.Parsing
                 var macros = new List<IMacro> {new Mock<IMacro>().Object};
                 int invocations = 0;
 
-                parser.Parse(wikiContent, macros, s => invocations++);
+                parser.Parse(wikiContent, macros, new Dictionary<string, IScopeAugmenter>(), s => invocations++);
 
                 Assert.Equal(0, invocations);
             }
@@ -34,7 +34,7 @@ namespace WikiPlex.Tests.Parsing
                 var parser = new MacroParser(new Mock<IMacroCompiler>().Object);
                 int invocations = 0;
 
-                Exception ex = Record.Exception(() => parser.Parse("content", null, s => invocations++));
+                Exception ex = Record.Exception(() => parser.Parse("content", null, new Dictionary<string, IScopeAugmenter>(), s => invocations++));
 
                 Assert.IsType<ArgumentNullException>(ex);
                 Assert.Equal("macros", ((ArgumentNullException) ex).ParamName);
@@ -47,10 +47,25 @@ namespace WikiPlex.Tests.Parsing
                 var macros = new List<IMacro>();
                 int invocations = 0;
 
-                Exception ex = Record.Exception(() => parser.Parse("content", macros, s => invocations++));
+                Exception ex = Record.Exception(() => parser.Parse("content", macros, new Dictionary<string, IScopeAugmenter>(), s => invocations++));
 
                 Assert.IsType<ArgumentException>(ex);
                 Assert.Equal("macros", ((ArgumentException) ex).ParamName);
+            }
+
+            [Fact]
+            public void Will_throw_ArgumentNullException_when_scope_augmenters_is_null()
+            {
+                var parser = new MacroParser(new Mock<IMacroCompiler>().Object);
+                var macro = new Mock<IMacro>();
+                macro.Setup(x => x.Id).Returns("Macro");
+                var macros = new List<IMacro> { macro.Object };
+                var scopeStack = new Stack<IList<Scope>>();
+
+                var ex = Record.Exception(() => parser.Parse("content", macros, null, scopeStack.Push));
+
+                Assert.NotNull(ex);
+                Assert.IsType<ArgumentNullException>(ex);
             }
 
             [Fact]
@@ -64,7 +79,7 @@ namespace WikiPlex.Tests.Parsing
                 var macros = new List<IMacro> {macro.Object};
                 var scopeStack = new Stack<IList<Scope>>();
 
-                parser.Parse("this is abc content", macros, scopeStack.Push);
+                parser.Parse("this is abc content", macros, new Dictionary<string, IScopeAugmenter>(), scopeStack.Push);
 
                 Assert.Equal(1, scopeStack.Count);
                 var popped = scopeStack.Pop();
@@ -77,37 +92,24 @@ namespace WikiPlex.Tests.Parsing
             public void Will_yield_the_scopes_from_the_augmenter()
             {
                 var compiler = new Mock<IMacroCompiler>();
-                var macro = new FakeMacro();
+                var macro = new Mock<IMacro>();
                 var augmenter = new Mock<IScopeAugmenter>();
-                compiler.Setup(x => x.Compile(macro)).Returns(new CompiledMacro("foo", new Regex("abc"), new List<string> {"All"}));
-                ScopeAugmenters.Register<FakeMacro>(augmenter.Object);
                 var scope = new Scope("Scope", 1);
-                augmenter.Setup(x => x.Augment(macro, It.IsAny<IList<Scope>>(), It.IsAny<string>())).Returns(new List<Scope> { scope });
+                macro.Setup(x => x.Id).Returns("Macro");
+                compiler.Setup(x => x.Compile(macro.Object)).Returns(new CompiledMacro("foo", new Regex("abc"), new List<string> {"All"}));
+                augmenter.Setup(x => x.Augment(macro.Object, It.IsAny<IList<Scope>>(), It.IsAny<string>())).Returns(new List<Scope> { scope });
                 var parser = new MacroParser(compiler.Object);
-                var macros = new List<IMacro> {macro};
+                var macros = new List<IMacro> {macro.Object};
                 var scopeStack = new Stack<IList<Scope>>();
+                var augmenters = new Dictionary<string, IScopeAugmenter> {{"Macro", augmenter.Object}};
 
-                parser.Parse("abc", macros, scopeStack.Push);
+                parser.Parse("abc", macros, augmenters, scopeStack.Push);
 
-                ScopeAugmenters.Unregister<FakeMacro>();
                 Assert.Equal(1, scopeStack.Count);
                 var popped = scopeStack.Pop();
                 Assert.Equal(1, popped.Count);
                 Assert.Equal("Scope", popped[0].Name);
                 Assert.Equal(1, popped[0].Index);
-            }
-        }
-
-        class FakeMacro : IMacro
-        {
-            public string Id
-            {
-                get { return "Fake"; }
-            }
-
-            public IList<MacroRule> Rules
-            {
-                get { throw new NotImplementedException(); }
             }
         }
     }

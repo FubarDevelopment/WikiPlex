@@ -22,6 +22,11 @@ namespace WikiPlex
             Register<UnorderedListMacro, ListScopeAugmenter<UnorderedListMacro>>();
         }
 
+        public static IDictionary<string, IScopeAugmenter> All
+        {
+            get { return new ReadOnlyDictionary<string, IScopeAugmenter>(loadedAugmenters); }
+        }
+
         public static void Register<TMacro, TAugmenter>()
             where TMacro : class, IMacro, new()
             where TAugmenter : class, IScopeAugmenter, new()
@@ -61,29 +66,22 @@ namespace WikiPlex
             }
         }
 
-        public static IScopeAugmenter FindByMacro<TMacro>()
+        public static IScopeAugmenter FindByMacro<TMacro>(this IDictionary<string, IScopeAugmenter> augmenters)
             where TMacro : class, IMacro, new()
         {
-            return FindByMacro(new TMacro());
+            return FindByMacro(augmenters, new TMacro());
         }
 
-        public static IScopeAugmenter FindByMacro<TMacro>(TMacro macro)
+        public static IScopeAugmenter FindByMacro<TMacro>(this IDictionary<string, IScopeAugmenter> augmenters,
+                                                          TMacro macro)
             where TMacro : class, IMacro
         {
             Guard.NotNull(macro, "macro");
+            IScopeAugmenter augmenter;
 
-            augmenterLock.EnterReadLock();
-            try
-            {
-                if (loadedAugmenters.ContainsKey(macro.Id))
-                    return loadedAugmenters[macro.Id];
-            }
-            finally
-            {
-                augmenterLock.ExitReadLock();
-            }
+            augmenters.TryGetValue(macro.Id, out augmenter);
 
-            return null;
+            return augmenter;
         }
     }
 }

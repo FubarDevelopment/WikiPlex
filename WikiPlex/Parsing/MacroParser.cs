@@ -16,15 +16,16 @@ namespace WikiPlex.Parsing
             this.compiler = compiler;
         }
 
-        public void Parse(string wikiContent, IEnumerable<IMacro> macros, Action<IList<Scope>> parseHandler)
+        public void Parse(string wikiContent, IEnumerable<IMacro> macros, IDictionary<string, IScopeAugmenter> scopeAugmenters, Action<IList<Scope>> parseHandler)
         {
             if (string.IsNullOrEmpty(wikiContent))
                 return;
 
             Guard.NotNullOrEmpty(macros, "macros");
+            Guard.NotNull(scopeAugmenters, "scopeAugmenters");
 
             foreach (IMacro macro in macros)
-                Parse(wikiContent, macro, compiler.Compile(macro), ScopeAugmenters.FindByMacro(macro), parseHandler);
+                Parse(wikiContent, macro, compiler.Compile(macro), scopeAugmenters.FindByMacro(macro), parseHandler);
         }
 
         private static void Parse(string wikiContent, IMacro macro, CompiledMacro compiledMacro,
