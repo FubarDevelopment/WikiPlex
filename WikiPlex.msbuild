@@ -47,8 +47,8 @@
   
   <Target Name="build-package" DependsOnTargets="prepare-sample">
     <ItemGroup>
-        <FilesToArchive Include="WikiPlex\bin\$(Configuration)\*.dll;WikiPlex\bin\$(Configuration)\*.pdb" />
-        <SampleSite Include="Sample\**\*.*" />
+        <FilesToArchive Include="WikiPlex\bin\$(Configuration)\*.dll;WikiPlex\bin\$(Configuration)\*.pdb;License.txt" />
+        <SampleSite Include="Sample\**\*.*;Sample-ReadMe.txt;License.txt" />
     </ItemGroup>
     
     <RemoveDir Directories="$(ArchivePath)" Condition="Exists('$(ArchivePath)')" />
