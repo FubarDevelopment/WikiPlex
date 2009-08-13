@@ -14,6 +14,7 @@ namespace WikiPlex.Web.Sample
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
             routes.IgnoreRoute("content/{*pathInfo}");
+            routes.IgnoreRoute("WebForms/{*pathInfo}");
 
             routes.MapRoute(
                 "History",

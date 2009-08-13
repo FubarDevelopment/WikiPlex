@@ -78,6 +78,13 @@
     <Compile Include="Repositories\IWikiRepository.cs" />
     <Compile Include="Repositories\WikiRepository.cs" />
     <Compile Include="Views\Home\ViewContent.cs" />
+    <Compile Include="WebForms\View.aspx.cs">
+      <DependentUpon>View.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WebForms\View.aspx.designer.cs">
+      <DependentUpon>View.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Wiki\TitleLinkMacro.cs" />
     <Compile Include="Wiki\TitleLinkRenderer.cs" />
     <Compile Include="Wiki\WikiScopeName.cs" />
@@ -101,6 +108,7 @@
     <Content Include="Views\Shared\Error.aspx" />
     <Content Include="Views\Shared\Site.Master" />
     <Content Include="Views\Web.config" />
+    <Content Include="WebForms\View.aspx" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />

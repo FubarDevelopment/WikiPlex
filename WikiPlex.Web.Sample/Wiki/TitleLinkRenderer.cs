@@ -26,7 +26,13 @@ namespace WikiPlex.Web.Sample.Wiki
 
         public string Expand(string scopeName, string input, Func<string, string> htmlEncode, Func<string, string> attributeEncode)
         {
-            string url = urlHelper.RouteUrl("Default", new { slug = SlugHelper.Generate(input) });
+            string url;
+
+            if (urlHelper != null)
+                url = urlHelper.RouteUrl("Default", new { slug = SlugHelper.Generate(input) });
+            else
+                url = "/WebForms/View.aspx?p=" + SlugHelper.Generate(input);
+
             return string.Format(LinkFormat, attributeEncode(url), htmlEncode(input));
         }
     }

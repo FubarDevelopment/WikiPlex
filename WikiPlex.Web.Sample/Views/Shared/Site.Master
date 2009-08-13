@@ -25,7 +25,8 @@
                 <img src="../../Content/Logo.png" />
             </div>
             <div id="menu">
-                <%= Html.ActionLink("Home", "ViewWiki", new {slug = "home"}) %>
+                <a href="<%= ResolveClientUrl("~/") %>">Home (MVC)</a> |
+                <a href="<%= ResolveClientUrl("~/WebForms/View.aspx") %>">Home (WebForms)</a>
             </div>
         </div>
 
