@@ -116,6 +116,26 @@ namespace WikiPlex.Tests.Formatting
             }
 
             [Fact]
+            public void Will_render_the_silverlight_object_with_percentage_width()
+            {
+                var renderer = new SilverlightRenderer();
+
+                string output = renderer.Expand(ScopeName.Silverlight, "url=http://localhost/silverlight,width=100%", x => x, x => x);
+
+                Assert.Equal(@"<object data=""data:application/x-silverlight,"" type=""application/x-silverlight"" style=""height:200px;width:100%;""><param name=""source"" value=""http://localhost/silverlight""></param><param name=""windowless"" value=""true""></param><p>You need to install Microsoft Silverlight to view this content. <a href=""http://go.microsoft.com/fwlink/?LinkID=124807"" style=""text-decoration:none;"">Get Silverlight!<br /><img src=""http://go.microsoft.com/fwlink/?LinkID=108181"" alt=""Get Microsoft Silverlight"" style=""border-style:none;"" /></a></p></object><iframe style=""visibility:hidden;height:0;width:0;border-width:0;""></iframe>", output);
+            }
+
+            [Fact]
+            public void Will_render_the_silverlight_object_with_percentage_height()
+            {
+                var renderer = new SilverlightRenderer();
+
+                string output = renderer.Expand(ScopeName.Silverlight, "url=http://localhost/silverlight,height=100%", x => x, x => x);
+
+                Assert.Equal(@"<object data=""data:application/x-silverlight,"" type=""application/x-silverlight"" style=""height:100%;width:200px;""><param name=""source"" value=""http://localhost/silverlight""></param><param name=""windowless"" value=""true""></param><p>You need to install Microsoft Silverlight to view this content. <a href=""http://go.microsoft.com/fwlink/?LinkID=124807"" style=""text-decoration:none;"">Get Silverlight!<br /><img src=""http://go.microsoft.com/fwlink/?LinkID=108181"" alt=""Get Microsoft Silverlight"" style=""border-style:none;"" /></a></p></object><iframe style=""visibility:hidden;height:0;width:0;border-width:0;""></iframe>", output);
+            }
+
+            [Fact]
             public void Will_render_fallback_silverlight_if_a_version_other_than_3_is_specified()
             {
                 var renderer = new SilverlightRenderer();

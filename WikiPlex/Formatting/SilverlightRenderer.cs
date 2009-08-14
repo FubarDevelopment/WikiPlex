@@ -28,7 +28,19 @@ namespace WikiPlex.Formatting
             string url;
             int height = 200;
             int width = 200;
+            bool percentHeight = false, percentWidth = false;
             int version = 2;
+
+            if(!string.IsNullOrEmpty(heightParameter) && heightParameter.EndsWith("%"))
+            {
+                percentHeight = true;
+                heightParameter = heightParameter.TrimEnd('%');
+            }
+            if(!string.IsNullOrEmpty(widthParameter) && widthParameter.EndsWith("%"))
+            {
+                percentWidth = true;
+                widthParameter = widthParameter.TrimEnd('%');
+            }
 
             if (string.IsNullOrEmpty(urlParameter))
                 return RenderUnresolvedMacro("url");
@@ -65,8 +77,8 @@ namespace WikiPlex.Formatting
                 writer.NewLine = string.Empty;
 
                 renderer.AddObjectTagAttributes(writer);
-                writer.AddStyleAttribute(HtmlTextWriterStyle.Height, height + "px");
-                writer.AddStyleAttribute(HtmlTextWriterStyle.Width, width + "px");
+                writer.AddStyleAttribute(HtmlTextWriterStyle.Height, height + (percentHeight ? "%" : "px"));
+                writer.AddStyleAttribute(HtmlTextWriterStyle.Width, width + (percentWidth ? "%" : "px"));
                 writer.RenderBeginTag(HtmlTextWriterTag.Object);
 
                 renderer.AddParameterTags(url, writer);
