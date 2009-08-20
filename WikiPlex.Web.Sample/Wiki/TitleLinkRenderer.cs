@@ -35,7 +35,7 @@ namespace WikiPlex.Web.Sample.Wiki
             if (urlHelper != null)
                 url = urlHelper.RouteUrl("Default", new { slug = SlugHelper.Generate(input) });
             else
-                url = "/WebForms/View.aspx?p=" + SlugHelper.Generate(input);
+                url = "/WebForms/?p=" + SlugHelper.Generate(input);
 
             return string.Format(LinkFormat, attributeEncode(url), htmlEncode(input));
         }

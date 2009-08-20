@@ -26,7 +26,7 @@
             </div>
             <div id="menu">
                 <a href="<%= ResolveClientUrl("~/") %>">Home (MVC)</a> |
-                <a href="<%= ResolveClientUrl("~/WebForms/View.aspx") %>">Home (WebForms)</a>
+                <a href="<%= ResolveClientUrl("~/WebForms") %>">Home (WebForms)</a>
             </div>
         </div>
 
