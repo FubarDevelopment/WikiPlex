@@ -9,6 +9,10 @@ namespace WikiPlex.Web.Sample.Wiki
         private const string LinkFormat = "<a href=\"{0}\">{1}</a>";
         private readonly UrlHelper urlHelper;
 
+        public TitleLinkRenderer()
+        {
+        }
+
         public TitleLinkRenderer(UrlHelper urlHelper)
         {
             this.urlHelper = urlHelper;

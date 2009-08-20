@@ -19,9 +19,7 @@ namespace WikiPlex.Web.Sample.WebForms
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            string slug = Request.QueryString["p"];
-            if (string.IsNullOrEmpty(slug))
-                slug = "home";
+            string slug = GetSlug();
 
             int version;
             if (!string.IsNullOrEmpty(Request.QueryString["v"]) && int.TryParse(Request.QueryString["v"], out version))
@@ -37,10 +35,22 @@ namespace WikiPlex.Web.Sample.WebForms
                 Response.Redirect(ResolveClientUrl("~/WebForms/Edit.aspx?p=" + HttpUtility.UrlEncode(slug)));
 
             title.Text = "WikiPlex Sample - " + HttpUtility.HtmlEncode(wikiContent.Title.Name);
+            sourceSlug.Text = previewSlug.Text = wikiContent.Title.Slug;
+            sourceVersion.Text = wikiContent.Version.ToString();
             renderedSource.Text = wikiEngine.Render(wikiContent.Source, GetFormatter());
+            Name.Value = wikiContent.Title.Name;
+            NotLatestPlaceHolder.Visible = wikiContent.Version != wikiContent.Title.MaxVersion;
 
             pageHistory.DataSource = repository.GetHistory(slug);
             pageHistory.DataBind();
+        }
+
+        private string GetSlug()
+        {
+            string slug = Request.QueryString["p"];
+            if (string.IsNullOrEmpty(slug))
+                slug = "home";
+            return slug;
         }
 
         protected void BindPageHistoryItem(object sender, RepeaterItemEventArgs e)
@@ -64,11 +74,17 @@ namespace WikiPlex.Web.Sample.WebForms
             }
         }
 
-        private MacroFormatter GetFormatter()
+        private static MacroFormatter GetFormatter()
         {
-            var siteRenderers = new IRenderer[] { new TitleLinkRenderer(null) };
+            var siteRenderers = new IRenderer[] { new TitleLinkRenderer() };
             IEnumerable<IRenderer> allRenderers = Renderers.All.Union(siteRenderers);
             return new MacroFormatter(allRenderers);
+        }
+
+        protected void SaveWikiContent(object sender, EventArgs e)
+        {
+            repository.Save(GetSlug(), Name.Value, Source.Text);
+            Response.Redirect("~/WebForms/View.aspx?p=" + HttpUtility.UrlEncode(GetSlug()));
         }
     }
 }
