@@ -32,6 +32,7 @@ namespace WikiPlex.Formatting
         public override void AddParameterTags(string url, HtmlTextWriter writer)
         {
             AddParameterTag("fileName", url, writer);
+            AddParameterTag("autostart", "false", writer);
         }
     }
 }
