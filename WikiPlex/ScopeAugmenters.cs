@@ -20,6 +20,7 @@ namespace WikiPlex
             Register<TableMacro, TableScopeAugmenter>();
             Register<OrderedListMacro, ListScopeAugmenter<OrderedListMacro>>();
             Register<UnorderedListMacro, ListScopeAugmenter<UnorderedListMacro>>();
+            Register<IndentationMacro, IndentationScopeAugmenter>();
         }
 
         public static IDictionary<string, IScopeAugmenter> All

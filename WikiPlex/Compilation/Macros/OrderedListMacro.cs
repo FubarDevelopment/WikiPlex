@@ -1,12 +1,9 @@
 ﻿using System.Collections.Generic;
-using System.Text.RegularExpressions;
 
 namespace WikiPlex.Compilation.Macros
 {
     public class OrderedListMacro : IListMacro
     {
-        private static readonly Regex LevelRegex = new Regex(@"\#", RegexOptions.Compiled);
-
         public string Id
         {
             get { return "OrderedList"; }
@@ -22,9 +19,9 @@ namespace WikiPlex.Compilation.Macros
             get { return ScopeName.OrderedListEndTag; }
         }
 
-        public int DetermineLevel(string content)
+        public char DepthChar
         {
-            return LevelRegex.Matches(content).Count;
+            get { return '#'; }
         }
 
         public IList<MacroRule> Rules

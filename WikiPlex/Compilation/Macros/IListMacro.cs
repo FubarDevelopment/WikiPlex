@@ -4,6 +4,6 @@
     {
         string ListStartScopeName { get; }
         string ListEndScopeName { get; }
-        int DetermineLevel(string content);
+        char DepthChar { get; }
     }
 }

@@ -184,10 +184,16 @@
     <Content Include="Data\ImageFormatting\LinkedImages.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Data\IndentationFormatting\MultiLevel.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <Content Include="Data\LinkFormatting\Anchors.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="Data\ImageFormatting\LinkedImages.wiki">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Data\IndentationFormatting\MultiLevel.wiki">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Data\IndentationFormatting\Simple.html">

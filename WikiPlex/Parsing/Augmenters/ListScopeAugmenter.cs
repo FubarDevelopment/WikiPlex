@@ -10,10 +10,10 @@ namespace WikiPlex.Parsing
         public IList<Scope> Augment(IMacro macro, IList<Scope> capturedScopes, string content)
         {
             IList<Scope> newScopes = new List<Scope>();
-            TMacro actualMacro = (TMacro)macro;
+            var actualMacro = (TMacro) macro;
 
             string firstScopeContent = content.Substring(capturedScopes[0].Index, capturedScopes[0].Length);
-            int startLevel = actualMacro.DetermineLevel(firstScopeContent);
+            int startLevel = Utility.CountChars(actualMacro.DepthChar, firstScopeContent);
 
             AugmentRecursively(content, actualMacro, capturedScopes, newScopes, 0, startLevel, startLevel);
 
@@ -49,7 +49,7 @@ namespace WikiPlex.Parsing
 
                     newScopes.Add(new Scope(macro.ListEndScopeName, current.Index, current.Length));
                     newScopes.Add(new Scope(macro.ListStartScopeName, peek.Index, peek.Length));
-                    currentLevel = startingLevel = macro.DetermineLevel(wikiContent.Substring(peek.Index, peek.Length));
+                    currentLevel = startingLevel = Utility.CountChars(macro.DepthChar, wikiContent.Substring(peek.Index, peek.Length));
                     currentIndex++;
                     continue;
                 }
@@ -57,7 +57,7 @@ namespace WikiPlex.Parsing
                 if (current.Name == ScopeName.ListItemEnd)
                 {
                     string peekContent = wikiContent.Substring(peek.Index, peek.Length);
-                    int peekLevel = macro.DetermineLevel(peekContent);
+                    int peekLevel = Utility.CountChars(macro.DepthChar, peekContent);
 
                     if (currentLevel > peekLevel && currentLevel != startingLevel)
                         return currentIndex - 1;
@@ -104,7 +104,7 @@ namespace WikiPlex.Parsing
                     // does not match back out to continue processing
                     // with the current item
                     string currentContent = wikiContent.Substring(current.Index, current.Length);
-                    if (currentLevel != macro.DetermineLevel(currentContent))
+                    if (currentLevel != Utility.CountChars(macro.DepthChar, currentContent))
                         return currentIndex - 1;
                 }
 

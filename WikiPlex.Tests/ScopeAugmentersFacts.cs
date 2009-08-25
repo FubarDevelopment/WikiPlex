@@ -14,10 +14,11 @@ namespace WikiPlex.Tests
             [Fact]
             public void Should_contain_the_correct_scope_augmenters()
             {
-                Assert.Equal(3, ScopeAugmenters.All.Count);
+                Assert.Equal(4, ScopeAugmenters.All.Count);
                 Assert.IsType<TableScopeAugmenter>(ScopeAugmenters.All.FindByMacro<TableMacro>());
                 Assert.IsType<ListScopeAugmenter<OrderedListMacro>>(ScopeAugmenters.All.FindByMacro<OrderedListMacro>());
                 Assert.IsType<ListScopeAugmenter<UnorderedListMacro>>(ScopeAugmenters.All.FindByMacro<UnorderedListMacro>());
+                Assert.IsType<IndentationScopeAugmenter>(ScopeAugmenters.All.FindByMacro<IndentationMacro>());
             }
         }
 

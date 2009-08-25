@@ -31,5 +31,20 @@ namespace WikiPlex.Common
 
             return new TextPart(parts[1].Trim(), parts[0].Trim());
         }
+
+        public static int CountChars(char toFind, string input)
+        {
+            if (string.IsNullOrEmpty(input))
+                return 0;
+
+            int count = 0;
+            foreach (char c in input)
+            {
+                if (c == toFind)
+                    count++;
+            }
+
+            return count;
+        }
     }
 }

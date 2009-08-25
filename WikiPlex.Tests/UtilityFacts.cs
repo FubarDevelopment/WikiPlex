@@ -121,6 +121,25 @@ namespace WikiPlex.Tests
             }
         }
 
+        public class CountChars
+        {
+            [Fact]
+            public void Should_return_0_for_null_input()
+            {
+                int result = Utility.CountChars('*', null);
+
+                Assert.Equal(0, result);
+            }
+
+            [Fact]
+            public void Should_return_correct_count_for_input()
+            {
+                int result = Utility.CountChars('*', "** a");
+
+                Assert.Equal(2, result);
+            }
+        }
+
         private enum TestEnum
         {
             One,

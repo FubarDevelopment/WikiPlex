@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using WikiPlex.Common;
 using WikiPlex.Compilation.Macros;
 using WikiPlex.Parsing;
 using Xunit;
@@ -20,7 +19,7 @@ namespace WikiPlex.Tests.Parsing
                                                      });
                 var augmenter = new ListScopeAugmenter<UnorderedListMacro>();
 
-                var actualScopes = augmenter.Augment(new UnorderedListMacro(), origScopes, "* a");
+                IList<Scope> actualScopes = augmenter.Augment(new UnorderedListMacro(), origScopes, "* a");
 
                 Assert.Equal(2, actualScopes.Count);
                 Assert.Equal(ScopeName.UnorderedListBeginTag, actualScopes[0].Name);
@@ -43,7 +42,7 @@ namespace WikiPlex.Tests.Parsing
                                                      });
                 var augmenter = new ListScopeAugmenter<UnorderedListMacro>();
 
-                var actualScopes = augmenter.Augment(new UnorderedListMacro(), origScopes, "* a\n* b");
+                IList<Scope> actualScopes = augmenter.Augment(new UnorderedListMacro(), origScopes, "* a\n* b");
 
                 Assert.Equal(4, actualScopes.Count);
                 Assert.Equal(ScopeName.UnorderedListBeginTag, actualScopes[0].Name);
@@ -64,7 +63,7 @@ namespace WikiPlex.Tests.Parsing
                                                      });
                 var augmenter = new ListScopeAugmenter<UnorderedListMacro>();
 
-                var actualScopes = augmenter.Augment(new UnorderedListMacro(), origScopes, "* a\n** b");
+                IList<Scope> actualScopes = augmenter.Augment(new UnorderedListMacro(), origScopes, "* a\n** b");
 
                 Assert.Equal(4, actualScopes.Count);
                 Assert.Equal(ScopeName.UnorderedListBeginTag, actualScopes[0].Name);
@@ -87,7 +86,7 @@ namespace WikiPlex.Tests.Parsing
                                                      });
                 var augmenter = new ListScopeAugmenter<UnorderedListMacro>();
 
-                var actualScopes = augmenter.Augment(new UnorderedListMacro(), origScopes, "* a\n** b\n* a");
+                IList<Scope> actualScopes = augmenter.Augment(new UnorderedListMacro(), origScopes, "* a\n** b\n* a");
 
                 Assert.Equal(6, actualScopes.Count);
                 Assert.Equal(ScopeName.UnorderedListBeginTag, actualScopes[0].Name);
@@ -114,7 +113,7 @@ namespace WikiPlex.Tests.Parsing
                                                      });
                 var augmenter = new ListScopeAugmenter<UnorderedListMacro>();
 
-                var actualScopes = augmenter.Augment(new UnorderedListMacro(), origScopes, "* a\n* a\n** b\n** b");
+                IList<Scope> actualScopes = augmenter.Augment(new UnorderedListMacro(), origScopes, "* a\n* a\n** b\n** b");
 
                 Assert.Equal(8, actualScopes.Count);
                 Assert.Equal(ScopeName.UnorderedListBeginTag, actualScopes[0].Name);
@@ -146,7 +145,7 @@ namespace WikiPlex.Tests.Parsing
 
                 var augmenter = new ListScopeAugmenter<UnorderedListMacro>();
 
-                var actualScopes = augmenter.Augment(new UnorderedListMacro(), origScopes, "* a\n* a\n** b\n** b\n* a");
+                IList<Scope> actualScopes = augmenter.Augment(new UnorderedListMacro(), origScopes, "* a\n* a\n** b\n** b\n* a");
 
                 Assert.Equal(10, actualScopes.Count);
                 Assert.Equal(ScopeName.UnorderedListBeginTag, actualScopes[0].Name);
@@ -180,7 +179,7 @@ namespace WikiPlex.Tests.Parsing
 
                 var augmenter = new ListScopeAugmenter<UnorderedListMacro>();
 
-                var actualScopes = augmenter.Augment(new UnorderedListMacro(), origScopes, "* a\n* a\n** b\n*** c\n* a");
+                IList<Scope> actualScopes = augmenter.Augment(new UnorderedListMacro(), origScopes, "* a\n* a\n** b\n*** c\n* a");
 
                 Assert.Equal(10, actualScopes.Count);
                 Assert.Equal(ScopeName.UnorderedListBeginTag, actualScopes[0].Name);
@@ -210,7 +209,7 @@ namespace WikiPlex.Tests.Parsing
 
                 var augmenter = new ListScopeAugmenter<UnorderedListMacro>();
 
-                var actualScopes = augmenter.Augment(new UnorderedListMacro(), origScopes, "* a\n** b\n\n* a");
+                IList<Scope> actualScopes = augmenter.Augment(new UnorderedListMacro(), origScopes, "* a\n** b\n\n* a");
 
                 Assert.Equal(6, actualScopes.Count);
                 Assert.Equal(ScopeName.UnorderedListBeginTag, actualScopes[0].Name);
@@ -236,7 +235,7 @@ namespace WikiPlex.Tests.Parsing
 
                 var augmenter = new ListScopeAugmenter<UnorderedListMacro>();
 
-                var actualScopes = augmenter.Augment(new UnorderedListMacro(), origScopes, "** a\n** a\n** a");
+                IList<Scope> actualScopes = augmenter.Augment(new UnorderedListMacro(), origScopes, "** a\n** a\n** a");
 
                 Assert.Equal(6, actualScopes.Count);
                 Assert.Equal(ScopeName.UnorderedListBeginTag, actualScopes[0].Name);
@@ -262,7 +261,7 @@ namespace WikiPlex.Tests.Parsing
 
                 var augmenter = new ListScopeAugmenter<UnorderedListMacro>();
 
-                var actualScopes = augmenter.Augment(new UnorderedListMacro(), origScopes, "** a\n** a\n* a");
+                IList<Scope> actualScopes = augmenter.Augment(new UnorderedListMacro(), origScopes, "** a\n** a\n* a");
 
                 Assert.Equal(6, actualScopes.Count);
                 Assert.Equal(ScopeName.UnorderedListBeginTag, actualScopes[0].Name);
@@ -288,7 +287,7 @@ namespace WikiPlex.Tests.Parsing
 
                 var augmenter = new ListScopeAugmenter<UnorderedListMacro>();
 
-                var actualScopes = augmenter.Augment(new UnorderedListMacro(), origScopes, "* a\n\n** a\n** a");
+                IList<Scope> actualScopes = augmenter.Augment(new UnorderedListMacro(), origScopes, "* a\n\n** a\n** a");
 
                 Assert.Equal(6, actualScopes.Count);
                 Assert.Equal(ScopeName.UnorderedListBeginTag, actualScopes[0].Name);
@@ -316,7 +315,7 @@ namespace WikiPlex.Tests.Parsing
 
                 var augmenter = new ListScopeAugmenter<UnorderedListMacro>();
 
-                var actualScopes = augmenter.Augment(new UnorderedListMacro(), origScopes, "* a\n\n** a\n** a\n\n* a");
+                IList<Scope> actualScopes = augmenter.Augment(new UnorderedListMacro(), origScopes, "* a\n\n** a\n** a\n\n* a");
 
                 Assert.Equal(8, actualScopes.Count);
                 Assert.Equal(ScopeName.UnorderedListBeginTag, actualScopes[0].Name);
