@@ -40,14 +40,6 @@ namespace WikiPlex.Compilation.Macros
                                            {3, ScopeName.Remove}
                                        }),
                                new MacroRule(
-                                   @"(?i)(\{video\:)([^\}]*type=Soapbox[^\}]*)(\})",
-                                   new Dictionary<int, string>
-                                       {
-                                           {1, ScopeName.Remove},
-                                           {2, ScopeName.SoapboxVideo},
-                                           {3, ScopeName.Remove}
-                                       }),
-                               new MacroRule(
                                    @"(?i)(\{video\:)([^\}]*type=Windows[^\}]*)(\})",
                                    new Dictionary<int, string>
                                        {

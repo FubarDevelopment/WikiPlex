@@ -65,7 +65,6 @@
         public const string RightAlign = "Right Alignment Tag";
         public const string Silverlight = "Silverlight Block";
         public const string SingleLineCode = "Single Line Code Block";
-        public const string SoapboxVideo = "Soapbox Video";
         public const string StrikethroughBegin = "Strikethrough Begin Tag";
         public const string StrikethroughEnd = "Strikethrough End Tag";
         public const string SubscriptBegin = "Subscript Begin Tag";

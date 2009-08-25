@@ -71,7 +71,7 @@ _The video macro allows you to insert video media into your wiki page_
 !!!!! Required Parameters
 || Name || Description || Range ||
 | url | absolute url to video media | n/a |
-| type | media type of the video | flash/quicktime/real/soapbox/windows/youtube |
+| type | media type of the video | flash/quicktime/real/windows/youtube |
 
 !!!!! Optional Parameters
 || Name || Description || Range || Default ||

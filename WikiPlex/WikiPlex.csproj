@@ -107,7 +107,6 @@
     <Compile Include="Formatting\VideoRendering\IVideoRenderer.cs" />
     <Compile Include="Formatting\VideoRendering\QuicktimeVideoRenderer.cs" />
     <Compile Include="Formatting\VideoRendering\RealPlayerVideoRenderer.cs" />
-    <Compile Include="Formatting\VideoRendering\SoapboxVideoRenderer.cs" />
     <Compile Include="Formatting\VideoRendering\WindowsMediaPlayerVideoRenderer.cs" />
     <Compile Include="Formatting\VideoRendering\YouTubeVideoRenderer.cs" />
     <Compile Include="IWikiEngine.cs" />

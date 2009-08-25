@@ -20,7 +20,6 @@ namespace WikiPlex.Formatting
             return (scopeName == ScopeName.FlashVideo
                     || scopeName == ScopeName.QuickTimeVideo
                     || scopeName == ScopeName.RealPlayerVideo
-                    || scopeName == ScopeName.SoapboxVideo
                     || scopeName == ScopeName.WindowsMediaVideo
                     || scopeName == ScopeName.YouTubeVideo
                     || scopeName == ScopeName.InvalidVideo);
@@ -116,9 +115,6 @@ namespace WikiPlex.Formatting
                     break;
                 case ScopeName.RealPlayerVideo:
                     videoRenderer = new RealPlayerVideoRenderer();
-                    break;
-                case ScopeName.SoapboxVideo:
-                    videoRenderer = new SoapboxVideoRenderer();
                     break;
                 case ScopeName.WindowsMediaVideo:
                     videoRenderer = new WindowsMediaPlayerVideoRenderer();
