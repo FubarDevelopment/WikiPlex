@@ -111,8 +111,8 @@ namespace WikiPlex.IntegrationTests
         {
             Macros.Register<ContentLeftAlignmentMacro>();
             Macros.Register<ContentRightAlignmentMacro>();
-            ExecutePerformanceTest("ContentAlignment.wiki", 1000);
-            ExecutePerformanceTest("ContentAlignment.wiki", 1000);
+            ExecutePerformanceTest("ContentAlignment.wiki", 1100);
+            ExecutePerformanceTest("ContentAlignment.wiki", 1100);
             Macros.Unregister<ContentLeftAlignmentMacro>();
             Macros.Unregister<ContentRightAlignmentMacro>();
         }
@@ -176,8 +176,8 @@ namespace WikiPlex.IntegrationTests
         {
             RegisterMacros();
 
+            ExecutePerformanceTest("AllFormatting.wiki", 3250);
             ExecutePerformanceTest("AllFormatting.wiki", 3000);
-            ExecutePerformanceTest("AllFormatting.wiki", 2750);
         }
 
         [Fact(Skip = "Threading Not Supported")]
