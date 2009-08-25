@@ -73,6 +73,7 @@
     <Compile Include="Compilation\MacroRuleFacts.cs" />
     <Compile Include="Compilation\Macros\OrderedListMacroFacts.cs" />
     <Compile Include="Compilation\Macros\UnorderedListMacroFacts.cs" />
+    <Compile Include="Formatting\IndentationRendererFacts.cs" />
     <Compile Include="Formatting\ContentAlignmentRendererFacts.cs" />
     <Compile Include="Formatting\TableRendererFacts.cs" />
     <Compile Include="Parsing\ListScopeAugmenterFacts.cs" />

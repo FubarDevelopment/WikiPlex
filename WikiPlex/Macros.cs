@@ -36,6 +36,7 @@ namespace WikiPlex
             Register<TableMacro>();
             Register<ContentLeftAlignmentMacro>();
             Register<ContentRightAlignmentMacro>();
+            Register<IndentationMacro>();
         }
 
         public static IEnumerable<IMacro> All

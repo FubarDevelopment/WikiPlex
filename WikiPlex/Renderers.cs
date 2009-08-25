@@ -26,6 +26,7 @@ namespace WikiPlex
             Register<VideoRenderer>();
             Register<TableRenderer>();
             Register<ContentAlignmentRenderer>();
+            Register<IndentationRenderer>();
         }
 
         public static IEnumerable<IRenderer> All

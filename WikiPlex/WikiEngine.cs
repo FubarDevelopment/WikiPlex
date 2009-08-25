@@ -12,7 +12,7 @@ namespace WikiPlex
     public class WikiEngine : IWikiEngine
     {
         private static readonly MacroCompiler compiler = new MacroCompiler();
-        private static readonly Regex NewLineRegex = new Regex(@"(?<!\r|</tr>|</li>|</ul>|</ol>|<hr />)\n(?!<h[1-6]>|<hr />|<ul>|<ol>|</li>)", RegexOptions.Compiled);
+        private static readonly Regex NewLineRegex = new Regex(@"(?<!\r|</tr>|</li>|</ul>|</ol>|<hr />|</blockquote>)\n(?!<h[1-6]>|<hr />|<ul>|<ol>|</li>)", RegexOptions.Compiled);
         private static readonly Regex PreRegex = new Regex(@"(?s)((?><pre>)(?>.*?</pre>))", RegexOptions.Compiled);
 
         public string Render(string wikiContent)

@@ -136,6 +136,15 @@ namespace WikiPlex.IntegrationTests
         }
 
         [Fact]
+        public void Should_format_indentation_performantly()
+        {
+            Macros.Register<IndentationMacro>();
+            ExecutePerformanceTest("Indentation.wiki", 1000);
+            ExecutePerformanceTest("Indentation.wiki", 1000);
+            Macros.Unregister<IndentationMacro>();
+        }
+
+        [Fact]
         public void Should_format_table_performantly()
         {
             Macros.Register<TableMacro>();
@@ -233,6 +242,7 @@ namespace WikiPlex.IntegrationTests
             Macros.Register<TableMacro>();
             Macros.Register<ContentLeftAlignmentMacro>();
             Macros.Register<ContentRightAlignmentMacro>();
+            Macros.Register<IndentationMacro>();
         }
     }
 }

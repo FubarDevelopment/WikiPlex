@@ -44,6 +44,8 @@
         public const string ImageWithLinkWithAlt = "Image Tag With Link And With Alt";
         public const string ImageWithLinkWithAltLeftAlign = "Image Tag With Link And With Alt - Left Alignment";
         public const string ImageWithLinkWithAltRightAlign = "Image Tag With Link And With Alt - Right Alignment";
+        public const string IndentationBegin = "Indentation Begin Tag";
+        public const string IndentationEnd = "Indentation End Tag";
         public const string InvalidVideo = "Invalid Video";
         public const string ItalicsBegin = "Italicized Begin Tag";
         public const string ItalicsEnd = "Italicized End Tag";
@@ -61,7 +63,6 @@
         public const string RealPlayerVideo = "Real Player Video";
         public const string Remove = "Text to Remove";
         public const string RightAlign = "Right Alignment Tag";
-        public const string SyndicatedFeed = "Syndicated Feed";
         public const string Silverlight = "Silverlight Block";
         public const string SingleLineCode = "Single Line Code Block";
         public const string SoapboxVideo = "Soapbox Video";
@@ -71,6 +72,7 @@
         public const string SubscriptEnd = "Subscript End Tag";
         public const string SuperscriptBegin = "Superscript Begin Tag";
         public const string SuperscriptEnd = "Superscript End Tag";
+        public const string SyndicatedFeed = "Syndicated Feed";
         public const string TableBegin = "Table Begin Tag";
         public const string TableCell = "Table Cell End and Begin Tag";
         public const string TableCellHeader = "Table Cell Header Tag";

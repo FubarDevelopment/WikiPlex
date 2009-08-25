@@ -35,6 +35,7 @@ namespace WikiPlex.IntegrationTests
         [InputData("TableFormatting")]
         [InputData("FullTests")]
         [InputData("CatastrophicBacktracking")]
+        [InputData("IndentationFormatting")]
         public void Will_verify_formatting(string inputFile, string expectedFile)
         {
             string expectedText = File.ReadAllText(expectedFile);
