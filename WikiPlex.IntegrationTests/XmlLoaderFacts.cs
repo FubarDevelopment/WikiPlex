@@ -18,19 +18,24 @@ namespace WikiPlex.IntegrationTests
             [InlineData("Rss")]
             public void Will_return_the_xml_document_with_the_xml_from_the_path_specified(string xmlFeed)
             {
-                string baseDirectory = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Data\\SyndicatedFeedFormatting");
+                string path = Path.GetTempFileName();
+                try
+                {
+                    var loader = new XmlDocumentReaderWrapper();
+                    string expectedContent = InputDataAttribute.ReadContent("WikiPlex.IntegrationTests.Data.SyndicatedFeedFormatting.", xmlFeed + ".xml");
+                    File.WriteAllText(path, expectedContent);
+                    var expected = new XmlDocument();
+                    expected.LoadXml(expectedContent);
 
-                string[] files = Directory.GetFiles(baseDirectory, xmlFeed + ".xml");
-                if (files.Count() != 1)
-                    Assert.False(true);
-                var loader = new XmlDocumentReaderWrapper();
-                var expected = new XmlDocument();
-                expected.Load(files[0]);
+                    XmlDocument xdoc = loader.Read(path);
 
-                XmlDocument xdoc = loader.Read(files[0]);
-
-                Assert.NotNull(xdoc);
-                Assert.Equal(expected.OuterXml, xdoc.OuterXml);
+                    Assert.NotNull(xdoc);
+                    Assert.Equal(expected.OuterXml, xdoc.OuterXml);
+                }
+                finally
+                {
+                    File.Delete(path);
+                }
             }
 
             [Theory]

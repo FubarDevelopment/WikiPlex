@@ -36,10 +36,10 @@ namespace WikiPlex.IntegrationTests
         [InputData("FullTests")]
         [InputData("CatastrophicBacktracking")]
         [InputData("IndentationFormatting")]
-        public void Will_verify_formatting(string inputFile, string expectedFile)
+        public void Will_verify_formatting(string inputFile, string expectedFile, string prefix)
         {
-            string expectedText = File.ReadAllText(expectedFile);
-            string actualText = new WikiEngine().Render(File.ReadAllText(inputFile));
+            string expectedText = InputDataAttribute.ReadContent(prefix, expectedFile);
+            string actualText = new WikiEngine().Render(InputDataAttribute.ReadContent(prefix, inputFile));
 
             // comment out the following lines if you wish to compare
             // the whitespace correctly

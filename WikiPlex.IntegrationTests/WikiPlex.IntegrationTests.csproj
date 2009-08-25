@@ -73,393 +73,264 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Data\CatastrophicBacktracking\SpaDevToolkitProject.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Data\ContentAlignmentFormatting\LeftAlignment.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Data\ContentAlignmentFormatting\NestedAlignment.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Data\ContentAlignmentFormatting\RightAlignment.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Data\FullTests\FormatAndLayout.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Data\FullTests\Macros.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Data\FullTests\SilverlightProject.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Data\ImageFormatting\ImageAlignment.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Data\ImageFormatting\ImageWithAlt.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <None Include="Data\CatastrophicBacktracking\SPaDevToolkitProject.wiki">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Data\ContentAlignmentFormatting\LeftAlignment.wiki">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Data\ContentAlignmentFormatting\NestedAlignment.wiki">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Data\ContentAlignmentFormatting\RightAlignment.wiki">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Data\ForPerformance\AllFormatting.wiki">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Data\ForPerformance\Bold.wiki">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Data\ForPerformance\ContentAlignment.wiki">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Data\ForPerformance\HorizontalLine.wiki">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Data\ForPerformance\Image.wiki">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Data\ForPerformance\Indentation.wiki">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Data\ForPerformance\Subscript.wiki">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Data\ForPerformance\Superscript.wiki">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Data\ForPerformance\FormatAndLayout.wiki">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Data\ForPerformance\Headings.wiki">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Data\ForPerformance\Italics.wiki">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Data\ForPerformance\OrderedList.wiki">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Data\ForPerformance\StrikeThrough.wiki">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Data\ForPerformance\Table.wiki">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Data\ForPerformance\Underline.wiki">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Data\ForPerformance\UnorderedList.wiki">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Data\FullTests\FormatAndLayout.wiki">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Data\FullTests\Macros.wiki">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Data\FullTests\SilverlightProject.wiki">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Data\ImageFormatting\ImageAlignment.wiki">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Data\ImageFormatting\ImageWithAlt.wiki">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <Content Include="Data\ImageFormatting\ImageNoAlt.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <None Include="Data\ImageFormatting\ImageNoAlt.wiki">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <Content Include="Data\ImageFormatting\LinkedImages.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <None Include="Data\IndentationFormatting\MultiLevel.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <Content Include="Data\LinkFormatting\Anchors.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <None Include="Data\ImageFormatting\LinkedImages.wiki">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Data\IndentationFormatting\MultiLevel.wiki">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Data\IndentationFormatting\Simple.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Data\IndentationFormatting\Simple.wiki">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Data\LinkFormatting\Anchors.wiki">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <Content Include="Data\LinkFormatting\MailtoWithoutText.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <None Include="Data\LinkFormatting\MailtoWithoutText.wiki">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <Content Include="Data\LinkFormatting\MailtoWithText.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <None Include="Data\LinkFormatting\MailtoWithText.wiki">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <Content Include="Data\LinkFormatting\UrlAndText.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <None Include="Data\LinkFormatting\UrlAndText.wiki">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <Content Include="Data\LinkFormatting\UrlAsText.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <None Include="Data\LinkFormatting\UrlAsText.wiki">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <Content Include="Data\ListFormatting\RandomLevelUnorderedList.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Data\ListFormatting\MiddleNestedOrderedList.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <None Include="Data\ListFormatting\RandomLevelUnorderedList.wiki">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Data\ListFormatting\MiddleNestedOrderedList.wiki">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <Content Include="Data\ListFormatting\RandomLevelOrderedList.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Data\ListFormatting\SingleNestedUnorderedList.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <None Include="Data\ListFormatting\RandomLevelOrderedList.wiki">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Data\ListFormatting\SingleNestedUnorderedList.wiki">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <Content Include="Data\ListFormatting\SimpleUnorderedList.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <None Include="Data\ListFormatting\SimpleUnorderedList.wiki">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <Content Include="Data\ListFormatting\SimpleOrderedList.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <None Include="Data\ListFormatting\SimpleOrderedList.wiki">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <Content Include="Data\ListFormatting\SingleNestedOrderedList.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <None Include="Data\ListFormatting\SingleNestedOrderedList.wiki">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <Content Include="Data\SyndicatedFeedFormatting\Atom.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Data\SyndicatedFeedFormatting\Atom.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <None Include="Data\SyndicatedFeedFormatting\Atom.wiki">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <Content Include="Data\SyndicatedFeedFormatting\Rss.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <None Include="Data\SyndicatedFeedFormatting\Rss.wiki">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <Content Include="Data\SilverlightFormatting\Silverlight.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <None Include="Data\SilverlightFormatting\Silverlight.wiki">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Data\SourceCodeFormatting\CodeWhitespace.wiki">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Data\SourceCodeFormatting\ColorCode.wiki">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <Content Include="Data\SourceCodeFormatting\CodeWhitespace.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Data\SourceCodeFormatting\ColorCode.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Data\SourceCodeFormatting\CorrectlyEscapes.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Data\SourceCodeFormatting\MultiLineWithNestedMacros.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <None Include="Data\SourceCodeFormatting\CorrectlyEscapes.wiki">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Data\SourceCodeFormatting\MultiLineWithNestedMacros.wiki">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <Content Include="Data\SourceCodeFormatting\MultiLine.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <None Include="Data\SourceCodeFormatting\MultiLine.wiki">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <Content Include="Data\SourceCodeFormatting\NestedCodeBlocks.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <None Include="Data\SourceCodeFormatting\NonMatchingCodeSyntax.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <Content Include="Data\SourceCodeFormatting\SingleLine.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <None Include="Data\SourceCodeFormatting\NestedCodeBlocks.wiki">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Data\SourceCodeFormatting\NonMatchingCodeSyntax.wiki">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Data\SourceCodeFormatting\SingleLine.wiki">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <Content Include="Data\TableFormatting\CodeBlockAndTable.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Data\TableFormatting\ContentAtEndOfLine.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Data\TableFormatting\EscapedDelimiters.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Data\TableFormatting\MultiTable.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Data\TableFormatting\NonCapturingEndCell.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Data\TableFormatting\WithHeader.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Data\TableFormatting\WithoutHeader.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Data\TextFormatting\Bold.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <None Include="Data\TableFormatting\CodeBlockAndTable.wiki">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Data\TableFormatting\ContentAtEndOfLine.wiki">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Data\TableFormatting\EscapedDelimiters.wiki">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Data\TableFormatting\MultiTable.wiki">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Data\TableFormatting\NonCapturingEndCell.wiki">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Data\TableFormatting\WithHeader.wiki">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Data\TableFormatting\WithoutHeader.wiki">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Data\TextFormatting\Bold.wiki">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <Content Include="Data\TextFormatting\Complex.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <None Include="Data\TextFormatting\Complex.wiki">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <Content Include="Data\TextFormatting\Subscript.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Data\TextFormatting\EscapedMarkup.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <None Include="Data\TextFormatting\Subscript.wiki">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Data\TextFormatting\EscapedMarkup.wiki">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <Content Include="Data\TextFormatting\Headings.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <None Include="Data\TextFormatting\Headings.wiki">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <Content Include="Data\TextFormatting\HorizontalRule.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <None Include="Data\TextFormatting\HorizontalRule.wiki">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <Content Include="Data\TextFormatting\Strikethrough.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <None Include="Data\TextFormatting\Strikethrough.wiki">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <Content Include="Data\TextFormatting\Superscript.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Data\TextFormatting\Underline.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <None Include="Data\TextFormatting\Superscript.wiki">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Data\TextFormatting\Underline.wiki">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <Content Include="Data\TextFormatting\Italics.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <None Include="Data\TextFormatting\Italics.wiki">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Data\VideoFormatting\AllSupported.wiki">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Data\VideoFormatting\UnsupportedValues.wiki">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <Content Include="Data\SyndicatedFeedFormatting\GoogleAtom.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Data\SyndicatedFeedFormatting\Rss.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Data\VideoFormatting\AllSupported.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Data\VideoFormatting\UnsupportedValues.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <EmbeddedResource Include="Data\CatastrophicBacktracking\SPDevToolkitProject.html">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\ContentAlignmentFormatting\LeftAlignment.html">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\ContentAlignmentFormatting\NestedAlignment.html">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\ContentAlignmentFormatting\RightAlignment.html">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\FullTests\FormatAndLayout.html">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\FullTests\Macros.html">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\FullTests\SilverlightProject.html">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\ImageFormatting\ImageAlignment.html">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\ImageFormatting\ImageWithAlt.html">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\CatastrophicBacktracking\SPDevToolkitProject.wiki">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\ContentAlignmentFormatting\LeftAlignment.wiki">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\ContentAlignmentFormatting\NestedAlignment.wiki">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\ContentAlignmentFormatting\RightAlignment.wiki">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\ForPerformance\AllFormatting.wiki">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\ForPerformance\Bold.wiki">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\ForPerformance\ContentAlignment.wiki">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\ForPerformance\HorizontalLine.wiki">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\ForPerformance\Image.wiki">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\ForPerformance\Indentation.wiki">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\ForPerformance\Subscript.wiki">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\ForPerformance\Superscript.wiki">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\ForPerformance\FormatAndLayout.wiki">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\ForPerformance\Headings.wiki">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\ForPerformance\Italics.wiki">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\ForPerformance\OrderedList.wiki">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\ForPerformance\StrikeThrough.wiki">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\ForPerformance\Table.wiki">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\ForPerformance\Underline.wiki">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\ForPerformance\UnorderedList.wiki">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\FullTests\FormatAndLayout.wiki">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\FullTests\Macros.wiki">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\FullTests\SilverlightProject.wiki">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\ImageFormatting\ImageAlignment.wiki">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\ImageFormatting\ImageWithAlt.wiki">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\ImageFormatting\ImageNoAlt.html">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\ImageFormatting\ImageNoAlt.wiki">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\ImageFormatting\LinkedImages.html">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\IndentationFormatting\MultiLevel.html">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\LinkFormatting\Anchors.html">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\ImageFormatting\LinkedImages.wiki">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\IndentationFormatting\MultiLevel.wiki">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\IndentationFormatting\Simple.html">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\IndentationFormatting\Simple.wiki">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\LinkFormatting\Anchors.wiki">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\LinkFormatting\MailtoWithoutText.html">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\LinkFormatting\MailtoWithoutText.wiki">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\LinkFormatting\MailtoWithText.html">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\LinkFormatting\MailtoWithText.wiki">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\LinkFormatting\UrlAndText.html">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\LinkFormatting\UrlAndText.wiki">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\LinkFormatting\UrlAsText.html">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\LinkFormatting\UrlAsText.wiki">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\ListFormatting\RandomLevelUnorderedList.html">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\ListFormatting\MiddleNestedOrderedList.html">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\ListFormatting\RandomLevelUnorderedList.wiki">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\ListFormatting\MiddleNestedOrderedList.wiki">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\ListFormatting\RandomLevelOrderedList.html">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\ListFormatting\SingleNestedUnorderedList.html">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\ListFormatting\RandomLevelOrderedList.wiki">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\ListFormatting\SingleNestedUnorderedList.wiki">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\ListFormatting\SimpleUnorderedList.html">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\ListFormatting\SimpleUnorderedList.wiki">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\ListFormatting\SimpleOrderedList.html">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\ListFormatting\SimpleOrderedList.wiki">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\ListFormatting\SingleNestedOrderedList.html">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\ListFormatting\SingleNestedOrderedList.wiki">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\SyndicatedFeedFormatting\Atom.xml">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\SyndicatedFeedFormatting\Atom.html">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\SyndicatedFeedFormatting\Atom.wiki">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\SyndicatedFeedFormatting\Rss.html">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\SyndicatedFeedFormatting\Rss.wiki">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\SilverlightFormatting\Silverlight.html">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\SilverlightFormatting\Silverlight.wiki">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\SourceCodeFormatting\CodeWhitespace.wiki">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\SourceCodeFormatting\ColorCode.wiki">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\SourceCodeFormatting\CodeWhitespace.html">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\SourceCodeFormatting\ColorCode.html">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\SourceCodeFormatting\CorrectlyEscapes.html">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\SourceCodeFormatting\MultiLineWithNestedMacros.html">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\SourceCodeFormatting\CorrectlyEscapes.wiki">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\SourceCodeFormatting\MultiLineWithNestedMacros.wiki">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\SourceCodeFormatting\MultiLine.html">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\SourceCodeFormatting\MultiLine.wiki">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\SourceCodeFormatting\NestedCodeBlocks.html">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\SourceCodeFormatting\NonMatchingCodeSyntax.html">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\SourceCodeFormatting\SingleLine.html">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\SourceCodeFormatting\NestedCodeBlocks.wiki">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\SourceCodeFormatting\NonMatchingCodeSyntax.wiki">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\SourceCodeFormatting\SingleLine.wiki">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\TableFormatting\CodeBlockAndTable.html">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\TableFormatting\ContentAtEndOfLine.html">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\TableFormatting\EscapedDelimiters.html">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\TableFormatting\MultiTable.html">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\TableFormatting\NonCapturingEndCell.html">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\TableFormatting\WithHeader.html">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\TableFormatting\WithoutHeader.html">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\TextFormatting\Bold.html">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\TableFormatting\CodeBlockAndTable.wiki">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\TableFormatting\ContentAtEndOfLine.wiki">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\TableFormatting\EscapedDelimiters.wiki">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\TableFormatting\MultiTable.wiki">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\TableFormatting\NonCapturingEndCell.wiki">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\TableFormatting\WithHeader.wiki">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\TableFormatting\WithoutHeader.wiki">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\TextFormatting\Bold.wiki">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\TextFormatting\Complex.html">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\TextFormatting\Complex.wiki">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\TextFormatting\Subscript.html">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\TextFormatting\EscapedMarkup.html">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\TextFormatting\Subscript.wiki">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\TextFormatting\EscapedMarkup.wiki">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\TextFormatting\Headings.html">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\TextFormatting\Headings.wiki">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\TextFormatting\HorizontalRule.html">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\TextFormatting\HorizontalRule.wiki">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\TextFormatting\Strikethrough.html">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\TextFormatting\Strikethrough.wiki">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\TextFormatting\Superscript.html">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\TextFormatting\Underline.html">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\TextFormatting\Superscript.wiki">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\TextFormatting\Underline.wiki">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\TextFormatting\Italics.html">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\TextFormatting\Italics.wiki">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\VideoFormatting\AllSupported.wiki">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\VideoFormatting\UnsupportedValues.wiki">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\SyndicatedFeedFormatting\GoogleAtom.xml">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\SyndicatedFeedFormatting\Rss.xml">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\VideoFormatting\AllSupported.html">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\VideoFormatting\UnsupportedValues.html">
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

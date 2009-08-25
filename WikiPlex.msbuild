@@ -36,7 +36,7 @@
 
   <Target Name="run-tests">
     <xunit Assembly="WikiPlex.Tests\bin\$(Configuration)\WikiPlex.Tests.dll" />
-    <xunit Assembly="WikiPlex.IntegrationTests\bin\$(Configuration)\WikiPlex.IntegrationTests.dll" ShadowCopy="false" WorkingFolder="WikiPlex.IntegrationTests\bin\$(Configuration)" />
+    <xunit Assembly="WikiPlex.IntegrationTests\bin\$(Configuration)\WikiPlex.IntegrationTests.dll" />
   </Target>
 
   <Target Name="set-version">

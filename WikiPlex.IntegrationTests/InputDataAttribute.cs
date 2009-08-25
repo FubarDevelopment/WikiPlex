@@ -18,15 +18,24 @@ namespace WikiPlex.IntegrationTests
 
         public override IEnumerable<object[]> GetData(MethodInfo methodUnderTest, Type[] parameterTypes)
         {
-            string executionDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            string baseDirectory = Path.Combine(executionDirectory, "Data\\" + Name);
+            string searchPattern = "WikiPlex.IntegrationTests.Data." + Name + ".";
 
-            return from f in Directory.GetFiles(baseDirectory, "*.wiki")
+            return from n in Assembly.GetExecutingAssembly().GetManifestResourceNames()
+                   where n.StartsWith(searchPattern) && n.EndsWith(".wiki")
                    select new object[]
                               {
-                                  f.Substring(executionDirectory.Length + 1), 
-                                  f.Substring(executionDirectory.Length + 1, f.Length - (executionDirectory.Length + 1 + 5)) + ".html"
+                                  n.Substring(searchPattern.Length),
+                                  n.Substring(searchPattern.Length, n.Length - (searchPattern.Length + 5)) + ".html",
+                                  searchPattern
                               };
+        }
+
+        public static string ReadContent(string prefix, string fileName)
+        {
+            using (var reader = new StreamReader(Assembly.GetExecutingAssembly().GetManifestResourceStream(prefix + fileName)))
+            {
+                return reader.ReadToEnd();
+            }
         }
     }
 }

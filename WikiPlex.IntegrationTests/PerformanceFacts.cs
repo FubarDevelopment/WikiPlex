@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
@@ -28,9 +27,16 @@ namespace WikiPlex.IntegrationTests
             compiler.Flush();
         }
 
+        public void Dispose()
+        {
+            RegisterMacros();
+
+            Renderers.Register<SyndicatedFeedRenderer>();
+        }
+
         private static void ExecutePerformanceTest(string fileName, int millisecondsToFinish)
         {
-            string content = File.ReadAllText(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Data\\ForPerformance\\" + fileName));
+            string content = InputDataAttribute.ReadContent("WikiPlex.IntegrationTests.Data.ForPerformance.", fileName);
             var wiki = new WikiEngine();
             var stopWatch = new Stopwatch();
 
@@ -213,14 +219,7 @@ namespace WikiPlex.IntegrationTests
                 ExecutePerformanceTest("FormatAndLayout.wiki", 50);
         }
 
-        public void Dispose()
-        {
-            RegisterMacros();
-
-            Renderers.Register<SyndicatedFeedRenderer>();
-        }
-
-        static void RegisterMacros()
+        private static void RegisterMacros()
         {
             Macros.Register<BoldMacro>();
             Macros.Register<ItalicsMacro>();
