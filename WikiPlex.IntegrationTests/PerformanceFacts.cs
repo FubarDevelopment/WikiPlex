@@ -176,8 +176,8 @@ namespace WikiPlex.IntegrationTests
         {
             RegisterMacros();
 
+            ExecutePerformanceTest("AllFormatting.wiki", 3500);
             ExecutePerformanceTest("AllFormatting.wiki", 3250);
-            ExecutePerformanceTest("AllFormatting.wiki", 3000);
         }
 
         [Fact(Skip = "Threading Not Supported")]
