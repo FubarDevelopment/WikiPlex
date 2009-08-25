@@ -2181,10 +2181,15 @@
             <param name="method">The test method</param>
             <returns>The test commands which will execute the test runs for the given method</returns>
         </member>
-        <member name="P:Xunit.FactAttribute.Name">
+        <member name="P:Xunit.FactAttribute.DisplayName">
             <summary>
             Gets the name of the test to be used when the test is skipped. Defaults to
             null, which will cause the fully qualified test name to be used.
+            </summary>
+        </member>
+        <member name="P:Xunit.FactAttribute.Name">
+            <summary>
+            Obsolete. Please use the <see cref="P:Xunit.FactAttribute.DisplayName"/> property instead.
             </summary>
         </member>
         <member name="P:Xunit.FactAttribute.Skip">
