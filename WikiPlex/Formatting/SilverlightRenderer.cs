@@ -29,7 +29,7 @@ namespace WikiPlex.Formatting
             int height = 200;
             int width = 200;
             bool percentHeight = false, percentWidth = false;
-            int version = 2;
+            int version = 3;
 
             if(!string.IsNullOrEmpty(heightParameter) && heightParameter.EndsWith("%"))
             {
@@ -51,8 +51,8 @@ namespace WikiPlex.Formatting
                 && (!int.TryParse(widthParameter.Substring(6), out width) || width <= 0))
                 return RenderUnresolvedMacro("width");
             if (!string.IsNullOrEmpty(versionParameter)
-                && (!int.TryParse(versionParameter.Substring(8), out version) || version != 3))
-                version = 2;
+                && (!int.TryParse(versionParameter.Substring(8), out version) || version < 2 || version > 3))
+                version = 3;
 
             url = urlParameter.Substring(4);
             if (url.ToLowerInvariant().Contains("codeplex.com"))
