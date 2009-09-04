@@ -30,6 +30,7 @@ namespace WikiPlex.Formatting
                     || scopeName == ScopeName.ColorCodeAshx
                     || scopeName == ScopeName.ColorCodeAspxCs
                     || scopeName == ScopeName.ColorCodeAspxVb
+                    || scopeName == ScopeName.ColorCodeCpp
                     || scopeName == ScopeName.ColorCodeCSharp
                     || scopeName == ScopeName.ColorCodeHtml
                     || scopeName == ScopeName.ColorCodeJavaScript
@@ -56,6 +57,8 @@ namespace WikiPlex.Formatting
                     return codeColorizer.Colorize(input, Languages.AspxCs);
                 case ScopeName.ColorCodeAspxVb:
                     return codeColorizer.Colorize(input, Languages.AspxVb);
+                case ScopeName.ColorCodeCpp:
+                    return codeColorizer.Colorize(input, Languages.Cpp);
                 case ScopeName.ColorCodeCSharp:
                     return codeColorizer.Colorize(input, Languages.CSharp);
                 case ScopeName.ColorCodeHtml:

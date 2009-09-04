@@ -69,3 +69,13 @@ class DB {
 {code:css}
 .body { color:black; }
 {code:css}
+
+{code:c++}
+#include <iostream>
+using namespace std;
+void main()
+{
+    cout << "Hello World!" << endl;
+    cout << "Welcome to C++ Programming" << endl;
+}
+{code:c++}

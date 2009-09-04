@@ -57,6 +57,14 @@ namespace WikiPlex.Compilation.Macros
                                            {3, ScopeName.Remove}
                                        }),
                                new MacroRule(
+                                   @"(?si)(\{code:\s*c\+\+\}\r?\n)(.*?)(\r?\n\{code:\s*c\+\+\}(?:\r?\n)?)",
+                                   new Dictionary<int, string>
+                                       {
+                                           {1, ScopeName.Remove},
+                                           {2, ScopeName.ColorCodeCpp},
+                                           {3, ScopeName.Remove}
+                                       }),
+                               new MacroRule(
                                    @"(?si)(\{code:\s*c#\}\r?\n)(.*?)(\r?\n\{code:\s*c#\}(?:\r?\n)?)",
                                    new Dictionary<int, string>
                                        {

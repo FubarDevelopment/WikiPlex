@@ -9,6 +9,7 @@
         public const string ColorCodeAshx = "Color Coding Block - ASHX";
         public const string ColorCodeAspxCs = "Color Coding Block - ASPX and C#";
         public const string ColorCodeAspxVb = "Color Coding Block - ASPX and VB.NET";
+        public const string ColorCodeCpp = "Color Coding Block - C++";
         public const string ColorCodeCSharp = "Color Coding Block - C#";
         public const string ColorCodeCss = "Color Coding Block - CSS";
         public const string ColorCodeHtml = "Color Coding Block - HTML";
