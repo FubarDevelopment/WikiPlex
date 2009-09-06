@@ -275,6 +275,16 @@
             <returns>The <see cref="T:Xunit.TestAssembly"/> which represents the newly
             loaded test assembly.</returns>
         </member>
+        <member name="M:Xunit.MultiAssemblyTestEnvironment.Load(System.String,System.String,System.Boolean)">
+            <summary>
+            Loads the specified assembly using the specified configuration file.
+            </summary>
+            <param name="assemblyFilename">The assembly filename.</param>
+            <param name="configFilename">The config filename.</param>
+            <param name="shadowCopy">Whether the DLLs should be shadow copied.</param>
+            <returns>The <see cref="T:Xunit.TestAssembly"/> which represents the newly
+            loaded test assembly.</returns>
+        </member>
         <member name="M:Xunit.MultiAssemblyTestEnvironment.Load(Xunit.IExecutorWrapper)">
             <summary>
             Adds the assembly loaded into the given <see cref="T:Xunit.IExecutorWrapper"/>
@@ -742,7 +752,7 @@
             Represents a single test method.
             </summary>
         </member>
-        <member name="M:Xunit.TestMethod.#ctor(System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.String})">
+        <member name="M:Xunit.TestMethod.#ctor(System.String,System.String,Xunit.MultiValueDictionary{System.String,System.String})">
             <summary>
             Initializes a new instance of the <see cref="T:Xunit.TestMethod"/> class.
             </summary>
@@ -892,6 +902,81 @@
         </member>
         <member name="P:Xunit.XslStreamTransformer.OutputType">
             <inheritdoc/>
+        </member>
+        <member name="T:Xunit.MultiValueDictionary`2">
+            <summary>
+            A dictionary which contains multiple unique values for each key.
+            </summary>
+            <typeparam name="TKey">The type of the key.</typeparam>
+            <typeparam name="TValue">The type of the value.</typeparam>
+        </member>
+        <member name="M:Xunit.MultiValueDictionary`2.AddValue(`0,`1)">
+            <summary>
+            Adds the value for the given key. If the key does not exist in the
+            dictionary yet, it will add it.
+            </summary>
+            <param name="key">The key.</param>
+            <param name="value">The value.</param>
+        </member>
+        <member name="M:Xunit.MultiValueDictionary`2.Clear">
+            <summary>
+            Removes all keys and values from the dictionary.
+            </summary>
+        </member>
+        <member name="M:Xunit.MultiValueDictionary`2.Contains(`0,`1)">
+            <summary>
+            Determines whether the dictionary contains to specified key and value.
+            </summary>
+            <param name="key">The key.</param>
+            <param name="value">The value.</param>
+        </member>
+        <member name="M:Xunit.MultiValueDictionary`2.ForEach(Xunit.MultiValueDictionary{`0,`1}.ForEachDelegate)">
+            <summary>
+            Calls the delegate once for each key/value pair in the dictionary.
+            </summary>
+        </member>
+        <member name="M:Xunit.MultiValueDictionary`2.Remove(`0)">
+            <summary>
+            Removes the given key and all of its values.
+            </summary>
+        </member>
+        <member name="M:Xunit.MultiValueDictionary`2.RemoveValue(`0,`1)">
+            <summary>
+            Removes the given value from the given key. If this was the
+            last value for the key, then the key is removed as well.
+            </summary>
+            <param name="key">The key.</param>
+            <param name="value">The value.</param>
+        </member>
+        <member name="P:Xunit.MultiValueDictionary`2.Item(`0)">
+            <summary>
+            Gets the values for the given key.
+            </summary>
+        </member>
+        <member name="P:Xunit.MultiValueDictionary`2.Count">
+            <summary>
+            Gets the count of the keys in the dictionary.
+            </summary>
+        </member>
+        <member name="P:Xunit.MultiValueDictionary`2.Keys">
+            <summary>
+            Gets the keys.
+            </summary>
+        </member>
+        <member name="T:Xunit.MultiValueDictionary`2.ForEachDelegate">
+            <summary/>
+        </member>
+        <member name="T:Xunit.StackFrameTransformer">
+            <summary>
+            Transforms stack frames and stack traces into compiler-like output
+            so they can be double-clicked in Visual Studio.
+            </summary>
+        </member>
+        <member name="M:Xunit.StackFrameTransformer.TransformFrame(System.String)">
+            <summary/>
+        </member>
+        <member name="M:Xunit.StackFrameTransformer.TransformStack(System.String)">
+            <summary/>
         </member>
         <member name="T:Xunit.TestAssemblyBuilder">
             <summary>
