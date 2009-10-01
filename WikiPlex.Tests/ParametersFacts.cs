@@ -101,5 +101,77 @@ namespace WikiPlex.Tests
                 Assert.Equal("align", ex.ParamName);
             }
         }
+
+        public class ExtractDimensions
+        {
+            [Fact]
+            public void Should_return_defaults_if_not_found()
+            {
+                Dimensions dimensions = Parameters.ExtractDimensions(new[] {"foo=bar"}, 200, 300);
+
+                Assert.Equal(200, dimensions.Height);
+                Assert.Equal(300, dimensions.Width);
+            }
+
+            [Fact]
+            public void Should_return_defaults_if_empty()
+            {
+                Dimensions dimensions = Parameters.ExtractDimensions(new[] { "height=", "width=" }, 200, 300);
+
+                Assert.Equal(200, dimensions.Height);
+                Assert.Equal(300, dimensions.Width);
+            }
+
+            [Fact]
+            public void Should_return_correct_height_and_width_as_pixels()
+            {
+                Dimensions dimensions = Parameters.ExtractDimensions(new[] {"height=300", "width=400"}, 200, 200);
+
+                Assert.Equal("300px", dimensions.Height.ToString());
+                Assert.Equal("400px", dimensions.Width.ToString());
+            }
+
+            [Fact]
+            public void Should_return_correct_height_and_width_as_percent()
+            {
+                Dimensions dimensions = Parameters.ExtractDimensions(new[] {"height=50%", "width=75%"}, 200, 200);
+
+                Assert.Equal("50%", dimensions.Height.ToString());
+                Assert.Equal("75%", dimensions.Width.ToString());
+            }
+
+            [Theory]
+            [InlineData("height")]
+            [InlineData("width")]
+            public void Should_throw_ArgumentException_if_invalid(string paramName)
+            {
+                var ex = Record.Exception(() => Parameters.ExtractDimensions(new[] {paramName + "=abc"}, 200, 200)) as ArgumentException;
+
+                Assert.NotNull(ex);
+                Assert.Equal(paramName, ex.ParamName);
+            }
+
+            [Theory]
+            [InlineData("height")]
+            [InlineData("width")]
+            public void Should_throw_ArgumentException_if_negative(string paramName)
+            {
+                var ex = Record.Exception(() => Parameters.ExtractDimensions(new[] {paramName + "=-10"}, 200, 200)) as ArgumentException;
+
+                Assert.NotNull(ex);
+                Assert.Equal(paramName, ex.ParamName);
+            }
+
+            [Theory]
+            [InlineData("height")]
+            [InlineData("width")]
+            public void Should_throw_ArgumentException_if_zero(string paramName)
+            {
+                var ex = Record.Exception(() => Parameters.ExtractDimensions(new[] { paramName + "=0" }, 200, 200)) as ArgumentException;
+
+                Assert.NotNull(ex);
+                Assert.Equal(paramName, ex.ParamName);
+            }
+        }
     }
 }

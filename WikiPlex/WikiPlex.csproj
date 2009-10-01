@@ -59,6 +59,7 @@
     <Compile Include="..\GlobalAssemblyInfo.cs">
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Common\Dimensions.cs" />
     <Compile Include="Compilation\Macros\IndentationMacro.cs" />
     <Compile Include="EscapeRegexPatterns.cs" />
     <Compile Include="Common\TextPart.cs" />

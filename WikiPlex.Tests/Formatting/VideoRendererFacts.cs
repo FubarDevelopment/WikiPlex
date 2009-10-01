@@ -67,6 +67,16 @@ namespace WikiPlex.Tests.Formatting
                 Assert.Equal("<span class=\"unresolved\">Cannot resolve video macro, invalid parameter 'align'.</span>", output);
             }
 
+            [Fact]
+            public void Will_parse_the_content_and_return_an_unresolved_macro_if_url_contains_codeplex()
+            {
+                var renderer = new VideoRenderer();
+
+                string output = renderer.Expand(ScopeName.FlashVideo, "url=http://www.codeplex.com/video,type=flash", x => x, x => x);
+
+                Assert.Equal("<span class=\"unresolved\">Cannot resolve video macro, invalid parameter 'url'.</span>", output);
+            }
+
             [Theory]
             [InlineData("Left")]
             [InlineData("Center")]

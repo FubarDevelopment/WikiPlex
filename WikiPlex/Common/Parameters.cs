@@ -36,14 +36,44 @@ namespace WikiPlex.Common
             if (!Utility.IsDefinedOnEnum<HorizontalAlign>(align))
                 throw new ArgumentException("Invalid parameter.", "align");
 
-            var alignment = (HorizontalAlign) Enum.Parse(typeof(HorizontalAlign), align, true);
+            var alignment = (HorizontalAlign) Enum.Parse(typeof (HorizontalAlign), align, true);
             if (alignment != HorizontalAlign.Center && alignment != HorizontalAlign.Left && alignment != HorizontalAlign.Right)
                 throw new ArgumentException("Invalid parameter.", "align");
 
             return alignment;
         }
 
-        static string GetValue(IEnumerable<string> parameters, string paramName)
+        public static Dimensions ExtractDimensions(ICollection<string> parameters, Unit defaultHeight, Unit defaultWidth)
+        {
+            Unit height = ParseUnit(parameters, "height", defaultHeight);
+            Unit width = ParseUnit(parameters, "width", defaultWidth);
+
+            return new Dimensions {Height = height, Width = width};
+        }
+
+        private static Unit ParseUnit(IEnumerable<string> parameters, string paramName, Unit defaultValue)
+        {
+            string value;
+            if (TryGetValue(parameters, paramName, out value))
+            {
+                try
+                {
+                    Unit unit = Unit.Parse(value);
+                    if (unit.Value <= 0)
+                        throw new ArgumentException("Invalid parameter.", paramName);
+
+                    return unit;
+                }
+                catch (FormatException)
+                {
+                    throw new ArgumentException("Invalid parameter.", paramName);
+                }
+            }
+
+            return defaultValue;
+        }
+
+        public static string GetValue(IEnumerable<string> parameters, string paramName)
         {
             string value;
             if (!TryGetValue(parameters, paramName, out value))
@@ -52,7 +82,7 @@ namespace WikiPlex.Common
             return value;
         }
 
-        static bool TryGetValue(IEnumerable<string> parameters, string paramName, out string value)
+        public static bool TryGetValue(IEnumerable<string> parameters, string paramName, out string value)
         {
             value = null;
             string paramValue = parameters.FirstOrDefault(s => s.StartsWith(paramName + "=", StringComparison.OrdinalIgnoreCase));
