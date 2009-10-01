@@ -1,4 +1,5 @@
-﻿using System.Web.UI;
+﻿using System;
+using System.Web.UI;
 
 namespace WikiPlex.Formatting
 {
@@ -14,10 +15,13 @@ namespace WikiPlex.Formatting
             writer.AddAttribute(HtmlTextWriterAttribute.Type, ObjectType);
         }
 
-        public virtual void AddParameterTags(string url, HtmlTextWriter writer)
+        public virtual void AddParameterTags(string url, string[] initParams, HtmlTextWriter writer)
         {
             AddParameter("source", url, writer);
             AddParameter("windowless", "true", writer);
+
+            if (initParams.Length > 0)
+                AddParameter("initParams", string.Join(",", initParams), writer);
         }
 
         public void AddDownloadLink(HtmlTextWriter writer)

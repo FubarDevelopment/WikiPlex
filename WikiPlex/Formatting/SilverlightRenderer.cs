@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -35,6 +36,8 @@ namespace WikiPlex.Formatting
                         version = 3;
                 }
 
+                string[] initParams = GetInitParams(parameters);
+
                 ISilverlightRenderer renderer = GetRenderer(version);
 
                 var content = new StringBuilder();
@@ -48,7 +51,7 @@ namespace WikiPlex.Formatting
                     writer.AddStyleAttribute(HtmlTextWriterStyle.Width, dimensions.Width.ToString());
                     writer.RenderBeginTag(HtmlTextWriterTag.Object);
 
-                    renderer.AddParameterTags(url, writer);
+                    renderer.AddParameterTags(url, initParams, writer);
                     renderer.AddDownloadLink(writer);
 
                     writer.RenderEndTag(); // object
@@ -67,6 +70,16 @@ namespace WikiPlex.Formatting
             {
                 return string.Format("<span class=\"unresolved\">Cannot resolve silverlight macro, invalid parameter '{0}'.</span>", ex.ParamName);
             }
+        }
+
+        private static string[] GetInitParams(IEnumerable<string> parameters)
+        {
+            return (from p in parameters
+                    where !p.StartsWith("url=", StringComparison.OrdinalIgnoreCase)
+                          && !p.StartsWith("height=", StringComparison.OrdinalIgnoreCase)
+                          && !p.StartsWith("width=", StringComparison.OrdinalIgnoreCase)
+                          && !p.StartsWith("version=", StringComparison.OrdinalIgnoreCase)
+                    select p).ToArray();
         }
 
         private static ISilverlightRenderer GetRenderer(int version)
