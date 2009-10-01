@@ -65,6 +65,7 @@
     <Compile Include="Common\Utility.cs" />
     <Compile Include="Common\Guard.cs" />
     <Compile Include="Formatting\IndentationRenderer.cs" />
+    <Compile Include="Common\Parameters.cs" />
     <Compile Include="Parsing\Augmenters\IndentationScopeAugmenter.cs" />
     <Compile Include="Syndication\IXmlDocumentReader.cs" />
     <Compile Include="Syndication\XmlDocumentReaderWrapper.cs" />
