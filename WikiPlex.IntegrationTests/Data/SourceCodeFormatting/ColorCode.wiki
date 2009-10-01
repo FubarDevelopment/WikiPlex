@@ -30,6 +30,14 @@ public class Foo
 <span class="className"></span>
 {code:html}
 
+{code:java}
+public class StringDemo {
+    public static void main(String[] args) {
+        String palindrome = "Dot saw I was Tod";
+    }
+}
+{code:java}
+
 {code:javascript}
 function FunctionName(argOne, argTwo) {
     return argOne + argTwo;

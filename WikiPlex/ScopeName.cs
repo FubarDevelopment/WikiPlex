@@ -13,6 +13,7 @@
         public const string ColorCodeCSharp = "Color Coding Block - C#";
         public const string ColorCodeCss = "Color Coding Block - CSS";
         public const string ColorCodeHtml = "Color Coding Block - HTML";
+        public const string ColorCodeJava = "Color Coding Block - Java";
         public const string ColorCodeJavaScript = "Color Coding Block - JavaScript";
         public const string ColorCodePhp = "Color Coding Block - PHP";
         public const string ColorCodeSql = "Color Coding Block - SQL";

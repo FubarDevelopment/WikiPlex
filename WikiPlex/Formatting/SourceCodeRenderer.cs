@@ -1,6 +1,5 @@
 ﻿using System;
 using ColorCode;
-using WikiPlex.Common;
 
 namespace WikiPlex.Formatting
 {
@@ -33,6 +32,7 @@ namespace WikiPlex.Formatting
                     || scopeName == ScopeName.ColorCodeCpp
                     || scopeName == ScopeName.ColorCodeCSharp
                     || scopeName == ScopeName.ColorCodeHtml
+                    || scopeName == ScopeName.ColorCodeJava
                     || scopeName == ScopeName.ColorCodeJavaScript
                     || scopeName == ScopeName.ColorCodeSql
                     || scopeName == ScopeName.ColorCodeVbDotNet
@@ -63,6 +63,8 @@ namespace WikiPlex.Formatting
                     return codeColorizer.Colorize(input, Languages.CSharp);
                 case ScopeName.ColorCodeHtml:
                     return codeColorizer.Colorize(input, Languages.Html);
+                case ScopeName.ColorCodeJava:
+                    return codeColorizer.Colorize(input, Languages.Java);
                 case ScopeName.ColorCodeJavaScript:
                     return codeColorizer.Colorize(input, Languages.JavaScript);
                 case ScopeName.ColorCodeSql:

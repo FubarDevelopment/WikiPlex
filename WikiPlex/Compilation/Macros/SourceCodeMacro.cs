@@ -97,6 +97,14 @@ namespace WikiPlex.Compilation.Macros
                                            {3, ScopeName.Remove}
                                        }),
                                new MacroRule(
+                                   @"(?si)(\{code:\s*java\}\r?\n)(.*?)(\r?\n\{code:\s*java\}(?:\r?\n)?)",
+                                   new Dictionary<int, string>
+                                       {
+                                           {1, ScopeName.Remove},
+                                           {2, ScopeName.ColorCodeJava},
+                                           {3, ScopeName.Remove}
+                                       }),
+                               new MacroRule(
                                    @"(?si)(\{code:\s*javascript\}\r?\n)(.*?)(\r?\n\{code:\s*javascript\}(?:\r?\n)?)",
                                    new Dictionary<int, string>
                                        {
