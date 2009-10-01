@@ -36,6 +36,7 @@ namespace WikiPlex.Formatting
                 HorizontalAlign align = Parameters.ExtractAlign(parameters, HorizontalAlign.Center);
 
                 IVideoRenderer videoRenderer = GetVideoRenderer(scopeName);
+                videoRenderer.Dimensions = Parameters.ExtractDimensions(parameters, 285, 320);
 
                 var content = new StringBuilder();
                 using (var tw = new StringWriter(content))

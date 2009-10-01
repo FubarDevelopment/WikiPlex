@@ -1,23 +1,23 @@
-﻿using System.Web.UI;
+﻿using System;
+using System.Web.UI;
+using WikiPlex.Common;
 
 namespace WikiPlex.Formatting
 {
     internal abstract class VideoRendererBase : IVideoRenderer
     {
-        public static string DefaultVideoHeight = "285";
-        public static string DefaultVideoWidth = "320";
+        public Dimensions Dimensions { get;set; }
 
         public abstract string ClassIdAttribute { get; }
         public abstract string CodebaseAttribute { get; }
         public abstract string PluginsPageAttribute { get; }
         public abstract string TypeAttribute { get; }
 
-
         public virtual void AddObjectTagAttributes(string url, HtmlTextWriter writer)
         {
             writer.AddAttribute(HtmlTextWriterAttribute.Type, TypeAttribute);
-            writer.AddAttribute(HtmlTextWriterAttribute.Height, DefaultVideoHeight);
-            writer.AddAttribute(HtmlTextWriterAttribute.Width, DefaultVideoWidth);
+            writer.AddAttribute(HtmlTextWriterAttribute.Height, Dimensions.Height.ToString());
+            writer.AddAttribute(HtmlTextWriterAttribute.Width, Dimensions.Width.ToString());
             writer.AddAttribute("classid", ClassIdAttribute);
             writer.AddAttribute("codebase", CodebaseAttribute);
         }
@@ -27,8 +27,8 @@ namespace WikiPlex.Formatting
         public virtual void AddEmbedTagAttributes(string url, HtmlTextWriter writer)
         {
             writer.AddAttribute(HtmlTextWriterAttribute.Type, TypeAttribute);
-            writer.AddAttribute(HtmlTextWriterAttribute.Height, DefaultVideoHeight);
-            writer.AddAttribute(HtmlTextWriterAttribute.Width, DefaultVideoWidth);
+            writer.AddAttribute(HtmlTextWriterAttribute.Height, Dimensions.Height.ToString());
+            writer.AddAttribute(HtmlTextWriterAttribute.Width, Dimensions.Width.ToString());
             writer.AddAttribute(HtmlTextWriterAttribute.Src, url);
             writer.AddAttribute("pluginspage", PluginsPageAttribute);
             writer.AddAttribute("autoplay", "false");

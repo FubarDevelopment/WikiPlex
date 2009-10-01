@@ -1,5 +1,7 @@
-﻿using System.Text.RegularExpressions;
+﻿using System;
+using System.Text.RegularExpressions;
 using System.Web.UI;
+using WikiPlex.Common;
 
 namespace WikiPlex.Formatting
 {
@@ -10,10 +12,12 @@ namespace WikiPlex.Formatting
         public static readonly string WModeAttributeString = "transparent";
         public static string SrcSttributeFormatString = "http://www.youtube.com/v/{0}";
 
+        public Dimensions Dimensions { get; set; }
+
         public void AddObjectTagAttributes(string url, HtmlTextWriter writer)
         {
-            writer.AddAttribute(HtmlTextWriterAttribute.Height, VideoRendererBase.DefaultVideoHeight);
-            writer.AddAttribute(HtmlTextWriterAttribute.Width, VideoRendererBase.DefaultVideoWidth);
+            writer.AddAttribute(HtmlTextWriterAttribute.Height, Dimensions.Height.ToString());
+            writer.AddAttribute(HtmlTextWriterAttribute.Width, Dimensions.Width.ToString());
         }
 
         public void AddParameterTags(string url, HtmlTextWriter writer)
@@ -32,8 +36,8 @@ namespace WikiPlex.Formatting
 
         public void AddEmbedTagAttributes(string url, HtmlTextWriter writer)
         {
-            writer.AddAttribute(HtmlTextWriterAttribute.Height, VideoRendererBase.DefaultVideoHeight);
-            writer.AddAttribute(HtmlTextWriterAttribute.Width, VideoRendererBase.DefaultVideoWidth);
+            writer.AddAttribute(HtmlTextWriterAttribute.Height, Dimensions.Height.ToString());
+            writer.AddAttribute(HtmlTextWriterAttribute.Width, Dimensions.Width.ToString());
             writer.AddAttribute(HtmlTextWriterAttribute.Type, FlashVideoRenderer.TypeAttributeString);
             writer.AddAttribute("wmode", WModeAttributeString);
 
