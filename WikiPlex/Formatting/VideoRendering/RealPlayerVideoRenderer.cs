@@ -1,38 +1,36 @@
-﻿using System.Web.UI;
-
-namespace WikiPlex.Formatting
+﻿namespace WikiPlex.Formatting
 {
-    internal class RealPlayerVideoRenderer : VideoRendererBase
+    internal class RealPlayerVideoRenderer : PluginVideoRenderer
     {
-        public static readonly string ClassIdAttributeString = "CLSID:CFCDAA03-8BE4-11CF-B84B-0020AFBBCCFA";
-        public static readonly string CodebaseAttributeString = string.Empty;
-        public static readonly string PluginsPageAttributeString = string.Empty;
-        public static readonly string TypeAttributeString = "audio/x-pn-realaudio-plugin";
+        const string ClassIdAttributeString = "CLSID:CFCDAA03-8BE4-11CF-B84B-0020AFBBCCFA";
+        const string CodebaseAttributeString = "";
+        const string PluginsPageAttributeString = "";
+        const string TypeAttributeString = "audio/x-pn-realaudio-plugin";
 
-        public override string ClassIdAttribute
+        protected override string ClassIdAttribute
         {
             get { return ClassIdAttributeString; }
         }
 
-        public override string CodebaseAttribute
+        protected override string CodebaseAttribute
         {
             get { return CodebaseAttributeString; }
         }
 
-        public override string PluginsPageAttribute
+        protected override string PluginsPageAttribute
         {
             get { return PluginsPageAttributeString; }
         }
 
-        public override string TypeAttribute
+        protected override string TypeAttribute
         {
             get { return TypeAttributeString; }
         }
 
-        public override void AddParameterTags(string url, HtmlTextWriter writer)
+        protected override void AddParameterTags(string url)
         {
-            AddParameterTag("src", url, writer);
-            AddParameterTag("autostart", "false", writer);
+            AddParameterTag("src", url);
+            AddParameterTag("autostart", "false");
         }
     }
 }

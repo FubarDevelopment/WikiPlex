@@ -50,16 +50,8 @@ namespace WikiPlex.Formatting
                     writer.AddAttribute(HtmlTextWriterAttribute.Class, "player");
                     writer.RenderBeginTag(HtmlTextWriterTag.Span);
 
-                    videoRenderer.AddObjectTagAttributes(url, writer);
-                    writer.RenderBeginTag(HtmlTextWriterTag.Object);
-
-                    videoRenderer.AddParameterTags(url, writer);
-
-                    videoRenderer.AddEmbedTagAttributes(url, writer);
-                    writer.RenderBeginTag(HtmlTextWriterTag.Embed);
-                    writer.RenderEndTag();
-
-                    writer.RenderEndTag(); // </object>
+                    videoRenderer.Render(url, writer);
+                    
                     writer.RenderEndTag(); // </span>
 
                     writer.Write("<br />");

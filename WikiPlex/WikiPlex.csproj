@@ -67,6 +67,7 @@
     <Compile Include="Common\Guard.cs" />
     <Compile Include="Formatting\IndentationRenderer.cs" />
     <Compile Include="Common\Parameters.cs" />
+    <Compile Include="Formatting\VideoRendering\EmbeddedVideoRender.cs" />
     <Compile Include="Parsing\Augmenters\IndentationScopeAugmenter.cs" />
     <Compile Include="Syndication\IXmlDocumentReader.cs" />
     <Compile Include="Syndication\XmlDocumentReaderWrapper.cs" />
@@ -104,7 +105,7 @@
     <Compile Include="Formatting\SilverlightRendering\Silverlight3Renderer.cs" />
     <Compile Include="Formatting\TableRenderer.cs" />
     <Compile Include="Formatting\VideoRenderer.cs" />
-    <Compile Include="Formatting\VideoRendering\BaseVideoRenderer.cs" />
+    <Compile Include="Formatting\VideoRendering\PluginVideoRenderer.cs" />
     <Compile Include="Formatting\VideoRendering\FlashVideoRenderer.cs" />
     <Compile Include="Formatting\VideoRendering\IVideoRenderer.cs" />
     <Compile Include="Formatting\VideoRendering\QuicktimeVideoRenderer.cs" />

@@ -1,39 +1,37 @@
-﻿using System.Web.UI;
-
-namespace WikiPlex.Formatting
+﻿namespace WikiPlex.Formatting
 {
-    internal class QuickTimeVideoRenderer : VideoRendererBase
+    internal class QuickTimeVideoRenderer : PluginVideoRenderer
     {
-        public static readonly string ClassIdAttributeString = "CLSID:02BF25D5-8C17-4B23-BC80-D3488ABDDC6B";
-        public static readonly string CodebaseAttributeString = "http://www.apple.com/qtactivex/qtplugin.cab";
-        public static readonly string PluginsPageAttributeString = "http://www.apple.com/quicktime/download/";
-        public static readonly string TypeAttributeString = "video/quicktime";
+        const string ClassIdAttributeString = "CLSID:02BF25D5-8C17-4B23-BC80-D3488ABDDC6B";
+        const string CodebaseAttributeString = "http://www.apple.com/qtactivex/qtplugin.cab";
+        const string PluginsPageAttributeString = "http://www.apple.com/quicktime/download/";
+        const string TypeAttributeString = "video/quicktime";
 
-        public override string ClassIdAttribute
+        protected override string ClassIdAttribute
         {
             get { return ClassIdAttributeString; }
         }
 
-        public override string CodebaseAttribute
+        protected override string CodebaseAttribute
         {
             get { return CodebaseAttributeString; }
         }
 
-        public override string PluginsPageAttribute
+        protected override string PluginsPageAttribute
         {
             get { return PluginsPageAttributeString; }
         }
 
-        public override string TypeAttribute
+        protected override string TypeAttribute
         {
             get { return TypeAttributeString; }
         }
 
 
-        public override void AddParameterTags(string url, HtmlTextWriter writer)
+        protected override void AddParameterTags(string url)
         {
-            AddParameterTag("src", url, writer);
-            AddParameterTag("autoplay", "false", writer);
+            AddParameterTag("src", url);
+            AddParameterTag("autoplay", "false");
         }
     }
 }

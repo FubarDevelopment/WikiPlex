@@ -7,8 +7,6 @@ namespace WikiPlex.Formatting
     {
         Dimensions Dimensions { get; set; }
 
-        void AddObjectTagAttributes(string url, HtmlTextWriter writer);
-        void AddParameterTags(string url, HtmlTextWriter writer);
-        void AddEmbedTagAttributes(string url, HtmlTextWriter writer);
+        void Render(string url, HtmlTextWriter writer);
     }
 }

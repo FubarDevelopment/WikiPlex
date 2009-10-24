@@ -1,55 +1,39 @@
-﻿using System;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using System.Web.UI;
-using WikiPlex.Common;
 
 namespace WikiPlex.Formatting
 {
-    public class YouTubeVideoRenderer : IVideoRenderer
+    internal class YouTubeVideoRenderer : EmbeddedVideoRender
     {
-        private const string VideoIdRegexPattern = @"^http://www\.youtube\.com/watch\?v=(.+)$";
+        private static readonly Regex VideoIdRegex = new Regex(@"^http://www\.youtube\.com/watch\?v=(.+)$", RegexOptions.Compiled);
+        const string WModeAttributeString = "transparent";
+        const string SrcSttributeFormatString = "http://www.youtube.com/v/{0}";
 
-        public static readonly string WModeAttributeString = "transparent";
-        public static string SrcSttributeFormatString = "http://www.youtube.com/v/{0}";
-
-        public Dimensions Dimensions { get; set; }
-
-        public void AddObjectTagAttributes(string url, HtmlTextWriter writer)
+        protected override void AddObjectTagAttributes(string url)
         {
-            writer.AddAttribute(HtmlTextWriterAttribute.Height, Dimensions.Height.ToString());
-            writer.AddAttribute(HtmlTextWriterAttribute.Width, Dimensions.Width.ToString());
+            AddAttribute(HtmlTextWriterAttribute.Height, Dimensions.Height.ToString());
+            AddAttribute(HtmlTextWriterAttribute.Width, Dimensions.Width.ToString());
         }
 
-        public void AddParameterTags(string url, HtmlTextWriter writer)
+        protected override void AddParameterTags(string url)
         {
-            writer.AddAttribute(HtmlTextWriterAttribute.Name, "movie");
-            writer.AddAttribute(HtmlTextWriterAttribute.Value,
-                                string.Format(SrcSttributeFormatString, ExtractVideoIdFromUrl(url)));
-            writer.RenderBeginTag(HtmlTextWriterTag.Param);
-            writer.RenderEndTag();
-
-            writer.AddAttribute(HtmlTextWriterAttribute.Name, "wmode");
-            writer.AddAttribute(HtmlTextWriterAttribute.Value, WModeAttributeString);
-            writer.RenderBeginTag(HtmlTextWriterTag.Param);
-            writer.RenderEndTag();
+            AddParameterTag("movie", string.Format(SrcSttributeFormatString, ExtractVideoIdFromUrl(url)));
+            AddParameterTag("wmode", WModeAttributeString);
         }
 
-        public void AddEmbedTagAttributes(string url, HtmlTextWriter writer)
+        protected override void AddEmbedTagAttributes(string url)
         {
-            writer.AddAttribute(HtmlTextWriterAttribute.Height, Dimensions.Height.ToString());
-            writer.AddAttribute(HtmlTextWriterAttribute.Width, Dimensions.Width.ToString());
-            writer.AddAttribute(HtmlTextWriterAttribute.Type, FlashVideoRenderer.TypeAttributeString);
-            writer.AddAttribute("wmode", WModeAttributeString);
+            AddAttribute(HtmlTextWriterAttribute.Height, Dimensions.Height.ToString());
+            AddAttribute(HtmlTextWriterAttribute.Width, Dimensions.Width.ToString());
+            AddAttribute(HtmlTextWriterAttribute.Type, "application/x-shockwave-flash");
+            AddAttribute("wmode", WModeAttributeString);
 
-            writer.AddAttribute(HtmlTextWriterAttribute.Src,
-                                string.Format(SrcSttributeFormatString, ExtractVideoIdFromUrl(url)));
+            AddAttribute(HtmlTextWriterAttribute.Src, string.Format(SrcSttributeFormatString, ExtractVideoIdFromUrl(url)));
         }
 
         private static string ExtractVideoIdFromUrl(string url)
         {
-            var videoRegex = new Regex(VideoIdRegexPattern);
-
-            Match match = videoRegex.Match(url);
+            Match match = VideoIdRegex.Match(url);
             if (match.Success && match.Groups.Count > 1)
                 return match.Groups[1].Value;
 
