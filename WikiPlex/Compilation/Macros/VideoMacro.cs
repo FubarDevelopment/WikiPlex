@@ -56,6 +56,14 @@ namespace WikiPlex.Compilation.Macros
                                            {3, ScopeName.Remove}
                                        }),
                                new MacroRule(
+                                   @"(?i)(\{video\:)([^\}]*type=(?:C9|Channel9)[^\}]*)(\})",
+                                   new Dictionary<int, string>
+                                       {
+                                          {1, ScopeName.Remove},
+                                          {2, ScopeName.Channel9Video},
+                                          {3, ScopeName.Remove}
+                                       }),
+                               new MacroRule(
                                    @"(?i)\{video\:[^\}]*[^\}]*\}",
                                    new Dictionary<int, string>
                                        {

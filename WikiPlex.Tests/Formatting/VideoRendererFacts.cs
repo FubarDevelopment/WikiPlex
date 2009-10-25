@@ -9,6 +9,7 @@ namespace WikiPlex.Tests.Formatting
         public class CanExpand
         {
             [Theory]
+            [InlineData(ScopeName.Channel9Video)]
             [InlineData(ScopeName.FlashVideo)]
             [InlineData(ScopeName.QuickTimeVideo)]
             [InlineData(ScopeName.RealPlayerVideo)]
@@ -176,6 +177,72 @@ namespace WikiPlex.Tests.Formatting
 
                 Assert.Equal(@"<div class=""video"" style=""text-align:Center""><span class=""player""><object height=""50px"" width=""250px""><param name=""movie"" value=""http://www.youtube.com/v/1234""></param><param name=""wmode"" value=""transparent""></param><embed height=""50px"" width=""250px"" type=""application/x-shockwave-flash"" wmode=""transparent"" src=""http://www.youtube.com/v/1234"" /></object></span><br /><span class=""external""><a href=""http://www.youtube.com/watch?v=1234"" target=""_blank"">Launch in another window</a></span></div>"
                             , output);
+            }
+
+            [Fact]
+            public void Will_parse_the_content_and_render_the_Channel9_with_height_and_width()
+            {
+                var renderer = new VideoRenderer();
+
+                string output = renderer.Expand(ScopeName.Channel9Video, "url=http://channel9.msdn.com/shows/InsideXbox/Windows-7-and-your-Xbox-360,type=Channel9,height=50px,width=250px", x => x, x => x);
+
+                Assert.Equal(@"<div class=""video"" style=""text-align:Center""><span class=""player""><iframe src=""http://channel9.msdn.com/shows/InsideXbox/Windows-7-and-your-Xbox-360/player?h=50&w=250"" width=""250px"" height=""50px"" scrolling=""no"" frameborder=""0""></iframe></span><br /><span class=""external""><a href=""http://channel9.msdn.com/shows/InsideXbox/Windows-7-and-your-Xbox-360"" target=""_blank"">Launch in another window</a></span></div>"
+                            , output);
+            }
+
+            [Fact]
+            public void Will_parse_the_content_and_render_the_Channel9_with_an_end_slash()
+            {
+                var renderer = new VideoRenderer();
+
+                string output = renderer.Expand(ScopeName.Channel9Video, "url=http://channel9.msdn.com/shows/InsideXbox/Windows-7-and-your-Xbox-360/,type=Channel9,height=50px,width=250px", x => x, x => x);
+
+                Assert.Equal(@"<div class=""video"" style=""text-align:Center""><span class=""player""><iframe src=""http://channel9.msdn.com/shows/InsideXbox/Windows-7-and-your-Xbox-360/player?h=50&w=250"" width=""250px"" height=""50px"" scrolling=""no"" frameborder=""0""></iframe></span><br /><span class=""external""><a href=""http://channel9.msdn.com/shows/InsideXbox/Windows-7-and-your-Xbox-360/"" target=""_blank"">Launch in another window</a></span></div>"
+                            , output);
+            }
+
+            [Fact]
+            public void Will_parse_the_content_and_render_the_Channel9_with_ending_in_player()
+            {
+                var renderer = new VideoRenderer();
+
+                string output = renderer.Expand(ScopeName.Channel9Video, "url=http://channel9.msdn.com/shows/InsideXbox/Windows-7-and-your-Xbox-360/player,type=Channel9,height=50px,width=250px", x => x, x => x);
+
+                Assert.Equal(@"<div class=""video"" style=""text-align:Center""><span class=""player""><iframe src=""http://channel9.msdn.com/shows/InsideXbox/Windows-7-and-your-Xbox-360/player/?h=50&w=250"" width=""250px"" height=""50px"" scrolling=""no"" frameborder=""0""></iframe></span><br /><span class=""external""><a href=""http://channel9.msdn.com/shows/InsideXbox/Windows-7-and-your-Xbox-360/player"" target=""_blank"">Launch in another window</a></span></div>"
+                            , output);
+                
+            }
+
+            [Fact]
+            public void Will_parse_the_content_and_render_the_Channel9_with_querystring_params()
+            {
+                var renderer = new VideoRenderer();
+
+                string output = renderer.Expand(ScopeName.Channel9Video, "url=http://channel9.msdn.com/shows/InsideXbox/Windows-7-and-your-Xbox-360?foo=bar,type=Channel9,height=50px,width=250px", x => x, x => x);
+
+                Assert.Equal(@"<div class=""video"" style=""text-align:Center""><span class=""player""><iframe src=""http://channel9.msdn.com/shows/InsideXbox/Windows-7-and-your-Xbox-360/player?h=50&w=250"" width=""250px"" height=""50px"" scrolling=""no"" frameborder=""0""></iframe></span><br /><span class=""external""><a href=""http://channel9.msdn.com/shows/InsideXbox/Windows-7-and-your-Xbox-360?foo=bar"" target=""_blank"">Launch in another window</a></span></div>"
+                            , output);
+
+            }
+
+            [Fact]
+            public void Should_render_unresolved_macro_when_height_for_Channel9_is_not_px()
+            {
+                var renderer = new VideoRenderer();
+
+                string output = renderer.Expand(ScopeName.Channel9Video, "url=http://channel9.msdn.com/shows/InsideXbox/Windows-7-and-your-Xbox-360/,type=Channel9,height=50em", x => x, x => x);
+
+                Assert.Equal("<span class=\"unresolved\">Cannot resolve video macro, invalid parameter 'height'. Value can only be pixel based.</span>", output);
+            }
+
+            [Fact]
+            public void Should_render_unresolved_macro_when_width_for_Channel9_is_not_px()
+            {
+                var renderer = new VideoRenderer();
+
+                string output = renderer.Expand(ScopeName.Channel9Video, "url=http://channel9.msdn.com/shows/InsideXbox/Windows-7-and-your-Xbox-360/,type=Channel9,width=50em", x => x, x => x);
+
+                Assert.Equal("<span class=\"unresolved\">Cannot resolve video macro, invalid parameter 'width'. Value can only be pixel based.</span>", output);
             }
         }
     }

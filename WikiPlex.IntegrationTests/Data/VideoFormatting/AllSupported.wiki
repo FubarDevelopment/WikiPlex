@@ -7,3 +7,7 @@
 {video:url=http://localhost/video,type=Windows}
 
 {video:url=http://www.youtube.com/watch?v=1234,type=YouTube}
+
+{video:url=http://localhost/video,type=Channel9}
+
+{video:url=http://localhost/video,type=C9}

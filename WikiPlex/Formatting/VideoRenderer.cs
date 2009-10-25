@@ -16,7 +16,8 @@ namespace WikiPlex.Formatting
 
         public bool CanExpand(string scopeName)
         {
-            return (scopeName == ScopeName.FlashVideo
+            return (scopeName == ScopeName.Channel9Video
+                    || scopeName == ScopeName.FlashVideo
                     || scopeName == ScopeName.QuickTimeVideo
                     || scopeName == ScopeName.RealPlayerVideo
                     || scopeName == ScopeName.WindowsMediaVideo
@@ -27,7 +28,7 @@ namespace WikiPlex.Formatting
         public string Expand(string scopeName, string input, Func<string, string> htmlEncode, Func<string, string> attributeEncode)
         {
             if (scopeName == ScopeName.InvalidVideo)
-                return RenderUnresolvedMacro("type");
+                return RenderUnresolvedMacro("type", string.Empty);
 
             try
             {
@@ -70,9 +71,13 @@ namespace WikiPlex.Formatting
 
                 return content.ToString();
             }
+            catch (InvalidDimensionException ex)
+            {
+                return RenderUnresolvedMacro(ex.ParamName, ex.Reason);
+            }
             catch (ArgumentException ex)
             {
-                return RenderUnresolvedMacro(ex.ParamName);
+                return RenderUnresolvedMacro(ex.ParamName, string.Empty);
             }
         }
 
@@ -82,6 +87,9 @@ namespace WikiPlex.Formatting
 
             switch (scopeName)
             {
+                case ScopeName.Channel9Video:
+                    videoRenderer = new Channel9VideoRenderer();
+                    break;
                 case ScopeName.FlashVideo:
                     videoRenderer = new FlashVideoRenderer();
                     break;
@@ -101,9 +109,9 @@ namespace WikiPlex.Formatting
             return videoRenderer;
         }
 
-        private static string RenderUnresolvedMacro(string parameterName)
+        private static string RenderUnresolvedMacro(string parameterName, string message)
         {
-            return string.Format("<span class=\"unresolved\">Cannot resolve video macro, invalid parameter '{0}'.</span>", parameterName);
+            return string.Format("<span class=\"unresolved\">Cannot resolve video macro, invalid parameter '{0}'.{1}</span>", parameterName, message);
         }
     }
 }

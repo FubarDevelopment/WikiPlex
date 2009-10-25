@@ -6,6 +6,7 @@
         public const string Anchor = "Anchor Tag";
         public const string BoldBegin = "Bolded Begin Tag";
         public const string BoldEnd = "Bolded End Tag";
+        public const string Channel9Video = "Channel 9 Video";
         public const string ColorCodeAshx = "Color Coding Block - ASHX";
         public const string ColorCodeAspxCs = "Color Coding Block - ASPX and C#";
         public const string ColorCodeAspxVb = "Color Coding Block - ASPX and VB.NET";
