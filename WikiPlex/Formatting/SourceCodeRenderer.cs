@@ -38,7 +38,8 @@ namespace WikiPlex.Formatting
                     || scopeName == ScopeName.ColorCodeVbDotNet
                     || scopeName == ScopeName.ColorCodeXml
                     || scopeName == ScopeName.ColorCodePhp
-                    || scopeName == ScopeName.ColorCodeCss);
+                    || scopeName == ScopeName.ColorCodeCss
+                    || scopeName == ScopeName.ColorCodePowerShell);
         }
 
         public string Expand(string scopeName, string input, Func<string, string> htmlEncode, Func<string, string> attributeEncode)
@@ -77,6 +78,8 @@ namespace WikiPlex.Formatting
                     return codeColorizer.Colorize(input, Languages.Php);
                 case ScopeName.ColorCodeCss:
                     return codeColorizer.Colorize(input, Languages.Css);
+                case ScopeName.ColorCodePowerShell:
+                    return codeColorizer.Colorize(input, Languages.PowerShell);
                 default:
                     return input;
             }

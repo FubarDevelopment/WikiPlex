@@ -87,3 +87,14 @@ void main()
     cout << "Welcome to C++ Programming" << endl;
 }
 {code:c++}
+
+{code:ps1}
+# Create RTF block from text using named console colors.
+function Append-RtfBlock ($block, $tokenColor)
+{
+   $colorIndex = $rtfColorMap.$tokenColor
+   $block = $block.Replace('\','\\').Replace("`r`n","\cf1\par`r`n")
+   $block = $block.Replace("`t",'\tab').Replace('{','\{').Replace('}','\}')
+   $null = $rtfBuilder.Append("\cf$colorIndex $block")
+}
+{code:ps1}

@@ -1,0 +1,3 @@
+relre:(?i).+resharper.+
+relre:(?i).+/(bin|obj)/.+
+relre:.+\.(user|suo)
