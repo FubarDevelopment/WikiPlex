@@ -89,8 +89,8 @@ namespace WikiPlex.IntegrationTests
         public void Should_format_strikethrough_performantly()
         {
             Macros.Register<StrikethroughMacro>();
-            ExecutePerformanceTest("StrikeThrough.wiki", 600);
-            ExecutePerformanceTest("StrikeThrough.wiki", 600);
+            ExecutePerformanceTest("StrikeThrough.wiki", 750);
+            ExecutePerformanceTest("StrikeThrough.wiki", 750);
             Macros.Unregister<StrikethroughMacro>();
         }
 
@@ -107,8 +107,8 @@ namespace WikiPlex.IntegrationTests
         public void Should_format_superscript_performantly()
         {
             Macros.Register<SuperscriptMacro>();
-            ExecutePerformanceTest("Superscript.wiki", 650);
-            ExecutePerformanceTest("Superscript.wiki", 650);
+            ExecutePerformanceTest("Superscript.wiki", 850);
+            ExecutePerformanceTest("Superscript.wiki", 850);
             Macros.Unregister<SuperscriptMacro>();
         }
 
