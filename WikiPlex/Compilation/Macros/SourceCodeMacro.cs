@@ -137,7 +137,7 @@ namespace WikiPlex.Compilation.Macros
                                            {3, ScopeName.Remove}
                                        }),
                                new MacroRule(
-                                   @"(?si)(\{code:\s*ps1\}\r?\n)(.*?)(\r?\n\{code:\s*ps1\}(?:\r?\n)?)",
+                                   @"(?si)(\{code:\s*powershell\}\r?\n)(.*?)(\r?\n\{code:\s*powershell\}(?:\r?\n)?)",
                                    new Dictionary<int, string>
                                        {
                                            {1, ScopeName.Remove},

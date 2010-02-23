@@ -88,7 +88,7 @@ void main()
 }
 {code:c++}
 
-{code:ps1}
+{code:powershell}
 # Create RTF block from text using named console colors.
 function Append-RtfBlock ($block, $tokenColor)
 {
@@ -97,4 +97,4 @@ function Append-RtfBlock ($block, $tokenColor)
    $block = $block.Replace("`t",'\tab').Replace('{','\{').Replace('}','\}')
    $null = $rtfBuilder.Append("\cf$colorIndex $block")
 }
-{code:ps1}
+{code:powershell}
