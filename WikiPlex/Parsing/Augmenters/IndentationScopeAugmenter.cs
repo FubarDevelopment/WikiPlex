@@ -4,8 +4,18 @@ using WikiPlex.Compilation.Macros;
 
 namespace WikiPlex.Parsing
 {
+    /// <summary>
+    /// Handles augmenting the scopes for the <see cref="IndentationMacro" />.
+    /// </summary>
     public class IndentationScopeAugmenter : IScopeAugmenter
     {
+        /// <summary>
+        /// This will insert new, remove, or re-order scopes.
+        /// </summary>
+        /// <param name="macro">The current macro.</param>
+        /// <param name="capturedScopes">The list of captured scopes.</param>
+        /// <param name="content">The wiki content being parsed.</param>
+        /// <returns>A new list of augmented scopes.</returns>
         public IList<Scope> Augment(IMacro macro, IList<Scope> capturedScopes, string content)
         {
             var augmentedScopes = new List<Scope>(capturedScopes.Count);

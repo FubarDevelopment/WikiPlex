@@ -5,8 +5,23 @@ using System.Web.UI.WebControls;
 
 namespace WikiPlex.Common
 {
+    /// <summary>
+    /// The static class to handle parameter extraction that is used across many renderers.
+    /// </summary>
     public static class Parameters
     {
+        /// <summary>
+        /// This will extract a url.
+        /// </summary>
+        /// <param name="parameters">The collection of parameters.</param>
+        /// <returns>The extracted url.</returns>
+        /// <exception cref="ArgumentException">
+        /// Thrown when the url cannot be validated.
+        /// 
+        /// -- or --
+        /// 
+        /// Thrown if the url contains codeplex.com
+        /// </exception>
         public static string ExtractUrl(ICollection<string> parameters)
         {
             string url = GetValue(parameters, "url");
@@ -27,6 +42,19 @@ namespace WikiPlex.Common
             return url;
         }
 
+        /// <summary>
+        /// This will extract the horizontal alignment parameter.
+        /// </summary>
+        /// <param name="parameters">The collection of parameters.</param>
+        /// <param name="defaultValue">The default value.</param>
+        /// <returns>The <see cref="HorizontalAlign"/> value.</returns>
+        /// <exception cref="ArgumentException">
+        /// Thrown if the alignment value is not a valid enum value.
+        /// 
+        /// -- or --
+        /// 
+        /// Thrown if the alignment is not Center, Left, or Right
+        /// </exception>
         public static HorizontalAlign ExtractAlign(ICollection<string> parameters, HorizontalAlign defaultValue)
         {
             string align;
@@ -43,6 +71,20 @@ namespace WikiPlex.Common
             return alignment;
         }
 
+        /// <summary>
+        /// This will extract the height and width dimensions parameters.
+        /// </summary>
+        /// <param name="parameters">The colleciton of parameters.</param>
+        /// <param name="defaultHeight">The default height.</param>
+        /// <param name="defaultWidth">The default width.</param>
+        /// <returns>The <see cref="Dimensions"/> contained in the parameters.</returns>
+        /// <exception cref="ArgumentException">
+        /// Thrown if the height/width is not a valid unit.
+        /// 
+        /// -- or --
+        /// 
+        /// Thrown if the height/width is less than or equal to zero.
+        /// </exception>
         public static Dimensions ExtractDimensions(ICollection<string> parameters, Unit defaultHeight, Unit defaultWidth)
         {
             Unit height = ParseUnit(parameters, "height", defaultHeight);
@@ -73,6 +115,13 @@ namespace WikiPlex.Common
             return defaultValue;
         }
 
+        /// <summary>
+        /// Will get the parameter value.
+        /// </summary>
+        /// <param name="parameters">The collection of parameters.</param>
+        /// <param name="paramName">The parameter name to extract.</param>
+        /// <returns>The parameter value.</returns>
+        /// <exception cref="ArgumentException">Thrown if the paramName is not present in the collection of parameters.</exception>
         public static string GetValue(IEnumerable<string> parameters, string paramName)
         {
             string value;
@@ -82,6 +131,13 @@ namespace WikiPlex.Common
             return value;
         }
 
+        /// <summary>
+        /// Will get the parameter value.
+        /// </summary>
+        /// <param name="parameters">The collection of parameters.</param>
+        /// <param name="paramName">The parameter name to extract.</param>
+        /// <param name="value">The output value of the parameter name.</param>
+        /// <returns>A boolean value indicating if the value was found or not.</returns>
         public static bool TryGetValue(IEnumerable<string> parameters, string paramName, out string value)
         {
             value = null;

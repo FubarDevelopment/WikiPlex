@@ -7,18 +7,29 @@ using WikiPlex.Compilation.Macros;
 
 namespace WikiPlex.Compilation
 {
+    /// <summary>
+    /// Handles compiling and caching a <see cref="IMacro"/>. Compilation includes normalizing all rules into a single regular expression.
+    /// </summary>
     public class MacroCompiler : IMacroCompiler
     {
         private static readonly Regex numberOfCapturesRegex = new Regex(@"(?x)(?<!\\)\((?!\?)", RegexOptions.Compiled);
         private readonly Dictionary<string, CompiledMacro> compiledMacros;
         private readonly ReaderWriterLockSlim compileLock;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MacroCompiler"/> class.
+        /// </summary>
         public MacroCompiler()
         {
             compiledMacros = new Dictionary<string, CompiledMacro>();
             compileLock = new ReaderWriterLockSlim();
         }
 
+        /// <summary>
+        /// Will compile a new <see cref="IMacro"/> or return a previously cached <see cref="CompiledMacro"/>.
+        /// </summary>
+        /// <param name="macro">The macro to compile.</param>
+        /// <returns>The compiled macro.</returns>
         public CompiledMacro Compile(IMacro macro)
         {
             Guard.NotNull(macro, "macro");
@@ -29,7 +40,7 @@ namespace WikiPlex.Compilation
                 // for performance sake, 
                 // we'll initially use only a read lock
                 compileLock.EnterReadLock();
-                CompiledMacro compiledMacro = null;
+                CompiledMacro compiledMacro;
                 if (compiledMacros.TryGetValue(macro.Id, out compiledMacro))
                     return compiledMacro;
             }
@@ -69,7 +80,7 @@ namespace WikiPlex.Compilation
             }
         }
 
-        private CompiledMacro CompileMacro(IMacro macro)
+        private static CompiledMacro CompileMacro(IMacro macro)
         {
             Regex regex;
             IList<string> captures;
@@ -79,7 +90,7 @@ namespace WikiPlex.Compilation
             return new CompiledMacro(macro.Id, regex, captures);
         }
 
-        private void CompileRules(IList<MacroRule> rules, out Regex regex, out IList<string> captures)
+        private static void CompileRules(IList<MacroRule> rules, out Regex regex, out IList<string> captures)
         {
             var regexBuilder = new StringBuilder();
             captures = new List<string>();
@@ -95,7 +106,7 @@ namespace WikiPlex.Compilation
             regex = new Regex(regexBuilder.ToString(), RegexOptions.Compiled);
         }
 
-        private void CompileRule(MacroRule rule, StringBuilder regex, IList<string> captures, bool isFirstRule)
+        private static void CompileRule(MacroRule rule, StringBuilder regex, IList<string> captures, bool isFirstRule)
         {
             if (!isFirstRule)
             {
@@ -131,6 +142,10 @@ namespace WikiPlex.Compilation
             return numberOfCapturesRegex.Matches(regex).Count;
         }
 
+        ///<summary>
+        /// This will flush all compiled macros from the cache.
+        ///</summary>
+        /// <remarks>It is not recommended to use this method as compilation of macros is an expensive operation.</remarks>
         public void Flush()
         {
             compileLock.EnterWriteLock();

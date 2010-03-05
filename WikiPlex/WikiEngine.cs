@@ -9,29 +9,67 @@ using WikiPlex.Parsing;
 
 namespace WikiPlex
 {
+    /// <summary>
+    /// The public entry point for the wiki engine.
+    /// </summary>
     public class WikiEngine : IWikiEngine
     {
         private static readonly MacroCompiler compiler = new MacroCompiler();
         private static readonly Regex NewLineRegex = new Regex(@"(?<!\r|</tr>|</li>|</ul>|</ol>|<hr />|</blockquote>)\n(?!<h[1-6]>|<hr />|<ul>|<ol>|</li>)", RegexOptions.Compiled);
         private static readonly Regex PreRegex = new Regex(@"(?s)((?><pre>)(?>.*?</pre>))", RegexOptions.Compiled);
 
+        /// <summary>
+        /// Renders the wiki content using the statically registered macros and renderers.
+        /// </summary>
+        /// <param name="wikiContent">The wiki content to be rendered.</param>
+        /// <returns>The rendered html content.</returns>
         public string Render(string wikiContent)
         {
             var formatter = new MacroFormatter(Renderers.All);
             return Render(wikiContent, formatter);
         }
 
+        /// <summary>
+        /// Renders the wiki content using the a custom formatter with statically registered macros.
+        /// </summary>
+        /// <param name="wikiContent">The wiki content to be rendered.</param>
+        /// <param name="formatter">The custom formatter used when rendering.</param>
+        /// <returns>The rendered html content.</returns>
+        /// <exception cref="System.ArgumentNullException">Thrown when formatter is null.</exception>
         public string Render(string wikiContent, IFormatter formatter)
         {
             return Render(wikiContent, Macros.All, formatter);
         }
 
+        /// <summary>
+        /// Renders the wiki content using the specified macros and statically registered renderers.
+        /// </summary>
+        /// <param name="wikiContent">The wiki content to be rendered.</param>
+        /// <param name="macros">A collection of macros to be used when rendering.</param>
+        /// <returns>The rendered html content.</returns>
+        /// <exception cref="System.ArgumentNullException">Thrown when macros is null.</exception>
+        /// <exception cref="System.ArgumentException">Thrown when macros is an empty enumerable.</exception>
         public string Render(string wikiContent, IEnumerable<IMacro> macros)
         {
             var formatter = new MacroFormatter(Renderers.All);
             return Render(wikiContent, macros, formatter);
         }
 
+        /// <summary>
+        /// Renders the wiki content using the specified macros and custom formatter.
+        /// </summary>
+        /// <param name="wikiContent">The wiki content to be rendered.</param>
+        /// <param name="macros">A collection of macros to be used when rendering.</param>
+        /// <param name="formatter">The custom formatter used when rendering.</param>
+        /// <returns>The rendered html content.</returns>
+        /// <exception cref="System.ArgumentNullException">
+        /// Thrown when macros is null.
+        /// 
+        /// - or -
+        /// 
+        /// Thrown when formatter is null.
+        /// </exception>
+        /// <exception cref="System.ArgumentException">Thrown when macros is an empty enumerable.</exception>
         public string Render(string wikiContent, IEnumerable<IMacro> macros, IFormatter formatter)
         {
             Guard.NotNullOrEmpty(macros, "macros");

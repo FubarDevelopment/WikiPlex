@@ -2,13 +2,25 @@
 
 namespace WikiPlex.Compilation.Macros
 {
+    /// <summary>
+    /// This macro will display text as bolded.
+    /// </summary>
+    /// <example><![CDATA[
+    /// *i am bolded*
+    /// ]]></example>
     public class BoldMacro : IMacro
     {
+        /// <summary>
+        /// Gets the id of the macro.
+        /// </summary>
         public string Id
         {
             get { return "Bold"; }
         }
 
+        /// <summary>
+        /// Gets the list of rules for the macro.
+        /// </summary>
         public IList<MacroRule> Rules
         {
             get

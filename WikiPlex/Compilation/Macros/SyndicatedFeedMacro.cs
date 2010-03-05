@@ -2,13 +2,27 @@
 
 namespace WikiPlex.Compilation.Macros
 {
+    /// <summary>
+    /// This macro will display a syndicated feed.
+    /// </summary>
+    /// <example><![CDATA[
+    /// {rss:url=http://www.foo.com/rss}
+    /// {atom:url=http://www.foo.com/atom}
+    /// {feed:url=http://www.foo.com/rss}
+    /// ]]></example>
     public class SyndicatedFeedMacro : IMacro
     {
+        /// <summary>
+        /// Gets the id of the macro.
+        /// </summary>
         public string Id
         {
             get { return "Syndicated Feed"; }
         }
 
+        /// <summary>
+        /// Gets the list of rules for the macro.
+        /// </summary>
         public IList<MacroRule> Rules
         {
             get

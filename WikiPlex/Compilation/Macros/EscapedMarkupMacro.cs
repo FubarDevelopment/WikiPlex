@@ -2,13 +2,25 @@
 
 namespace WikiPlex.Compilation.Macros
 {
+    /// <summary>
+    /// This macro will escape all other macros that are contained between {" and "}.
+    /// </summary>
+    /// <example><![CDATA[
+    /// {" *I will not bold* "}
+    /// ]]></example>
     public class EscapedMarkupMacro : IMacro
     {
+        /// <summary>
+        /// Gets the id of the macro.
+        /// </summary>
         public string Id
         {
             get { return "Escaped Markup"; }
         }
 
+        /// <summary>
+        /// Gets the list of rules.
+        /// </summary>
         public IList<MacroRule> Rules
         {
             get

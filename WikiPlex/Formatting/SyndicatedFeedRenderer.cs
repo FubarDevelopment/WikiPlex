@@ -8,32 +8,59 @@ using WikiPlex.Syndication;
 
 namespace WikiPlex.Formatting
 {
+    /// <summary>
+    /// Will render the syndicated feed scopes.
+    /// </summary>
     public class SyndicatedFeedRenderer : IRenderer
     {
         private readonly IXmlDocumentReader xmlDocumentReader;
         private readonly ISyndicationReader syndicationReader;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SyndicatedFeedRenderer"/>.
+        /// </summary>
         public SyndicatedFeedRenderer()
             : this(new XmlDocumentReaderWrapper(), new SyndicationReader())
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SyndicatedFeedRenderer"/>.
+        /// </summary>
+        /// <param name="xmlDocumentReader">The xml document reader.</param>
+        /// <param name="syndicationReader">The syndication reader.</param>
         public SyndicatedFeedRenderer(IXmlDocumentReader xmlDocumentReader, ISyndicationReader syndicationReader)
         {
             this.xmlDocumentReader = xmlDocumentReader;
             this.syndicationReader = syndicationReader;
         }
 
+        /// <summary>
+        /// Gets the id of a renderer.
+        /// </summary>
         public string Id
         {
             get { return "Syndicated Feed Renderer"; }
         }
 
+        /// <summary>
+        /// Determines if this renderer can expand the given scope name.
+        /// </summary>
+        /// <param name="scopeName">The scope name to check.</param>
+        /// <returns>A boolean value indicating if the renderer can or cannot expand the macro.</returns>
         public bool CanExpand(string scopeName)
         {
             return scopeName == ScopeName.SyndicatedFeed;
         }
 
+        /// <summary>
+        /// Will expand the input into the appropriate content based on scope.
+        /// </summary>
+        /// <param name="scopeName">The scope name.</param>
+        /// <param name="input">The input to be expanded.</param>
+        /// <param name="htmlEncode">Function that will html encode the output.</param>
+        /// <param name="attributeEncode">Function that will html attribute encode the output.</param>
+        /// <returns>The expanded content.</returns>
         public string Expand(string scopeName, string input, Func<string, string> htmlEncode, Func<string, string> attributeEncode)
         {
             string[] parameters = input.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
@@ -77,6 +104,13 @@ namespace WikiPlex.Formatting
             return content.ToString();
         }
 
+        /// <summary>
+        /// Handles rendering a feed.
+        /// </summary>
+        /// <param name="url">The url to read the feed from.</param>
+        /// <param name="titlesOnly">Indicates if only titles should be displayed.</param>
+        /// <param name="max">The maximum number of entries to display.</param>
+        /// <param name="writer">The text writer to write to.</param>
         protected virtual void RenderFeed(string url, bool titlesOnly, int max, HtmlTextWriter writer)
         {
             XmlDocument xdoc = xmlDocumentReader.Read(url);
@@ -150,6 +184,11 @@ namespace WikiPlex.Formatting
             }
         }
 
+        /// <summary>
+        /// Handles rendering the accent bar.
+        /// </summary>
+        /// <param name="writer">The text writer to write to.</param>
+        /// <param name="title">The title to write.</param>
         protected static void RenderAccentBar(HtmlTextWriter writer, string title)
         {
             writer.AddAttribute(HtmlTextWriterAttribute.Class, "accentbar");

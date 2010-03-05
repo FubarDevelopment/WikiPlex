@@ -2,13 +2,42 @@
 
 namespace WikiPlex.Compilation.Macros
 {
+    /// <summary>
+    /// Will output source code rendered as plain text or as syntax highighted for certain languages.
+    /// </summary>
+    /// <example><![CDATA[
+    /// {{this is a single-line example}}
+    /// {{
+    /// this is a multi-line example with no syntax highlighting
+    /// }}
+    /// {code:aspx c#} ASPX C# {code:aspx c#}
+    /// {code:aspx vb.net} ASPX VB.Net {code:aspx vb.net}
+    /// {code:ashx} ASHX {code:ashx}
+    /// {code:c++} C++ {code:c++}
+    /// {code:c#} C# {code:c#}
+    /// {code:vb.net} VB.Net {code:vb.net}
+    /// {code:html} HTML {code:html}
+    /// {code:sql} SQL {code:sql}
+    /// {code:java} Java {code:java}
+    /// {code:javascript} Javascript {code:javascript}
+    /// {code:xml} XML {code:xml}
+    /// {code:php} PHP {code:php}
+    /// {code:css} CSS {code:css}
+    /// {code:powershell} Powershell {code:powershell}
+    /// ]]></example>
     public class SourceCodeMacro : IMacro
     {
+        /// <summary>
+        /// Gets the id of the macro.
+        /// </summary>
         public string Id
         {
             get { return "SourceCode"; }
         }
 
+        /// <summary>
+        /// Gets the list of rules for the macro.
+        /// </summary>
         public IList<MacroRule> Rules
         {
             get

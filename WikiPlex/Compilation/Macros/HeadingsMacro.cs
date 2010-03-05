@@ -2,13 +2,30 @@
 
 namespace WikiPlex.Compilation.Macros
 {
+    /// <summary>
+    /// This macro will display text as headings.
+    /// </summary>
+    /// <example><![CDATA[
+    /// ! heading 1
+    /// !! heading 2
+    /// !!! heading 3
+    /// !!!! heading 4
+    /// !!!!! heading 5
+    /// !!!!!! heading 6
+    /// ]]></example>
     public class HeadingsMacro : IMacro
     {
+        /// <summary>
+        /// Gets the id of the macro.
+        /// </summary>
         public string Id
         {
             get { return "Headings"; }
         }
 
+        /// <summary>
+        /// Gets the list of rules for the macro.
+        /// </summary>
         public IList<MacroRule> Rules
         {
             get

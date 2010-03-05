@@ -4,9 +4,21 @@ using WikiPlex.Compilation.Macros;
 
 namespace WikiPlex.Parsing
 {
+    /// <summary>
+    /// Handles augmenting the scopes for the <see cref="IListMacro"/>.
+    /// </summary>
+    /// <typeparam name="TMacro">The type of the <see cref="IListMacro"/>.</typeparam>
+    /// <remarks>Currently, this is used for augmenting the <see cref="OrderedListMacro"/> and <see cref="UnorderedListMacro"/>.</remarks>
     public class ListScopeAugmenter<TMacro> : IScopeAugmenter
         where TMacro : class, IListMacro
     {
+        /// <summary>
+        /// This will insert new, remove, or re-order scopes.
+        /// </summary>
+        /// <param name="macro">The current macro.</param>
+        /// <param name="capturedScopes">The list of captured scopes.</param>
+        /// <param name="content">The wiki content being parsed.</param>
+        /// <returns>A new list of augmented scopes.</returns>
         public IList<Scope> Augment(IMacro macro, IList<Scope> capturedScopes, string content)
         {
             IList<Scope> newScopes = new List<Scope>();

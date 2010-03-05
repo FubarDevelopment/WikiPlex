@@ -7,15 +7,37 @@ using WikiPlex.Compilation.Macros;
 
 namespace WikiPlex.Parsing
 {
+    /// <summary>
+    /// Handles parsing the wiki content.
+    /// </summary>
     public class MacroParser : IMacroParser
     {
         private readonly IMacroCompiler compiler;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MacroParser"/> class.
+        /// </summary>
+        /// <param name="compiler">The <see cref="IMacroCompiler"/> to use for compiling macros.</param>
         public MacroParser(IMacroCompiler compiler)
         {
             this.compiler = compiler;
         }
 
+        /// <summary>
+        /// Will parse the wiki content pushing scopes into the parse handler.
+        /// </summary>
+        /// <param name="wikiContent">The wiki content.</param>
+        /// <param name="macros">The macros to use for parsing.</param>
+        /// <param name="scopeAugmenters">The scope augmenters to use for parsing.</param>
+        /// <param name="parseHandler">The action method that is used for pushing parsed scopes.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when macros is null.
+        /// 
+        /// -- or --
+        /// 
+        /// Thrown when scope augmenters is null.
+        /// </exception>
+        /// <exception cref="ArgumentException">Thrown when macros is empty.</exception>
         public void Parse(string wikiContent, IEnumerable<IMacro> macros, IDictionary<string, IScopeAugmenter> scopeAugmenters, Action<IList<Scope>> parseHandler)
         {
             if (string.IsNullOrEmpty(wikiContent))

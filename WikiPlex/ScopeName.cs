@@ -1,7 +1,11 @@
 ﻿namespace WikiPlex
 {
+    /// <summary>
+    /// The collection of scope names used during parsing and rendering.
+    /// </summary>
     public class ScopeName
     {
+#pragma warning disable 1591
         public const string AlignEnd = "Align End Tag";
         public const string Anchor = "Anchor Tag";
         public const string BoldBegin = "Bolded Begin Tag";
@@ -90,5 +94,6 @@
         public const string UnorderedListEndTag = "Unordered List End Tag";
         public const string WindowsMediaVideo = "Windows Media Video";
         public const string YouTubeVideo = "YouTube Video";
+#pragma warning restore 1591
     }
 }

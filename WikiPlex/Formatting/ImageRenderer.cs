@@ -3,6 +3,9 @@ using WikiPlex.Common;
 
 namespace WikiPlex.Formatting
 {
+    /// <summary>
+    /// Will render the image scopes.
+    /// </summary>
     public class ImageRenderer : IRenderer
     {
         private const string ImageAndLink = "<a href=\"{2}\"><img style=\"border:none;\" src=\"{3}\" /></a>";
@@ -14,11 +17,19 @@ namespace WikiPlex.Formatting
         private const string ImageNoLinkAndAltWithStyle = "<div style=\"clear:both;\"></div><img style=\"float:{0};{1}\" src=\"{2}\" alt=\"{3}\" title=\"{3}\" />";
         private const string ImageNoLinkWithStyle = "<div style=\"clear:both;\"></div><img style=\"float:{0};{1}\" src=\"{2}\" />";
 
+        /// <summary>
+        /// Gets the id of a renderer.
+        /// </summary>
         public string Id
         {
             get { return "Image Renderer"; }
         }
 
+        /// <summary>
+        /// Determines if this renderer can expand the given scope name.
+        /// </summary>
+        /// <param name="scopeName">The scope name to check.</param>
+        /// <returns>A boolean value indicating if the renderer can or cannot expand the macro.</returns>
         public bool CanExpand(string scopeName)
         {
             return (scopeName == ScopeName.ImageWithLinkNoAltLeftAlign
@@ -35,6 +46,14 @@ namespace WikiPlex.Formatting
                     || scopeName == ScopeName.ImageNoAlignWithAlt);
         }
 
+        /// <summary>
+        /// Will expand the input into the appropriate content based on scope.
+        /// </summary>
+        /// <param name="scopeName">The scope name.</param>
+        /// <param name="input">The input to be expanded.</param>
+        /// <param name="htmlEncode">Function that will html encode the output.</param>
+        /// <param name="attributeEncode">Function that will html attribute encode the output.</param>
+        /// <returns>The expanded content.</returns>
         public string Expand(string scopeName, string input, Func<string, string> htmlEncode, Func<string, string> attributeEncode)
         {
             try

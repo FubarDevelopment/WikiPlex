@@ -7,24 +7,43 @@ using WikiPlex.Parsing;
 
 namespace WikiPlex.Formatting
 {
+    /// <summary>
+    /// Handles formatting wiki content based on recorded scopes.
+    /// </summary>
     public class MacroFormatter : IFormatter
     {
         private readonly IEnumerable<IRenderer> renderers;
         private readonly List<Scope> scopes;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MacroFormatter"/> class.
+        /// </summary>
+        /// <param name="renderers">The renderers to use when formatting.</param>
         public MacroFormatter(IEnumerable<IRenderer> renderers)
         {
             this.renderers = renderers;
             scopes = new List<Scope>();
         }
 
+        /// <summary>
+        /// Event that is raised when a scope is rendered.
+        /// </summary>
         public event EventHandler<RenderedScopeEventArgs> ScopeRendered;
 
+        /// <summary>
+        /// Will record the parsing of scopes.
+        /// </summary>
+        /// <param name="scopes">The parsed scopes.</param>
         public void RecordParse(IList<Scope> scopes)
         {
             this.scopes.AddRange(scopes);
         }
 
+        /// <summary>
+        /// Will format the wiki content based on the recorded scopes and output the content to the writer.
+        /// </summary>
+        /// <param name="wikiContent">The wiki content to format.</param>
+        /// <param name="writer">The writer to write the content to.</param>
         public void Format(string wikiContent, StringBuilder writer)
         {
             int currentIndex = 0;
@@ -71,16 +90,30 @@ namespace WikiPlex.Formatting
                 writer.Remove(writer.Length - 1, 1);
         }
 
+        /// <summary>
+        /// Method used to encode content during formatting.
+        /// </summary>
+        /// <param name="input">The input to encode.</param>
+        /// <returns>The encoded output.</returns>
         protected virtual string EncodeContent(string input)
         {
             return HttpUtility.HtmlEncode(input);
         }
 
+        /// <summary>
+        /// Method used to encode attributes during formatting.
+        /// </summary>
+        /// <param name="input">The input to encode.</param>
+        /// <returns>The encoded output.</returns>
         protected virtual string EncodeAttributeContent(string input)
         {
             return HttpUtility.HtmlAttributeEncode(input);
         }
 
+        /// <summary>
+        /// Handles raising the ScopeRendered event.
+        /// </summary>
+        /// <param name="e">The event arguments.</param>
         protected virtual void OnScopeRendered(RenderedScopeEventArgs e)
         {
             EventHandler<RenderedScopeEventArgs> handler = ScopeRendered;

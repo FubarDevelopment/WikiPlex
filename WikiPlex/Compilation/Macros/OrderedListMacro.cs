@@ -2,28 +2,52 @@
 
 namespace WikiPlex.Compilation.Macros
 {
+    /// <summary>
+    /// This macro will output an ordered list.
+    /// </summary>
+    /// <example><![CDATA[
+    /// # item 1
+    /// # item 2
+    /// ## item 2.1
+    /// ### item 2.1.1
+    /// ]]></example>
     public class OrderedListMacro : IListMacro
     {
+        /// <summary>
+        /// Gets the id of the macro.
+        /// </summary>
         public string Id
         {
             get { return "OrderedList"; }
         }
 
+        /// <summary>
+        /// Gets the list start scope name.
+        /// </summary>
         public string ListStartScopeName
         {
             get { return ScopeName.OrderedListBeginTag; }
         }
 
+        /// <summary>
+        /// Gets the list end scope name.
+        /// </summary>
         public string ListEndScopeName
         {
             get { return ScopeName.OrderedListEndTag; }
         }
 
+        /// <summary>
+        /// Gets the char used for depth (level) inspection.
+        /// </summary>
         public char DepthChar
         {
             get { return '#'; }
         }
 
+        /// <summary>
+        /// Gets the list of rules for the macro.
+        /// </summary>
         public IList<MacroRule> Rules
         {
             get

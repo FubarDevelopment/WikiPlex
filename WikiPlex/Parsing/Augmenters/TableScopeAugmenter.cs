@@ -4,8 +4,18 @@ using WikiPlex.Compilation.Macros;
 
 namespace WikiPlex.Parsing
 {
+    /// <summary>
+    /// Handles augmenting the scopes for the <see cref="TableMacro"/>.
+    /// </summary>
     public class TableScopeAugmenter : IScopeAugmenter
     {
+        /// <summary>
+        /// This will insert new, remove, or re-order scopes.
+        /// </summary>
+        /// <param name="macro">The current macro.</param>
+        /// <param name="capturedScopes">The list of captured scopes.</param>
+        /// <param name="content">The wiki content being parsed.</param>
+        /// <returns>A new list of augmented scopes.</returns>
         public IList<Scope> Augment(IMacro macro, IList<Scope> capturedScopes, string content)
         {
             IList<Scope> augmentedScopes = new List<Scope>();

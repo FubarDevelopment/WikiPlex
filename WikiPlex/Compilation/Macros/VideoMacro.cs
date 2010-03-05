@@ -2,13 +2,30 @@
 
 namespace WikiPlex.Compilation.Macros
 {
+    /// <summary>
+    /// This macro will embed a video.
+    /// </summary>
+    /// <example><![CDATA[
+    /// {video:url=http://www.foo.com,type=Flash}
+    /// {video:url=http://www.foo.com,type=QuickTime}
+    /// {video:url=http://www.foo.com,type=Real}
+    /// {video:url=http://www.foo.com,type=Windows}
+    /// {video:url=http://www.foo.com,type=YouTube}
+    /// {video:url=http://www.foo.com,type=Channel9}
+    /// ]]></example>
     public class VideoMacro : IMacro
     {
+        /// <summary>
+        /// Gets the id of the macro.
+        /// </summary>
         public string Id
         {
             get { return "Video"; }
         }
 
+        /// <summary>
+        /// Gets the list of rules for the macro.
+        /// </summary>
         public IList<MacroRule> Rules
         {
             get

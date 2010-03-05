@@ -4,14 +4,23 @@ using WikiPlex.Common;
 
 namespace WikiPlex.Syndication
 {
+    /// <summary>
+    /// This class is used for converting an <see cref="XmlDocument"/> into a <see cref="SyndicationFeed"/> based on the feed type.
+    /// </summary>
     public class SyndicationReader : ISyndicationReader
     {
+        /// <summary>
+        /// Will read an <see cref="XmlDocument"/> and convert it into a <see cref="SyndicationFeed"/> based on the syndication type.
+        /// </summary>
+        /// <param name="xmlDocument">The xml document to read.</param>
+        /// <returns>The created syndication feed.</returns>
+        /// <exception cref="ArgumentNullException">Thrown when the xmlDocument is null.</exception>
         public SyndicationFeed Read(XmlDocument xmlDocument)
         {
             return CreateReader(xmlDocument).Read();
         }
 
-        private IFeedReader CreateReader(XmlDocument xmlDocument)
+        private static IFeedReader CreateReader(XmlDocument xmlDocument)
         {
             Guard.NotNull(xmlDocument, "xmlDocument");
 

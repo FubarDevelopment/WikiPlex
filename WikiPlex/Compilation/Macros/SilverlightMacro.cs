@@ -2,13 +2,25 @@
 
 namespace WikiPlex.Compilation.Macros
 {
+    /// <summary>
+    /// This macro will embed a silverlight application.
+    /// </summary>
+    /// <example><![CDATA[
+    /// {silverlight:url=http://www.foo.com}
+    /// ]]></example>
     public class SilverlightMacro : IMacro
     {
+        /// <summary>
+        /// Gets the id of the macro.
+        /// </summary>
         public string Id
         {
             get { return "Silverlight"; }
         }
 
+        /// <summary>
+        /// Gets the list of rules for the macro.
+        /// </summary>
         public IList<MacroRule> Rules
         {
             get

@@ -3,25 +3,30 @@ using WikiPlex.Parsing;
 
 namespace WikiPlex.Formatting
 {
+    /// <summary>
+    /// The event arguments used when a scope is rendered.
+    /// </summary>
     public class RenderedScopeEventArgs : EventArgs
     {
-        private readonly Scope scope;
-        private readonly string content;
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RenderedScopeEventArgs"/> class.
+        /// </summary>
+        /// <param name="scope">The scope name.</param>
+        /// <param name="content">The content.</param>
         public RenderedScopeEventArgs(Scope scope, string content)
         {
-            this.scope = scope;
-            this.content = content;
+            Scope = scope;
+            Content = content;
         }
 
-        public string Content
-        {
-            get { return content; }
-        }
+        /// <summary>
+        /// Gets the content.
+        /// </summary>
+        public string Content { get; private set; }
 
-        public Scope Scope
-        {
-            get { return scope; }
-        }
+        /// <summary>
+        /// Gets the scope.
+        /// </summary>
+        public Scope Scope { get; private set; }
     }
 }

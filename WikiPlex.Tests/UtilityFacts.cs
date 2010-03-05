@@ -11,7 +11,7 @@ namespace WikiPlex.Tests
             [Fact]
             public void Should_throw_ArgumentException_if_the_type_is_not_an_enumeration()
             {
-                var ex = Record.Exception(() => Utility.IsDefinedOnEnum<string>("foo"));
+                var ex = Record.Exception(() => Utility.IsDefinedOnEnum<int>("foo"));
 
                 Assert.NotNull(ex);
                 Assert.IsType<ArgumentException>(ex);

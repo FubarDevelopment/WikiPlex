@@ -2,13 +2,25 @@
 
 namespace WikiPlex.Compilation.Macros
 {
+    /// <summary>
+    /// This macro will display text in italics.
+    /// </summary>
+    /// <example><![CDATA[
+    /// _i am italics_
+    /// ]]></example>
     public class ItalicsMacro : IMacro
     {
+        /// <summary>
+        /// Gets the id of the macro.
+        /// </summary>
         public string Id
         {
             get { return "Italics"; }
         }
 
+        /// <summary>
+        /// Gets the list of rules for the macro.
+        /// </summary>
         public IList<MacroRule> Rules
         {
             get

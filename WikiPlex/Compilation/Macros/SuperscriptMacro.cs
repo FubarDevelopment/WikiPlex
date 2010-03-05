@@ -2,13 +2,25 @@
 
 namespace WikiPlex.Compilation.Macros
 {
+    /// <summary>
+    /// This macro will display text as superscript.
+    /// </summary>
+    /// <example><![CDATA[
+    /// I am normal^^but I am subscript^^
+    /// ]]></example>
     public class SuperscriptMacro : IMacro
     {
+        /// <summary>
+        /// Gets the id of the macro.
+        /// </summary>
         public string Id
         {
             get { return "Superscript"; }
         }
 
+        /// <summary>
+        /// Gets the list of rules for the macro.
+        /// </summary>
         public IList<MacroRule> Rules
         {
             get

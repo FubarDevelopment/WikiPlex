@@ -2,13 +2,27 @@
 
 namespace WikiPlex.Compilation.Macros
 {
+    /// <summary>
+    /// This macro will output a table with defined headers and rows.
+    /// </summary>
+    /// <example><![CDATA[
+    /// || header 1 || header 2 ||
+    /// | cell 1 | cell 2 |
+    /// | cell 3 | cell 4 |
+    /// ]]></example>
     public class TableMacro : IMacro
     {
+        /// <summary>
+        /// Gets the ide of the macro.
+        /// </summary>
         public string Id
         {
             get { return "Table"; }
         }
 
+        /// <summary>
+        /// Gets the list of rules for the macro.
+        /// </summary>
         public IList<MacroRule> Rules
         {
             get
