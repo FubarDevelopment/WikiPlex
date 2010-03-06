@@ -1,3 +1,4 @@
 relre:(?i).+resharper.+
 relre:(?i).+/(bin|obj)/.+
 relre:.+\.(user|suo)
+relre:(?i)_Help/.+

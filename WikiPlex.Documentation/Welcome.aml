@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<topic id="75c1120e-3807-4896-b9af-7325866ae183" revisionNumber="1">
+  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <introduction>
+      <para>WikiPlex is a regular expression based wiki engine that allows developers to integrate a wiki experience into an existing .NET application seamlessly and with little effort. Built and used by the CodePlex team, WikiPlex has been thoroughly tested in real-world scenarios!</para>
+    </introduction>
+    <!-- Add one or more top-level section elements.  These are collapsible.
+         If using <autoOutline />, add an address attribute to identify it
+         and specify a title so that it can be jumped to with a hyperlink. -->
+    <section address="WhatAndWhy">
+      <title>What and Why?</title>
+      <content>
+        <para>
+        	<externalLink><linkText>CodePlex</linkText><linkUri>http://www.codeplex.com</linkUri><linkTarget>_blank</linkTarget></externalLink>
+ 			previously had a decent wiki engine that was written eon's ago. On the average, that wiki engine worked relatively well, but had a 
+ 			very problematic performance bug that would cause rendering slowness occasionally. So, instead of attempting to fix the bug, we 
+ 			decided to re-write the entire thing with the intensions of making it available to everyone! This time, we chose a different 
+ 			approach for parsing the wiki markup (utilizing regular expressions) which has proven to give us a performance boost as well as 
+ 			a relatively simpler architecture!
+ 		</para>
+ 		<para>
+        	The main question you may be asking yourself is - Why use WikiPlex over a different solution? Here's the simple answer: WikiPlex 
+        	is great if you already have a .NET application you'd like to embed a wiki interface into. Be it as simple as allowing users to 
+        	host their own homepage content, item descriptions, or comments - the possibilities are endless!
+		</para>
+      </content>
+    </section>
+    <section address="Usage">
+    	<title>Usage</title>
+    	<content>
+    		<para>
+    			WikiPlex was built in a way that it can easily be added into your infrastructure. Whether your using dependency injection or not, 
+    			the code is as simple as the following:
+    		</para>
+    		<code language="C#">
+    			var engine = new WikiPlex.WikiEngine();
+				string output = engine.Render("This is my wiki source!");
+    		</code>
+    		<para>
+    			If you take a look at the overloads for Render, you'll see that you have a lot of flexibility as far as rendering various wiki segments differently at runtime.
+    		</para>
+    		<code language="C#">
+    			public interface IWikiEngine
+				{
+				   string Render(string wikiContent);
+				   string Render(string wikiContent, IFormatter formatter);
+				   string Render(string wikiContent, IEnumerable&lt;IMacro&gt; macros);
+				   string Render(string wikiContent, IEnumerable&lt;IMacro&gt; macros, IFormatter formatter);
+				}
+    		</code>
+    	</content>
+    </section>
+    <section address="SupportedMacros">
+    	<title>Supported Macros</title>
+    	<content>
+    		<para>
+    			The following are the macros supported out of the box for WikiPlex. If you'd like to see the description and usage, please visit the markup guide.
+    		</para>
+			<list class="bullet">
+			  <listItem>
+			  	Text Formatting
+			  	<list class="bullet">
+			  		<listItem>Bold</listItem>
+			  		<listItem>Italics</listItem>
+			  		<listItem>Underline</listItem>
+			  		<listItem>Strikethrough</listItem>
+			  		<listItem>Superscript</listItem>
+			  		<listItem>Subscript</listItem>
+			  	</list>
+			  </listItem>
+			  <listItem>Headings</listItem>
+			  <listItem>Images</listItem>
+			  <listItem>Links</listItem>
+			  <listItem>Tables</listItem>
+			  <listItem>Left and Right Aligned Text</listItem>
+			  <listItem>Ordered and Unordered Lists</listItem>
+			  <listItem>RSS / Atom Feeds</listItem>
+			  <listItem>Source Code Blocks (both syntax highlighted and not)</listItem>
+			  <listItem>Silverlight</listItem>
+			  <listItem>Videos (Flash, Quicktime, Real, Windows Media, YouTube, and Channel9)</listItem>
+			</list>
+    	</content>
+    </section>
+  </developerConceptualDocument>
+</topic>
