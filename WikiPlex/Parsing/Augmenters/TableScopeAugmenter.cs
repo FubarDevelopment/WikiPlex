@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using WikiPlex.Common;
 using WikiPlex.Compilation.Macros;
 
 namespace WikiPlex.Parsing
@@ -16,7 +15,7 @@ namespace WikiPlex.Parsing
         /// <param name="capturedScopes">The list of captured scopes.</param>
         /// <param name="content">The wiki content being parsed.</param>
         /// <returns>A new list of augmented scopes.</returns>
-        public IList<Scope> Augment(IMacro macro, IList<Scope> capturedScopes, string content)
+        public virtual IList<Scope> Augment(IMacro macro, IList<Scope> capturedScopes, string content)
         {
             IList<Scope> augmentedScopes = new List<Scope>();
 
