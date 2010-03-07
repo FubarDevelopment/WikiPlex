@@ -2,6 +2,7 @@
   <UsingTask AssemblyFile="3rdParty\CodePlex.MSBuildTasks.dll" TaskName="CodePlex.MSBuildTasks.RegexReplace"/>
   <UsingTask AssemblyFile="3rdParty\CodePlex.MSBuildTasks.dll" TaskName="CodePlex.MSBuildTasks.Zip"/>
   <UsingTask AssemblyFile="3rdParty\xUnit\xunit.runner.msbuild.dll" TaskName="Xunit.Runner.MSBuild.xunit"/>
+  <UsingTask AssemblyFile="3rdParty\WikiMaml\WikiMaml.MSBuild.dll" TaskName="WikiMaml.MSBuild.WikiMaml"/>
 
   <PropertyGroup Condition="'$(Condition)' == ''">
     <Configuration>Debug</Configuration>
@@ -23,7 +24,7 @@
   </PropertyGroup>
 
   <Target Name="CI" DependsOnTargets="set-version;FullBuild;build-package" />
-  <Target Name="FullBuild" DependsOnTargets="run-clean;run-build;run-tests" />
+  <Target Name="FullBuild" DependsOnTargets="run-clean;run-build;run-tests;build-documentation" />
 
   <Target Name="run-clean">
     <MSBuild Projects="WikiPlex.sln" Targets="Clean" Properties="Configuration=$(Configuration)" />
@@ -71,5 +72,14 @@
     <RegexReplace Pattern='Include="\.\.\\GlobalAssemblyInfo.cs"' Replacement='Include="Properties\\GlobalAssemblyInfo.cs"' Files='$(SamplePath)\WikiPlex.Web.Sample.csproj' />
     <RegexReplace Pattern='&lt;Link&gt;Properties\\GlobalAssemblyInfo.cs&lt;/Link&gt;' Replacement=' ' Files='$(SamplePath)\WikiPlex.Web.Sample.csproj' />
     <RegexReplace Pattern='(?s)&lt;ProjectReference Include=\"..\\WikiPlex\\WikiPlex.csproj\"&gt;.*?&lt;/ProjectReference&gt;' Replacement='&lt;Reference Include="WikiPlex" /&gt;' Files='$(SamplePath)\WikiPlex.Web.Sample.csproj' />
+  </Target>
+
+  <Target Name="build-documentation" DependsOnTargets="run-build">
+    <ItemGroup>
+      <FilesToCopy Include="WikiPlex\bin\$(Configuration)\*.dll;WikiPlex\bin\$(Configuration)\*.pdb" />
+    </ItemGroup>
+    
+    <Copy SourceFiles="@(FilesToCopy)" DestinationFolder="3rdParty\WikiMaml" />
+    <WikiMaml SourceFolder="WikiPlex.Documentation\Source" OutputFolder="WikiPlex.Documentation" />
   </Target>
 </Project>
