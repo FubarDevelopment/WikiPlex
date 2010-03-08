@@ -2,5 +2,5 @@ relre:(?i).+resharper.+
 relre:(?i).+/(bin|obj)/.+
 relre:(?i).+\.(aml|user|suo)
 relre:(?i)_(Help|Zip)/.+
-relre:(?i)^3rdParty/WikiMaml/ColorCode.(dll|pdb|xml)$
-relre:(?i)^3rdParty/WikiMaml/WikiPlex.(dll|pdb|xml)$
+relre:(?i)^3rdParty/WikiMaml/(ColorCode|WikiPlex)\.(dll|pdb|xml)$
+relre:(?i)^WikiPlex\.Documentation/WikiPlex\.(dll|xml)

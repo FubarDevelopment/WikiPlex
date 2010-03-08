@@ -19,9 +19,8 @@
     <HtmlHelp1xCompilerPath>
     </HtmlHelp1xCompilerPath>
     <DocumentationSources>
-      <DocumentationSource sourceFile="..\WikiPlex\bin\Debug\WikiPlex.dll" />
-      <DocumentationSource sourceFile="..\WikiPlex\bin\Debug\WikiPlex.xml" />
-    </DocumentationSources>
+      <DocumentationSource sourceFile="WikiPlex.dll" />
+<DocumentationSource sourceFile="WikiPlex.xml" /></DocumentationSources>
     <CopyrightHref>http://wikiplex.codeplex.com</CopyrightHref>
     <CopyrightText>Copyright \xA9 2009 - 2010, Microsoft, All rights reserved</CopyrightText>
     <HelpTitle>WikiPlex Documentation</HelpTitle>

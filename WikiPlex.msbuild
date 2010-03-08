@@ -87,28 +87,30 @@
   <Target Name="prepare-documentation" DependsOnTargets="run-build">
     <ItemGroup>
       <FilesToCopy Include="WikiPlex\bin\$(Configuration)\*.dll;3rdParty\WikiMaml\*.dll" />
+      <DocFiles Include="WikiPlex\bin\$(Configuration)\WikiPlex.dll;WikiPlex\bin\$(Configuration)\WikiPlex.xml" />
       <WamlFiles Include="WikiPlex.Documentation\Source\**\*.waml" />
     </ItemGroup>
 
     <RemoveDir Directories="$(HelpPath)" Condition="Exists('$(HelpPath)')" />
     <MakeDir Directories="$(HelpPath)" />
     
+    <Copy SourceFiles="@(DocFiles)" DestinationFolder="WikiPlex.Documentation" />
     <Copy SourceFiles="@(FilesToCopy)" DestinationFolder="$(HelpPath)" />
     <WikiMaml SourceFiles="@(WamlFiles)" OutputFolder="WikiPlex.Documentation" />
   </Target>
 
-    <Target Name="build-documentation" DependsOnTargets="prepare-documentation">
-        <MSBuild Projects="WikiPlex.Documentation\WikiPlex.Documentation.shfbproj" Properties="Configuration=$(Configuration);Platform=AnyCPU;OutDir=$(HelpPath)" />
-        <CallTarget Targets="clean-documentation-files" />
-    </Target>
+  <Target Name="build-documentation" DependsOnTargets="prepare-documentation">
+    <MSBuild Projects="WikiPlex.Documentation\WikiPlex.Documentation.shfbproj" Properties="Configuration=$(Configuration);Platform=AnyCPU;OutDir=$(HelpPath)" />
+    <CallTarget Targets="clean-documentation-files" />
+  </Target>
 
-    <Target Name="clean-documentation-files">
-        <ItemGroup>
-            <AmlFiles Include="WikiPlex.Documentation\**\*.aml" />
-            <ExcludedAmlFiles Include="@(AmlFiles)" Exclude="WikiPlex.Documentation\*.*;WikiPlex.Documentation\Source\*.*" />
-            <AmlFolders Include="@(ExcludedAmlFiles->'%(RootDir)%(Directory)')" />
-        </ItemGroup>
-        <Delete Files="@(AmlFiles)" />
-        <RemoveDir Directories="@(AmlFolders)" Condition="" />
-    </Target>
+  <Target Name="clean-documentation-files">
+    <ItemGroup>
+        <FilesToDelete Include="WikiPlex.Documentation\WikiPlex.dll;WikiPlex.Documentation\WikiPlex.xml;WikiPlex.Documentation\**\*.aml" />
+        <ExcludedFiles Include="@(FilesToDelete)" Exclude="WikiPlex.Documentation\*.*;WikiPlex.Documentation\Source\*.*" />
+        <FoldersToRemove Include="@(ExcludedFiles->'%(RootDir)%(Directory)')" />
+    </ItemGroup>
+    <Delete Files="@(FilesToDelete)" />
+    <RemoveDir Directories="@(FoldersToRemove)" Condition="" />
+  </Target>
 </Project>
