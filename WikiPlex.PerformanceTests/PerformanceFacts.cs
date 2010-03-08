@@ -1,16 +1,18 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
 using WikiPlex.Compilation;
 using WikiPlex.Compilation.Macros;
 using WikiPlex.Formatting;
+using WikiPlex.IntegrationTests;
 using WikiPlex.Syndication;
 using Xunit;
-using ThreadState=System.Threading.ThreadState;
+using ThreadState = System.Threading.ThreadState;
 
-namespace WikiPlex.IntegrationTests
+namespace WikiPlex.PerformanceTests
 {
     public class PerformanceFacts : IDisposable
     {
@@ -36,7 +38,7 @@ namespace WikiPlex.IntegrationTests
 
         private static void ExecutePerformanceTest(string fileName, int millisecondsToFinish)
         {
-            string content = InputDataAttribute.ReadContent("WikiPlex.IntegrationTests.Data.ForPerformance.", fileName);
+            string content = ReadContent("WikiPlex.PerformanceTests.Data.", fileName);
             var wiki = new WikiEngine();
             var stopWatch = new Stopwatch();
 
@@ -47,6 +49,12 @@ namespace WikiPlex.IntegrationTests
             Trace.WriteLine(fileName + ": " + stopWatch.ElapsedMilliseconds);
 
             Assert.True(stopWatch.ElapsedMilliseconds < millisecondsToFinish, "Finished in " + stopWatch.ElapsedMilliseconds + "ms");
+        }
+
+        private static string ReadContent(string prefix, string fileName)
+        {
+            using (var reader = new StreamReader(Assembly.GetExecutingAssembly().GetManifestResourceStream(prefix + fileName)))
+                return reader.ReadToEnd();
         }
 
         [Fact]

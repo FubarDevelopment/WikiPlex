@@ -27,8 +27,8 @@
     <SamplePath>$(MSBuildProjectDirectory)\Sample</SamplePath>
   </PropertyGroup>
 
-  <Target Name="CI" DependsOnTargets="set-version;FullBuild;build-documentation;build-package" />
-  <Target Name="FullBuild" DependsOnTargets="run-clean;run-build;run-tests" />
+  <Target Name="CI" DependsOnTargets="set-version;run-clean;run-build;run-tests;build-documentation;build-package" />
+  <Target Name="FullBuild" DependsOnTargets="run-clean;run-build;run-tests;run-perf-tests" />
   <Target Name="Doc" DependsOnTargets="prepare-documentation" />
   <Target Name="CleanDoc" DependsOnTargets="clean-documentation-files" />
 
@@ -44,6 +44,10 @@
   <Target Name="run-tests">
     <xunit Assembly="WikiPlex.Tests\bin\$(Configuration)\WikiPlex.Tests.dll" />
     <xunit Assembly="WikiPlex.IntegrationTests\bin\$(Configuration)\WikiPlex.IntegrationTests.dll" />
+  </Target>
+  
+  <Target Name="run-perf-tests">
+    <xunit Assembly="WikiPlex.PerformanceTests\bin\$(Configuration)\WikiPlex.PerformanceTests.dll" />
   </Target>
 
   <Target Name="set-version">
@@ -80,7 +84,7 @@
     <RegexReplace Pattern='(?s)&lt;ProjectReference Include=\"..\\WikiPlex\\WikiPlex.csproj\"&gt;.*?&lt;/ProjectReference&gt;' Replacement='&lt;Reference Include="WikiPlex" /&gt;' Files='$(SamplePath)\WikiPlex.Web.Sample.csproj' />
   </Target>
 
-  <Target Name="prepare-documentation" DependsOnTargets="run-build;clean-documentation-files">
+  <Target Name="prepare-documentation" DependsOnTargets="run-build">
     <ItemGroup>
       <FilesToCopy Include="WikiPlex\bin\$(Configuration)\*.dll;3rdParty\WikiMaml\*.dll" />
       <WamlFiles Include="WikiPlex.Documentation\Source\**\*.waml" />
