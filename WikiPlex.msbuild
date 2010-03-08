@@ -87,7 +87,7 @@
   <Target Name="prepare-documentation" DependsOnTargets="run-build">
     <ItemGroup>
       <FilesToCopy Include="WikiPlex\bin\$(Configuration)\*.dll;3rdParty\WikiMaml\*.dll" />
-      <DocFiles Include="WikiPlex\bin\$(Configuration)\WikiPlex.dll;WikiPlex\bin\$(Configuration)\WikiPlex.xml" />
+      <DocFiles Include="WikiPlex\bin\$(Configuration)\*.dll;WikiPlex\bin\$(Configuration)\*.xml" />
       <WamlFiles Include="WikiPlex.Documentation\Source\**\*.waml" />
     </ItemGroup>
 
@@ -106,7 +106,7 @@
 
   <Target Name="clean-documentation-files">
     <ItemGroup>
-        <FilesToDelete Include="WikiPlex.Documentation\WikiPlex.dll;WikiPlex.Documentation\WikiPlex.xml;WikiPlex.Documentation\**\*.aml" />
+        <FilesToDelete Include="WikiPlex.Documentation\*.dll;WikiPlex.Documentation\*.xml;WikiPlex.Documentation\**\*.aml" />
         <ExcludedFiles Include="@(FilesToDelete)" Exclude="WikiPlex.Documentation\*.*;WikiPlex.Documentation\Source\*.*" />
         <FoldersToRemove Include="@(ExcludedFiles->'%(RootDir)%(Directory)')" />
     </ItemGroup>
