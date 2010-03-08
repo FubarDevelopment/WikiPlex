@@ -2,7 +2,7 @@
   <UsingTask AssemblyFile="3rdParty\CodePlex.MSBuildTasks.dll" TaskName="CodePlex.MSBuildTasks.RegexReplace"/>
   <UsingTask AssemblyFile="3rdParty\CodePlex.MSBuildTasks.dll" TaskName="CodePlex.MSBuildTasks.Zip"/>
   <UsingTask AssemblyFile="3rdParty\xUnit\xunit.runner.msbuild.dll" TaskName="Xunit.Runner.MSBuild.xunit"/>
-  <UsingTask AssemblyFile="3rdParty\WikiMaml\WikiMaml.MSBuild.dll" TaskName="WikiMaml.MSBuild.WikiMaml"/>
+  <UsingTask AssemblyFile="_Help\WikiMaml.MSBuild.dll" TaskName="WikiMaml.MSBuild.WikiMaml"/>
 
   <PropertyGroup Condition="'$(Condition)' == ''">
     <Configuration>Debug</Configuration>
@@ -18,6 +18,10 @@
   <PropertyGroup Condition="'$(ArchivePath)' == ''">
     <ArchivePath>$(MSBuildProjectDirectory)\_Zip</ArchivePath>
   </PropertyGroup>
+
+  <PropertyGroup Condition="'$(HelpPath)' == ''">
+    <HelpPath>$(MSBuildProjectDirectory)\_Help</HelpPath>
+  </PropertyGroup>
   
   <PropertyGroup>
     <SamplePath>$(MSBuildProjectDirectory)\Sample</SamplePath>
@@ -25,6 +29,7 @@
 
   <Target Name="CI" DependsOnTargets="set-version;FullBuild;build-package" />
   <Target Name="FullBuild" DependsOnTargets="run-clean;run-build;run-tests;build-documentation" />
+  <Target Name="Doc" DependsOnTargets="build-documentation" />
 
   <Target Name="run-clean">
     <MSBuild Projects="WikiPlex.sln" Targets="Clean" Properties="Configuration=$(Configuration)" />
@@ -48,7 +53,7 @@
   
   <Target Name="build-package" DependsOnTargets="prepare-sample">
     <ItemGroup>
-        <FilesToArchive Include="WikiPlex\bin\$(Configuration)\*.dll;WikiPlex\bin\$(Configuration)\*.pdb;License.txt" />
+        <FilesToArchive Include="WikiPlex\bin\$(Configuration)\*.dll;WikiPlex\bin\$(Configuration)\*.pdb;License.txt;_Help\WikiPlex.chm" />
         <SampleSite Include="Sample\**\*.*;Sample-ReadMe.txt;License.txt" />
     </ItemGroup>
     
@@ -76,10 +81,16 @@
 
   <Target Name="build-documentation" DependsOnTargets="run-build">
     <ItemGroup>
-      <FilesToCopy Include="WikiPlex\bin\$(Configuration)\*.dll;WikiPlex\bin\$(Configuration)\*.pdb" />
+      <FilesToCopy Include="WikiPlex\bin\$(Configuration)\*.dll;3rdParty\WikiMaml\*.dll" />
+      <WamlFiles Include="WikiPlex.Documentation\Source\**\*.waml" />
     </ItemGroup>
+
+    <RemoveDir Directories="$(HelpPath)" Condition="Exists('$(HelpPath)')" />
+    <MakeDir Directories="$(HelpPath)" />
     
-    <Copy SourceFiles="@(FilesToCopy)" DestinationFolder="3rdParty\WikiMaml" />
-    <WikiMaml SourceFolder="WikiPlex.Documentation\Source" OutputFolder="WikiPlex.Documentation" />
+    <Copy SourceFiles="@(FilesToCopy)" DestinationFolder="$(HelpPath)" />
+    <WikiMaml SourceFiles="@(WamlFiles)" OutputFolder="WikiPlex.Documentation" />
+
+    <MSBuild Projects="WikiPlex.Documentation\WikiPlex.Documentation.shfbproj" Properties="Configuration=$(Configuration);Platform=AnyCPU;OutDir=$(HelpPath)" />
   </Target>
 </Project>
