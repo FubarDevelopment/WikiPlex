@@ -27,9 +27,10 @@
     <SamplePath>$(MSBuildProjectDirectory)\Sample</SamplePath>
   </PropertyGroup>
 
-  <Target Name="CI" DependsOnTargets="set-version;FullBuild;build-package" />
-  <Target Name="FullBuild" DependsOnTargets="run-clean;run-build;run-tests;build-documentation" />
-  <Target Name="Doc" DependsOnTargets="build-documentation" />
+  <Target Name="CI" DependsOnTargets="set-version;FullBuild;build-documentation;build-package" />
+  <Target Name="FullBuild" DependsOnTargets="run-clean;run-build;run-tests" />
+  <Target Name="Doc" DependsOnTargets="prepare-documentation" />
+  <Target Name="CleanDoc" DependsOnTargets="clean-documentation-files" />
 
   <Target Name="run-clean">
     <MSBuild Projects="WikiPlex.sln" Targets="Clean" Properties="Configuration=$(Configuration)" />
@@ -79,7 +80,7 @@
     <RegexReplace Pattern='(?s)&lt;ProjectReference Include=\"..\\WikiPlex\\WikiPlex.csproj\"&gt;.*?&lt;/ProjectReference&gt;' Replacement='&lt;Reference Include="WikiPlex" /&gt;' Files='$(SamplePath)\WikiPlex.Web.Sample.csproj' />
   </Target>
 
-  <Target Name="build-documentation" DependsOnTargets="run-build">
+  <Target Name="prepare-documentation" DependsOnTargets="run-build;clean-documentation-files">
     <ItemGroup>
       <FilesToCopy Include="WikiPlex\bin\$(Configuration)\*.dll;3rdParty\WikiMaml\*.dll" />
       <WamlFiles Include="WikiPlex.Documentation\Source\**\*.waml" />
@@ -90,7 +91,17 @@
     
     <Copy SourceFiles="@(FilesToCopy)" DestinationFolder="$(HelpPath)" />
     <WikiMaml SourceFiles="@(WamlFiles)" OutputFolder="WikiPlex.Documentation" />
-
-    <MSBuild Projects="WikiPlex.Documentation\WikiPlex.Documentation.shfbproj" Properties="Configuration=$(Configuration);Platform=AnyCPU;OutDir=$(HelpPath)" />
   </Target>
+
+    <Target Name="build-documentation" DependsOnTargets="prepare-documentation">
+        <MSBuild Projects="WikiPlex.Documentation\WikiPlex.Documentation.shfbproj" Properties="Configuration=$(Configuration);Platform=AnyCPU;OutDir=$(HelpPath)" />
+        <CallTarget Targets="clean-documentation-files" />
+    </Target>
+
+    <Target Name="clean-documentation-files">
+        <ItemGroup>
+            <AmlFiles Include="WikiPlex.Documentation\**\*.aml" />
+        </ItemGroup>
+        <Delete Files="@(AmlFiles)" />
+    </Target>
 </Project>

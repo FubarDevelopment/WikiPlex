@@ -52,6 +52,14 @@
   <ItemGroup>
     <ContentLayout Include="Content Layout.content" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Version History\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Version History\Version 1_2.aml" />
+    <None Include="Version History\Version 1_1.aml" />
+    <None Include="Version History\Version 1_0.aml" />
+  </ItemGroup>
   <!-- Import the SHFB build targets -->
   <Import Project="$(SHFBROOT)\SandcastleHelpFileBuilder.targets" />
 </Project>

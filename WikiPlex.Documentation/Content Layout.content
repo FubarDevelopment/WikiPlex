@@ -1,4 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Topics defaultTopic="75c1120e-3807-4896-b9af-7325866ae183">
   <Topic id="75c1120e-3807-4896-b9af-7325866ae183" visible="True" />
+  <Topic id="6bfd5377-b559-48f9-99d0-0f6e02e17fe5" visible="True" noFile="True" title="Version History">
+    <Topic id="4ed279e4-7353-46ec-b860-e5e36f5393ed" visible="True" title="Version 1.2" />
+    <Topic id="c660b82e-f634-448c-b312-88884f61b572" visible="True" title="Version 1.1" />
+    <Topic id="717db70a-9913-4db6-a209-ac659aec446a" visible="True" title="Version 1.0" />
+  </Topic>
 </Topics>
