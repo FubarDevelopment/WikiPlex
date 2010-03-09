@@ -1,6 +1,24 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Topics defaultTopic="75c1120e-3807-4896-b9af-7325866ae183">
   <Topic id="75c1120e-3807-4896-b9af-7325866ae183" visible="True" />
+  <Topic id="fec50114-17c1-4217-8a57-0ab20410a32f" visible="True" title="Markup Guide">
+    <Topic id="57ecfd5f-d23e-4465-9583-1107cb50527e" visible="True" title="Formatting And Layout">
+      <Topic id="3b411c31-7368-4d52-84dd-d9844ffec80f" visible="True" title="Basic Text Formatting" />
+      <Topic id="cbbbd875-dea7-4e9f-945c-dd6f4ddbf8a1" visible="True" title="Code Blocks" />
+      <Topic id="5ad5f2ee-12a9-454b-bd58-f40766a1700e" visible="True" title="Escaped Markup" />
+      <Topic id="3ffc30c8-8f25-409e-a00e-115f7baec535" visible="True" />
+      <Topic id="e5a331fb-5f5a-4ed9-b020-6623ab39fe28" visible="True" title="Horizontal Rules" />
+      <Topic id="a38f3c7f-6f2f-4e7d-9e52-27af1ffc1a0f" visible="True" />
+      <Topic id="eab59302-ad12-4c3b-86c3-f6569f01baad" visible="True" />
+      <Topic id="f47d6f1c-c58d-4a7d-a865-a7824defb9e9" visible="True" title="Text Alignment" />
+    </Topic>
+    <Topic id="be85c923-9c71-464a-8727-7f13da79ab5f" visible="True" />
+    <Topic id="f705c6f5-95f2-4ccc-bed9-b6fb9e578947" visible="True" />
+    <Topic id="c57ee9bf-4e49-43cc-8326-c97dfe5773e2" visible="True" />
+    <Topic id="929eb036-b893-41d5-b9c6-5f6c7db7275f" visible="True" title="Syndicated Feeds" />
+    <Topic id="71257408-6320-46b0-93e9-cd32cf768c5f" visible="True" title="Syntax Highlighting" />
+    <Topic id="1957ba74-0964-4cab-995a-d1ec2afd57a0" visible="True" />
+  </Topic>
   <Topic id="6bfd5377-b559-48f9-99d0-0f6e02e17fe5" visible="True" noFile="True" title="Version History">
     <Topic id="4ed279e4-7353-46ec-b860-e5e36f5393ed" visible="True" title="Version 1.2" />
     <Topic id="c660b82e-f634-448c-b312-88884f61b572" visible="True" title="Version 1.1" />

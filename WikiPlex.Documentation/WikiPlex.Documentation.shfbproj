@@ -20,7 +20,8 @@
     </HtmlHelp1xCompilerPath>
     <DocumentationSources>
       <DocumentationSource sourceFile="WikiPlex.dll" />
-<DocumentationSource sourceFile="WikiPlex.xml" /></DocumentationSources>
+      <DocumentationSource sourceFile="WikiPlex.xml" />
+    </DocumentationSources>
     <CopyrightHref>http://wikiplex.codeplex.com</CopyrightHref>
     <CopyrightText>Copyright \xA9 2009 - 2010, Microsoft, All rights reserved</CopyrightText>
     <HelpTitle>WikiPlex Documentation</HelpTitle>
@@ -52,9 +53,26 @@
     <ContentLayout Include="Content Layout.content" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="MarkupGuide\" />
     <Folder Include="Version History\" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="MarkupGuide\Video.aml" />
+    <None Include="MarkupGuide\TextAlignment.aml" />
+    <None Include="MarkupGuide\Tables.aml" />
+    <None Include="MarkupGuide\SyntaxHighlighting.aml" />
+    <None Include="MarkupGuide\SyndicatedFeed.aml" />
+    <None Include="MarkupGuide\Silverlight.aml" />
+    <None Include="MarkupGuide\Lists.aml" />
+    <None Include="MarkupGuide\Links.aml" />
+    <None Include="MarkupGuide\Images.aml" />
+    <None Include="MarkupGuide\HorizontalRules.aml" />
+    <None Include="MarkupGuide\Headings.aml" />
+    <None Include="MarkupGuide\FormattingAndLayout.aml" />
+    <None Include="MarkupGuide\EscapedMarkup.aml" />
+    <None Include="MarkupGuide\CodeBlocks.aml" />
+    <None Include="MarkupGuide\BasicTextFormatting.aml" />
+    <None Include="MarkupGuide.aml" />
     <None Include="Version History\Version 1_2.aml" />
     <None Include="Version History\Version 1_1.aml" />
     <None Include="Version History\Version 1_0.aml" />
