@@ -53,10 +53,12 @@
     <ContentLayout Include="Content Layout.content" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Extending\" />
     <Folder Include="MarkupGuide\" />
     <Folder Include="Version History\" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Extending\CustomMacros.aml" />
     <None Include="MarkupGuide\Video.aml" />
     <None Include="MarkupGuide\TextAlignment.aml" />
     <None Include="MarkupGuide\Tables.aml" />

@@ -19,6 +19,9 @@
     <Topic id="71257408-6320-46b0-93e9-cd32cf768c5f" visible="True" title="Syntax Highlighting" />
     <Topic id="1957ba74-0964-4cab-995a-d1ec2afd57a0" visible="True" />
   </Topic>
+  <Topic id="685a219d-1d15-4809-923f-4e44de81d741" visible="True" noFile="True" title="Extending">
+    <Topic id="7adac8bd-196c-44e6-8547-cc161f5beb1e" visible="True" title="Custom Macros" />
+  </Topic>
   <Topic id="6bfd5377-b559-48f9-99d0-0f6e02e17fe5" visible="True" noFile="True" title="Version History">
     <Topic id="4ed279e4-7353-46ec-b860-e5e36f5393ed" visible="True" title="Version 1.2" />
     <Topic id="c660b82e-f634-448c-b312-88884f61b572" visible="True" title="Version 1.1" />
