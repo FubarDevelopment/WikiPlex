@@ -1,12 +1,13 @@
 {topic:walkthrough=7adac8bd-196c-44e6-8547-cc161f5beb1e}
 {intro}
-{p}_[url:Originally Posted|http://blog.eworldui.net/post/2009/07/Extending-WikiPlex-with-Custom-Renderers.aspx] on July 30, 2009_{p}
+{p}_[url:Originally Posted|http://blog.eworldui.net/post/2009/07/Extending-WikiPlex-with-Custom-Macros.aspx] on July 24, 2009_{p}
 {p}
-The majority of extending WikiPlex will be done via macros and renderers. A summary of the extension points include:
+Extending WikiPlex will be done via macros, scope augmenters, and renderers.
 
-# Macros encapsulate rules for matching segments of content. 
-# Macro rules are regular expressions that map matches to scopes. 
-# Scopes are contextual identifiers. 
+# *Macros encapsulate rules for matching segments of content.*
+# *Macro rules are regular expressions that map matches to scopes.*
+# *Scopes are contextual identifiers.*
+# Scope Augmenters insert/remove scopes per macro match.
 # Renderers take scopes and expand them into a HTML formatted representation of the macro.
 {p}
 {intro}
@@ -26,14 +27,16 @@ As you probably realized, there is currently no macro/renderer that will take th
 {p}
 When creating a macro, you're going to have to dust off that copy of RegexBuddy you probably don't have installed anymore. Why? Well, as previously stated, 
 macro rules are regular expressions - and unless you're a regex guru, you won't be able to do this ad-hoc without a great tool. Let's get started - so in your 
-solution, create a class called TitleLinkMacro, and extend it from WikiPlex.Compilation.Macros.IMacro. You'll then implement the members it requires (Id and Rules). 
-The Id value is simply a string that is used as a key for static macro registration and macro compilation, so it should be unique (rule of thumb, give it 
-the name of your class but with spaces). Now, it's time to define your macro rules.
+solution, create a class called TitleLinkMacro, and extend it from {{WikiPlex.Compilation.Macros.IMacro}}. You'll then implement the members it requires ({{Id}} and {{Rules}}). 
 {p}
+{alert:note}
+    The Id value is simply a string that is used as a key for static macro registration and macro compilation, so it should be unique (rule of thumb, give it 
+    the name of your class but with spaces).
+{alert}
 {p}
-As you may have noticed, I kept "rule" plural. The reason, is that the majority of macros you will create need to have an initial "escaped" rule. This rule 
+Now, its time to define your macro rules. As you may have noticed, I kept "rule" plural. The reason, is that the majority of macros you will create need to have an initial "escaped" rule. This rule 
 basically stops the regex from matching within code blocks, between curly braces, and possibly between square brackets. Since our macro utilizes square brackets, 
-we'll use the escape rule of CurlyBraceEscape.
+we'll use the escape rule of {{CurlyBraceEscape}}.
 {p}
 {step}
 
@@ -71,9 +74,9 @@ It removes the captured content when rendering. The WikiLink scope name is one t
 ### or by any character between a-z, one or more times, followed by a ":" character
 # Match the character "]"
 {p}Our scope to step matching then is{p}
-# Remove {""[""}
-# WikiLink any content
-# Remove {""]""}
+# {{Remove}} {""[""}
+# {{WikiLink}} any content
+# {{Remove}} {""]""}
 {p}
 Defining macro rules is a fairly straight forward process, just keep in mind that the order of the macro rules is *+important!+* 
 You should also realize that if you wish to allow nesting of rules (for example, italicize bolded text) the italics and bold 

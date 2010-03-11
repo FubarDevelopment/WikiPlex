@@ -58,6 +58,8 @@
     <Folder Include="Version History\" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Extending\ScopeAugmenters.aml" />
+    <None Include="Extending\CustomRenderers.aml" />
     <None Include="Extending\CustomMacros.aml" />
     <None Include="MarkupGuide\Video.aml" />
     <None Include="MarkupGuide\TextAlignment.aml" />
