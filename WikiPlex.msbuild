@@ -58,7 +58,7 @@
   
   <Target Name="build-package" DependsOnTargets="prepare-sample">
     <ItemGroup>
-        <FilesToArchive Include="WikiPlex\bin\$(Configuration)\*.dll;WikiPlex\bin\$(Configuration)\*.pdb;License.txt;_Help\WikiPlex.chm" />
+        <FilesToArchive Include="WikiPlex\bin\$(Configuration)\*.dll;WikiPlex\bin\$(Configuration)\*.pdb;License.txt" />
         <SampleSite Include="Sample\**\*.*;Sample-ReadMe.txt;License.txt" />
     </ItemGroup>
     
