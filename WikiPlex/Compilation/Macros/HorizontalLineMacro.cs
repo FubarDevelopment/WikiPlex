@@ -5,11 +5,11 @@ namespace WikiPlex.Compilation.Macros
     /// <summary>
     /// This macro will output a horizontal line.
     /// </summary>
-    /// <example><![CDATA[
+    /// <example><code language="none">
     /// Content above
     /// ----
     /// Content below
-    /// ]]></example>
+    /// </code></example>
     public class HorizontalLineMacro : IMacro
     {
         /// <summary>

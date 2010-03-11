@@ -69,11 +69,9 @@ namespace WikiPlex
         /// <param name="macro">The macro used for registration.</param>
         /// <remarks>This macro needs to be thread safe.</remarks>
         /// <exception cref="System.ArgumentNullException">
-        /// Thrown when the macro object is null
-        /// 
-        /// - or -
-        /// 
-        /// Thrown when the Id of the macro is null.
+        /// <para>Thrown when the macro object is null</para>
+        /// <para>- or -</para>
+        /// <para>Thrown when the Id of the macro is null.</para>
         /// </exception>
         /// <exception cref="System.ArgumentException">Thrown when the Id of the macro is empty.</exception>
         public static void Register(IMacro macro)
@@ -109,11 +107,9 @@ namespace WikiPlex
         /// </summary>
         /// <param name="macro">The macro to un-register.</param>
         /// <exception cref="System.ArgumentNullException">
-        /// Thrown when the macro object is null
-        /// 
-        /// - or -
-        /// 
-        /// Thrown when the Id of the macro is null.
+        /// <para>Thrown when the macro object is null</para>
+        /// <para>- or -</para>
+        /// <para>Thrown when the Id of the macro is null.</para>
         /// </exception>
         /// <exception cref="System.ArgumentException">Thrown when the Id of the macro is empty.</exception>
         public static void Unregister(IMacro macro)

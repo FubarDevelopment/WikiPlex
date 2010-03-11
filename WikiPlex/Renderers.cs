@@ -59,11 +59,9 @@ namespace WikiPlex
         /// <param name="renderer">The renderer used for registration.</param>
         /// <remarks>This renderer needs to be thread safe.</remarks>
         /// <exception cref="System.ArgumentNullException">
-        /// Thrown when the renderer object is null
-        /// 
-        /// - or -
-        /// 
-        /// Thrown when the Id of the renderer is null.
+        /// <para>Thrown when the renderer object is null</para>
+        /// <para>- or -</para>
+        /// <para>Thrown when the Id of the renderer is null.</para>
         /// </exception>
         /// <exception cref="System.ArgumentException">Thrown when the Id of the renderer is empty.</exception>
         public static void Register(IRenderer renderer)
@@ -99,11 +97,9 @@ namespace WikiPlex
         /// </summary>
         /// <param name="renderer">The renderer to un-register.</param>
         /// <exception cref="System.ArgumentNullException">
-        /// Thrown when the renderer object is null
-        /// 
-        /// - or -
-        /// 
-        /// Thrown when the Id of the renderer is null.
+        /// <para>Thrown when the renderer object is null</para>
+        /// <para>- or -</para>
+        /// <para>Thrown when the Id of the renderer is null.</para>
         /// </exception>
         /// <exception cref="System.ArgumentException">Thrown when the Id of the renderer is empty.</exception>
         public static void Unregister(IRenderer renderer)

@@ -5,9 +5,9 @@ namespace WikiPlex.Compilation.Macros
     /// <summary>
     /// This macro will display text as underlined.
     /// </summary>
-    /// <example><![CDATA[
+    /// <example><code language="none">
     /// +I am underlined+
-    /// ]]></example>
+    /// </code></example>
     public class UnderlineMacro : IMacro
     {
         /// <summary>

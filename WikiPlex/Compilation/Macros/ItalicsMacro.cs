@@ -5,9 +5,9 @@ namespace WikiPlex.Compilation.Macros
     /// <summary>
     /// This macro will display text in italics.
     /// </summary>
-    /// <example><![CDATA[
+    /// <example><code language="none">
     /// _i am italics_
-    /// ]]></example>
+    /// </code></example>
     public class ItalicsMacro : IMacro
     {
         /// <summary>

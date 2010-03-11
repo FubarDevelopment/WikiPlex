@@ -5,10 +5,10 @@ namespace WikiPlex.Compilation.Macros
     /// <summary>
     /// This macro will indent text.
     /// </summary>
-    /// <example><![CDATA[
+    /// <example><code language="none">
     /// : First Level Indentation
     /// :: Second Level Indentation
-    /// ]]></example>
+    /// </code></example>
     public class IndentationMacro : IMacro
     {
         /// <summary>

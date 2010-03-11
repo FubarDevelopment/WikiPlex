@@ -5,9 +5,9 @@ namespace WikiPlex.Compilation.Macros
     /// <summary>
     /// This macro will embed a silverlight application.
     /// </summary>
-    /// <example><![CDATA[
+    /// <example><code language="none">
     /// {silverlight:url=http://www.foo.com}
-    /// ]]></example>
+    /// </code></example>
     public class SilverlightMacro : IMacro
     {
         /// <summary>

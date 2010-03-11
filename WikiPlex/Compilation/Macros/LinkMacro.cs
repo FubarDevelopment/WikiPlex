@@ -5,10 +5,10 @@ namespace WikiPlex.Compilation.Macros
     /// <summary>
     /// This macro will render links.
     /// </summary>
-    /// <example><![CDATA[
+    /// <example><code language="none">
     /// [url:http://www.foo.com]
     /// [url:Go Here|http://www.foo.com]
-    /// ]]></example>
+    /// </code></example>
     public class LinkMacro : IMacro
     {
         /// <summary>

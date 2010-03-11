@@ -5,9 +5,9 @@ namespace WikiPlex.Compilation.Macros
     /// <summary>
     /// This macro will escape all other macros that are contained between {" and "}.
     /// </summary>
-    /// <example><![CDATA[
+    /// <example><code language="none">
     /// {" *I will not bold* "}
-    /// ]]></example>
+    /// </code></example>
     public class EscapedMarkupMacro : IMacro
     {
         /// <summary>

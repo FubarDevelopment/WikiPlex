@@ -5,9 +5,9 @@ namespace WikiPlex.Compilation.Macros
     /// <summary>
     /// This macro will display text as subscript.
     /// </summary>
-    /// <example><![CDATA[
+    /// <example><code language="none">
     /// I am normal,,but I am subscript,,
-    /// ]]></example>
+    /// </code></example>
     public class SubscriptMacro : IMacro
     {
         /// <summary>

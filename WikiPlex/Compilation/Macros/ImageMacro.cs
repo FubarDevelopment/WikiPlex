@@ -5,9 +5,9 @@ namespace WikiPlex.Compilation.Macros
     /// <summary>
     /// This macro will render images.
     /// </summary>
-    /// <example><![CDATA[
+    /// <example><code language="none">
     /// [image:http://www.foo.com/bar.jpg]
-    /// ]]></example>
+    /// </code></example>
     public class ImageMacro : IMacro
     {
         /// <summary>

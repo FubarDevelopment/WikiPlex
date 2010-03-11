@@ -5,9 +5,9 @@ namespace WikiPlex.Compilation.Macros
     /// <summary>
     /// This macro will display text as bolded.
     /// </summary>
-    /// <example><![CDATA[
+    /// <example><code language="none">
     /// *i am bolded*
-    /// ]]></example>
+    /// </code></example>
     public class BoldMacro : IMacro
     {
         /// <summary>

@@ -5,14 +5,14 @@ namespace WikiPlex.Compilation.Macros
     /// <summary>
     /// This macro will display text as headings.
     /// </summary>
-    /// <example><![CDATA[
+    /// <example><code language="none">
     /// ! heading 1
     /// !! heading 2
     /// !!! heading 3
     /// !!!! heading 4
     /// !!!!! heading 5
     /// !!!!!! heading 6
-    /// ]]></example>
+    /// </code></example>
     public class HeadingsMacro : IMacro
     {
         /// <summary>

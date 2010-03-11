@@ -5,9 +5,9 @@ namespace WikiPlex.Compilation.Macros
     /// <summary>
     /// This macro will display text as aligned to the right.
     /// </summary>
-    /// <example><![CDATA[
+    /// <example><code language="none">
     /// >{I am right aligned}>
-    /// ]]></example>
+    /// </code></example>
     public class ContentRightAlignmentMacro : IMacro
     {
         /// <summary>

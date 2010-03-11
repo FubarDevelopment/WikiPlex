@@ -5,9 +5,9 @@ namespace WikiPlex.Compilation.Macros
     /// <summary>
     /// This macro will display text with a strikethrough.
     /// </summary>
-    /// <example><![CDATA[
+    /// <example><code language="none">
     /// --i have a line through me--
-    /// ]]></example>
+    /// </code></example>
     public class StrikethroughMacro : IMacro
     {
         /// <summary>

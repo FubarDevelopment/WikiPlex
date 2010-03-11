@@ -5,11 +5,11 @@ namespace WikiPlex.Compilation.Macros
     /// <summary>
     /// This macro will output a table with defined headers and rows.
     /// </summary>
-    /// <example><![CDATA[
+    /// <example><code language="none">
     /// || header 1 || header 2 ||
     /// | cell 1 | cell 2 |
     /// | cell 3 | cell 4 |
-    /// ]]></example>
+    /// </code></example>
     public class TableMacro : IMacro
     {
         /// <summary>

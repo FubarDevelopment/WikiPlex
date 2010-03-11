@@ -5,14 +5,14 @@ namespace WikiPlex.Compilation.Macros
     /// <summary>
     /// This macro will embed a video.
     /// </summary>
-    /// <example><![CDATA[
+    /// <example><code language="none">
     /// {video:url=http://www.foo.com,type=Flash}
     /// {video:url=http://www.foo.com,type=QuickTime}
     /// {video:url=http://www.foo.com,type=Real}
     /// {video:url=http://www.foo.com,type=Windows}
     /// {video:url=http://www.foo.com,type=YouTube}
     /// {video:url=http://www.foo.com,type=Channel9}
-    /// ]]></example>
+    /// </code></example>
     public class VideoMacro : IMacro
     {
         /// <summary>

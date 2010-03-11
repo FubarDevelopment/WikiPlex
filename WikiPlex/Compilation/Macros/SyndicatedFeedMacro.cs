@@ -5,11 +5,11 @@ namespace WikiPlex.Compilation.Macros
     /// <summary>
     /// This macro will display a syndicated feed.
     /// </summary>
-    /// <example><![CDATA[
+    /// <example><code language="none">
     /// {rss:url=http://www.foo.com/rss}
     /// {atom:url=http://www.foo.com/atom}
     /// {feed:url=http://www.foo.com/rss}
-    /// ]]></example>
+    /// </code></example>
     public class SyndicatedFeedMacro : IMacro
     {
         /// <summary>

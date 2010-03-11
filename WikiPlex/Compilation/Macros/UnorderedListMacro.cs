@@ -5,12 +5,12 @@ namespace WikiPlex.Compilation.Macros
     /// <summary>
     /// This macro will output an unordered list.
     /// </summary>
-    /// <example><![CDATA[
+    /// <example><code language="none">
     /// * item 1
     /// * item 2
     /// ** item 2.1
     /// *** item 2.1.1
-    /// ]]></example>
+    /// </code></example>
     public class UnorderedListMacro : IListMacro
     {
         /// <summary>

@@ -5,7 +5,7 @@ namespace WikiPlex.Compilation.Macros
     /// <summary>
     /// Will output source code rendered as plain text or as syntax highighted for certain languages.
     /// </summary>
-    /// <example><![CDATA[
+    /// <example><code language="none">
     /// {{this is a single-line example}}
     /// {{
     /// this is a multi-line example with no syntax highlighting
@@ -24,7 +24,7 @@ namespace WikiPlex.Compilation.Macros
     /// {code:php} PHP {code:php}
     /// {code:css} CSS {code:css}
     /// {code:powershell} Powershell {code:powershell}
-    /// ]]></example>
+    /// </code></example>
     public class SourceCodeMacro : IMacro
     {
         /// <summary>
