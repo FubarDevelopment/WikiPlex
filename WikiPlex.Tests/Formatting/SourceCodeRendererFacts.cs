@@ -1,4 +1,5 @@
-﻿using System.Web;
+﻿using System.Threading;
+using System.Web;
 using ColorCode;
 using ColorCode.Common;
 using Moq;
@@ -125,6 +126,21 @@ namespace WikiPlex.Tests.Formatting
                 string result = renderer.Expand("foo", "in", x => x, x => x);
 
                 Assert.Equal("in", result);
+            }
+
+            [Fact]
+            public void Should_return_plain_text_formatting_if_colorize_exceeds_5seconds()
+            {
+                var colorizer = new Mock<ICodeColorizer>();
+                var renderer = new SourceCodeRenderer(colorizer.Object);
+                colorizer.Setup(x => x.Colorize("I am not colorized.", Languages.Css)).Returns(() => {
+                                                                                                       Thread.Sleep(5500);
+                                                                                                       return "Should not equal me.";
+                                                                                                     });
+
+                string result = renderer.Expand(ScopeName.ColorCodeCss, "I am not colorized.", x => "plain", x => x);
+
+                Assert.Equal("<pre>plain</pre>", result);
             }
         }
     }

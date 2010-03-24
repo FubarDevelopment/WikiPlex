@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using ColorCode;
 
 namespace WikiPlex.Formatting
@@ -75,40 +76,70 @@ namespace WikiPlex.Formatting
                 case ScopeName.SingleLineCode:
                     return string.Format("<span class=\"codeInline\">{0}</span>", htmlEncode(input));
                 case ScopeName.MultiLineCode:
-                    if (input.EndsWith(Environment.NewLine))
-                        input = input.Substring(0, input.Length - Environment.NewLine.Length);
-                    return string.Format("<pre>{0}</pre>", htmlEncode(input));
+                    return FormatSyntax(input, htmlEncode);
                 case ScopeName.ColorCodeAshx:
-                    return codeColorizer.Colorize(input, Languages.Ashx);
+                    return Colorize(input, Languages.Ashx, htmlEncode);
                 case ScopeName.ColorCodeAspxCs:
-                    return codeColorizer.Colorize(input, Languages.AspxCs);
+                    return Colorize(input, Languages.AspxCs, htmlEncode);
                 case ScopeName.ColorCodeAspxVb:
-                    return codeColorizer.Colorize(input, Languages.AspxVb);
+                    return Colorize(input, Languages.AspxVb, htmlEncode);
                 case ScopeName.ColorCodeCpp:
-                    return codeColorizer.Colorize(input, Languages.Cpp);
+                    return Colorize(input, Languages.Cpp, htmlEncode);
                 case ScopeName.ColorCodeCSharp:
-                    return codeColorizer.Colorize(input, Languages.CSharp);
+                    return Colorize(input, Languages.CSharp, htmlEncode);
                 case ScopeName.ColorCodeHtml:
-                    return codeColorizer.Colorize(input, Languages.Html);
+                    return Colorize(input, Languages.Html, htmlEncode);
                 case ScopeName.ColorCodeJava:
-                    return codeColorizer.Colorize(input, Languages.Java);
+                    return Colorize(input, Languages.Java, htmlEncode);
                 case ScopeName.ColorCodeJavaScript:
-                    return codeColorizer.Colorize(input, Languages.JavaScript);
+                    return Colorize(input, Languages.JavaScript, htmlEncode);
                 case ScopeName.ColorCodeSql:
-                    return codeColorizer.Colorize(input, Languages.Sql);
+                    return Colorize(input, Languages.Sql, htmlEncode);
                 case ScopeName.ColorCodeVbDotNet:
-                    return codeColorizer.Colorize(input, Languages.VbDotNet);
+                    return Colorize(input, Languages.VbDotNet, htmlEncode);
                 case ScopeName.ColorCodeXml:
-                    return codeColorizer.Colorize(input, Languages.Xml);
+                    return Colorize(input, Languages.Xml, htmlEncode);
                 case ScopeName.ColorCodePhp:
-                    return codeColorizer.Colorize(input, Languages.Php);
+                    return Colorize(input, Languages.Php, htmlEncode);
                 case ScopeName.ColorCodeCss:
-                    return codeColorizer.Colorize(input, Languages.Css);
+                    return Colorize(input, Languages.Css, htmlEncode);
                 case ScopeName.ColorCodePowerShell:
-                    return codeColorizer.Colorize(input, Languages.PowerShell);
+                    return Colorize(input, Languages.PowerShell, htmlEncode);
                 default:
                     return input;
             }
+        }
+
+        private static string FormatSyntax(string input, Func<string, string> htmlEncode)
+        {
+            if (input.EndsWith(Environment.NewLine))
+                input = input.Substring(0, input.Length - Environment.NewLine.Length);
+            return string.Format("<pre>{0}</pre>", htmlEncode(input));
+        }
+
+        private string Colorize(string input, ILanguage language, Func<string, string> htmlEncode)
+        {
+            var colorizeThread = new Thread(InvokeColorize) {IsBackground = true};
+            var data = new ColorizeData {Input = input, Language = language};
+
+            colorizeThread.Start(data);
+            if (!colorizeThread.Join(5000)) // wait 5 seconds before killing it           
+                data.Output = FormatSyntax(input, htmlEncode);
+
+            return data.Output;
+        }
+
+        private void InvokeColorize(object data)
+        {
+            var colorizeData = data as ColorizeData;
+            colorizeData.Output = codeColorizer.Colorize(colorizeData.Input, colorizeData.Language);
+        }
+
+        class ColorizeData
+        {
+            public string Input { get; set; }
+            public string Output { get; set; }
+            public ILanguage Language { get; set; }
         }
     }
 }
