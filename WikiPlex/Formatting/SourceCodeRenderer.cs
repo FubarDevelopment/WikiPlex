@@ -123,8 +123,11 @@ namespace WikiPlex.Formatting
             var data = new ColorizeData {Input = input, Language = language};
 
             colorizeThread.Start(data);
-            if (!colorizeThread.Join(5000)) // wait 5 seconds before killing it           
+            if (!colorizeThread.Join(5000)) // wait 5 seconds before killing it  
+            {
+                colorizeThread.Abort();
                 data.Output = FormatSyntax(input, htmlEncode);
+            }
 
             return data.Output;
         }
