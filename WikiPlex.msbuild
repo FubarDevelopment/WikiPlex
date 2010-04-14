@@ -27,7 +27,7 @@
     <SamplePath>$(MSBuildProjectDirectory)\Sample</SamplePath>
   </PropertyGroup>
 
-  <Target Name="CI" DependsOnTargets="set-version;run-clean;run-build;run-tests;build-documentation;build-package" />
+  <Target Name="CI" DependsOnTargets="set-version;run-clean;run-build;run-tests;build-package" />
   <Target Name="FullBuild" DependsOnTargets="run-clean;run-build;run-tests;run-perf-tests" />
   <Target Name="Doc" DependsOnTargets="prepare-documentation" />
   <Target Name="CleanDoc" DependsOnTargets="clean-documentation-files" />
