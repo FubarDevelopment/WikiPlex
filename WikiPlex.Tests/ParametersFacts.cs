@@ -53,6 +53,14 @@ namespace WikiPlex.Tests
 
                 Assert.Equal("http://www.foo.com/", url);
             }
+
+            [Fact]
+            public void Should_not_throw_ArgumentException_if_url_contains_codeplex_but_validateDomain_is_false()
+            {
+                var ex = Record.Exception(() => Parameters.ExtractUrl(new[] { "url=http://www.codeplex.com" }, false));
+
+                Assert.Null(ex);
+            }
         }
 
         public class ExtractAlign

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Web.UI;
 using System.Xml;
+using WikiPlex.Common;
 using WikiPlex.Syndication;
 
 namespace WikiPlex.Formatting
@@ -13,8 +14,8 @@ namespace WikiPlex.Formatting
     /// </summary>
     public class SyndicatedFeedRenderer : IRenderer
     {
-        private readonly IXmlDocumentReader xmlDocumentReader;
         private readonly ISyndicationReader syndicationReader;
+        private readonly IXmlDocumentReader xmlDocumentReader;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SyndicatedFeedRenderer"/>.
@@ -63,45 +64,37 @@ namespace WikiPlex.Formatting
         /// <returns>The expanded content.</returns>
         public string Expand(string scopeName, string input, Func<string, string> htmlEncode, Func<string, string> attributeEncode)
         {
-            string[] parameters = input.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-            string urlParameter = parameters.FirstOrDefault(s => s.StartsWith("url=", StringComparison.OrdinalIgnoreCase));
-            string maxParameter = parameters.FirstOrDefault(s => s.StartsWith("max=", StringComparison.OrdinalIgnoreCase));
-            string titlesOnlyParameter = parameters.FirstOrDefault(s => s.StartsWith("titlesonly=", StringComparison.OrdinalIgnoreCase));
-            string url;
-            int max = 20;
-            bool titlesOnly = false;
+            string[] parameters = input.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries);
 
-            if (string.IsNullOrEmpty(urlParameter))
-                return RenderUnresolvedMacro("url");
-
-            if (!string.IsNullOrEmpty(maxParameter)
-                && (!int.TryParse(maxParameter.Substring(4), out max) || max <= 0 || max > 20))
-                return RenderUnresolvedMacro("max");
-
-            if (!string.IsNullOrEmpty(titlesOnlyParameter)
-                && !bool.TryParse(titlesOnlyParameter.Substring(11), out titlesOnly))
-                return RenderUnresolvedMacro("titlesOnly");
-
-            url = urlParameter.Substring(4);
             try
             {
-                var parsedUrl = new Uri(url, UriKind.Absolute);
-                url = parsedUrl.AbsoluteUri;
-            }
-            catch
-            {
-                return RenderUnresolvedMacro("url");
-            }
-            
-            var content = new StringBuilder();
-            using (var tw = new StringWriter(content))
-            using (var writer = new HtmlTextWriter(tw, string.Empty))
-            {
-                writer.NewLine = string.Empty;
-                RenderFeed(url, titlesOnly, max, writer);
-            }
+                string url = Parameters.ExtractUrl(parameters, false);
+                string maxParameter, titlesOnlyParameter;
+                int max = 20;
+                bool titlesOnly = false;
 
-            return content.ToString();
+                if (Parameters.TryGetValue(parameters, "max", out maxParameter)
+                    && (!int.TryParse(maxParameter, out max) || max <= 0 || max > 20))
+                    throw new ArgumentException("Invalid parameter.", "max");
+
+                if (Parameters.TryGetValue(parameters, "titlesOnly", out titlesOnlyParameter)
+                    && !bool.TryParse(titlesOnlyParameter, out titlesOnly))
+                    throw new ArgumentException("Invalid parameter.", "titlesOnly");
+
+                var content = new StringBuilder();
+                using (var tw = new StringWriter(content))
+                using (var writer = new HtmlTextWriter(tw, string.Empty))
+                {
+                    writer.NewLine = string.Empty;
+                    RenderFeed(url, titlesOnly, max, writer);
+                }
+
+                return content.ToString();
+            }
+            catch (ArgumentException ex)
+            {
+                return RenderUnresolvedMacro(ex.ParamName);
+            }
         }
 
         /// <summary>
@@ -135,7 +128,7 @@ namespace WikiPlex.Formatting
                     if (i >= max)
                         break;
 
-                    var item = feed.Items.ElementAt(i);
+                    SyndicationItem item = feed.Items.ElementAt(i);
 
                     writer.AddAttribute(HtmlTextWriterAttribute.Class, "entry");
                     writer.RenderBeginTag(HtmlTextWriterTag.Div);
@@ -207,7 +200,8 @@ namespace WikiPlex.Formatting
 
         private static string RenderUnresolvedMacro(string parameterName)
         {
-            return string.Format("<span class=\"unresolved\">Cannot resolve syndicated feed macro, invalid parameter '{0}'.</span>", parameterName);
+            return
+                string.Format("<span class=\"unresolved\">Cannot resolve syndicated feed macro, invalid parameter '{0}'.</span>", parameterName);
         }
     }
 }

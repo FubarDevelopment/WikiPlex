@@ -24,6 +24,16 @@ namespace WikiPlex.Common
         /// </exception>
         public static string ExtractUrl(ICollection<string> parameters)
         {
+            return ExtractUrl(parameters, true);
+        }
+
+        /// <summary>        /// This will extract a url.        /// </summary>        /// <param name="parameters">The collection of parameters.</param>        /// <param name="validateDomain">Will validate the domain not allowing codeplex.com</param>        /// <returns>The extracted url.</returns>        /// <exception cref="ArgumentException">        /// Thrown when the url cannot be validated.
+        ///         /// -- or --
+        /// 
+        /// Thrown if the url contains codeplex.com and validateDomain is true.
+        /// </exception>
+        public static string ExtractUrl(ICollection<string> parameters, bool validateDomain)
+        {
             string url = GetValue(parameters, "url");
 
             try
@@ -36,7 +46,7 @@ namespace WikiPlex.Common
                 throw new ArgumentException("Invalid parameter.", "url");
             }
 
-            if (url.ToLower().Contains("codeplex.com"))
+            if (validateDomain && url.ToLower().Contains("codeplex.com"))
                 throw new ArgumentException("Invalid parameter.", "url");
 
             return url;
