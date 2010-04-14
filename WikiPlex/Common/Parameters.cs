@@ -27,8 +27,16 @@ namespace WikiPlex.Common
             return ExtractUrl(parameters, true);
         }
 
-        /// <summary>        /// This will extract a url.        /// </summary>        /// <param name="parameters">The collection of parameters.</param>        /// <param name="validateDomain">Will validate the domain not allowing codeplex.com</param>        /// <returns>The extracted url.</returns>        /// <exception cref="ArgumentException">        /// Thrown when the url cannot be validated.
-        ///         /// -- or --
+        /// <summary>
+        /// This will extract a url.
+        /// </summary>
+        /// <param name="parameters">The collection of parameters.</param>
+        /// <param name="validateDomain">Will validate the domain not allowing codeplex.com</param>
+        /// <returns>The extracted url.</returns>
+        /// <exception cref="ArgumentException">
+        /// Thrown when the url cannot be validated.
+        /// 
+        /// -- or --
         /// 
         /// Thrown if the url contains codeplex.com and validateDomain is true.
         /// </exception>
@@ -36,15 +44,10 @@ namespace WikiPlex.Common
         {
             string url = GetValue(parameters, "url");
 
-            try
-            {
-                var parsedUrl = new Uri(url, UriKind.Absolute);
-                url = parsedUrl.AbsoluteUri;
-            }
-            catch
-            {
+            Uri parsedUrl;
+            if (!Uri.TryCreate(url, UriKind.Absolute, out parsedUrl))
                 throw new ArgumentException("Invalid parameter.", "url");
-            }
+            url = parsedUrl.AbsoluteUri;
 
             if (validateDomain && url.ToLower().Contains("codeplex.com"))
                 throw new ArgumentException("Invalid parameter.", "url");
@@ -71,10 +74,10 @@ namespace WikiPlex.Common
             if (!TryGetValue(parameters, "align", out align))
                 return defaultValue;
 
-            if (!Utility.IsDefinedOnEnum<HorizontalAlign>(align))
+            HorizontalAlign alignment;
+            if (!Enum.TryParse(align, true, out alignment))
                 throw new ArgumentException("Invalid parameter.", "align");
 
-            var alignment = (HorizontalAlign) Enum.Parse(typeof (HorizontalAlign), align, true);
             if (alignment != HorizontalAlign.Center && alignment != HorizontalAlign.Left && alignment != HorizontalAlign.Right)
                 throw new ArgumentException("Invalid parameter.", "align");
 
