@@ -106,7 +106,7 @@ By default, every list in SharePoint has forms associated with it that allow use
 </pre><br />The base class method initializes an instance of the Business Object using the type specified in the Control class declaration. In this case it is <span class="codeInline">TripLogListItem</span>. The base class method does the following:
 <ul><li>Parses the QueryString to determine the context of the form, including the form mode (i.e. New, Display, Edit) and the identity of the list and list item. The identity of the list and list item are passed in the QueryString by SharePoint.</li>
 <li>Instantiates the Business Object. On initial load the Business Object is instantiated using <span class="codeInline">SPaListItem.CreateListem()</span> or <span class="codeInline">SPaListItem.GetListItem()</span> depending on whether the form mode is for a new item or not. On PostBack, the method retrieves the Business Object from ViewState where it is saved during the initial load. The Business Object is saved to the <span class="codeInline">ListItem</span> property of the base class and is available to the derived class on return from <span class="codeInline">Page_Load()</span>.
-</li></ul><ul><li>Back in the derived control's <span class="codeInline">Page_Load()</span> method, the control can then set control properties using properties of the Business Object saved in <span class="codeInline">ListItem</span>.</li></ul>
+</li></ul><ul><li>Back in the derived control&#39;s <span class="codeInline">Page_Load()</span> method, the control can then set control properties using properties of the Business Object saved in <span class="codeInline">ListItem</span>.</li></ul>
 <pre>
             dtTripDate.SelectedDate = ListItem.TripDate;
             txtPurpose.Text = ListItem.Purpose;
@@ -135,7 +135,7 @@ By default, every list in SharePoint has forms associated with it that allow use
             ListItem.Description = txtDescription.Text;
             ListItem.Purpose = txtPurpose.Text;
             ListItem.TripDate = dtTripDate.SelectedDate;
-            ListItem.MetWith = ppMetWith.CommaSeparatedAccounts.Split(',');
+            ListItem.MetWith = ppMetWith.CommaSeparatedAccounts.Split(&#39;,&#39;);
             ListItem.Link = txtRelatedLink.Text;
             ListItem.TotalMiles = string.IsNullOrEmpty(txtTotalMiles.Text.Trim()) ? 0 : decimal.Parse(txtTotalMiles.Text);
             ListItem.Expenses = string.IsNullOrEmpty(txtExpenses.Text.Trim()) ? 0 : decimal.Parse(txtExpenses.Text);
