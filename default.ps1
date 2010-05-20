@@ -10,10 +10,6 @@ properties {
 #task default -depends tst
 task default -depends run-clean, run-build, build-package
 #run-tests, run-perf-tests, build-package
-task tst {
-    $csproj = "$sampleDir\WikiPlex.Web.Sample.csproj"
-    regex-replace $csproj '(?ms)<ProjectReference Include="\.\.\\WikiPlex\\WikiPlex\.csproj">.+?</ProjectReference>' '<Reference Include="WikiPlex" />'
-}
 
 task run-clean {
     remove-item -force -recurse $archiveDir -ErrorAction SilentlyContinue
@@ -40,10 +36,17 @@ task build-package -depends prepare-sample {
     new-item -path $archiveDir -type directory | out-null
     
     exec { .\3rdParty\zip.exe -9 -A -j `
-                              "$archiveDir\test.zip" `
+                              "$archiveDir\WikiPlex.zip" `
                               "$baseDir\WikiPlex\bin\$configuration\*.dll" `
                               "$baseDir\WikiPlex\bin\$configuration\*.pdb" `
                               "$baseDir\License.txt"
+    }
+    
+    exec { .\3rdParty\zip.exe -9 -A -r `
+                              "$archiveDir\WikiPlex-Sample.zip" `
+                              "Sample" `
+                              "Sample-Readme.txt" `
+                              "License.txt"
     }
 }
 

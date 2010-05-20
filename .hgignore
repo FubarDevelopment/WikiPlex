@@ -5,3 +5,4 @@ relre:(?i)_(Help|Zip)/.+
 relre:(?i)^3rdParty/WikiMaml/(ColorCode|WikiPlex)\.(dll|pdb|xml)$
 relre:(?i)^WikiPlex\.Documentation/WikiPlex\.(dll|xml)
 glob:WikiPlex.sln.cache
+relre:(?i)Sample/.+
