@@ -1,20 +1,23 @@
 properties {
+    # setable properties
+    $configuration = 'Release'
+    $buildNumber = if ($env:build_number -ne $NULL) { $env:build_number } else { '1.0.0.0' }
+    
+    # paths
     $baseDir = resolve-path .
     $archiveDir = "$baseDir\_zip"
     $helpDir = "$baseDir\_help"
     $sampleDir = "$baseDir\Sample"
     $slnPath = "$baseDir\WikiPlex.sln"
-    $configuration = "Release"
 }
 
-#task default -depends tst
-task default -depends run-clean, run-build, build-package
-#run-tests, run-perf-tests, build-package
+task default -depends run-clean, run-build, run-tests, run-perf-tests
+task ci -depends run-clean, set-version, run-build, run-tests, build-package
 
 task run-clean {
-    remove-item -force -recurse $archiveDir -ErrorAction SilentlyContinue
-    remove-item -force -recurse $helpDir -ErrorAction SilentlyContinue
-    remove-item -force -recurse $sampleDir -ErrorAction SilentlyContinue
+    clean $archiveDir
+    clean $helpDir
+    clean $sampleDir
     exec { msbuild $slnPath /t:Clean /p:Configuration=$configuration /v:quiet }
 }
 
@@ -24,12 +27,19 @@ task run-build {
 }
 
 task run-tests {
-    exec { .\3rdParty\xUnit\xunit.console.x86.exe "$baseDir\WikiPlex.Tests\bin\$configuration\WikiPlex.Tests.dll" }
-    exec { .\3rdParty\xUnit\xunit.console.x86.exe "$baseDir\WikiPlex.IntegrationTests\bin\$configuration\WikiPlex.IntegrationTests.dll" }
+    execute-tests "$baseDir\WikiPlex.Tests\bin\$configuration\WikiPlex.Tests.dll" "Tests"
+    execute-tests "$baseDir\WikiPlex.IntegrationTests\bin\$configuration\WikiPlex.IntegrationTests.dll" "Integration Tests"
 }
 
 task run-perf-tests {
-    exec { .\3rdParty\xUnit\xunit.console.x86.exe "$baseDir\WikiPlex.PerformanceTests\bin\$configuration\WikiPlex.PerformanceTests.dll" }
+    execute-tests "$baseDir\WikiPlex.PerformanceTests\bin\$configuration\WikiPlex.PerformanceTests.dll" "Performance Tests"
+}
+
+task set-version {
+    $assemInfo = "$baseDir\GlobalAssemblyInfo.cs"
+    exec { attrib -r $assemInfo }
+    regex-replace $assemInfo 'AssemblyVersion\("\d+\.\d+\.\d+\.\d+"\)' "AssemblyVersion(`"$buildNumber`")"
+    regex-replace $assemInfo 'AssemblyFileVersion\("\d+\.\d+\.\d+\.\d+"\)' "AssemblyFileVersion(`"$buildNumber`")"
 }
 
 task build-package -depends prepare-sample {
@@ -48,6 +58,8 @@ task build-package -depends prepare-sample {
                               "Sample-Readme.txt" `
                               "License.txt"
     }
+    
+    clean $sampleDir
 }
 
 task prepare-sample {   
@@ -61,17 +73,19 @@ task prepare-sample {
     regex-replace $csproj '(?ms)<ProjectReference Include="\.\.\\WikiPlex\\WikiPlex\.csproj">.+?</ProjectReference>' '<Reference Include="WikiPlex" />'
 }
 
-function regex-replace {
-    param (
-        [parameter(position=0, mandatory=1)][string]$filePath, 
-        [parameter(position=1, mandatory=1)][string]$find, 
-        [parameter(position=2)][string]$replacement
-    )
-    
+function global:execute-tests($assembly, $message) {
+    exec { .\3rdParty\xUnit\xunit.console.x86.exe $assembly } "Failure running $message"
+}
+
+function global:clean($path) {
+    remove-item -force -recurse $path -ErrorAction SilentlyContinue
+}
+
+function global:regex-replace($filePath, $find, $replacement) {
     $regex = [regex] $find
-    $content = get-content $filePath
+    $content = [System.IO.File]::ReadAllText($filePath)
     
     Assert $regex.IsMatch($content) "Unable to find the regex '$find' to update the file '$filePath'"
     
-    set-content $filePath $regex.Replace($content, $replacement)
+    [System.IO.File]::WriteAllText($filePath, $regex.Replace($content, $replacement))
 }
