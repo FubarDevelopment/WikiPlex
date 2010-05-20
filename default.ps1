@@ -9,10 +9,13 @@ properties {
     $helpDir = "$baseDir\_help"
     $sampleDir = "$baseDir\Sample"
     $slnPath = "$baseDir\WikiPlex.sln"
+    $docSlnPath = "$baseDir\WikiPlex.Documentation\WikiPlex.Documentation.shfbproj"
 }
 
 task default -depends run-clean, run-build, run-tests, run-perf-tests
 task ci -depends run-clean, set-version, run-build, run-tests, build-package
+task doc -depends prepare-documentation
+task cleandoc -depends clean-documentation-files
 
 task run-clean {
     clean $archiveDir
@@ -43,7 +46,7 @@ task set-version {
 }
 
 task build-package -depends prepare-sample {
-    new-item -path $archiveDir -type directory | out-null
+    create $archiveDir
     
     exec { .\3rdParty\zip.exe -9 -A -j `
                               "$archiveDir\WikiPlex.zip" `
@@ -73,12 +76,36 @@ task prepare-sample {
     regex-replace $csproj '(?ms)<ProjectReference Include="\.\.\\WikiPlex\\WikiPlex\.csproj">.+?</ProjectReference>' '<Reference Include="WikiPlex" />'
 }
 
+task prepare-documentation -depends run-build {
+    clean $helpDir
+    create $helpDir
+    
+    copy-item "$baseDir\WikiPlex\bin\$configuration\*.dll", "$baseDir\WikiPlex\bin\$configuration\*.xml" -destination "$baseDir\WikiPlex.Documentation"
+    copy-item "$baseDir\WikiPlex\bin\$configuration\*.dll", "$baseDir\3rdParty\WikiMaml\*.*" -destination $helpDir
+    
+    exec { & "$helpDir\WikiMaml.Console.exe" "$baseDir\WikiPlex.Documentation\Source" "$baseDir\WikiPlex.Documentation" }
+}
+
+task build-documentation -depends prepare-documentation {
+    exec { msbuild $docSlnPath /p:"Configuration=$configuration;Platform=AnyCpu;OutDir=$helpDir" }
+}
+
+task clean-documentation-files {
+    $docPath = "$baseDir\WikiPlex.Documentation"
+    foreach ($path in get-childitem $docPath -include *.dll, *.xml, *.aml -recurse) { remove-item $path }
+    foreach ($path in get-childitem $docPath -exclude Source | where-object { $_.PSIsContainer }) { remove-item $path }
+}
+
 function global:execute-tests($assembly, $message) {
     exec { .\3rdParty\xUnit\xunit.console.x86.exe $assembly } "Failure running $message"
 }
 
 function global:clean($path) {
     remove-item -force -recurse $path -ErrorAction SilentlyContinue
+}
+
+function global:create($path) {
+    new-item -path $path -type directory | out-null
 }
 
 function global:regex-replace($filePath, $find, $replacement) {

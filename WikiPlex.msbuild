@@ -96,7 +96,7 @@
     
     <Copy SourceFiles="@(DocFiles)" DestinationFolder="WikiPlex.Documentation" />
     <Copy SourceFiles="@(FilesToCopy)" DestinationFolder="$(HelpPath)" />
-    <WikiMaml SourceFiles="@(WamlFiles)" OutputFolder="WikiPlex.Documentation" />
+    <WikiMaml SourceFiles="@(WamlFiles)" RootFolder="WikiPlex.Documentation\Source" OutputFolder="WikiPlex.Documentation" />
   </Target>
 
   <Target Name="build-documentation" DependsOnTargets="prepare-documentation">
