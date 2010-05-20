@@ -83,7 +83,7 @@ task prepare-documentation -depends run-build {
     copy-item "$baseDir\WikiPlex\bin\$configuration\*.dll", "$baseDir\WikiPlex\bin\$configuration\*.xml" -destination "$baseDir\WikiPlex.Documentation"
     copy-item "$baseDir\WikiPlex\bin\$configuration\*.dll", "$baseDir\3rdParty\WikiMaml\*.*" -destination $helpDir
     
-    exec { & "$helpDir\WikiMaml.Console.exe" "$baseDir\WikiPlex.Documentation\Source" "$baseDir\WikiPlex.Documentation" }
+    exec { .\_help\WikiMaml.Console.exe "$baseDir\WikiPlex.Documentation\Source" "$baseDir\WikiPlex.Documentation" }
 }
 
 task build-documentation -depends prepare-documentation {
