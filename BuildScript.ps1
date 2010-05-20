@@ -1,6 +1,6 @@
 properties {
     # setable properties
-    $configuration = 'Debug'
+    $configuration = if ($env:TEAMCITY_PROJECT_NAME -ne $NULL) { 'Release' } else { 'Debug' }
     $buildNumber = if ($env:build_number -ne $NULL) { $env:build_number } else { '1.0.0.0' }
     
     # paths
