@@ -14,10 +14,10 @@ namespace WikiPlex.Formatting
             writer.AddAttribute(HtmlTextWriterAttribute.Type, ObjectType);
         }
 
-        public virtual void AddParameterTags(string url, string[] initParams, HtmlTextWriter writer)
+        public virtual void AddParameterTags(string url, bool gpuAcceleration, string[] initParams, HtmlTextWriter writer)
         {
             AddParameter("source", url, writer);
-            AddParameter("windowless", "true", writer);
+            AddParameter(gpuAcceleration ? "enableGPUAcceleration" : "windowless", "true", writer);
 
             if (initParams.Length > 0)
                 AddParameter("initParams", string.Join(",", initParams), writer);

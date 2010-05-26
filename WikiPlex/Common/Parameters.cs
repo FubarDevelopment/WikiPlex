@@ -82,6 +82,29 @@ namespace WikiPlex.Common
         }
 
         /// <summary>
+        /// Will extract a boolean parameter.
+        /// </summary>
+        /// <param name="parameters">The collection of parameters.</param>
+        /// <param name="paramName">The parameter name to extract.</param>
+        /// <param name="defaultValue">The default value to use if the parameter is not found.</param>
+        /// <returns>The parameter value.</returns>
+        /// <exception cref="ArgumentException">Thrown if the value is not a valid boolean.</exception>
+        public static bool ExtractBool(IEnumerable<string> parameters, string paramName, bool defaultValue)
+        {
+            string value;
+            if (TryGetValue(parameters, paramName, out value))
+            {
+                bool outValue;
+                if (!bool.TryParse(value, out outValue))
+                    throw new ArgumentException("Invalid parameter.", paramName);
+
+                return outValue;
+            }
+
+            return defaultValue;
+        }
+
+        /// <summary>
         /// This will extract the height and width dimensions parameters.
         /// </summary>
         /// <param name="parameters">The colleciton of parameters.</param>
