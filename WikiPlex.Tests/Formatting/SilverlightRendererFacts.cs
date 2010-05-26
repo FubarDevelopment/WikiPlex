@@ -96,6 +96,16 @@ namespace WikiPlex.Tests.Formatting
             }
 
             [Fact]
+            public void Will_not_allow_gpuAcceleration_if_version_two()
+            {
+                var renderer = new SilverlightRenderer();
+
+                string output = renderer.Expand(ScopeName.Silverlight, "url=http://localhost/silverlight,version=2,gpuAcceleration=true", x => x, x => x);
+
+                Assert.Equal("<span class\"unresolved\">Cannot resolve silverlight macro, 'gpuAcceleration' cannot be enabled with version 2 of Silverlight.</span>", output);
+            }
+
+            [Fact]
             public void Will_render_the_silverlight_object_with_the_default_width_and_height()
             {
                 var renderer = new SilverlightRenderer();
@@ -190,9 +200,39 @@ namespace WikiPlex.Tests.Formatting
             {
                 var renderer = new SilverlightRenderer();
 
-                string output = renderer.Expand(ScopeName.Silverlight, "url=http://localhost/silverlight,version=2,param1=a,height=250,width=250,param2=b", x => x, x => x);
+                string output = renderer.Expand(ScopeName.Silverlight, "url=http://localhost/silverlight,version=2,param1=a,height=250,gpuAcceleration=false,width=250,param2=b", x => x, x => x);
 
                 Assert.Equal(@"<object data=""data:application/x-silverlight,"" type=""application/x-silverlight"" style=""height:250px;width:250px;""><param name=""source"" value=""http://localhost/silverlight""></param><param name=""windowless"" value=""true""></param><param name=""initParams"" value=""param1=a,param2=b""></param><p>You need to install Microsoft Silverlight to view this content. <a href=""http://go.microsoft.com/fwlink/?LinkID=124807"" style=""text-decoration:none;"">Get Silverlight!<br /><img src=""http://go.microsoft.com/fwlink/?LinkID=108181"" alt=""Get Microsoft Silverlight"" style=""border-style:none;"" /></a></p></object><iframe style=""visibility:hidden;height:0;width:0;border-width:0;""></iframe>", output);
+            }
+
+            [Fact]
+            public void Will_enable_gpu_acceleration_and_disable_windowless_if_version_three()
+            {
+                var renderer = new SilverlightRenderer();
+
+                string output = renderer.Expand(ScopeName.Silverlight, "url=http://localhost/silverlight,height=30,width=40,version=3,gpuAcceleration=true", x => x, x => x);
+
+                Assert.Equal(@"<object data=""data:application/x-silverlight-2,"" type=""application/x-silverlight-2"" style=""height:30px;width:40px;""><param name=""source"" value=""http://localhost/silverlight""></param><param name=""enableGPUAcceleration"" value=""true""></param><param name=""minRuntimeVersion"" value=""3.0.40624.0""></param><param name=""autoUpgrade"" value=""true""></param><p>You need to install Microsoft Silverlight to view this content. <a href=""http://go.microsoft.com/fwlink/?LinkID=149156&v=3.0.40624.0"" style=""text-decoration:none;"">Get Silverlight!<br /><img src=""http://go.microsoft.com/fwlink/?LinkID=108181"" alt=""Get Microsoft Silverlight"" style=""border-style:none;"" /></a></p></object><iframe style=""visibility:hidden;height:0;width:0;border-width:0;""></iframe>", output);
+            }
+
+            [Fact]
+            public void Will_enable_gpu_acceleration_and_disable_windowless_if_version_four()
+            {
+                var renderer = new SilverlightRenderer();
+
+                string output = renderer.Expand(ScopeName.Silverlight, "url=http://localhost/silverlight,height=30,width=40,version=4,gpuAcceleration=true", x => x, x => x);
+
+                Assert.Equal(@"<object data=""data:application/x-silverlight-2,"" type=""application/x-silverlight-2"" style=""height:30px;width:40px;""><param name=""source"" value=""http://localhost/silverlight""></param><param name=""enableGPUAcceleration"" value=""true""></param><param name=""minRuntimeVersion"" value=""4.0.50401.0""></param><param name=""autoUpgrade"" value=""true""></param><p>You need to install Microsoft Silverlight to view this content. <a href=""http://go.microsoft.com/fwlink/?LinkID=149156&v=4.0.50401.0"" style=""text-decoration:none;"">Get Silverlight!<br /><img src=""http://go.microsoft.com/fwlink/?LinkID=108181"" alt=""Get Microsoft Silverlight"" style=""border-style:none;"" /></a></p></object><iframe style=""visibility:hidden;height:0;width:0;border-width:0;""></iframe>", output);
+            }
+
+            [Fact]
+            public void Will_not_render_gpuAcceleration_if_false()
+            {
+                var renderer = new SilverlightRenderer();
+
+                string output = renderer.Expand(ScopeName.Silverlight, "url=http://localhost/silverlight,height=30,width=40,version=3,gpuAcceleration=false", x => x, x => x);
+
+                Assert.Equal(@"<object data=""data:application/x-silverlight-2,"" type=""application/x-silverlight-2"" style=""height:30px;width:40px;""><param name=""source"" value=""http://localhost/silverlight""></param><param name=""windowless"" value=""true""></param><param name=""minRuntimeVersion"" value=""3.0.40624.0""></param><param name=""autoUpgrade"" value=""true""></param><p>You need to install Microsoft Silverlight to view this content. <a href=""http://go.microsoft.com/fwlink/?LinkID=149156&v=3.0.40624.0"" style=""text-decoration:none;"">Get Silverlight!<br /><img src=""http://go.microsoft.com/fwlink/?LinkID=108181"" alt=""Get Microsoft Silverlight"" style=""border-style:none;"" /></a></p></object><iframe style=""visibility:hidden;height:0;width:0;border-width:0;""></iframe>", output);
             }
         }
     }

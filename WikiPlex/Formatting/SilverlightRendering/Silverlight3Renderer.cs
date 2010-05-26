@@ -24,9 +24,9 @@ namespace WikiPlex.Formatting
             get { return "http://go.microsoft.com/fwlink/?LinkID=149156&v=" + Version; }
         }
 
-        public override void AddParameterTags(string url, string[] initParams, HtmlTextWriter writer)
+        public override void AddParameterTags(string url, bool gpuAcceleration, string[] initParams, HtmlTextWriter writer)
         {
-            base.AddParameterTags(url, initParams, writer);
+            base.AddParameterTags(url, gpuAcceleration, initParams, writer);
 
             AddParameter("minRuntimeVersion", Version, writer);
             AddParameter("autoUpgrade", "true", writer);

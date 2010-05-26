@@ -181,5 +181,41 @@ namespace WikiPlex.Tests
                 Assert.Equal(paramName, ex.ParamName);
             }
         }
+
+        public class ExtractBool
+        {
+            [Fact]
+            public void Should_return_default_if_parameter_is_not_found()
+            {
+                bool value = Parameters.ExtractBool(new[] {"foo=bar"}, "test", true);
+
+                Assert.True(value);
+            }
+
+            [Fact]
+            public void Should_return_default_if_parameter_is_empty()
+            {
+                bool value = Parameters.ExtractBool(new[] {"test="}, "test", true);
+
+                Assert.True(value);
+            }
+
+            [Fact]
+            public void Should_throw_ArgumentException_if_value_is_not_a_boolean()
+            {
+                var ex = Record.Exception(() => Parameters.ExtractBool(new[] {"test=bar"}, "test", true));
+
+                Assert.NotNull(ex);
+                Assert.IsType<ArgumentException>(ex);
+            }
+
+            [Fact]
+            public void Should_return_correct_value()
+            {
+                bool value = Parameters.ExtractBool(new[] {"test=true"}, "test", false);
+
+                Assert.True(value);
+            }
+        }
     }
 }

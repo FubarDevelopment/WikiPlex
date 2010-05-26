@@ -46,6 +46,7 @@ namespace WikiPlex.Formatting
                 string[] parameters = input.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries);
                 string url = Parameters.ExtractUrl(parameters);
                 Dimensions dimensions = Parameters.ExtractDimensions(parameters, 200, 200);
+                bool gpuAcceleration = Parameters.ExtractBool(parameters, "gpuAcceleration", false);
 
                 string versionValue;
                 int version = 4;
@@ -54,6 +55,9 @@ namespace WikiPlex.Formatting
                     if (version < 2 || version > 4)
                         version = 4;
                 }
+
+                if (version == 2 && gpuAcceleration)
+                    return "<span class\"unresolved\">Cannot resolve silverlight macro, 'gpuAcceleration' cannot be enabled with version 2 of Silverlight.</span>";
 
                 string[] initParams = GetInitParams(parameters);
 
@@ -70,7 +74,7 @@ namespace WikiPlex.Formatting
                     writer.AddStyleAttribute(HtmlTextWriterStyle.Width, dimensions.Width.ToString());
                     writer.RenderBeginTag(HtmlTextWriterTag.Object);
 
-                    renderer.AddParameterTags(url, initParams, writer);
+                    renderer.AddParameterTags(url, gpuAcceleration, initParams, writer);
                     renderer.AddDownloadLink(writer);
 
                     writer.RenderEndTag(); // object
@@ -98,6 +102,7 @@ namespace WikiPlex.Formatting
                           && !p.StartsWith("height=", StringComparison.OrdinalIgnoreCase)
                           && !p.StartsWith("width=", StringComparison.OrdinalIgnoreCase)
                           && !p.StartsWith("version=", StringComparison.OrdinalIgnoreCase)
+                          && !p.StartsWith("gpuAcceleration=", StringComparison.OrdinalIgnoreCase)
                     select p).ToArray();
         }
 
