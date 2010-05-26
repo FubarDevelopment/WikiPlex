@@ -90,11 +90,11 @@
 <br />
 <div style="color:Black;background-color:White;"><pre>
 <span style="color:Green;"># Create RTF block from text using named console colors.</span>
-<span style="color:Blue;">function</span> Append-RtfBlock (<span style="color:OrangeRed;">$block</span>, <span style="color:OrangeRed;">$tokenColor</span>)
+<span style="color:Blue;">function</span> Append<span style="color:Gray;">-</span>RtfBlock (<span style="color:OrangeRed;">$block</span>, <span style="color:OrangeRed;">$tokenColor</span>)
 {
-    <span style="color:OrangeRed;">$colorIndex</span> = <span style="color:OrangeRed;">$rtfColorMap</span>.<span style="color:OrangeRed;">$tokenColor</span>
-    <span style="color:OrangeRed;">$block</span> = <span style="color:OrangeRed;">$block</span>.Replace(<span style="color:#A31515;">&#39;\&#39;,&#39;</span>\\&#39;).Replace(<span style="color:#A31515;">&quot;`r`n&quot;</span>,<span style="color:#A31515;">&quot;\cf1\par`r`n&quot;</span>)
-    <span style="color:OrangeRed;">$block</span> = <span style="color:OrangeRed;">$block</span>.Replace(<span style="color:#A31515;">&quot;`t&quot;</span>,<span style="color:#A31515;">&#39;\tab&#39;</span>).Replace(<span style="color:#A31515;">&#39;{&#39;</span>,<span style="color:#A31515;">&#39;\{&#39;</span>).Replace(<span style="color:#A31515;">&#39;}&#39;</span>,<span style="color:#A31515;">&#39;\}&#39;</span>)
-    <span style="color:OrangeRed;">$null</span> = <span style="color:OrangeRed;">$rtfBuilder</span>.Append(<span style="color:#A31515;">&quot;\cf$colorIndex $block&quot;</span>)
+    <span style="color:OrangeRed;">$colorIndex</span> <span style="color:Gray;">=</span> <span style="color:OrangeRed;">$rtfColorMap</span>.<span style="color:OrangeRed;">$tokenColor</span>
+    <span style="color:OrangeRed;">$block</span> <span style="color:Gray;">=</span> <span style="color:OrangeRed;">$block</span>.Replace(<span style="color:#A31515;">&#39;\&#39;,&#39;</span>\\&#39;).Replace(<span style="color:#A31515;">&quot;`r`n&quot;</span>,<span style="color:#A31515;">&quot;\cf1\par`r`n&quot;</span>)
+    <span style="color:OrangeRed;">$block</span> <span style="color:Gray;">=</span> <span style="color:OrangeRed;">$block</span>.Replace(<span style="color:#A31515;">&quot;`t&quot;</span>,<span style="color:#A31515;">&#39;\tab&#39;</span>).Replace(<span style="color:#A31515;">&#39;{&#39;</span>,<span style="color:#A31515;">&#39;\{&#39;</span>).Replace(<span style="color:#A31515;">&#39;}&#39;</span>,<span style="color:#A31515;">&#39;\}&#39;</span>)
+    <span style="color:OrangeRed;">$null</span> <span style="color:Gray;">=</span> <span style="color:OrangeRed;">$rtfBuilder</span>.Append(<span style="color:#A31515;">&quot;\cf$colorIndex $block&quot;</span>)
 }
 </pre></div>
