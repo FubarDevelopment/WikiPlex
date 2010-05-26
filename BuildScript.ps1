@@ -16,6 +16,7 @@ task default -depends run-clean, run-build, run-tests, run-perf-tests
 task ci -depends run-clean, set-version, run-build, run-tests, build-package
 task doc -depends prepare-documentation
 task cleandoc -depends clean-documentation-files
+task builddoc -depends prepare-documentation, build-documentation, clean-documentation-files
 
 task run-clean {
     clean $archiveDir
@@ -83,7 +84,7 @@ task prepare-documentation -depends run-build {
     copy-item "$baseDir\WikiPlex\bin\$configuration\*.dll", "$baseDir\WikiPlex\bin\$configuration\*.xml" -destination "$baseDir\WikiPlex.Documentation"
     copy-item "$baseDir\WikiPlex\bin\$configuration\*.dll", "$baseDir\3rdParty\WikiMaml\*.*" -destination $helpDir
     
-    exec { & "$helpDir\WikiMaml.Console.exe" "$baseDir\WikiPlex.Documentation\Source" "$baseDir\WikiPlex.Documentation" }
+    exec { .\_help\WikiMaml.Console.exe "$baseDir\WikiPlex.Documentation\Source" "$baseDir\WikiPlex.Documentation" }
 }
 
 task build-documentation -depends prepare-documentation {
