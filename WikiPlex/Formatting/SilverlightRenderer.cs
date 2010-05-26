@@ -48,11 +48,11 @@ namespace WikiPlex.Formatting
                 Dimensions dimensions = Parameters.ExtractDimensions(parameters, 200, 200);
 
                 string versionValue;
-                int version = 3;
+                int version = 4;
                 if (Parameters.TryGetValue(parameters, "version", out versionValue) && int.TryParse(versionValue, out version))
                 {
-                    if (version < 2 || version > 3)
-                        version = 3;
+                    if (version < 2 || version > 4)
+                        version = 4;
                 }
 
                 string[] initParams = GetInitParams(parameters);
@@ -103,10 +103,15 @@ namespace WikiPlex.Formatting
 
         private static ISilverlightRenderer GetRenderer(int version)
         {
-            if (version == 3)
-                return new Silverlight3Renderer();
-
-            return new Silverlight2Renderer();
+            switch (version)
+            {
+                case 4:
+                    return new Silverlight4Renderer();
+                case 3:
+                    return new Silverlight3Renderer();
+                default:
+                    return new Silverlight2Renderer();
+            }
         }
     }
 }
