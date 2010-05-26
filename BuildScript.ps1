@@ -13,7 +13,7 @@ properties {
 }
 
 task default -depends run-clean, run-build, run-tests, run-perf-tests
-task ci -depends run-clean, set-version, run-build, run-tests, build-package
+task ci -depends run-clean, set-version, run-build, run-tests, build-documentation, clean-documentation-files, build-package
 task doc -depends prepare-documentation
 task cleandoc -depends clean-documentation-files
 task builddoc -depends prepare-documentation, build-documentation, clean-documentation-files
