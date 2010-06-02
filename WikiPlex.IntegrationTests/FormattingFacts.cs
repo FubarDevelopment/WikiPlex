@@ -53,11 +53,11 @@ namespace WikiPlex.IntegrationTests
         //[Fact]
         public void TestIt()
         {
-            string path = @"CatastrophicBacktracking\SPaDevToolkitProject";
+            string path = @"TableFormatting\WithLinks";
 
-            string expectedText = File.ReadAllText(@"Data\" + path + ".html");
+            string expectedText = File.ReadAllText(@"..\..\Data\" + path + ".html");
             string actualText =
-                new WikiEngine().Render(File.ReadAllText(@"Data\" + path + ".wiki"));
+                new WikiEngine().Render(File.ReadAllText(@"..\..\Data\" + path + ".wiki"));
 
             // comment out the following lines if you wish to compare
             // the whitespace correctly
