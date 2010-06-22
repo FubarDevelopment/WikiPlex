@@ -109,6 +109,18 @@ namespace WikiPlex.Tests
             }
 
             [Fact]
+            public void Should_convert_encoded_line_breaks_to_html_break_tags()
+            {
+                var engine = new WikiEngine();
+                var formatter = new Mock<IFormatter>();
+                formatter.Setup(x => x.Format("input")).Returns("test&#10;break");
+
+                string result = engine.Render("input", formatter.Object);
+
+                Assert.Equal("test<br />break", result);
+            }
+
+            [Fact]
             public void Should_not_convert_line_break_into_html_break_tag_after_unordered_list()
             {
                 var engine = new WikiEngine();
