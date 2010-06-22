@@ -15,7 +15,7 @@ namespace WikiPlex
     public class WikiEngine : IWikiEngine
     {
         private static readonly MacroCompiler compiler = new MacroCompiler();
-        private static readonly Regex NewLineRegex = new Regex(@"(?<!\r|</tr>|</li>|</ul>|</ol>|<hr />|</blockquote>)\n(?!<h[1-6]>|<hr />|<ul>|<ol>|</li>)", RegexOptions.Compiled);
+        private static readonly Regex NewLineRegex = new Regex(@"(?<!\r|</tr>|</li>|</ul>|</ol>|<hr />|</blockquote>)(?:\n|&#10;)(?!<h[1-6]>|<hr />|<ul>|<ol>|</li>)", RegexOptions.Compiled);
         private static readonly Regex PreRegex = new Regex(@"(?s)((?><pre>)(?>.*?</pre>))", RegexOptions.Compiled);
 
         /// <summary>
@@ -79,13 +79,10 @@ namespace WikiPlex
             wikiContent = wikiContent.Replace("\r\n", "\n");
 
             var parser = new MacroParser(compiler);
-            var buffer = new StringBuilder(wikiContent.Length);
 
             parser.Parse(wikiContent, macros, ScopeAugmenters.All, formatter.RecordParse);
 
-            formatter.Format(wikiContent, buffer);
-
-            return ReplaceNewLines(buffer.ToString());
+            return ReplaceNewLines(formatter.Format(wikiContent));
         }
 
         private static string ReplaceNewLines(string input)

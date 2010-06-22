@@ -44,6 +44,7 @@ namespace WikiPlex.Formatting
         /// </summary>
         /// <param name="wikiContent">The wiki content to format.</param>
         /// <param name="writer">The writer to write the content to.</param>
+        [Obsolete("Please use the Format(string) method.")]
         public void Format(string wikiContent, StringBuilder writer)
         {
             int currentIndex = 0;
@@ -88,6 +89,23 @@ namespace WikiPlex.Formatting
             // remove the trailing new line character
             if (writer[writer.Length - 1] == '\r')
                 writer.Remove(writer.Length - 1, 1);
+        }
+
+        /// <summary>
+        /// Will format the wiki content based on the recorded scopes and output the content to the writer.
+        /// </summary>
+        /// <param name="wikiContent">The wiki content to format.</param>
+        /// <returns>The formatted wiki content.</returns>
+        public string Format(string wikiContent)
+        {
+            var writer = new StringBuilder(wikiContent.Length);
+            
+            // This is temporary until the deprecated method is removed.
+            #pragma warning disable 612,618
+            Format(wikiContent, writer);
+            #pragma warning restore 612,618
+            
+            return writer.ToString();
         }
 
         /// <summary>
