@@ -79,13 +79,10 @@ namespace WikiPlex
             wikiContent = wikiContent.Replace("\r\n", "\n");
 
             var parser = new MacroParser(compiler);
-            var buffer = new StringBuilder(wikiContent.Length);
 
             parser.Parse(wikiContent, macros, ScopeAugmenters.All, formatter.RecordParse);
 
-            formatter.Format(wikiContent, buffer);
-
-            return ReplaceNewLines(buffer.ToString());
+            return ReplaceNewLines(formatter.Format(wikiContent));
         }
 
         private static string ReplaceNewLines(string input)

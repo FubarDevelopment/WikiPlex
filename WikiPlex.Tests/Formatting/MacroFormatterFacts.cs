@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using Moq;
 using Xunit;
 using WikiPlex.Formatting;
@@ -23,11 +22,10 @@ namespace WikiPlex.Tests.Formatting
                 var formatter = new MacroFormatter(new[] {renderer.Object});
                 var scopes = new List<Scope> {new Scope(scope, 7, 3), new Scope(scope, 4, 2)};
                 formatter.RecordParse(scopes);
-                var writer = new StringBuilder();
 
-                formatter.Format("the ab abc code", writer);
+                string result = formatter.Format("the ab abc code");
 
-                Assert.Equal("the <b>ab</b> <b>abc</b> code", writer.ToString());
+                Assert.Equal("the <b>ab</b> <b>abc</b> code", result);
             }
 
             [Fact]
@@ -39,11 +37,10 @@ namespace WikiPlex.Tests.Formatting
                 var formatter = new MacroFormatter(new[] {renderer.Object});
                 var scopes = new List<Scope> {new Scope(scope, 4, 2)};
                 formatter.RecordParse(scopes);
-                var writer = new StringBuilder();
 
-                formatter.Format("the ab abc code", writer);
+                string result = formatter.Format("the ab abc code");
 
-                Assert.Equal("the <span class=\"unresolved\">Cannot resolve macro, as no renderers were found.</span>[ab] abc code", writer.ToString());
+                Assert.Equal("the <span class=\"unresolved\">Cannot resolve macro, as no renderers were found.</span>[ab] abc code", result);
             }
 
             [Fact]
@@ -55,11 +52,10 @@ namespace WikiPlex.Tests.Formatting
                 var formatter = new MacroFormatter(new[] { renderer.Object });
                 var scopes = new List<Scope> { new Scope(scope, 4, 3) };
                 formatter.RecordParse(scopes);
-                var writer = new StringBuilder();
 
-                formatter.Format("the &ab abc code", writer);
+                string result = formatter.Format("the &ab abc code");
 
-                Assert.Equal("the <span class=\"unresolved\">Cannot resolve macro, as no renderers were found.</span>[&amp;ab] abc code", writer.ToString());
+                Assert.Equal("the <span class=\"unresolved\">Cannot resolve macro, as no renderers were found.</span>[&amp;ab] abc code", result);
             }
 
             [Fact]
@@ -71,11 +67,10 @@ namespace WikiPlex.Tests.Formatting
                 var formatter = new MacroFormatter(new[] {renderer.Object});
                 var scopes = new List<Scope> {new Scope("foo", 0, 1)};
                 formatter.RecordParse(scopes);
-                var writer = new StringBuilder();
 
-                formatter.Format("f", writer);
+                string result = formatter.Format("f");
 
-                Assert.Equal("<h1>end</h1>", writer.ToString());
+                Assert.Equal("<h1>end</h1>", result);
             }
 
             [Fact]
@@ -89,11 +84,10 @@ namespace WikiPlex.Tests.Formatting
                 var formatter = new MacroFormatter(new[] { renderer.Object });
                 var scopes = new List<Scope> { new Scope(scope, 4, 3), new Scope(scope, 5, 2) };
                 formatter.RecordParse(scopes);
-                var writer = new StringBuilder();
 
-                formatter.Format("the abc code", writer);
+                string result = formatter.Format("the abc code");
 
-                Assert.Equal("the notskipped code", writer.ToString());
+                Assert.Equal("the notskipped code", result);
                 renderer.Verify();
             }
 
@@ -108,11 +102,10 @@ namespace WikiPlex.Tests.Formatting
                 var formatter = new MacroFormatter(new[] { renderer.Object });
                 var scopes = new List<Scope> { new Scope(scope, 4, 3), new Scope(scope, 4, 3) };
                 formatter.RecordParse(scopes);
-                var writer = new StringBuilder();
 
-                formatter.Format("the abc code", writer);
+                string result = formatter.Format("the abc code");
 
-                Assert.Equal("the notskippednotskipped code", writer.ToString());
+                Assert.Equal("the notskippednotskipped code", result);
                 renderer.Verify();
             }
 
@@ -127,11 +120,10 @@ namespace WikiPlex.Tests.Formatting
                 var formatter = new MacroFormatter(new[] { renderer.Object });
                 var scopes = new List<Scope> { new Scope(scope, 8, 3), new Scope(scope, 5, 2) };
                 formatter.RecordParse(scopes);
-                var writer = new StringBuilder();
 
-                formatter.Format("the& ab abc code", writer);
+                string result = formatter.Format("the& ab abc code");
 
-                Assert.Equal("the&amp; <b>ab</b> <b>abc</b> code", writer.ToString());
+                Assert.Equal("the&amp; <b>ab</b> <b>abc</b> code", result);
             }
 
             [Fact]
@@ -145,11 +137,10 @@ namespace WikiPlex.Tests.Formatting
                 var formatter = new MacroFormatter(new[] { renderer.Object });
                 var scopes = new List<Scope> { new Scope(scope, 7, 3), new Scope(scope, 4, 2) };
                 formatter.RecordParse(scopes);
-                var writer = new StringBuilder();
 
-                formatter.Format("the ab abc &code", writer);
+                string result = formatter.Format("the ab abc &code");
 
-                Assert.Equal("the <b>ab</b> <b>abc</b> &amp;code", writer.ToString());
+                Assert.Equal("the <b>ab</b> <b>abc</b> &amp;code", result);
             }
 
             [Fact]
@@ -162,11 +153,10 @@ namespace WikiPlex.Tests.Formatting
                 var formatter = new MacroFormatter(new[] {renderer.Object});
                 var scopes = new List<Scope> {new Scope(scope, 0, 2)};
                 formatter.RecordParse(scopes);
-                var writer = new StringBuilder();
 
-                formatter.Format("ab", writer);
+                string result = formatter.Format("ab");
 
-                Assert.Equal("<span class=\"unresolved\">Cannot resolve macro, as an unhandled exception occurred.</span>[ab]", writer.ToString());
+                Assert.Equal("<span class=\"unresolved\">Cannot resolve macro, as an unhandled exception occurred.</span>[ab]", result);
             }
 
             [Fact]
@@ -179,11 +169,10 @@ namespace WikiPlex.Tests.Formatting
                 var formatter = new MacroFormatter(new[] { renderer.Object });
                 var scopes = new List<Scope> { new Scope(scope, 0, 3) };
                 formatter.RecordParse(scopes);
-                var writer = new StringBuilder();
 
-                formatter.Format("&ab", writer);
+                string result = formatter.Format("&ab");
 
-                Assert.Equal("<span class=\"unresolved\">Cannot resolve macro, as an unhandled exception occurred.</span>[&amp;ab]", writer.ToString());
+                Assert.Equal("<span class=\"unresolved\">Cannot resolve macro, as an unhandled exception occurred.</span>[&amp;ab]", result);
             }
 
             [Fact]
@@ -198,7 +187,6 @@ namespace WikiPlex.Tests.Formatting
                 var expectedScope = new Scope(scope, 0, 2);
                 var scopes = new List<Scope> { expectedScope };
                 formatter.RecordParse(scopes);
-                var writer = new StringBuilder();
                 Scope actualScope = null;
                 string actualContent = null;
 
@@ -207,7 +195,8 @@ namespace WikiPlex.Tests.Formatting
                                                    actualContent = e.Content;
                                                    actualScope = e.Scope;
                                                };
-                formatter.Format(expectedContent, writer);
+
+                formatter.Format(expectedContent);
 
                 Assert.Equal(expectedScope, actualScope);
                 Assert.Equal(expectedContent, actualContent);
