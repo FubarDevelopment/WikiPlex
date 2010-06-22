@@ -98,7 +98,7 @@ task clean-documentation-files {
 }
 
 function global:execute-tests($assembly, $message) {
-    exec { .\3rdParty\xUnit\xunit.console.x86.exe $assembly } "Failure running $message"
+    exec { .\3rdParty\xUnit\xunit.console.clr4.x86.exe $assembly } "Failure running $message"
 }
 
 function global:clean($path) {
