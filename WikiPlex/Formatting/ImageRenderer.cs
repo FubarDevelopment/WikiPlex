@@ -9,13 +9,13 @@ namespace WikiPlex.Formatting
     public class ImageRenderer : IRenderer
     {
         private const string ImageAndLink = "<a href=\"{2}\"><img style=\"border:none;\" src=\"{3}\" /></a>";
-        private const string ImageAndLinkWithStyle = "<div style=\"clear:both;\"></div><a style=\"float:{0};{1}\" href=\"{2}\"><img style=\"border:none;\" src=\"{3}\" /></a>";
+        private const string ImageAndLinkWithStyle = "<div style=\"clear:both;height:0;\">&nbsp;</div><a style=\"float:{0};{1}\" href=\"{2}\"><img style=\"border:none;\" src=\"{3}\" /></a>";
         private const string ImageLinkAndAlt = "<a href=\"{2}\"><img style=\"border:none;\" src=\"{3}\" alt=\"{4}\" title=\"{4}\" /></a>";
-        private const string ImageLinkAndAltWithStyle = "<div style=\"clear:both;\"></div><a style=\"float:{0};{1}\" href=\"{2}\"><img style=\"border:none;\" src=\"{3}\" alt=\"{4}\" title=\"{4}\" /></a>";
+        private const string ImageLinkAndAltWithStyle = "<div style=\"clear:both;height:0;\">&nbsp;</div><a style=\"float:{0};{1}\" href=\"{2}\"><img style=\"border:none;\" src=\"{3}\" alt=\"{4}\" title=\"{4}\" /></a>";
         private const string ImageNoLink = "<img src=\"{2}\" />";
         private const string ImageNoLinkAndAlt = "<img src=\"{2}\" alt=\"{3}\" title=\"{3}\" />";
-        private const string ImageNoLinkAndAltWithStyle = "<div style=\"clear:both;\"></div><img style=\"float:{0};{1}\" src=\"{2}\" alt=\"{3}\" title=\"{3}\" />";
-        private const string ImageNoLinkWithStyle = "<div style=\"clear:both;\"></div><img style=\"float:{0};{1}\" src=\"{2}\" />";
+        private const string ImageNoLinkAndAltWithStyle = "<div style=\"clear:both;height:0;\">&nbsp;</div><img style=\"float:{0};{1}\" src=\"{2}\" alt=\"{3}\" title=\"{3}\" />";
+        private const string ImageNoLinkWithStyle = "<div style=\"clear:both;height:0;\">&nbsp;</div><img style=\"float:{0};{1}\" src=\"{2}\" />";
 
         /// <summary>
         /// Gets the id of a renderer.

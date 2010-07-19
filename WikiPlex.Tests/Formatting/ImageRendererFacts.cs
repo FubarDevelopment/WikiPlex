@@ -40,7 +40,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string result = renderer.Expand(ScopeName.ImageLeftAlign, "http://localhost/image.gif", x => x, x => x);
 
-                Assert.Equal("<div style=\"clear:both;\"></div><img style=\"float:left;padding-right:.5em;\" src=\"http://localhost/image.gif\" />", result);
+                Assert.Equal("<div style=\"clear:both;height:0;\">&nbsp;</div><img style=\"float:left;padding-right:.5em;\" src=\"http://localhost/image.gif\" />", result);
             }
 
             [Fact]
@@ -50,7 +50,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string result = renderer.Expand(ScopeName.ImageRightAlign, "http://localhost/image.gif", x => x, x => x);
 
-                Assert.Equal("<div style=\"clear:both;\"></div><img style=\"float:right;padding-left:.5em;\" src=\"http://localhost/image.gif\" />", result);
+                Assert.Equal("<div style=\"clear:both;height:0;\">&nbsp;</div><img style=\"float:right;padding-left:.5em;\" src=\"http://localhost/image.gif\" />", result);
             }
 
             [Fact]
@@ -70,7 +70,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string result = renderer.Expand(ScopeName.ImageLeftAlignWithAlt, "Friendly|http://localhost/image.gif", x => x, x => x);
 
-                Assert.Equal("<div style=\"clear:both;\"></div><img style=\"float:left;padding-right:.5em;\" src=\"http://localhost/image.gif\" alt=\"Friendly\" title=\"Friendly\" />", result);
+                Assert.Equal("<div style=\"clear:both;height:0;\">&nbsp;</div><img style=\"float:left;padding-right:.5em;\" src=\"http://localhost/image.gif\" alt=\"Friendly\" title=\"Friendly\" />", result);
             }
 
             [Fact]
@@ -80,7 +80,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string result = renderer.Expand(ScopeName.ImageRightAlignWithAlt, "Friendly|http://localhost/image.gif", x => x, x => x);
 
-                Assert.Equal("<div style=\"clear:both;\"></div><img style=\"float:right;padding-left:.5em;\" src=\"http://localhost/image.gif\" alt=\"Friendly\" title=\"Friendly\" />", result);
+                Assert.Equal("<div style=\"clear:both;height:0;\">&nbsp;</div><img style=\"float:right;padding-left:.5em;\" src=\"http://localhost/image.gif\" alt=\"Friendly\" title=\"Friendly\" />", result);
             }
 
             [Fact]
@@ -100,7 +100,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string result = renderer.Expand(ScopeName.ImageRightAlignWithAlt, "MyImage|http://localhost/image.gif", x => x, x => "safe!");
 
-                Assert.Equal("<div style=\"clear:both;\"></div><img style=\"float:right;padding-left:.5em;\" src=\"safe!\" alt=\"safe!\" title=\"safe!\" />", result);
+                Assert.Equal("<div style=\"clear:both;height:0;\">&nbsp;</div><img style=\"float:right;padding-left:.5em;\" src=\"safe!\" alt=\"safe!\" title=\"safe!\" />", result);
             }
 
             [Fact]
@@ -110,7 +110,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string result = renderer.Expand(ScopeName.ImageLeftAlignWithAlt, "MyImage|http://localhost/image.gif", x => x, x => "safe!");
 
-                Assert.Equal("<div style=\"clear:both;\"></div><img style=\"float:left;padding-right:.5em;\" src=\"safe!\" alt=\"safe!\" title=\"safe!\" />", result);
+                Assert.Equal("<div style=\"clear:both;height:0;\">&nbsp;</div><img style=\"float:left;padding-right:.5em;\" src=\"safe!\" alt=\"safe!\" title=\"safe!\" />", result);
             }
 
             [Fact]
@@ -180,7 +180,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string result = renderer.Expand(ScopeName.ImageWithLinkNoAltLeftAlign, "http://localhost/image.gif|http://localhost", x => x, x => x);
 
-                Assert.Equal("<div style=\"clear:both;\"></div><a style=\"float:left;padding-right:.5em;\" href=\"http://localhost\"><img style=\"border:none;\" src=\"http://localhost/image.gif\" /></a>", result);
+                Assert.Equal("<div style=\"clear:both;height:0;\">&nbsp;</div><a style=\"float:left;padding-right:.5em;\" href=\"http://localhost\"><img style=\"border:none;\" src=\"http://localhost/image.gif\" /></a>", result);
             }
 
             [Fact]
@@ -190,7 +190,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string result = renderer.Expand(ScopeName.ImageWithLinkNoAltLeftAlign, "http://localhost/image.gif|http://localhost", x => x, x => "safe!");
 
-                Assert.Equal("<div style=\"clear:both;\"></div><a style=\"float:left;padding-right:.5em;\" href=\"safe!\"><img style=\"border:none;\" src=\"safe!\" /></a>", result);
+                Assert.Equal("<div style=\"clear:both;height:0;\">&nbsp;</div><a style=\"float:left;padding-right:.5em;\" href=\"safe!\"><img style=\"border:none;\" src=\"safe!\" /></a>", result);
             }
 
             [Fact]
@@ -200,7 +200,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string result = renderer.Expand(ScopeName.ImageWithLinkNoAltRightAlign, "http://localhost/image.gif|http://localhost", x => x, x => x);
 
-                Assert.Equal("<div style=\"clear:both;\"></div><a style=\"float:right;padding-left:.5em;\" href=\"http://localhost\"><img style=\"border:none;\" src=\"http://localhost/image.gif\" /></a>", result);
+                Assert.Equal("<div style=\"clear:both;height:0;\">&nbsp;</div><a style=\"float:right;padding-left:.5em;\" href=\"http://localhost\"><img style=\"border:none;\" src=\"http://localhost/image.gif\" /></a>", result);
             }
 
             [Fact]
@@ -210,7 +210,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string result = renderer.Expand(ScopeName.ImageWithLinkNoAltRightAlign, "http://localhost/image.gif|http://localhost", x => x, x => "safe!");
 
-                Assert.Equal("<div style=\"clear:both;\"></div><a style=\"float:right;padding-left:.5em;\" href=\"safe!\"><img style=\"border:none;\" src=\"safe!\" /></a>", result);
+                Assert.Equal("<div style=\"clear:both;height:0;\">&nbsp;</div><a style=\"float:right;padding-left:.5em;\" href=\"safe!\"><img style=\"border:none;\" src=\"safe!\" /></a>", result);
             }
 
             [Fact]
@@ -240,7 +240,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string result = renderer.Expand(ScopeName.ImageWithLinkWithAltLeftAlign, "Friendly|http://localhost/image.gif|http://localhost", x => x, x => x);
 
-                Assert.Equal("<div style=\"clear:both;\"></div><a style=\"float:left;padding-right:.5em;\" href=\"http://localhost\"><img style=\"border:none;\" src=\"http://localhost/image.gif\" alt=\"Friendly\" title=\"Friendly\" /></a>", result);
+                Assert.Equal("<div style=\"clear:both;height:0;\">&nbsp;</div><a style=\"float:left;padding-right:.5em;\" href=\"http://localhost\"><img style=\"border:none;\" src=\"http://localhost/image.gif\" alt=\"Friendly\" title=\"Friendly\" /></a>", result);
             }
 
             [Fact]
@@ -250,7 +250,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string result = renderer.Expand(ScopeName.ImageWithLinkWithAltLeftAlign, "Friendly|http://localhost/image.gif|http://localhost", x => x, x => "safe!");
 
-                Assert.Equal("<div style=\"clear:both;\"></div><a style=\"float:left;padding-right:.5em;\" href=\"safe!\"><img style=\"border:none;\" src=\"safe!\" alt=\"safe!\" title=\"safe!\" /></a>", result);
+                Assert.Equal("<div style=\"clear:both;height:0;\">&nbsp;</div><a style=\"float:left;padding-right:.5em;\" href=\"safe!\"><img style=\"border:none;\" src=\"safe!\" alt=\"safe!\" title=\"safe!\" /></a>", result);
             }
 
             [Fact]
@@ -260,7 +260,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string result = renderer.Expand(ScopeName.ImageWithLinkWithAltRightAlign, "Friendly|http://localhost/image.gif|http://localhost", x => x, x => x);
 
-                Assert.Equal("<div style=\"clear:both;\"></div><a style=\"float:right;padding-left:.5em;\" href=\"http://localhost\"><img style=\"border:none;\" src=\"http://localhost/image.gif\" alt=\"Friendly\" title=\"Friendly\" /></a>", result);
+                Assert.Equal("<div style=\"clear:both;height:0;\">&nbsp;</div><a style=\"float:right;padding-left:.5em;\" href=\"http://localhost\"><img style=\"border:none;\" src=\"http://localhost/image.gif\" alt=\"Friendly\" title=\"Friendly\" /></a>", result);
             }
 
             [Fact]
@@ -270,7 +270,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string result = renderer.Expand(ScopeName.ImageWithLinkWithAltRightAlign, "Friendly|http://localhost/image.gif|http://localhost", x => x, x => "safe!");
 
-                Assert.Equal("<div style=\"clear:both;\"></div><a style=\"float:right;padding-left:.5em;\" href=\"safe!\"><img style=\"border:none;\" src=\"safe!\" alt=\"safe!\" title=\"safe!\" /></a>", result);
+                Assert.Equal("<div style=\"clear:both;height:0;\">&nbsp;</div><a style=\"float:right;padding-left:.5em;\" href=\"safe!\"><img style=\"border:none;\" src=\"safe!\" alt=\"safe!\" title=\"safe!\" /></a>", result);
             }
 
             [Theory]
