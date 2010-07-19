@@ -31,7 +31,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string result = renderer.Expand(ScopeName.AlignEnd, "in", x => x, x => x);
 
-                Assert.Equal("</div><div style=\"clear:both;\"></div>", result);
+                Assert.Equal("</div><div style=\"clear:both;height:0;\">&nbsp;</div>", result);
             }
 
             [Theory]
