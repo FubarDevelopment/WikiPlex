@@ -40,7 +40,7 @@ namespace WikiPlex.Formatting
             switch (scopeName)
             {
                 case ScopeName.AlignEnd:
-                    return "</div><div style=\"clear:both;\"></div>";
+                    return "</div><div style=\"clear:both;height:0;\">&nbsp;</div>";
                 case ScopeName.LeftAlign:
                     return "<div style=\"text-align:left;float:left;\">";
                 case ScopeName.RightAlign:
