@@ -49,14 +49,14 @@ task set-version {
 task build-package -depends prepare-sample {
     create $archiveDir
     
-    exec { .\3rdParty\zip.exe -9 -A -j `
+    exec { .\lib\zip.exe -9 -A -j `
                               "$archiveDir\WikiPlex.zip" `
                               "$baseDir\WikiPlex\bin\$configuration\*.dll" `
                               "$baseDir\WikiPlex\bin\$configuration\*.pdb" `
                               "$baseDir\License.txt"
     }
     
-    exec { .\3rdParty\zip.exe -9 -A -r `
+    exec { .\lib\zip.exe -9 -A -r `
                               "$archiveDir\WikiPlex-Sample.zip" `
                               "Sample" `
                               "Sample-Readme.txt" `
@@ -82,7 +82,7 @@ task prepare-documentation -depends run-build {
     create $helpDir
     
     copy-item "$baseDir\WikiPlex\bin\$configuration\*.dll", "$baseDir\WikiPlex\bin\$configuration\*.xml" -destination "$baseDir\WikiPlex.Documentation"
-    copy-item "$baseDir\WikiPlex\bin\$configuration\*.dll", "$baseDir\3rdParty\WikiMaml\*.*" -destination $helpDir
+    copy-item "$baseDir\WikiPlex\bin\$configuration\*.dll", "$baseDir\lib\WikiMaml\*.*" -destination $helpDir
     
     exec { .\_help\WikiMaml.Console.exe "$baseDir\WikiPlex.Documentation\Source" "$baseDir\WikiPlex.Documentation" }
 }
@@ -98,7 +98,7 @@ task clean-documentation-files {
 }
 
 function global:execute-tests($assembly, $message) {
-    exec { .\3rdParty\xUnit\xunit.console.x86.exe $assembly } "Failure running $message"
+    exec { .\lib\xUnit\xunit.console.x86.exe $assembly } "Failure running $message"
 }
 
 function global:clean($path) {

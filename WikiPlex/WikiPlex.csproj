@@ -37,7 +37,7 @@
   <ItemGroup>
     <Reference Include="ColorCode, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\3rdParty\ColorCode\ColorCode.dll</HintPath>
+      <HintPath>..\lib\ColorCode\ColorCode.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
