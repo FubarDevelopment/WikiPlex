@@ -58,11 +58,11 @@
   <ItemGroup>
     <Reference Include="ColorCode, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\3rdParty\ColorCode\ColorCode.dll</HintPath>
+      <HintPath>..\lib\ColorCode\ColorCode.dll</HintPath>
     </Reference>
     <Reference Include="Moq, Version=2.6.1014.1, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\3rdParty\Moq\Moq.dll</HintPath>
+      <HintPath>..\lib\Moq\Moq.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -79,11 +79,11 @@
     <Reference Include="System.Xml" />
     <Reference Include="xunit, Version=1.1.0.1323, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\3rdParty\xUnit\xunit.dll</HintPath>
+      <HintPath>..\lib\xUnit\xunit.dll</HintPath>
     </Reference>
     <Reference Include="xunit.extensions, Version=1.1.0.1323, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\3rdParty\xUnit\xunit.extensions.dll</HintPath>
+      <HintPath>..\lib\xUnit\xunit.extensions.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
