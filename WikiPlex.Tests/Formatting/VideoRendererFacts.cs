@@ -13,6 +13,7 @@ namespace WikiPlex.Tests.Formatting
             [InlineData(ScopeName.FlashVideo)]
             [InlineData(ScopeName.QuickTimeVideo)]
             [InlineData(ScopeName.RealPlayerVideo)]
+            [InlineData(ScopeName.VimeoVideo)]
             [InlineData(ScopeName.WindowsMediaVideo)]
             [InlineData(ScopeName.YouTubeVideo)]
             [InlineData(ScopeName.InvalidVideo)]
@@ -145,6 +146,16 @@ namespace WikiPlex.Tests.Formatting
 
                 Assert.Equal(@"<div class=""video"" style=""text-align:Center""><span class=""player""><object height=""285px"" width=""320px""><param name=""movie"" value=""http://www.youtube.com/v/1234""></param><param name=""wmode"" value=""transparent""></param><embed height=""285px"" width=""320px"" type=""application/x-shockwave-flash"" wmode=""transparent"" src=""http://www.youtube.com/v/1234"" /></object></span><br /><span class=""external""><a href=""http://www.youtube.com/watch?v=1234"" target=""_blank"">Launch in another window</a></span></div>"
                             , output);
+            }
+
+            [Fact]
+            public void Will_parse_the_content_and_render_the_Vimeo_video_type()
+            {
+                var renderer = new VideoRenderer();
+
+                string output = renderer.Expand(ScopeName.VimeoVideo, "url=http://vimeo.com/7195148,type=Vimeo", x => x, x => x);
+
+                Assert.Equal(@"<div class=""video"" style=""text-align:Center""><span class=""player""><object height=""285px"" width=""320px""><param name=""movie"" value=""http://vimeo.com/moogaloop.swf?clip_id=7195148&amp;server=vimeo.com&amp;show_title=1&amp;show_byline=1&amp;show_portrait=1&amp;color=&amp;fullscreen=1&amp;autoplay=0&amp;loop=0""></param><param name=""wmode"" value=""transparent""></param><param name=""allowfullscreen"" value=""true""></param><param name=""allowscriptaccess"" value=""always""></param><embed height=""285px"" width=""320px"" type=""application/x-shockwave-flash"" wmode=""transparent"" allowfullscreen=""true"" allowscriptaccess=""always"" src=""http://vimeo.com/moogaloop.swf?clip_id=7195148&amp;server=vimeo.com&amp;show_title=1&amp;show_byline=1&amp;show_portrait=1&amp;color=&amp;fullscreen=1&amp;autoplay=0&amp;loop=0"" /></object></span><br /><span class=""external""><a href=""http://vimeo.com/7195148"" target=""_blank"">Launch in another window</a></span></div>", output);
             }
 
             [Fact]

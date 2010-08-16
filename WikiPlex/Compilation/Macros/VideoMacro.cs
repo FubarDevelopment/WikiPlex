@@ -12,6 +12,7 @@ namespace WikiPlex.Compilation.Macros
     /// {video:url=http://www.foo.com,type=Windows}
     /// {video:url=http://www.foo.com,type=YouTube}
     /// {video:url=http://www.foo.com,type=Channel9}
+    /// {video:url=http://www.foo.com,type=Vimeo}
     /// </code></example>
     public class VideoMacro : IMacro
     {
@@ -78,6 +79,14 @@ namespace WikiPlex.Compilation.Macros
                                        {
                                           {1, ScopeName.Remove},
                                           {2, ScopeName.Channel9Video},
+                                          {3, ScopeName.Remove}
+                                       }),
+                               new MacroRule(
+                                   @"(?i)(\{video\:)([^\}]*type=Vimeo[^\}]*)(\})",
+                                   new Dictionary<int, string>
+                                       {
+                                          {1, ScopeName.Remove},
+                                          {2, ScopeName.VimeoVideo},
                                           {3, ScopeName.Remove}
                                        }),
                                new MacroRule(

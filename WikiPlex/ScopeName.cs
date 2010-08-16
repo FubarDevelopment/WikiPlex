@@ -92,6 +92,7 @@
         public const string UnderlineEnd = "Underline End Tag";
         public const string UnorderedListBeginTag = "Unordered List Begin Tag";
         public const string UnorderedListEndTag = "Unordered List End Tag";
+        public const string VimeoVideo = "Vimeo Video";
         public const string WindowsMediaVideo = "Windows Media Video";
         public const string YouTubeVideo = "YouTube Video";
 #pragma warning restore 1591

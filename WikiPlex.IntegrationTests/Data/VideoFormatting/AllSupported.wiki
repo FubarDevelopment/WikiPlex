@@ -11,3 +11,5 @@
 {video:url=http://localhost/video,type=Channel9}
 
 {video:url=http://localhost/video,type=C9}
+
+{video:url=http://vimeo.com/1234,type=Vimeo}

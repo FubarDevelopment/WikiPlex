@@ -91,6 +91,7 @@
     <Compile Include="Formatting\SilverlightRendering\Silverlight4Renderer.cs" />
     <Compile Include="Formatting\VideoRendering\Channel9VideoRenderer.cs" />
     <Compile Include="Formatting\VideoRendering\EmbeddedVideoRender.cs" />
+    <Compile Include="Formatting\VideoRendering\VimeoVideoRenderer.cs" />
     <Compile Include="Parsing\Augmenters\IndentationScopeAugmenter.cs" />
     <Compile Include="Syndication\IXmlDocumentReader.cs" />
     <Compile Include="Syndication\XmlDocumentReaderWrapper.cs" />

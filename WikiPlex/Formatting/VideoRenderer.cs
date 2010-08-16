@@ -31,6 +31,7 @@ namespace WikiPlex.Formatting
                     || scopeName == ScopeName.FlashVideo
                     || scopeName == ScopeName.QuickTimeVideo
                     || scopeName == ScopeName.RealPlayerVideo
+                    || scopeName == ScopeName.VimeoVideo
                     || scopeName == ScopeName.WindowsMediaVideo
                     || scopeName == ScopeName.YouTubeVideo
                     || scopeName == ScopeName.InvalidVideo);
@@ -117,6 +118,9 @@ namespace WikiPlex.Formatting
                     break;
                 case ScopeName.RealPlayerVideo:
                     videoRenderer = new RealPlayerVideoRenderer();
+                    break;
+                case ScopeName.VimeoVideo:
+                    videoRenderer = new VimeoVideoRenderer();
                     break;
                 case ScopeName.WindowsMediaVideo:
                     videoRenderer = new WindowsMediaPlayerVideoRenderer();
