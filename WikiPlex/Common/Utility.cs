@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace WikiPlex.Common
 {
@@ -68,6 +69,21 @@ namespace WikiPlex.Common
             return string.IsNullOrEmpty(input) 
                         ? 0 
                         : input.Count(c => c == toFind);
+        }
+
+        /// <summary>
+        /// Will extract the first group fragment from an input based on a regular expression.
+        /// </summary>
+        /// <param name="regex">The regex to use.</param>
+        /// <param name="input">The input to inspect.</param>
+        /// <returns>The extracted fragment, empty string if not found.</returns>
+        public static string ExtractFragment(Regex regex, string input)
+        {
+            Match match = regex.Match(input);
+            if (match.Success && match.Groups.Count > 1)
+                return match.Groups[1].Value;
+
+            return string.Empty;
         }
     }
 }
