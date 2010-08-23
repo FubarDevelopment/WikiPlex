@@ -5,7 +5,7 @@ correctly
 +{"correctly+for"}+ the +output+ that
 +is expected
 of+
-{"++"}
+C{"++"} or C++
 {{ rendering + the }}
 +{{ content + correctly }}+
 +some {{ content + correctly }} some+

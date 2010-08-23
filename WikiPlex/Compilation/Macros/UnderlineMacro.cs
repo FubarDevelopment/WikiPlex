@@ -28,6 +28,7 @@ namespace WikiPlex.Compilation.Macros
                 return new List<MacroRule>
                            {
                                new MacroRule(EscapeRegexPatterns.FullEscape),
+                               new MacroRule(@"\+\+"),
                                new MacroRule(
                                    @"(?-s)(?:(\+)(?>[^{\[\+\n]*)(?>(?:{{?|\[)(?>[^}\]\n]*)(?>(?:}}?|\])*)|.)*?(?>[^{\[\+\n]*)(\+))",
                                    new Dictionary<int, string>
