@@ -5,7 +5,7 @@
 *Required Parameters*
 || Name || Description || Range ||
 | url | absolute url to video media | n/a |
-| type | media type of the video | flash/quicktime/real/windows/youtube/c9 |
+| type | media type of the video | flash/quicktime/real/windows/youtube/c9/vimeo |
 
 *Optional Parameters*
 || Name || Description || Range || Default ||

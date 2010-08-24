@@ -25,6 +25,7 @@
     <Topic id="f11a9ccd-2d54-4756-abe7-88899a0cd552" visible="True" title="Custom Renderers" />
   </Topic>
   <Topic id="6bfd5377-b559-48f9-99d0-0f6e02e17fe5" visible="True" noFile="True" title="Version History">
+    <Topic id="cdef0380-af97-11df-94e2-0800200c9a66" visible="True" title="Version 1.4" />
     <Topic id="540BFA61-5C12-4B81-8DA8-79E4325089A4" visible="True" title="Version 1.3" />
     <Topic id="4ed279e4-7353-46ec-b860-e5e36f5393ed" visible="True" title="Version 1.2" />
     <Topic id="c660b82e-f634-448c-b312-88884f61b572" visible="True" title="Version 1.1" />
