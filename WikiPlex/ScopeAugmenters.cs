@@ -22,8 +22,7 @@ namespace WikiPlex
 
             // register the default scope augmenters
             Register<TableMacro, TableScopeAugmenter>();
-            Register<OrderedListMacro, ListScopeAugmenter<OrderedListMacro>>();
-            Register<UnorderedListMacro, ListScopeAugmenter<UnorderedListMacro>>();
+            Register<ListMacro, ListScopeAugmenter>();
             Register<IndentationMacro, IndentationScopeAugmenter>();
         }
 

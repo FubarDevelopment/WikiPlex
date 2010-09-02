@@ -82,6 +82,7 @@
     <Compile Include="Common\Dimensions.cs" />
     <Compile Include="Common\InvalidDimensionException.cs" />
     <Compile Include="Compilation\Macros\IndentationMacro.cs" />
+    <Compile Include="Compilation\Macros\ListMacro.cs" />
     <Compile Include="EscapeRegexPatterns.cs" />
     <Compile Include="Common\TextPart.cs" />
     <Compile Include="Common\Utility.cs" />
@@ -102,7 +103,6 @@
     <Compile Include="Compilation\Macros\ContentRightAlignmentMacro.cs" />
     <Compile Include="Compilation\Macros\EscapedMarkupMacro.cs" />
     <Compile Include="Compilation\Macros\HorizontalLineMacro.cs" />
-    <Compile Include="Compilation\Macros\IListMacro.cs" />
     <Compile Include="Compilation\Macros\ImageMacro.cs" />
     <Compile Include="Compilation\Macros\ItalicsMacro.cs" />
     <Compile Include="Compilation\Macros\LinkMacro.cs" />
@@ -115,8 +115,6 @@
     <Compile Include="Compilation\Macros\TableMacro.cs" />
     <Compile Include="Compilation\Macros\ContentLeftAlignmentMacro.cs" />
     <Compile Include="Compilation\Macros\UnderlineMacro.cs" />
-    <Compile Include="Compilation\Macros\OrderedListMacro.cs" />
-    <Compile Include="Compilation\Macros\UnorderedListMacro.cs" />
     <Compile Include="Compilation\Macros\VideoMacro.cs" />
     <Compile Include="Formatting\ContentAlignmentRenderer.cs" />
     <Compile Include="Formatting\FloatAlignment.cs" />
