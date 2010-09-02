@@ -25,18 +25,18 @@ namespace WikiPlex.Parsing
             char depthChar = GetDepthChar(firstScopeContent);
             int startLevel = Utility.CountChars(depthChar, firstScopeContent);
 
-            Tuple<int, char> output = AugmentRecursively(content, capturedScopes, newScopes, 0, startLevel, startLevel, depthChar);
+            AugmentRecursively(content, capturedScopes, newScopes, 0, startLevel, startLevel, depthChar);
 
             // add the ending block scope as it was intentionally skipped
             Scope lastScope = capturedScopes[capturedScopes.Count - 1];
 
             // add the last scope as it was explicitly excluded
-            newScopes.Add(new Scope(GetEndScope(output.Item2), lastScope.Index, lastScope.Length));
+            newScopes.Add(new Scope(GetEndScope(newScopes), lastScope.Index, lastScope.Length));
 
             return newScopes;
         }
 
-        private static Tuple<int, char> AugmentRecursively(string wikiContent, IList<Scope> scopes, IList<Scope> newScopes, int currentIndex, int currentLevel, int startingLevel, char currentDepthChar)
+        private static int AugmentRecursively(string wikiContent, IList<Scope> scopes, IList<Scope> newScopes, int currentIndex, int currentLevel, int startingLevel, char currentDepthChar)
         {
             for (; (currentIndex + 1) < scopes.Count; currentIndex++)
             {
@@ -54,9 +54,9 @@ namespace WikiPlex.Parsing
                 {
                     // ending a block and starting a new block
                     if (currentLevel > startingLevel)
-                        return Tuple.Create(currentIndex - 1, currentDepthChar);
+                        return currentIndex - 1;
 
-                    newScopes.Add(new Scope(GetEndScope(currentDepthChar), current.Index, current.Length));
+                    newScopes.Add(new Scope(GetEndScope(newScopes), current.Index, current.Length));
 
                     currentDepthChar = GetDepthChar(peekContent);
                     newScopes.Add(new Scope(GetStartScope(currentDepthChar), peek.Index, peek.Length));
@@ -71,14 +71,14 @@ namespace WikiPlex.Parsing
                     int peekLevel = Utility.CountChars(currentDepthChar, peekContent);
 
                     if (currentLevel > peekLevel && currentLevel != startingLevel)
-                        return Tuple.Create(currentIndex - 1, currentDepthChar);
+                        return currentIndex - 1;
 
                     if (currentLevel > peekLevel)
                     {
                         // ending the blocks since the current level is
                         // the same level as the starting level
                         Scope lastNewScope = scopes[currentIndex + 1];
-                        newScopes.Add(new Scope(GetEndScope(currentDepthChar), lastNewScope.Index, lastNewScope.Length));
+                        newScopes.Add(new Scope(GetEndScope(newScopes), lastNewScope.Index, lastNewScope.Length));
 
                         // starting a new nested block
                         newScopes.Add(new Scope(GetStartScope(currentDepthChar), peek.Index, peek.Length));
@@ -98,13 +98,12 @@ namespace WikiPlex.Parsing
                         // starting a new nested block
                         newScopes.Add(new Scope(GetStartScope(currentDepthChar), peek.Index, peek.Length));
 
-                        Tuple<int, char> output = AugmentRecursively(wikiContent, scopes, newScopes, currentIndex + 2, peekLevel, startingLevel, currentDepthChar);
-                        currentIndex = output.Item1;
+                        currentIndex = AugmentRecursively(wikiContent, scopes, newScopes, currentIndex + 2, peekLevel, startingLevel, currentDepthChar);
                         Scope lastNewScope = scopes[currentIndex + 1];
 
                         // ending the nested block
                         for (int j = peekLevel - currentLevel; j > 0; j--)
-                            newScopes.Add(new Scope(GetEndScope(currentDepthChar), lastNewScope.Index, lastNewScope.Length));
+                            newScopes.Add(new Scope(GetEndScope(newScopes), lastNewScope.Index, lastNewScope.Length));
 
                         continue;
                     }
@@ -116,13 +115,13 @@ namespace WikiPlex.Parsing
                     // with the current item
                     string currentContent = wikiContent.Substring(current.Index, current.Length);
                     if (currentLevel != Utility.CountChars(currentDepthChar, currentContent))
-                        return Tuple.Create(currentIndex - 1, currentDepthChar);
+                        return currentIndex - 1;
                 }
 
                 newScopes.Add(current);
             }
 
-            return Tuple.Create(currentIndex - 1, currentDepthChar);
+            return currentIndex - 1;
         }
 
         private static char GetDepthChar(string content)
@@ -137,11 +136,30 @@ namespace WikiPlex.Parsing
                 : ScopeName.UnorderedListBeginTag;
         }
 
-        private static string GetEndScope(char depthChar)
+        private static string GetEndScope(IList<Scope> currentScopes)
         {
-            return depthChar == '#'
-                ? ScopeName.OrderedListEndTag
-                : ScopeName.UnorderedListEndTag;
+            int balance = 0;
+            for (int i = currentScopes.Count - 1; i >= 0; i--)
+            {
+                Scope current = currentScopes[i];
+                switch (current.Name)
+                {
+                    case ScopeName.UnorderedListEndTag:
+                    case ScopeName.OrderedListEndTag:
+                        balance++;
+                        break;
+                    case ScopeName.UnorderedListBeginTag:
+                    case ScopeName.OrderedListBeginTag:
+                        if (balance == 0)
+                            return current.Name == ScopeName.OrderedListBeginTag
+                                       ? ScopeName.OrderedListEndTag
+                                       : ScopeName.UnorderedListEndTag;
+                        balance--;
+                        break;
+                }
+            }
+
+            throw new ArgumentException();
         }
     }
 }

@@ -344,6 +344,18 @@
   <ItemGroup>
     <EmbeddedResource Include="Data\TableFormatting\WithLinks.html" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Data\ListFormatting\MiddleNestedMixedList.wiki" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Data\ListFormatting\MiddleNestedMixedList.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Data\ListFormatting\RandomLevelMixedList.wiki" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Data\ListFormatting\RandomLevelMixedList.html" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
