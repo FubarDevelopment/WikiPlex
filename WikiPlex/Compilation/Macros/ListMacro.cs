@@ -33,7 +33,7 @@ namespace WikiPlex.Compilation.Macros
                            {
                                new MacroRule(EscapeRegexPatterns.FullEscape),
                                new MacroRule(
-                                   @"(^[\*\#]+\s)[^\r\n]+((?:\r\n)?)$",
+                                   @"(?im)(^(?:\*+|\#+)\s)[^\r\n]+((?:\r\n)?)$",
                                    new Dictionary<int, string>
                                        {
                                            {1, ScopeName.ListItemBegin},
