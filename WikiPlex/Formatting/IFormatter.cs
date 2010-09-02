@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using WikiPlex.Parsing;
 
 namespace WikiPlex.Formatting
@@ -20,14 +19,6 @@ namespace WikiPlex.Formatting
         /// </summary>
         /// <param name="scopes">The parsed scopes.</param>
         void RecordParse(IList<Scope> scopes);
-        
-        /// <summary>
-        /// Will format the wiki content based on the recorded scopes and output the content to the writer.
-        /// </summary>
-        /// <param name="wikiContent">The wiki content to format.</param>
-        /// <param name="writer">The writer to write the content to.</param>
-        [Obsolete("Please use the Format(string) method.")]
-        void Format(string wikiContent, StringBuilder writer);
 
         /// <summary>
         /// Will format the wiki content based on the recorded scopes and output the content to the writer.
