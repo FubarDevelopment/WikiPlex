@@ -327,6 +327,40 @@ namespace WikiPlex.Tests.Parsing
                 Assert.Equal(ScopeName.UnorderedListBeginTag, actualScopes[6].Name);
                 Assert.Equal(ScopeName.UnorderedListEndTag, actualScopes[7].Name);
             }
+
+            [Fact]
+            public void Will_yield_the_correct_scopes_when_nested_list_is_different_type()
+            {
+                var origScopes = new List<Scope>(new[]
+                                                     {
+                                                         new Scope(ScopeName.ListItemBegin, 0, 2),
+                                                         new Scope(ScopeName.ListItemEnd, 3, 0),
+                                                         new Scope(ScopeName.ListItemBegin, 4, 2),
+                                                         new Scope(ScopeName.ListItemEnd, 7, 0),
+                                                         new Scope(ScopeName.ListItemBegin, 8, 3),
+                                                         new Scope(ScopeName.ListItemEnd, 12, 0),
+                                                         new Scope(ScopeName.ListItemBegin, 13, 3),
+                                                         new Scope(ScopeName.ListItemEnd, 17, 0),
+                                                         new Scope(ScopeName.ListItemBegin, 18, 2),
+                                                         new Scope(ScopeName.ListItemEnd, 20, 0)
+                                                     });
+
+                var augmenter = new ListScopeAugmenter();
+
+                IList<Scope> actualScopes = augmenter.Augment(new ListMacro(), origScopes, "* a\n* a\n## b\n## b\n* a");
+
+                Assert.Equal(10, actualScopes.Count);
+                Assert.Equal(ScopeName.UnorderedListBeginTag, actualScopes[0].Name);
+                Assert.Equal(ScopeName.ListItemEnd, actualScopes[1].Name);
+                Assert.Equal(ScopeName.ListItemBegin, actualScopes[2].Name);
+                Assert.Equal(ScopeName.OrderedListBeginTag, actualScopes[3].Name);
+                Assert.Equal(ScopeName.ListItemEnd, actualScopes[4].Name);
+                Assert.Equal(ScopeName.ListItemBegin, actualScopes[5].Name);
+                Assert.Equal(ScopeName.OrderedListEndTag, actualScopes[6].Name);
+                Assert.Equal(ScopeName.ListItemEnd, actualScopes[7].Name);
+                Assert.Equal(ScopeName.ListItemBegin, actualScopes[8].Name);
+                Assert.Equal(ScopeName.UnorderedListEndTag, actualScopes[9].Name);
+            }
         }
     }
 }

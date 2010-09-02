@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using WikiPlex.Common;
 using WikiPlex.Compilation.Macros;
 
@@ -24,18 +25,18 @@ namespace WikiPlex.Parsing
             char depthChar = GetDepthChar(firstScopeContent);
             int startLevel = Utility.CountChars(depthChar, firstScopeContent);
 
-            AugmentRecursively(content, capturedScopes, newScopes, 0, startLevel, startLevel, ref depthChar);
+            Tuple<int, char> output = AugmentRecursively(content, capturedScopes, newScopes, 0, startLevel, startLevel, depthChar);
 
             // add the ending block scope as it was intentionally skipped
             Scope lastScope = capturedScopes[capturedScopes.Count - 1];
 
             // add the last scope as it was explicitly excluded
-            newScopes.Add(new Scope(GetEndScope(depthChar), lastScope.Index, lastScope.Length));
+            newScopes.Add(new Scope(GetEndScope(output.Item2), lastScope.Index, lastScope.Length));
 
             return newScopes;
         }
 
-        private static int AugmentRecursively(string wikiContent, IList<Scope> scopes, IList<Scope> newScopes, int currentIndex, int currentLevel, int startingLevel, ref char currentDepthChar)
+        private static Tuple<int, char> AugmentRecursively(string wikiContent, IList<Scope> scopes, IList<Scope> newScopes, int currentIndex, int currentLevel, int startingLevel, char currentDepthChar)
         {
             for (; (currentIndex + 1) < scopes.Count; currentIndex++)
             {
@@ -53,7 +54,7 @@ namespace WikiPlex.Parsing
                 {
                     // ending a block and starting a new block
                     if (currentLevel > startingLevel)
-                        return currentIndex - 1;
+                        return Tuple.Create(currentIndex - 1, currentDepthChar);
 
                     newScopes.Add(new Scope(GetEndScope(currentDepthChar), current.Index, current.Length));
 
@@ -66,10 +67,11 @@ namespace WikiPlex.Parsing
 
                 if (current.Name == ScopeName.ListItemEnd)
                 {
+                    currentDepthChar = GetDepthChar(peekContent);
                     int peekLevel = Utility.CountChars(currentDepthChar, peekContent);
 
                     if (currentLevel > peekLevel && currentLevel != startingLevel)
-                        return currentIndex - 1;
+                        return Tuple.Create(currentIndex - 1, currentDepthChar);
 
                     if (currentLevel > peekLevel)
                     {
@@ -96,8 +98,8 @@ namespace WikiPlex.Parsing
                         // starting a new nested block
                         newScopes.Add(new Scope(GetStartScope(currentDepthChar), peek.Index, peek.Length));
 
-                        currentIndex = AugmentRecursively(wikiContent, scopes, newScopes, 
-                                                          currentIndex + 2, peekLevel, startingLevel, ref currentDepthChar);
+                        Tuple<int, char> output = AugmentRecursively(wikiContent, scopes, newScopes, currentIndex + 2, peekLevel, startingLevel, currentDepthChar);
+                        currentIndex = output.Item1;
                         Scope lastNewScope = scopes[currentIndex + 1];
 
                         // ending the nested block
@@ -114,13 +116,13 @@ namespace WikiPlex.Parsing
                     // with the current item
                     string currentContent = wikiContent.Substring(current.Index, current.Length);
                     if (currentLevel != Utility.CountChars(currentDepthChar, currentContent))
-                        return currentIndex - 1;
+                        return Tuple.Create(currentIndex - 1, currentDepthChar);
                 }
 
                 newScopes.Add(current);
             }
 
-            return currentIndex - 1;
+            return Tuple.Create(currentIndex - 1, currentDepthChar);
         }
 
         private static char GetDepthChar(string content)
