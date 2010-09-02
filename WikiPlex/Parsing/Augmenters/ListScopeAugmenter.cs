@@ -1,16 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using WikiPlex.Common;
 using WikiPlex.Compilation.Macros;
 
 namespace WikiPlex.Parsing
 {
     /// <summary>
-    /// Handles augmenting the scopes for the <see cref="IListMacro"/>.
+    /// Handles augmenting the scopes for the <see cref="ListMacro"/>.
     /// </summary>
-    /// <typeparam name="TMacro">The type of the <see cref="IListMacro"/>.</typeparam>
-    /// <remarks>Currently, this is used for augmenting the <see cref="OrderedListMacro"/> and <see cref="UnorderedListMacro"/>.</remarks>
-    public class ListScopeAugmenter<TMacro> : IScopeAugmenter
-        where TMacro : class, IListMacro
+    public class ListScopeAugmenter : IScopeAugmenter
     {
         /// <summary>
         /// This will insert new, remove, or re-order scopes.
@@ -22,34 +20,33 @@ namespace WikiPlex.Parsing
         public IList<Scope> Augment(IMacro macro, IList<Scope> capturedScopes, string content)
         {
             IList<Scope> newScopes = new List<Scope>();
-            var actualMacro = (TMacro) macro;
 
             string firstScopeContent = content.Substring(capturedScopes[0].Index, capturedScopes[0].Length);
-            int startLevel = Utility.CountChars(actualMacro.DepthChar, firstScopeContent);
+            char depthChar = GetDepthChar(firstScopeContent);
+            int startLevel = Utility.CountChars(depthChar, firstScopeContent);
 
-            AugmentRecursively(content, actualMacro, capturedScopes, newScopes, 0, startLevel, startLevel);
+            AugmentRecursively(content, capturedScopes, newScopes, 0, startLevel, startLevel, depthChar);
 
             // add the ending block scope as it was intentionally skipped
             Scope lastScope = capturedScopes[capturedScopes.Count - 1];
 
             // add the last scope as it was explicitly excluded
-            newScopes.Add(new Scope(actualMacro.ListEndScopeName, lastScope.Index, lastScope.Length));
+            newScopes.Add(new Scope(GetEndScope(newScopes), lastScope.Index, lastScope.Length));
 
             return newScopes;
         }
 
-        private static int AugmentRecursively(string wikiContent, IListMacro macro, IList<Scope> scopes,
-                                              IList<Scope> newScopes, int currentIndex, int currentLevel,
-                                              int startingLevel)
+        private static int AugmentRecursively(string wikiContent, IList<Scope> scopes, IList<Scope> newScopes, int currentIndex, int currentLevel, int startingLevel, char currentDepthChar)
         {
             for (; (currentIndex + 1) < scopes.Count; currentIndex++)
             {
                 Scope current = scopes[currentIndex];
                 Scope peek = scopes[currentIndex + 1];
+                string peekContent = wikiContent.Substring(peek.Index, peek.Length);
 
                 if (currentIndex == 0)
                 {
-                    newScopes.Add(new Scope(macro.ListStartScopeName, current.Index, current.Length));
+                    newScopes.Add(new Scope(GetStartScope(currentDepthChar), current.Index, current.Length));
                     continue;
                 }
 
@@ -59,17 +56,19 @@ namespace WikiPlex.Parsing
                     if (currentLevel > startingLevel)
                         return currentIndex - 1;
 
-                    newScopes.Add(new Scope(macro.ListEndScopeName, current.Index, current.Length));
-                    newScopes.Add(new Scope(macro.ListStartScopeName, peek.Index, peek.Length));
-                    currentLevel = startingLevel = Utility.CountChars(macro.DepthChar, wikiContent.Substring(peek.Index, peek.Length));
+                    newScopes.Add(new Scope(GetEndScope(newScopes), current.Index, current.Length));
+
+                    currentDepthChar = GetDepthChar(peekContent);
+                    newScopes.Add(new Scope(GetStartScope(currentDepthChar), peek.Index, peek.Length));
+                    currentLevel = startingLevel = Utility.CountChars(currentDepthChar, peekContent);
                     currentIndex++;
                     continue;
                 }
 
                 if (current.Name == ScopeName.ListItemEnd)
                 {
-                    string peekContent = wikiContent.Substring(peek.Index, peek.Length);
-                    int peekLevel = Utility.CountChars(macro.DepthChar, peekContent);
+                    currentDepthChar = GetDepthChar(peekContent);
+                    int peekLevel = Utility.CountChars(currentDepthChar, peekContent);
 
                     if (currentLevel > peekLevel && currentLevel != startingLevel)
                         return currentIndex - 1;
@@ -79,10 +78,10 @@ namespace WikiPlex.Parsing
                         // ending the blocks since the current level is
                         // the same level as the starting level
                         Scope lastNewScope = scopes[currentIndex + 1];
-                        newScopes.Add(new Scope(macro.ListEndScopeName, lastNewScope.Index, lastNewScope.Length));
+                        newScopes.Add(new Scope(GetEndScope(newScopes), lastNewScope.Index, lastNewScope.Length));
 
                         // starting a new nested block
-                        newScopes.Add(new Scope(macro.ListStartScopeName, peek.Index, peek.Length));
+                        newScopes.Add(new Scope(GetStartScope(currentDepthChar), peek.Index, peek.Length));
 
                         // now skip the current item because the block
                         // start scope contains this start. We also 
@@ -97,15 +96,14 @@ namespace WikiPlex.Parsing
                     if (currentLevel < peekLevel)
                     {
                         // starting a new nested block
-                        newScopes.Add(new Scope(macro.ListStartScopeName, peek.Index, peek.Length));
+                        newScopes.Add(new Scope(GetStartScope(currentDepthChar), peek.Index, peek.Length));
 
-                        currentIndex = AugmentRecursively(wikiContent, macro, scopes, newScopes, currentIndex + 2,
-                                                          peekLevel, startingLevel);
+                        currentIndex = AugmentRecursively(wikiContent, scopes, newScopes, currentIndex + 2, peekLevel, startingLevel, currentDepthChar);
                         Scope lastNewScope = scopes[currentIndex + 1];
 
                         // ending the nested block
                         for (int j = peekLevel - currentLevel; j > 0; j--)
-                            newScopes.Add(new Scope(macro.ListEndScopeName, lastNewScope.Index, lastNewScope.Length));
+                            newScopes.Add(new Scope(GetEndScope(newScopes), lastNewScope.Index, lastNewScope.Length));
 
                         continue;
                     }
@@ -116,7 +114,7 @@ namespace WikiPlex.Parsing
                     // does not match back out to continue processing
                     // with the current item
                     string currentContent = wikiContent.Substring(current.Index, current.Length);
-                    if (currentLevel != Utility.CountChars(macro.DepthChar, currentContent))
+                    if (currentLevel != Utility.CountChars(currentDepthChar, currentContent))
                         return currentIndex - 1;
                 }
 
@@ -124,6 +122,44 @@ namespace WikiPlex.Parsing
             }
 
             return currentIndex - 1;
+        }
+
+        private static char GetDepthChar(string content)
+        {
+            return content.Trim()[0];
+        }
+
+        private static string GetStartScope(char depthChar)
+        {
+            return depthChar == '#' 
+                ? ScopeName.OrderedListBeginTag 
+                : ScopeName.UnorderedListBeginTag;
+        }
+
+        private static string GetEndScope(IList<Scope> currentScopes)
+        {
+            int balance = 0;
+            for (int i = currentScopes.Count - 1; i >= 0; i--)
+            {
+                Scope current = currentScopes[i];
+                switch (current.Name)
+                {
+                    case ScopeName.UnorderedListEndTag:
+                    case ScopeName.OrderedListEndTag:
+                        balance++;
+                        break;
+                    case ScopeName.UnorderedListBeginTag:
+                    case ScopeName.OrderedListBeginTag:
+                        if (balance == 0)
+                            return current.Name == ScopeName.OrderedListBeginTag
+                                       ? ScopeName.OrderedListEndTag
+                                       : ScopeName.UnorderedListEndTag;
+                        balance--;
+                        break;
+                }
+            }
+
+            throw new ArgumentException();
         }
     }
 }

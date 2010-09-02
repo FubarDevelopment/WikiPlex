@@ -31,8 +31,7 @@ namespace WikiPlex
             Register<LinkMacro>();
             Register<ImageMacro>();
             Register<SourceCodeMacro>();
-            Register<OrderedListMacro>();
-            Register<UnorderedListMacro>();
+            Register<ListMacro>();
             Register<EscapedMarkupMacro>();
             Register<SyndicatedFeedMacro>();
             Register<SilverlightMacro>();

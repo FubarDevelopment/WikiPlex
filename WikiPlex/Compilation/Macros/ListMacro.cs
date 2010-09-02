@@ -3,46 +3,23 @@
 namespace WikiPlex.Compilation.Macros
 {
     /// <summary>
-    /// This macro will output an ordered list.
+    /// This macro will will consume either an ordered or an unordered list.
     /// </summary>
     /// <example><code language="none">
-    /// # item 1
-    /// # item 2
+    /// * item 1
+    /// * item 2
     /// ## item 2.1
-    /// ### item 2.1.1
+    /// ## item 2.2
+    /// *** item 2.2.1
     /// </code></example>
-    public class OrderedListMacro : IListMacro
+    public class ListMacro : IMacro
     {
         /// <summary>
         /// Gets the id of the macro.
         /// </summary>
         public string Id
         {
-            get { return "OrderedList"; }
-        }
-
-        /// <summary>
-        /// Gets the list start scope name.
-        /// </summary>
-        public string ListStartScopeName
-        {
-            get { return ScopeName.OrderedListBeginTag; }
-        }
-
-        /// <summary>
-        /// Gets the list end scope name.
-        /// </summary>
-        public string ListEndScopeName
-        {
-            get { return ScopeName.OrderedListEndTag; }
-        }
-
-        /// <summary>
-        /// Gets the char used for depth (level) inspection.
-        /// </summary>
-        public char DepthChar
-        {
-            get { return '#'; }
+            get { return "List Macro"; }
         }
 
         /// <summary>
@@ -56,7 +33,7 @@ namespace WikiPlex.Compilation.Macros
                            {
                                new MacroRule(EscapeRegexPatterns.FullEscape),
                                new MacroRule(
-                                   @"(^\#+\s)[^\r\n]+((?:\r\n)?)$",
+                                   @"(?im)(^(?:\*+|\#+)\s)[^\r\n]+((?:\r\n)?)$",
                                    new Dictionary<int, string>
                                        {
                                            {1, ScopeName.ListItemBegin},

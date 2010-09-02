@@ -10,6 +10,7 @@ properties {
     $sampleDir = "$baseDir\Sample"
     $slnPath = "$baseDir\WikiPlex.sln"
     $docSlnPath = "$baseDir\WikiPlex.Documentation\WikiPlex.Documentation.shfbproj"
+	$sdkDir = getSdkDir
 }
 
 task default -depends run-clean, run-build, run-tests, run-perf-tests
@@ -19,15 +20,13 @@ task cleandoc -depends clean-documentation-files
 task builddoc -depends prepare-documentation, build-documentation, clean-documentation-files
 
 task run-clean {
-    clean $archiveDir
-    clean $helpDir
-    clean $sampleDir
+    clean $archiveDir, $helpDir, $sampleDir
     exec { msbuild $slnPath /t:Clean /p:Configuration=$configuration /v:quiet }
 }
 
 task run-build {
     exec { msbuild $slnPath /t:Build /p:Configuration=$configuration /v:quiet }
-    exec { aspnet_compiler -p "$baseDir\WikiPlex.Web.Sample" -v "/WikiPlex.Web.Sample" }
+	compileAspNet 'WikiPlex.Web.Sample' $sampleDir
 }
 
 task run-tests {
@@ -101,8 +100,10 @@ function global:execute-tests($assembly, $message) {
     exec { .\lib\xUnit\xunit.console.x86.exe $assembly } "Failure running $message"
 }
 
-function global:clean($path) {
-    remove-item -force -recurse $path -ErrorAction SilentlyContinue
+function global:clean([string[]]$paths) {
+	foreach ($path in $paths) {
+		remove-item -force -recurse $path -ErrorAction SilentlyContinue
+	}
 }
 
 function global:create($path) {
@@ -116,4 +117,23 @@ function global:regex-replace($filePath, $find, $replacement) {
     Assert $regex.IsMatch($content) "Unable to find the regex '$find' to update the file '$filePath'"
     
     [System.IO.File]::WriteAllText($filePath, $regex.Replace($content, $replacement))
+}
+
+function global:compileAspNet($project, $compileDir) {
+    $aspnetMerge = (join-path $sdkDir 'Bin\aspnet_merge.exe')
+    exec { aspnet_compiler -v $project -p "$baseDir\$project" -p $project -f -c -d -u $compileDir }
+    exec { &$aspnetMerge $compileDir -a }
+}
+
+function global:getSdkDir() {
+    $dir = $null
+    
+    if (test-path 'HKLM:SOFTWARE\Wow6432Node\Microsoft\Microsoft SDKs\Windows\v7.0A') {
+        $dir = (get-itemproperty 'HKLM:SOFTWARE\Wow6432Node\Microsoft\Microsoft SDKs\Windows\v7.0A').InstallationFolder
+    } elseif (test-path 'HKLM:SOFTWARE\Microsoft\Microsoft SDKs\Windows\v7.0A') {
+        $dir = (get-itemproperty 'HKLM:SOFTWARE\Microsoft\Microsoft SDKs\Windows\v7.0A').InstallationFolder
+    }
+    
+    Assert ($dir -ne $null) 'Unable to find SDK directory'
+    return $dir
 }

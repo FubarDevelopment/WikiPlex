@@ -134,19 +134,28 @@ namespace WikiPlex.PerformanceTests
         [Fact]
         public void Should_format_ordered_list_performantly()
         {
-            Macros.Register<OrderedListMacro>();
+            Macros.Register<ListMacro>();
             ExecutePerformanceTest("OrderedList.wiki", 2250);
             ExecutePerformanceTest("OrderedList.wiki", 2250);
-            Macros.Unregister<OrderedListMacro>();
+            Macros.Unregister<ListMacro>();
         }
 
         [Fact]
         public void Should_format_unordered_list_performantly()
         {
-            Macros.Register<UnorderedListMacro>();
+            Macros.Register<ListMacro>();
             ExecutePerformanceTest("UnorderedList.wiki", 2250);
             ExecutePerformanceTest("UnorderedList.wiki", 2250);
-            Macros.Unregister<UnorderedListMacro>();
+            Macros.Unregister<ListMacro>();
+        }
+
+        [Fact]
+        public void Should_format_mixed_list_performantly()
+        {
+            Macros.Register<ListMacro>();
+            ExecutePerformanceTest("MixedList.wiki", 2250);
+            ExecutePerformanceTest("MixedList.wiki", 2250);
+            Macros.Unregister<ListMacro>();
         }
 
         [Fact]
@@ -240,8 +249,7 @@ namespace WikiPlex.PerformanceTests
             Macros.Register<LinkMacro>();
             Macros.Register<ImageMacro>();
             Macros.Register<SourceCodeMacro>();
-            Macros.Register<OrderedListMacro>();
-            Macros.Register<UnorderedListMacro>();
+            Macros.Register<ListMacro>();
             Macros.Register<EscapedMarkupMacro>();
             Macros.Register<SyndicatedFeedMacro>();
             Macros.Register<SilverlightMacro>();

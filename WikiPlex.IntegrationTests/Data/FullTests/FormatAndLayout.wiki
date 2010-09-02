@@ -114,6 +114,12 @@ _Allows for the creation of bullted or numbered lists._
 ### Numbered List 1.1.1
 # Numbered List 2
 ## Numbered List 2.1
+
+* Bulleted List 1
+## Numbered List 1.1
+*** Bulleted List 1.1.1
+* Bulleted List 2
+** Bulleted List 3
 }}
 
 !!!!! Rendered Markup
@@ -126,6 +132,12 @@ _Allows for the creation of bullted or numbered lists._
 ### Numbered List 1.1.1
 # Numbered List 2
 ## Numbered List 2.1
+
+* Bulleted List 1
+## Numbered List 1.1
+*** Bulleted List 1.1.1
+* Bulleted List 2
+** Bulleted List 2.1
 
 
 !! Tables

@@ -111,6 +111,12 @@ text with *unrendered* wiki markup
 ### Numbered List 1.1.1
 # Numbered List 2
 ## Numbered List 2.1
+
+* Bulleted List 1
+## Numbered List 1.1
+*** Bulleted List 1.1.1
+* Bulleted List 2
+** Bulleted List 3
 </pre>
 <br />
 <h5>Rendered Markup</h5>
@@ -142,6 +148,23 @@ text with *unrendered* wiki markup
         </ol>
     </li>
 </ol>
+
+<ul>
+    <li>Bulleted List 1
+        <ol>
+            <li>Numbered List 1.1
+                <ul>
+                    <li>Bulleted List 1.1.1</li>
+                </ul>
+            </li>
+        </ol>
+    </li>
+    <li>Bulleted List 2
+        <ul>
+            <li>Bulleted List 2.1</li>
+        </ul>
+    </li>
+</ul>
 <br />
 <h2>Tables</h2>
 <i>Allows for the creation of simple table layouts.</i>
