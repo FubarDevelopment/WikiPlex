@@ -150,6 +150,15 @@ namespace WikiPlex.PerformanceTests
         }
 
         [Fact]
+        public void Should_format_mixed_list_performantly()
+        {
+            Macros.Register<ListMacro>();
+            ExecutePerformanceTest("MixedList.wiki", 2250);
+            ExecutePerformanceTest("MixedList.wiki", 2250);
+            Macros.Unregister<ListMacro>();
+        }
+
+        [Fact]
         public void Should_format_indentation_performantly()
         {
             Macros.Register<IndentationMacro>();
