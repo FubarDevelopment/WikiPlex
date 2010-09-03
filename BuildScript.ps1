@@ -10,7 +10,6 @@ properties {
     $sampleDir = "$baseDir\Sample"
     $slnPath = "$baseDir\WikiPlex.sln"
     $docSlnPath = "$baseDir\WikiPlex.Documentation\WikiPlex.Documentation.shfbproj"
-	$sdkDir = getSdkDir
 }
 
 task default -depends run-clean, run-build, run-tests, run-perf-tests
@@ -26,7 +25,6 @@ task run-clean {
 
 task run-build {
     exec { msbuild $slnPath /t:Build /p:Configuration=$configuration /v:quiet }
-	compileAspNet 'WikiPlex.Web.Sample' $sampleDir
 }
 
 task run-tests {
@@ -47,6 +45,8 @@ task set-version {
 
 task build-package -depends prepare-sample {
     create $archiveDir
+    
+    roboexec { robocopy "$baseDir\WikiPlex.Web.Sample" $sampleDir /E }
     
     exec { .\lib\zip.exe -9 -A -j `
                               "$archiveDir\WikiPlex.zip" `
@@ -106,8 +106,10 @@ function global:clean([string[]]$paths) {
 	}
 }
 
-function global:create($path) {
+function global:create([string[]]$paths) {
+  foreach ($path in $paths) {
     new-item -path $path -type directory | out-null
+  }
 }
 
 function global:regex-replace($filePath, $find, $replacement) {
@@ -119,21 +121,7 @@ function global:regex-replace($filePath, $find, $replacement) {
     [System.IO.File]::WriteAllText($filePath, $regex.Replace($content, $replacement))
 }
 
-function global:compileAspNet($project, $compileDir) {
-    $aspnetMerge = (join-path $sdkDir 'Bin\aspnet_merge.exe')
-    exec { aspnet_compiler -v $project -p "$baseDir\$project" -p $project -f -c -d -u $compileDir }
-    exec { &$aspnetMerge $compileDir -a }
-}
-
-function global:getSdkDir() {
-    $dir = $null
-    
-    if (test-path 'HKLM:SOFTWARE\Wow6432Node\Microsoft\Microsoft SDKs\Windows\v7.0A') {
-        $dir = (get-itemproperty 'HKLM:SOFTWARE\Wow6432Node\Microsoft\Microsoft SDKs\Windows\v7.0A').InstallationFolder
-    } elseif (test-path 'HKLM:SOFTWARE\Microsoft\Microsoft SDKs\Windows\v7.0A') {
-        $dir = (get-itemproperty 'HKLM:SOFTWARE\Microsoft\Microsoft SDKs\Windows\v7.0A').InstallationFolder
-    }
-    
-    Assert ($dir -ne $null) 'Unable to find SDK directory'
-    return $dir
+function global:roboexec([scriptblock]$cmd) {
+    & $cmd | out-null
+    if ($lastexitcode -eq 0) { throw "No files were copied for command: " + $cmd }
 }
