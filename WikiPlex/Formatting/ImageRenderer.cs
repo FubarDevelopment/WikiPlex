@@ -8,14 +8,14 @@ namespace WikiPlex.Formatting
     /// </summary>
     public class ImageRenderer : IRenderer
     {
-        private const string ImageAndLink = "<a href=\"{2}\"><img style=\"border:none;\" src=\"{3}\" /></a>";
-        private const string ImageAndLinkWithStyle = "<div style=\"clear:both;height:0;\">&nbsp;</div><a style=\"float:{0};{1}\" href=\"{2}\"><img style=\"border:none;\" src=\"{3}\" /></a>";
-        private const string ImageLinkAndAlt = "<a href=\"{2}\"><img style=\"border:none;\" src=\"{3}\" alt=\"{4}\" title=\"{4}\" /></a>";
-        private const string ImageLinkAndAltWithStyle = "<div style=\"clear:both;height:0;\">&nbsp;</div><a style=\"float:{0};{1}\" href=\"{2}\"><img style=\"border:none;\" src=\"{3}\" alt=\"{4}\" title=\"{4}\" /></a>";
-        private const string ImageNoLink = "<img src=\"{2}\" />";
-        private const string ImageNoLinkAndAlt = "<img src=\"{2}\" alt=\"{3}\" title=\"{3}\" />";
-        private const string ImageNoLinkAndAltWithStyle = "<div style=\"clear:both;height:0;\">&nbsp;</div><img style=\"float:{0};{1}\" src=\"{2}\" alt=\"{3}\" title=\"{3}\" />";
-        private const string ImageNoLinkWithStyle = "<div style=\"clear:both;height:0;\">&nbsp;</div><img style=\"float:{0};{1}\" src=\"{2}\" />";
+        private const string ImageAndLink = "<a href=\"{2}\"><img style=\"border:none;\" src=\"{3}\" {4}/></a>";
+        private const string ImageAndLinkWithStyle = "<div style=\"clear:both;height:0;\">&nbsp;</div><a style=\"float:{0};{1}\" href=\"{2}\"><img style=\"border:none;\" src=\"{3}\" {4}/></a>";
+        private const string ImageLinkAndAlt = "<a href=\"{2}\"><img style=\"border:none;\" src=\"{3}\" alt=\"{4}\" title=\"{4}\" {5}/></a>";
+        private const string ImageLinkAndAltWithStyle = "<div style=\"clear:both;height:0;\">&nbsp;</div><a style=\"float:{0};{1}\" href=\"{2}\"><img style=\"border:none;\" src=\"{3}\" alt=\"{4}\" title=\"{4}\" {5}/></a>";
+        private const string ImageNoLink = "<img src=\"{2}\" {3}/>";
+        private const string ImageNoLinkAndAlt = "<img src=\"{2}\" alt=\"{3}\" title=\"{3}\" {4}/>";
+        private const string ImageNoLinkAndAltWithStyle = "<div style=\"clear:both;height:0;\">&nbsp;</div><img style=\"float:{0};{1}\" src=\"{2}\" alt=\"{3}\" title=\"{3}\" {4}/>";
+        private const string ImageNoLinkWithStyle = "<div style=\"clear:both;height:0;\">&nbsp;</div><img style=\"float:{0};{1}\" src=\"{2}\" {3}/>";
 
         /// <summary>
         /// Gets the id of a renderer.
@@ -102,24 +102,30 @@ namespace WikiPlex.Formatting
         private static string RenderImageNoLinkMacro(string input, FloatAlignment alignment, Func<string, string> encode)
         {
             string format = alignment == FloatAlignment.None ? ImageNoLink : ImageNoLinkWithStyle;
+            Dimensions dimensions;
+            string url = ParseInput(input, out dimensions);
 
-            return string.Format(format, alignment.GetStyle(), alignment.GetPadding(), encode(input));
+            return string.Format(format, alignment.GetStyle(), alignment.GetPadding(), encode(url), dimensions);
         }
 
         private static string RenderImageWithAltMacro(string input, FloatAlignment alignment, Func<string, string> encode)
         {
             TextPart part = Utility.ExtractTextParts(input);
             string format = alignment == FloatAlignment.None ? ImageNoLinkAndAlt : ImageNoLinkAndAltWithStyle;
+            Dimensions dimensions;
+            string url = ParseInput(part.Text, out dimensions);
 
-            return string.Format(format, alignment.GetStyle(), alignment.GetPadding(), encode(part.Text), encode(part.FriendlyText));
+            return string.Format(format, alignment.GetStyle(), alignment.GetPadding(), encode(url), encode(part.FriendlyText), dimensions);
         }
 
         private static string RenderImageWithLinkMacro(string input, FloatAlignment alignment, Func<string, string> encode)
         {
             TextPart part = Utility.ExtractTextParts(input);
             string format = alignment == FloatAlignment.None ? ImageAndLink : ImageAndLinkWithStyle;
+            Dimensions dimensions;
+            string url = ParseInput(part.FriendlyText, out dimensions);
 
-            return string.Format(format, alignment.GetStyle(), alignment.GetPadding(), encode(part.Text), encode(part.FriendlyText));
+            return string.Format(format, alignment.GetStyle(), alignment.GetPadding(), encode(part.Text), encode(url), dimensions);
         }
 
         private static string RenderImageWithLinkAndAltMacro(string input, FloatAlignment alignment, Func<string, string> encode)
@@ -129,7 +135,18 @@ namespace WikiPlex.Formatting
                 throw new ArgumentException();
 
             string format = alignment == FloatAlignment.None ? ImageLinkAndAlt : ImageLinkAndAltWithStyle;
-            return string.Format(format, alignment.GetStyle(), alignment.GetPadding(), encode(parts[2].Trim()), encode(parts[1].Trim()), encode(parts[0].Trim()));
+            Dimensions dimensions;
+            string url = ParseInput(parts[1].Trim(), out dimensions);
+
+            return string.Format(format, alignment.GetStyle(), alignment.GetPadding(), encode(parts[2].Trim()), encode(url), encode(parts[0].Trim()), dimensions);
+        }
+
+        private static string ParseInput(string input, out Dimensions dimensions)
+        {
+            string[] parameters = input.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+
+            dimensions = Parameters.ExtractDimensions(parameters);
+            return parameters[0];
         }
     }
 }
