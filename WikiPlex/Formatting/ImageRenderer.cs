@@ -102,51 +102,33 @@ namespace WikiPlex.Formatting
         private static string RenderImageNoLinkMacro(string input, FloatAlignment alignment, Func<string, string> encode)
         {
             string format = alignment == FloatAlignment.None ? ImageNoLink : ImageNoLinkWithStyle;
-            Dimensions dimensions;
-            string url = ParseInput(input, out dimensions);
+            ImagePart parts = Utility.ExtractImageParts(input, ImagePartExtras.None);
 
-            return string.Format(format, alignment.GetStyle(), alignment.GetPadding(), encode(url), dimensions);
+            return string.Format(format, alignment.GetStyle(), alignment.GetPadding(), encode(parts.ImageUrl), parts.Dimensions);
         }
 
         private static string RenderImageWithAltMacro(string input, FloatAlignment alignment, Func<string, string> encode)
         {
-            TextPart part = Utility.ExtractTextParts(input);
             string format = alignment == FloatAlignment.None ? ImageNoLinkAndAlt : ImageNoLinkAndAltWithStyle;
-            Dimensions dimensions;
-            string url = ParseInput(part.Text, out dimensions);
-
-            return string.Format(format, alignment.GetStyle(), alignment.GetPadding(), encode(url), encode(part.FriendlyText), dimensions);
+            ImagePart parts = Utility.ExtractImageParts(input, ImagePartExtras.ContainsText);
+            
+            return string.Format(format, alignment.GetStyle(), alignment.GetPadding(), encode(parts.ImageUrl), encode(parts.Text), parts.Dimensions);
         }
 
         private static string RenderImageWithLinkMacro(string input, FloatAlignment alignment, Func<string, string> encode)
         {
-            TextPart part = Utility.ExtractTextParts(input);
             string format = alignment == FloatAlignment.None ? ImageAndLink : ImageAndLinkWithStyle;
-            Dimensions dimensions;
-            string url = ParseInput(part.FriendlyText, out dimensions);
+            ImagePart parts = Utility.ExtractImageParts(input, ImagePartExtras.ContainsLink);
 
-            return string.Format(format, alignment.GetStyle(), alignment.GetPadding(), encode(part.Text), encode(url), dimensions);
+            return string.Format(format, alignment.GetStyle(), alignment.GetPadding(), encode(parts.LinkUrl), encode(parts.ImageUrl), parts.Dimensions);
         }
 
         private static string RenderImageWithLinkAndAltMacro(string input, FloatAlignment alignment, Func<string, string> encode)
         {
-            string[] parts = input.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
-            if (parts.Length != 3)
-                throw new ArgumentException();
-
             string format = alignment == FloatAlignment.None ? ImageLinkAndAlt : ImageLinkAndAltWithStyle;
-            Dimensions dimensions;
-            string url = ParseInput(parts[1].Trim(), out dimensions);
+            ImagePart parts = Utility.ExtractImageParts(input, ImagePartExtras.All);
 
-            return string.Format(format, alignment.GetStyle(), alignment.GetPadding(), encode(parts[2].Trim()), encode(url), encode(parts[0].Trim()), dimensions);
-        }
-
-        private static string ParseInput(string input, out Dimensions dimensions)
-        {
-            string[] parameters = input.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-
-            dimensions = Parameters.ExtractDimensions(parameters);
-            return parameters[0];
+            return string.Format(format, alignment.GetStyle(), alignment.GetPadding(), encode(parts.LinkUrl), encode(parts.ImageUrl), encode(parts.Text), parts.Dimensions);
         }
     }
 }

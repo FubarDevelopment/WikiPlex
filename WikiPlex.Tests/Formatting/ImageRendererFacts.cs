@@ -124,33 +124,33 @@ namespace WikiPlex.Tests.Formatting
             }
 
             [Fact]
-            public void Should_render_an_unresolved_macro_with_more_than_two_parts_without_link_indication_right_align()
+            public void Should_render_macro_with_more_than_two_parts_without_link_indication_right_align()
             {
                 var renderer = new ImageRenderer();
 
                 string result = renderer.Expand(ScopeName.ImageRightAlignWithAlt, "MyImage|http://localhost/image.gif|foo", x => x, x => x);
 
-                Assert.Equal("<span class=\"unresolved\">Cannot resolve image macro, invalid number of parameters.</span>", result);
+                Assert.Equal("<div style=\"clear:both;height:0;\">&nbsp;</div><img style=\"float:right;padding-left:.5em;\" src=\"http://localhost/image.gif\" alt=\"MyImage\" title=\"MyImage\" />", result);
             }
 
             [Fact]
-            public void Should_render_an_unresolved_macro_with_more_than_two_parts_without_link_indication_left_align()
+            public void Should_render_macro_with_more_than_two_parts_without_link_indication_left_align()
             {
                 var renderer = new ImageRenderer();
 
                 string result = renderer.Expand(ScopeName.ImageLeftAlignWithAlt, "MyImage|http://localhost/image.gif|foo", x => x, x => x);
 
-                Assert.Equal("<span class=\"unresolved\">Cannot resolve image macro, invalid number of parameters.</span>", result);
+                Assert.Equal("<div style=\"clear:both;height:0;\">&nbsp;</div><img style=\"float:left;padding-right:.5em;\" src=\"http://localhost/image.gif\" alt=\"MyImage\" title=\"MyImage\" />", result);
             }
 
             [Fact]
-            public void Should_render_an_unresolved_macro_with_more_than_two_parts_without_link_indication()
+            public void Should_render_macro_with_more_than_two_parts_without_link_indication()
             {
                 var renderer = new ImageRenderer();
 
                 string result = renderer.Expand(ScopeName.ImageNoAlignWithAlt, "MyImage|http://localhost/image.gif|foo", x => x, x => x);
 
-                Assert.Equal("<span class=\"unresolved\">Cannot resolve image macro, invalid number of parameters.</span>", result);
+                Assert.Equal("<img src=\"http://localhost/image.gif\" alt=\"MyImage\" title=\"MyImage\" />", result);
             }
 
             [Fact]

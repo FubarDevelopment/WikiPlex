@@ -85,7 +85,7 @@ namespace WikiPlex.Tests
             [Fact]
             public void Should_throw_ArgumentNullException_if_the_input_is_null()
             {
-                var ex = Record.Exception(() => Utility.ExtractImageParts(null));
+                var ex = Record.Exception(() => Utility.ExtractImageParts(null, ImagePartExtras.None));
 
                 Assert.NotNull(ex);
                 Assert.IsType<ArgumentNullException>(ex);
@@ -95,7 +95,7 @@ namespace WikiPlex.Tests
             [Fact]
             public void Should_throw_ArgumentException_if_the_input_is_empty()
             {
-                var ex = Record.Exception(() => Utility.ExtractImageParts(string.Empty));
+                var ex = Record.Exception(() => Utility.ExtractImageParts(string.Empty, ImagePartExtras.None));
 
                 Assert.NotNull(ex);
                 Assert.IsType<ArgumentException>(ex);
@@ -103,9 +103,19 @@ namespace WikiPlex.Tests
             }
 
             [Fact]
-            public void Should_throw_ArgumentException_if_the_input_contains_more_than_two_parts()
+            public void Should_throw_ArgumentException_image_url_cannot_be_determined()
             {
-                var ex = Record.Exception(() => Utility.ExtractImageParts("a|b|c"));
+                var ex = Record.Exception(() => Utility.ExtractImageParts("a|b", ImagePartExtras.None));
+
+                Assert.NotNull(ex);
+                Assert.IsType<ArgumentException>(ex);
+                Assert.Equal("input", ((ArgumentException)ex).ParamName);
+            }
+
+            [Fact]
+            public void Should_throw_ArgumentException_if_the_input_contains_more_than_three_parts()
+            {
+                var ex = Record.Exception(() => Utility.ExtractImageParts("a|b|c|d", ImagePartExtras.All));
 
                 Assert.NotNull(ex);
                 Assert.IsType<ArgumentException>(ex);
@@ -114,23 +124,25 @@ namespace WikiPlex.Tests
             }
 
             [Fact]
-            public void Should_return_the_text_part_with_only_text_when_it_has_no_friendly_text()
+            public void Should_return_the_part_with_only_image_url_when_it_has_no_friendly_text()
             {
-                ImagePart part = Utility.ExtractImageParts("a");
+                ImagePart part = Utility.ExtractImageParts("a", ImagePartExtras.None);
 
                 Assert.NotNull(part);
-                Assert.Equal("a", part.Text);
-                Assert.Null(part.FriendlyText);
+                Assert.Equal("a", part.ImageUrl);
+                Assert.Null(part.Text);
+                Assert.Null(part.LinkUrl);
             }
 
             [Fact]
-            public void Should_return_the_text_part_with_only_text_when_it_has_no_friendly_text_with_height_width()
+            public void Should_return_the_part_with_only_image_url_when_it_has_no_friendly_text_with_height_width()
             {
-                ImagePart part = Utility.ExtractImageParts("a,height=220,width=380");
+                ImagePart part = Utility.ExtractImageParts("a,height=220,width=380", ImagePartExtras.None);
 
                 Assert.NotNull(part);
-                Assert.Equal("a", part.Text);
-                Assert.Null(part.FriendlyText);
+                Assert.Equal("a", part.ImageUrl);
+                Assert.Null(part.Text);
+                Assert.Null(part.LinkUrl);
                 Assert.Equal(new Unit(220), part.Dimensions.Height);
                 Assert.Equal(new Unit(380), part.Dimensions.Width);
             }
@@ -138,42 +150,53 @@ namespace WikiPlex.Tests
             [Fact]
             public void Should_return_the_fully_loaded_part()
             {
-                ImagePart part = Utility.ExtractImageParts("a|b");
+                ImagePart part = Utility.ExtractImageParts("a|b|c", ImagePartExtras.All);
 
                 Assert.NotNull(part);
-                Assert.Equal("a", part.FriendlyText);
-                Assert.Equal("b", part.Text);
+                Assert.Equal("a", part.Text);
+                Assert.Equal("b", part.ImageUrl);
+                Assert.Equal("c", part.LinkUrl);
             }
 
             [Fact]
             public void Should_return_the_part_with_dimensions()
             {
-                ImagePart part = Utility.ExtractImageParts("a|b,height=220,width=380");
+                ImagePart part = Utility.ExtractImageParts("a|b,height=220,width=380", ImagePartExtras.ContainsText);
 
                 Assert.NotNull(part);
-                Assert.Equal("a", part.FriendlyText);
-                Assert.Equal("b", part.Text);
+                Assert.Equal("a", part.Text);
+                Assert.Equal("b", part.ImageUrl);
                 Assert.Equal(new Unit(220), part.Dimensions.Height);
                 Assert.Equal(new Unit(380), part.Dimensions.Width);
             }
 
             [Fact]
-            public void Should_trim_the_content_with_one_part()
+            public void Should_return_the_part_with_link()
             {
-                ImagePart part = Utility.ExtractImageParts(" a ");
+                ImagePart part = Utility.ExtractImageParts("a|b", ImagePartExtras.ContainsLink);
 
                 Assert.NotNull(part);
-                Assert.Equal("a", part.Text);
+                Assert.Equal("a", part.ImageUrl);
+                Assert.Equal("b", part.LinkUrl);
+            }
+
+            [Fact]
+            public void Should_trim_the_content_with_one_part()
+            {
+                ImagePart part = Utility.ExtractImageParts(" a ", ImagePartExtras.None);
+
+                Assert.NotNull(part);
+                Assert.Equal("a", part.ImageUrl);
             }
 
             [Fact]
             public void Should_trim_the_content_with_two_parts()
             {
-                ImagePart part = Utility.ExtractImageParts(" a | b ");
+                ImagePart part = Utility.ExtractImageParts(" a | b ", ImagePartExtras.ContainsText);
 
                 Assert.NotNull(part);
-                Assert.Equal("a", part.FriendlyText);
-                Assert.Equal("b", part.Text);
+                Assert.Equal("a", part.Text);
+                Assert.Equal("b", part.ImageUrl);
             }
         }
 
