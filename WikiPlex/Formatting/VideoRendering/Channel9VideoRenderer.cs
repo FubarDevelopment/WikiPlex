@@ -11,9 +11,9 @@ namespace WikiPlex.Formatting
 
         public void Render(string url, HtmlTextWriter writer)
         {
-            if (Dimensions.Height.Type != UnitType.Pixel)
+            if (Dimensions.Height.Value.Type != UnitType.Pixel)
                 throw new InvalidDimensionException("height", " Value can only be pixel based.");
-            if (Dimensions.Width.Type != UnitType.Pixel)
+            if (Dimensions.Width.Value.Type != UnitType.Pixel)
                 throw new InvalidDimensionException("width", " Value can only be pixel based.");
 
             var actualUri = new Uri(url);
@@ -24,7 +24,7 @@ namespace WikiPlex.Formatting
             if (!url.EndsWith("/player/", StringComparison.OrdinalIgnoreCase))
                 url += "player";
 
-            writer.AddAttribute(HtmlTextWriterAttribute.Src, url + "?h=" + Dimensions.Height.Value + "&w=" + Dimensions.Width.Value, false);
+            writer.AddAttribute(HtmlTextWriterAttribute.Src, url + "?h=" + Dimensions.Height.Value.Value + "&w=" + Dimensions.Width.Value.Value, false);
             writer.AddAttribute(HtmlTextWriterAttribute.Width, Dimensions.Width.ToString());
             writer.AddAttribute(HtmlTextWriterAttribute.Height, Dimensions.Height.ToString());
             writer.AddAttribute("scrolling", "no");

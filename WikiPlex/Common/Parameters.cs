@@ -108,6 +108,23 @@ namespace WikiPlex.Common
         /// This will extract the height and width dimensions parameters.
         /// </summary>
         /// <param name="parameters">The colleciton of parameters.</param>
+        /// <returns>The <see cref="Dimensions"/> contained in the parameters.</returns>
+        /// <exception cref="ArgumentException">
+        /// Thrown if the height/width is not a valid unit.
+        /// 
+        /// -- or --
+        /// 
+        /// Thrown if the height/width is less than or equal to zero.
+        /// </exception>
+        public static Dimensions ExtractDimensions(ICollection<string> parameters)
+        {
+            return ExtractDimensions(parameters, null, null);
+        }
+
+        /// <summary>
+        /// This will extract the height and width dimensions parameters.
+        /// </summary>
+        /// <param name="parameters">The colleciton of parameters.</param>
         /// <param name="defaultHeight">The default height.</param>
         /// <param name="defaultWidth">The default width.</param>
         /// <returns>The <see cref="Dimensions"/> contained in the parameters.</returns>
@@ -118,15 +135,15 @@ namespace WikiPlex.Common
         /// 
         /// Thrown if the height/width is less than or equal to zero.
         /// </exception>
-        public static Dimensions ExtractDimensions(ICollection<string> parameters, Unit defaultHeight, Unit defaultWidth)
+        public static Dimensions ExtractDimensions(ICollection<string> parameters, Unit? defaultHeight, Unit? defaultWidth)
         {
-            Unit height = ParseUnit(parameters, "height", defaultHeight);
-            Unit width = ParseUnit(parameters, "width", defaultWidth);
+            Unit? height = ParseUnit(parameters, "height", defaultHeight);
+            Unit? width = ParseUnit(parameters, "width", defaultWidth);
 
             return new Dimensions {Height = height, Width = width};
         }
 
-        private static Unit ParseUnit(IEnumerable<string> parameters, string paramName, Unit defaultValue)
+        private static Unit? ParseUnit(IEnumerable<string> parameters, string paramName, Unit? defaultValue)
         {
             string value;
             if (TryGetValue(parameters, paramName, out value))

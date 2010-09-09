@@ -8,14 +8,14 @@ namespace WikiPlex.Formatting
     /// </summary>
     public class ImageRenderer : IRenderer
     {
-        private const string ImageAndLink = "<a href=\"{2}\"><img style=\"border:none;\" src=\"{3}\" /></a>";
-        private const string ImageAndLinkWithStyle = "<div style=\"clear:both;height:0;\">&nbsp;</div><a style=\"float:{0};{1}\" href=\"{2}\"><img style=\"border:none;\" src=\"{3}\" /></a>";
-        private const string ImageLinkAndAlt = "<a href=\"{2}\"><img style=\"border:none;\" src=\"{3}\" alt=\"{4}\" title=\"{4}\" /></a>";
-        private const string ImageLinkAndAltWithStyle = "<div style=\"clear:both;height:0;\">&nbsp;</div><a style=\"float:{0};{1}\" href=\"{2}\"><img style=\"border:none;\" src=\"{3}\" alt=\"{4}\" title=\"{4}\" /></a>";
-        private const string ImageNoLink = "<img src=\"{2}\" />";
-        private const string ImageNoLinkAndAlt = "<img src=\"{2}\" alt=\"{3}\" title=\"{3}\" />";
-        private const string ImageNoLinkAndAltWithStyle = "<div style=\"clear:both;height:0;\">&nbsp;</div><img style=\"float:{0};{1}\" src=\"{2}\" alt=\"{3}\" title=\"{3}\" />";
-        private const string ImageNoLinkWithStyle = "<div style=\"clear:both;height:0;\">&nbsp;</div><img style=\"float:{0};{1}\" src=\"{2}\" />";
+        private const string ImageAndLink = "<a href=\"{2}\"><img style=\"border:none;\" src=\"{3}\" {4}/></a>";
+        private const string ImageAndLinkWithStyle = "<div style=\"clear:both;height:0;\">&nbsp;</div><a style=\"float:{0};{1}\" href=\"{2}\"><img style=\"border:none;\" src=\"{3}\" {4}/></a>";
+        private const string ImageLinkAndAlt = "<a href=\"{2}\"><img style=\"border:none;\" src=\"{3}\" alt=\"{4}\" title=\"{4}\" {5}/></a>";
+        private const string ImageLinkAndAltWithStyle = "<div style=\"clear:both;height:0;\">&nbsp;</div><a style=\"float:{0};{1}\" href=\"{2}\"><img style=\"border:none;\" src=\"{3}\" alt=\"{4}\" title=\"{4}\" {5}/></a>";
+        private const string ImageNoLink = "<img src=\"{2}\" {3}/>";
+        private const string ImageNoLinkAndAlt = "<img src=\"{2}\" alt=\"{3}\" title=\"{3}\" {4}/>";
+        private const string ImageNoLinkAndAltWithStyle = "<div style=\"clear:both;height:0;\">&nbsp;</div><img style=\"float:{0};{1}\" src=\"{2}\" alt=\"{3}\" title=\"{3}\" {4}/>";
+        private const string ImageNoLinkWithStyle = "<div style=\"clear:both;height:0;\">&nbsp;</div><img style=\"float:{0};{1}\" src=\"{2}\" {3}/>";
 
         /// <summary>
         /// Gets the id of a renderer.
@@ -58,39 +58,58 @@ namespace WikiPlex.Formatting
         {
             try
             {
-                switch (scopeName)
-                {
-                    case ScopeName.ImageLeftAlign:
-                        return RenderImageNoLinkMacro(input, FloatAlignment.Left, attributeEncode);
-                    case ScopeName.ImageRightAlign:
-                        return RenderImageNoLinkMacro(input, FloatAlignment.Right, attributeEncode);
-                    case ScopeName.ImageNoAlign:
-                        return RenderImageNoLinkMacro(input, FloatAlignment.None, attributeEncode);
-                    case ScopeName.ImageLeftAlignWithAlt:
-                        return RenderImageWithAltMacro(input, FloatAlignment.Left, attributeEncode);
-                    case ScopeName.ImageRightAlignWithAlt:
-                        return RenderImageWithAltMacro(input, FloatAlignment.Right, attributeEncode);
-                    case ScopeName.ImageNoAlignWithAlt:
-                        return RenderImageWithAltMacro(input, FloatAlignment.None, attributeEncode);
-                    case ScopeName.ImageWithLinkNoAlt:
-                        return RenderImageWithLinkMacro(input, FloatAlignment.None, attributeEncode);
-                    case ScopeName.ImageWithLinkNoAltLeftAlign:
-                        return RenderImageWithLinkMacro(input, FloatAlignment.Left, attributeEncode);
-                    case ScopeName.ImageWithLinkNoAltRightAlign:
-                        return RenderImageWithLinkMacro(input, FloatAlignment.Right, attributeEncode);
-                    case ScopeName.ImageWithLinkWithAlt:
-                        return RenderImageWithLinkAndAltMacro(input, FloatAlignment.None, attributeEncode);
-                    case ScopeName.ImageWithLinkWithAltLeftAlign:
-                        return RenderImageWithLinkAndAltMacro(input, FloatAlignment.Left, attributeEncode);
-                    case ScopeName.ImageWithLinkWithAltRightAlign:
-                        return RenderImageWithLinkAndAltMacro(input, FloatAlignment.Right, attributeEncode);
-                    default:
-                        return input;
-                }
+                FloatAlignment alignment = GetAlignment(scopeName);
+                var renderMethod = GetRenderMethod(scopeName);
+
+                return renderMethod(input, alignment, attributeEncode);
             }
             catch
             {
                 return RenderUnresolvedMacro();
+            }
+        }
+
+        private static FloatAlignment GetAlignment(string scopeName)
+        {
+            switch (scopeName)
+            {
+                case ScopeName.ImageLeftAlign:
+                case ScopeName.ImageLeftAlignWithAlt:
+                case ScopeName.ImageWithLinkNoAltLeftAlign:
+                case ScopeName.ImageWithLinkWithAltLeftAlign:
+                    return FloatAlignment.Left;
+                case ScopeName.ImageRightAlign:
+                case ScopeName.ImageRightAlignWithAlt:
+                case ScopeName.ImageWithLinkNoAltRightAlign:
+                case ScopeName.ImageWithLinkWithAltRightAlign:
+                    return FloatAlignment.Right;
+                default:
+                    return FloatAlignment.None;
+            }
+        }
+
+        private static Func<string, FloatAlignment, Func<string, string>, string> GetRenderMethod(string scopeName)
+        {
+            switch (scopeName)
+            {
+                case ScopeName.ImageLeftAlign:
+                case ScopeName.ImageRightAlign:
+                case ScopeName.ImageNoAlign:
+                    return RenderImageNoLinkMacro;
+                case ScopeName.ImageLeftAlignWithAlt:
+                case ScopeName.ImageRightAlignWithAlt:
+                case ScopeName.ImageNoAlignWithAlt:
+                    return RenderImageWithAltMacro;
+                case ScopeName.ImageWithLinkNoAlt:
+                case ScopeName.ImageWithLinkNoAltLeftAlign:
+                case ScopeName.ImageWithLinkNoAltRightAlign:
+                    return RenderImageWithLinkMacro;
+                case ScopeName.ImageWithLinkWithAlt:
+                case ScopeName.ImageWithLinkWithAltLeftAlign:
+                case ScopeName.ImageWithLinkWithAltRightAlign:
+                    return RenderImageWithLinkAndAltMacro;
+                default:
+                    return (x, y, z) => x;
             }
         }
 
@@ -102,34 +121,33 @@ namespace WikiPlex.Formatting
         private static string RenderImageNoLinkMacro(string input, FloatAlignment alignment, Func<string, string> encode)
         {
             string format = alignment == FloatAlignment.None ? ImageNoLink : ImageNoLinkWithStyle;
+            ImagePart parts = Utility.ExtractImageParts(input, ImagePartExtras.None);
 
-            return string.Format(format, alignment.GetStyle(), alignment.GetPadding(), encode(input));
+            return string.Format(format, alignment.GetStyle(), alignment.GetPadding(), encode(parts.ImageUrl), parts.Dimensions);
         }
 
         private static string RenderImageWithAltMacro(string input, FloatAlignment alignment, Func<string, string> encode)
         {
-            TextPart part = Utility.ExtractTextParts(input);
             string format = alignment == FloatAlignment.None ? ImageNoLinkAndAlt : ImageNoLinkAndAltWithStyle;
-
-            return string.Format(format, alignment.GetStyle(), alignment.GetPadding(), encode(part.Text), encode(part.FriendlyText));
+            ImagePart parts = Utility.ExtractImageParts(input, ImagePartExtras.ContainsText);
+            
+            return string.Format(format, alignment.GetStyle(), alignment.GetPadding(), encode(parts.ImageUrl), encode(parts.Text), parts.Dimensions);
         }
 
         private static string RenderImageWithLinkMacro(string input, FloatAlignment alignment, Func<string, string> encode)
         {
-            TextPart part = Utility.ExtractTextParts(input);
             string format = alignment == FloatAlignment.None ? ImageAndLink : ImageAndLinkWithStyle;
+            ImagePart parts = Utility.ExtractImageParts(input, ImagePartExtras.ContainsLink);
 
-            return string.Format(format, alignment.GetStyle(), alignment.GetPadding(), encode(part.Text), encode(part.FriendlyText));
+            return string.Format(format, alignment.GetStyle(), alignment.GetPadding(), encode(parts.LinkUrl), encode(parts.ImageUrl), parts.Dimensions);
         }
 
         private static string RenderImageWithLinkAndAltMacro(string input, FloatAlignment alignment, Func<string, string> encode)
         {
-            string[] parts = input.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
-            if (parts.Length != 3)
-                throw new ArgumentException();
-
             string format = alignment == FloatAlignment.None ? ImageLinkAndAlt : ImageLinkAndAltWithStyle;
-            return string.Format(format, alignment.GetStyle(), alignment.GetPadding(), encode(parts[2].Trim()), encode(parts[1].Trim()), encode(parts[0].Trim()));
+            ImagePart parts = Utility.ExtractImageParts(input, ImagePartExtras.All);
+
+            return string.Format(format, alignment.GetStyle(), alignment.GetPadding(), encode(parts.LinkUrl), encode(parts.ImageUrl), encode(parts.Text), parts.Dimensions);
         }
     }
 }

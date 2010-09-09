@@ -113,6 +113,15 @@ namespace WikiPlex.Tests
         public class ExtractDimensions
         {
             [Fact]
+            public void Should_return_null_values_if_not_found()
+            {
+                Dimensions dimensions = Parameters.ExtractDimensions(new[] {"foo=bar"});
+
+                Assert.Null(dimensions.Height);
+                Assert.Null(dimensions.Width);
+            }
+
+            [Fact]
             public void Should_return_defaults_if_not_found()
             {
                 Dimensions dimensions = Parameters.ExtractDimensions(new[] {"foo=bar"}, 200, 300);

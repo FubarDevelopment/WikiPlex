@@ -124,33 +124,33 @@ namespace WikiPlex.Tests.Formatting
             }
 
             [Fact]
-            public void Should_render_an_unresolved_macro_with_more_than_two_parts_without_link_indication_right_align()
+            public void Should_render_macro_with_more_than_two_parts_without_link_indication_right_align()
             {
                 var renderer = new ImageRenderer();
 
                 string result = renderer.Expand(ScopeName.ImageRightAlignWithAlt, "MyImage|http://localhost/image.gif|foo", x => x, x => x);
 
-                Assert.Equal("<span class=\"unresolved\">Cannot resolve image macro, invalid number of parameters.</span>", result);
+                Assert.Equal("<div style=\"clear:both;height:0;\">&nbsp;</div><img style=\"float:right;padding-left:.5em;\" src=\"http://localhost/image.gif\" alt=\"MyImage\" title=\"MyImage\" />", result);
             }
 
             [Fact]
-            public void Should_render_an_unresolved_macro_with_more_than_two_parts_without_link_indication_left_align()
+            public void Should_render_macro_with_more_than_two_parts_without_link_indication_left_align()
             {
                 var renderer = new ImageRenderer();
 
                 string result = renderer.Expand(ScopeName.ImageLeftAlignWithAlt, "MyImage|http://localhost/image.gif|foo", x => x, x => x);
 
-                Assert.Equal("<span class=\"unresolved\">Cannot resolve image macro, invalid number of parameters.</span>", result);
+                Assert.Equal("<div style=\"clear:both;height:0;\">&nbsp;</div><img style=\"float:left;padding-right:.5em;\" src=\"http://localhost/image.gif\" alt=\"MyImage\" title=\"MyImage\" />", result);
             }
 
             [Fact]
-            public void Should_render_an_unresolved_macro_with_more_than_two_parts_without_link_indication()
+            public void Should_render_macro_with_more_than_two_parts_without_link_indication()
             {
                 var renderer = new ImageRenderer();
 
                 string result = renderer.Expand(ScopeName.ImageNoAlignWithAlt, "MyImage|http://localhost/image.gif|foo", x => x, x => x);
 
-                Assert.Equal("<span class=\"unresolved\">Cannot resolve image macro, invalid number of parameters.</span>", result);
+                Assert.Equal("<img src=\"http://localhost/image.gif\" alt=\"MyImage\" title=\"MyImage\" />", result);
             }
 
             [Fact]
@@ -294,6 +294,86 @@ namespace WikiPlex.Tests.Formatting
                 string result = renderer.Expand("foo", "in", x => x, x => x);
 
                 Assert.Equal("in", result);
+            }
+
+            [Fact]
+            public void Should_render_no_link_with_height_width()
+            {
+                var renderer = new ImageRenderer();
+
+                string result = renderer.Expand(ScopeName.ImageNoAlign, "http://localhost/image.gif,height=220,width=380", x => x, x => x);
+
+                Assert.Equal("<img src=\"http://localhost/image.gif\" height=\"220px\" width=\"380px\" />", result);
+            }
+
+            [Fact]
+            public void Should_render_no_link_with_alignment_height_width()
+            {
+                var renderer = new ImageRenderer();
+
+                string result = renderer.Expand(ScopeName.ImageLeftAlign, "http://localhost/image.gif,height=220,width=380", x => x, x => x);
+
+                Assert.Equal("<div style=\"clear:both;height:0;\">&nbsp;</div><img style=\"float:left;padding-right:.5em;\" src=\"http://localhost/image.gif\" height=\"220px\" width=\"380px\" />", result);
+            }
+
+            [Fact]
+            public void Should_render_no_link_with_alt_height_width()
+            {
+                var renderer = new ImageRenderer();
+
+                string result = renderer.Expand(ScopeName.ImageNoAlignWithAlt, "Friendly|http://localhost/image.gif,height=220,width=380", x => x, x => x);
+
+                Assert.Equal("<img src=\"http://localhost/image.gif\" alt=\"Friendly\" title=\"Friendly\" height=\"220px\" width=\"380px\" />", result);
+            }
+
+            [Fact]
+            public void Should_render_no_link_with_alt_alignment_height_width()
+            {
+                var renderer = new ImageRenderer();
+
+                string result = renderer.Expand(ScopeName.ImageLeftAlignWithAlt, "Friendly|http://localhost/image.gif,height=220,width=380", x => x, x => x);
+
+                Assert.Equal("<div style=\"clear:both;height:0;\">&nbsp;</div><img style=\"float:left;padding-right:.5em;\" src=\"http://localhost/image.gif\" alt=\"Friendly\" title=\"Friendly\" height=\"220px\" width=\"380px\" />", result);
+            }
+
+            [Fact]
+            public void Should_render_with_link_height_width()
+            {
+                var renderer = new ImageRenderer();
+
+                string result = renderer.Expand(ScopeName.ImageWithLinkNoAlt, "http://localhost/image.gif,height=220,width=380|http://link", x => x, x => x);
+
+                Assert.Equal("<a href=\"http://link\"><img style=\"border:none;\" src=\"http://localhost/image.gif\" height=\"220px\" width=\"380px\" /></a>", result);
+            }
+
+            [Fact]
+            public void Should_render_with_link_alignment_height_width()
+            {
+                var renderer = new ImageRenderer();
+
+                string result = renderer.Expand(ScopeName.ImageWithLinkNoAltLeftAlign, "http://localhost/image.gif,height=220,width=380|http://link", x => x, x => x);
+
+                Assert.Equal("<div style=\"clear:both;height:0;\">&nbsp;</div><a style=\"float:left;padding-right:.5em;\" href=\"http://link\"><img style=\"border:none;\" src=\"http://localhost/image.gif\" height=\"220px\" width=\"380px\" /></a>", result);
+            }
+
+            [Fact]
+            public void Should_render_with_link_alt_height_width()
+            {
+                var renderer = new ImageRenderer();
+
+                string result = renderer.Expand(ScopeName.ImageWithLinkWithAlt, "Friendly|http://localhost/image.gif,height=220,width=380|http://link", x => x, x => x);
+
+                Assert.Equal("<a href=\"http://link\"><img style=\"border:none;\" src=\"http://localhost/image.gif\" alt=\"Friendly\" title=\"Friendly\" height=\"220px\" width=\"380px\" /></a>", result);
+            }
+
+            [Fact]
+            public void Should_render_with_link_alt_alignment_height_width()
+            {
+                var renderer = new ImageRenderer();
+
+                string result = renderer.Expand(ScopeName.ImageWithLinkWithAltLeftAlign, "Friendly|http://localhost/image.gif,height=220,width=380|http://link", x => x, x => x);
+
+                Assert.Equal("<div style=\"clear:both;height:0;\">&nbsp;</div><a style=\"float:left;padding-right:.5em;\" href=\"http://link\"><img style=\"border:none;\" src=\"http://localhost/image.gif\" alt=\"Friendly\" title=\"Friendly\" height=\"220px\" width=\"380px\" /></a>", result);
             }
         }
     }

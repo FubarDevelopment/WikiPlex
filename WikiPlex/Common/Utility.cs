@@ -59,6 +59,59 @@ namespace WikiPlex.Common
         }
 
         /// <summary>
+        /// Will extract the single text or pair text parts of a string, separated by a |, including the dimensions for the text part.
+        /// </summary>
+        /// <param name="input">The input to inspect.</param>
+        /// <param name="partExtras">The image part extras to extract.</param>
+        /// <returns>A new <see cref="ImagePart"/>.</returns>
+        /// <remarks>If there are 2 parts, the first is the text, and the second is the friendly text. Otherwise, only the text is set. Also, should the text contain dimensions, they will be set.</remarks>
+        /// <exception cref="ArgumentNullException">Thrown when the input is null.</exception>
+        /// <exception cref="ArgumentException">
+        /// Thrown when the input is empty.
+        /// 
+        /// -- or --
+        /// 
+        /// Thrown when there are more than 2 parts found.
+        /// 
+        /// -- or --
+        /// 
+        /// Thrown if the height/width is not a valid unit.
+        /// 
+        /// -- or --
+        /// 
+        /// Thrown when the height/width is less than or equal to zero.
+        /// </exception>
+        public static ImagePart ExtractImageParts(string input, ImagePartExtras partExtras)
+        {
+            Guard.NotNullOrEmpty(input, "input");
+            string[] parts = input.Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries);
+
+            if (parts.Length > 3)
+                throw new ArgumentException("Invalid number of parts.", "input");
+
+            string imageUrl, text = null, linkUrl = null;
+
+            if (parts.Length == 1)
+                imageUrl = parts[0].Trim();
+            else if ((partExtras & ImagePartExtras.ContainsText) == ImagePartExtras.ContainsText)
+                imageUrl = parts[1].Trim();
+            else if ((partExtras & ImagePartExtras.ContainsLink) == ImagePartExtras.ContainsLink)
+                imageUrl = parts[0].Trim();
+            else
+                throw new ArgumentException("Invalid number of parts.", "input");
+
+            if (parts.Length > 1 && (partExtras & ImagePartExtras.ContainsText) == ImagePartExtras.ContainsText)
+                text = parts[0].Trim();
+
+            if (parts.Length > 1 && (partExtras & ImagePartExtras.ContainsLink) == ImagePartExtras.ContainsLink)
+                linkUrl = parts.Length == 3 ? parts[2].Trim() : parts[1].Trim();
+
+            string[] parameters = imageUrl.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries);
+
+            return new ImagePart(parameters[0], text, linkUrl, Parameters.ExtractDimensions(parameters));
+        }
+
+        /// <summary>
         /// Will count the number of occurences a character is in an string.
         /// </summary>
         /// <param name="toFind">The character to find.</param>
