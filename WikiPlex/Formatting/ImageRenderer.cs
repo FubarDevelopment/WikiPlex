@@ -58,39 +58,58 @@ namespace WikiPlex.Formatting
         {
             try
             {
-                switch (scopeName)
-                {
-                    case ScopeName.ImageLeftAlign:
-                        return RenderImageNoLinkMacro(input, FloatAlignment.Left, attributeEncode);
-                    case ScopeName.ImageRightAlign:
-                        return RenderImageNoLinkMacro(input, FloatAlignment.Right, attributeEncode);
-                    case ScopeName.ImageNoAlign:
-                        return RenderImageNoLinkMacro(input, FloatAlignment.None, attributeEncode);
-                    case ScopeName.ImageLeftAlignWithAlt:
-                        return RenderImageWithAltMacro(input, FloatAlignment.Left, attributeEncode);
-                    case ScopeName.ImageRightAlignWithAlt:
-                        return RenderImageWithAltMacro(input, FloatAlignment.Right, attributeEncode);
-                    case ScopeName.ImageNoAlignWithAlt:
-                        return RenderImageWithAltMacro(input, FloatAlignment.None, attributeEncode);
-                    case ScopeName.ImageWithLinkNoAlt:
-                        return RenderImageWithLinkMacro(input, FloatAlignment.None, attributeEncode);
-                    case ScopeName.ImageWithLinkNoAltLeftAlign:
-                        return RenderImageWithLinkMacro(input, FloatAlignment.Left, attributeEncode);
-                    case ScopeName.ImageWithLinkNoAltRightAlign:
-                        return RenderImageWithLinkMacro(input, FloatAlignment.Right, attributeEncode);
-                    case ScopeName.ImageWithLinkWithAlt:
-                        return RenderImageWithLinkAndAltMacro(input, FloatAlignment.None, attributeEncode);
-                    case ScopeName.ImageWithLinkWithAltLeftAlign:
-                        return RenderImageWithLinkAndAltMacro(input, FloatAlignment.Left, attributeEncode);
-                    case ScopeName.ImageWithLinkWithAltRightAlign:
-                        return RenderImageWithLinkAndAltMacro(input, FloatAlignment.Right, attributeEncode);
-                    default:
-                        return input;
-                }
+                FloatAlignment alignment = GetAlignment(scopeName);
+                var renderMethod = GetRenderMethod(scopeName);
+
+                return renderMethod(input, alignment, attributeEncode);
             }
             catch
             {
                 return RenderUnresolvedMacro();
+            }
+        }
+
+        private static FloatAlignment GetAlignment(string scopeName)
+        {
+            switch (scopeName)
+            {
+                case ScopeName.ImageLeftAlign:
+                case ScopeName.ImageLeftAlignWithAlt:
+                case ScopeName.ImageWithLinkNoAltLeftAlign:
+                case ScopeName.ImageWithLinkWithAltLeftAlign:
+                    return FloatAlignment.Left;
+                case ScopeName.ImageRightAlign:
+                case ScopeName.ImageRightAlignWithAlt:
+                case ScopeName.ImageWithLinkNoAltRightAlign:
+                case ScopeName.ImageWithLinkWithAltRightAlign:
+                    return FloatAlignment.Right;
+                default:
+                    return FloatAlignment.None;
+            }
+        }
+
+        private static Func<string, FloatAlignment, Func<string, string>, string> GetRenderMethod(string scopeName)
+        {
+            switch (scopeName)
+            {
+                case ScopeName.ImageLeftAlign:
+                case ScopeName.ImageRightAlign:
+                case ScopeName.ImageNoAlign:
+                    return RenderImageNoLinkMacro;
+                case ScopeName.ImageLeftAlignWithAlt:
+                case ScopeName.ImageRightAlignWithAlt:
+                case ScopeName.ImageNoAlignWithAlt:
+                    return RenderImageWithAltMacro;
+                case ScopeName.ImageWithLinkNoAlt:
+                case ScopeName.ImageWithLinkNoAltLeftAlign:
+                case ScopeName.ImageWithLinkNoAltRightAlign:
+                    return RenderImageWithLinkMacro;
+                case ScopeName.ImageWithLinkWithAlt:
+                case ScopeName.ImageWithLinkWithAltLeftAlign:
+                case ScopeName.ImageWithLinkWithAltRightAlign:
+                    return RenderImageWithLinkAndAltMacro;
+                default:
+                    return (x, y, z) => x;
             }
         }
 
