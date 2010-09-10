@@ -30,6 +30,13 @@ namespace WikiPlex.Compilation.Macros
                            {
                                new MacroRule(EscapeRegexPatterns.FullEscape),
                                new MacroRule(
+                                   @"(?s)(^:{\s*(?:\r?\n|$)).*?(^:}\s*(?:\r?\n|$))",
+                                   new Dictionary<int, string>
+                                       {
+                                           {1, ScopeName.IndentationBegin},
+                                           {2, ScopeName.IndentationEnd}
+                                       }),
+                               new MacroRule(
                                    @"(^:+\s?)[^\r\n]+(\r?\n|$)",
                                    new Dictionary<int, string>
                                        {

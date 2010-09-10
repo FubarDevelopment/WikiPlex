@@ -151,6 +151,16 @@ namespace WikiPlex.Tests
             }
 
             [Fact]
+            public void Should_not_convert_line_breaks_prior_to_ending_a_blockquote()
+            {
+                var engine = new WikiEngine();
+
+                string result = engine.Render(":{\nwiki\n:}");
+
+                Assert.Equal("<blockquote>wiki\n</blockquote>", result);
+            }
+
+            [Fact]
             public void Should_not_convert_line_breaks_into_html_break_tags_within_pre_tags()
             {
                 var engine = new WikiEngine();
