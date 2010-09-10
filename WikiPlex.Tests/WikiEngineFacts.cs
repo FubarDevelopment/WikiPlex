@@ -147,7 +147,7 @@ namespace WikiPlex.Tests
 
                 string result = engine.Render(": wiki\ntext");
 
-                Assert.Equal("<blockquote>wiki</blockquote>\ntext", result);
+                Assert.Equal("<blockquote>wiki</blockquote>text", result);
             }
 
             [Fact]
