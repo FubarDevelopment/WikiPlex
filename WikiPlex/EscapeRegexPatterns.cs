@@ -8,11 +8,11 @@ namespace WikiPlex
         /// <summary>
         /// The regex pattern for escaping content within double curly brace code blocks.
         /// </summary>
-        public const string CurlyBraceEscape = @"(?:(?:(?<![<>]){{?)(?>[^}]*)(?:}}?(?![<>])))";
+        public const string CurlyBraceEscape = @"(?:(?:(?<![<>:]){{?)(?>[^}]*)(?:}}?(?![<>:])))";
 
         /// <summary>
         /// The regex pattern for escaping content within all code blocks.
         /// </summary>
-        public const string FullEscape = @"(?s){{.*?}}|{"".*?""}|(?<![<>]){(?!"").*?(?<!"")}(?![<>])|\[.*?\]";
+        public const string FullEscape = @"(?s){{.*?}}|{"".*?""}|(?<![<>:]){(?!"").*?(?<!"")}(?![<>:])|\[.*?\]";
     }
 }

@@ -6,8 +6,23 @@ namespace WikiPlex.Compilation.Macros
     /// This macro will indent text.
     /// </summary>
     /// <example><code language="none">
+    /// Single line indentation
     /// : First Level Indentation
     /// :: Second Level Indentation
+    /// 
+    /// or Multi-line indentation
+    /// 
+    /// :{
+    /// {code:c#}
+    /// public class Foo {
+    /// }
+    /// {code:c#}
+    /// :}
+    /// 
+    /// ::{
+    /// ||header||header||
+    /// |cell|cell|
+    /// ::}
     /// </code></example>
     public class IndentationMacro : IMacro
     {
@@ -30,7 +45,15 @@ namespace WikiPlex.Compilation.Macros
                            {
                                new MacroRule(EscapeRegexPatterns.FullEscape),
                                new MacroRule(
-                                   @"(^:+\s)[^\r\n]+((?:\r\n)?)$",
+                                   @"(?s)(^(?<lvl>:+){\s*(?:\r?\n|$)).*?(^\k<lvl>}\s*(?:\r?\n|$))",
+                                   new Dictionary<int, string>
+                                       {
+                                           {1, ScopeName.IndentationBegin},
+                                           {2, ScopeName.IndentationEnd}
+                                       }),
+                               new MacroRule(@"^:+[{}]\s*$"),
+                               new MacroRule(
+                                   @"(^:+\s?)[^\r\n]+(\r?\n|$)",
                                    new Dictionary<int, string>
                                        {
                                            {1, ScopeName.IndentationBegin},

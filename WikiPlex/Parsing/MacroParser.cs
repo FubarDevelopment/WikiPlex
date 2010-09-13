@@ -63,7 +63,7 @@ namespace WikiPlex.Parsing
             {
                 string matchedContent = wikiContent.Substring(regexMatch.Index, regexMatch.Length);
                 if (!string.IsNullOrEmpty(matchedContent))
-                    capturedScopes = GetCapturedMatches(regexMatch, compiledMacro, capturedScopes);
+                    capturedScopes = GetCapturedMatches(regexMatch, compiledMacro, capturedScopes, compiledMacro.Regex);
 
                 regexMatch = regexMatch.NextMatch();
             }
@@ -76,10 +76,13 @@ namespace WikiPlex.Parsing
         }
 
         private static IList<Scope> GetCapturedMatches(Match regexMatch, CompiledMacro macro,
-                                                       IList<Scope> capturedMatches)
+                                                       IList<Scope> capturedMatches, Regex regex)
         {
             for (int i = 0; i < regexMatch.Groups.Count; i++)
             {
+                if (regex.GroupNameFromNumber(i) != i.ToString())
+                    continue;
+
                 Group regexGroup = regexMatch.Groups[i];
                 string capture = macro.Captures[i];
 

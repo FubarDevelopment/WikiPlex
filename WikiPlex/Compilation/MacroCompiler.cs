@@ -98,10 +98,8 @@ namespace WikiPlex.Compilation
             regexBuilder.AppendLine("(?x)");
             captures.Add(null);
 
-            CompileRule(rules[0], regexBuilder, captures, true);
-
-            for (int i = 1; i < rules.Count; i++)
-                CompileRule(rules[i], regexBuilder, captures, false);
+            for (int i = 0; i < rules.Count; i++)
+                CompileRule(rules[i], regexBuilder, captures, i == 0);
 
             regex = new Regex(regexBuilder.ToString(), RegexOptions.Compiled);
         }
