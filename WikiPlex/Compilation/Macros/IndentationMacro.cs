@@ -6,8 +6,23 @@ namespace WikiPlex.Compilation.Macros
     /// This macro will indent text.
     /// </summary>
     /// <example><code language="none">
+    /// Single line indentation
     /// : First Level Indentation
     /// :: Second Level Indentation
+    /// 
+    /// or Multi-line indentation
+    /// 
+    /// :{
+    /// {code:c#}
+    /// public class Foo {
+    /// }
+    /// {code:c#}
+    /// :}
+    /// 
+    /// ::{
+    /// ||header||header||
+    /// |cell|cell|
+    /// ::}
     /// </code></example>
     public class IndentationMacro : IMacro
     {
