@@ -89,6 +89,26 @@ namespace WikiPlex.Tests.Parsing
             }
 
             [Fact]
+            public void Will_yield_the_correct_matches_from_a_compiled_macro_with_named_reference_omitted()
+            {
+                var compiler = new Mock<IMacroCompiler>();
+                compiler.Setup(x => x.Compile(It.IsAny<IMacro>())).Returns(new CompiledMacro("foo", new Regex("(?<test>abc)"), new List<string> { "All" }));
+                var parser = new MacroParser(compiler.Object);
+                var macro = new Mock<IMacro>();
+                macro.Setup(x => x.Id).Returns("Macro");
+                var macros = new List<IMacro> { macro.Object };
+                var scopeStack = new Stack<IList<Scope>>();
+
+                parser.Parse("this is abc content", macros, new Dictionary<string, IScopeAugmenter>(), scopeStack.Push);
+
+                Assert.Equal(1, scopeStack.Count);
+                var popped = scopeStack.Pop();
+                Assert.Equal(8, popped[0].Index);
+                Assert.Equal(3, popped[0].Length);
+                Assert.Equal("All", popped[0].Name);
+            }
+
+            [Fact]
             public void Will_yield_the_scopes_from_the_augmenter()
             {
                 var compiler = new Mock<IMacroCompiler>();
