@@ -42,8 +42,7 @@ namespace WikiPlex
         /// <returns>The rendered html content.</returns>
         public string Render(string wikiContent)
         {
-            var formatter = new MacroFormatter(Renderers.All);
-            return Render(wikiContent, formatter);
+            return Render(wikiContent, Renderers.All);
         }
 
         /// <summary>
@@ -68,7 +67,32 @@ namespace WikiPlex
         /// <exception cref="System.ArgumentException">Thrown when macros is an empty enumerable.</exception>
         public string Render(string wikiContent, IEnumerable<IMacro> macros)
         {
-            var formatter = new MacroFormatter(Renderers.All);
+            return Render(wikiContent, macros, Renderers.All);
+        }
+
+        /// <summary>
+        /// Renders the wiki content using the specified renderers with statically registered macros.
+        /// </summary>
+        /// <param name="wikiContent">The wiki content to be rendered.</param>
+        /// <param name="renderers">A collection of renderers to be used when rendering.</param>
+        /// <returns>The rendered html content.</returns>
+        public string Render(string wikiContent, IEnumerable<IRenderer> renderers)
+        {
+            return Render(wikiContent, Macros.All, renderers);
+        }
+
+        /// <summary>
+        /// Renders the wiki content using the specified macros and renderers.
+        /// </summary>
+        /// <param name="wikiContent">The wiki content to be rendered.</param>
+        /// <param name="macros">A collection of macros to be used when rendering.</param>
+        /// <param name="renderers">A collection of renderers to be used when rendering.</param>
+        /// <returns>The rendered html content.</returns>
+        public string Render(string wikiContent, IEnumerable<IMacro> macros, IEnumerable<IRenderer> renderers)
+        {
+            Guard.NotNullOrEmpty(renderers, "renderers");
+
+            var formatter = new MacroFormatter(renderers);
             return Render(wikiContent, macros, formatter);
         }
 

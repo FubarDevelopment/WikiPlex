@@ -32,6 +32,8 @@
 	   string Render(string wikiContent);
 	   string Render(string wikiContent, IFormatter formatter);
 	   string Render(string wikiContent, IEnumerable<IMacro> macros);
+           string Render(string wikiContent, IEnumerable<IRenderer> renderers);
+           string Render(string wikiContent, IEnumerable<IMacro> macros, IEnumerable<IRenderer> renderers);
 	   string Render(string wikiContent, IEnumerable<IMacro> macros, IFormatter formatter);
 	}
 {code:c#}

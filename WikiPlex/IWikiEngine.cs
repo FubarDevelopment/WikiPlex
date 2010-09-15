@@ -35,6 +35,23 @@ namespace WikiPlex
         string Render(string wikiContent, IEnumerable<IMacro> macros);
 
         /// <summary>
+        /// Renders the wiki content using the specified renderers with statically registered macros.
+        /// </summary>
+        /// <param name="wikiContent">The wiki content to be rendered.</param>
+        /// <param name="renderers">A collection of renderers to be used when rendering.</param>
+        /// <returns>The rendered html content.</returns>
+        string Render(string wikiContent, IEnumerable<IRenderer> renderers);
+
+        /// <summary>
+        /// Renders the wiki content using the specified macros and renderers.
+        /// </summary>
+        /// <param name="wikiContent">The wiki content to be rendered.</param>
+        /// <param name="macros">A collection of macros to be used when rendering.</param>
+        /// <param name="renderers">A collection of renderers to be used when rendering.</param>
+        /// <returns>The rendered html content.</returns>
+        string Render(string wikiContent, IEnumerable<IMacro> macros, IEnumerable<IRenderer> renderers);
+
+        /// <summary>
         /// Renders the wiki content using the specified macros and custom formatter.
         /// </summary>
         /// <param name="wikiContent">The wiki content to be rendered.</param>

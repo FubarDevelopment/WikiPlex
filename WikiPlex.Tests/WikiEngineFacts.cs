@@ -58,6 +58,28 @@ namespace WikiPlex.Tests
             }
 
             [Fact]
+            public void Should_throw_ArgumentNullException_if_renderers_is_null()
+            {
+                var engine = TestableWikiEngine.Create();
+
+                var ex = Record.Exception(() => engine.Render("foo", new[] { new TestMacro() }, (IEnumerable<IRenderer>)null)) as ArgumentNullException;
+
+                Assert.NotNull(ex);
+                Assert.Equal("renderers", ex.ParamName);
+            }
+
+            [Fact]
+            public void Should_throw_ArgumentException_if_renderers_is_empty()
+            {
+                var engine = TestableWikiEngine.Create();
+
+                var ex = Record.Exception(() => engine.Render("foo", new[] {new TestMacro()}, new IRenderer[0])) as ArgumentException;
+
+                Assert.NotNull(ex);
+                Assert.Equal("renderers", ex.ParamName);
+            }
+
+            [Fact]
             public void Should_render_the_wiki_content_successfully()
             {
                 var engine = TestableWikiEngine.Create();
@@ -243,7 +265,7 @@ namespace WikiPlex.Tests
             {
                 var engine = TestableWikiEngine.Create();
                 
-                var ex = Record.Exception(() => engine.Render("*abc*", new[] { new TestMacro() }, null)) as ArgumentNullException;
+                var ex = Record.Exception(() => engine.Render("*abc*", new[] { new TestMacro() }, (IFormatter) null)) as ArgumentNullException;
 
                 Assert.NotNull(ex);
                 Assert.Equal("formatter", ex.ParamName);

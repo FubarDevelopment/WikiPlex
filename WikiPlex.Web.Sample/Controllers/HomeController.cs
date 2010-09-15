@@ -35,7 +35,7 @@ namespace WikiPlex.Web.Sample.Controllers
             if (viewData.Content == null)
                 return RedirectToAction("EditWiki", new {slug});
 
-            viewData.Content.RenderedSource = wikiEngine.Render(viewData.Content.Source, GetFormatter());
+            viewData.Content.RenderedSource = wikiEngine.Render(viewData.Content.Source, GetRenderers());
             viewData.History = repository.GetHistory(slug);
 
             return View("View", viewData);
@@ -49,17 +49,16 @@ namespace WikiPlex.Web.Sample.Controllers
             if (viewData.Content == null)
                 return RedirectToAction("ViewWiki", new {slug});
 
-            viewData.Content.RenderedSource = wikiEngine.Render(viewData.Content.Source, GetFormatter());
+            viewData.Content.RenderedSource = wikiEngine.Render(viewData.Content.Source, GetRenderers());
             viewData.History = repository.GetHistory(slug);
 
             return View("View", viewData);
         }
 
-        private MacroFormatter GetFormatter()
+        private IEnumerable<IRenderer> GetRenderers()
         {
             var siteRenderers = new IRenderer[] {new TitleLinkRenderer(Url)};
-            IEnumerable<IRenderer> allRenderers = Renderers.All.Union(siteRenderers);
-            return new MacroFormatter(allRenderers);
+            return Renderers.All.Union(siteRenderers);
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
@@ -95,7 +94,7 @@ namespace WikiPlex.Web.Sample.Controllers
         [ValidateInput(false)]
         public string GetWikiPreview(string slug, string source)
         {
-            return wikiEngine.Render(source, GetFormatter());
+            return wikiEngine.Render(source, GetRenderers());
         }
     }
 }
