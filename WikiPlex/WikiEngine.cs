@@ -14,9 +14,26 @@ namespace WikiPlex
     /// </summary>
     public class WikiEngine : IWikiEngine
     {
-        private static readonly MacroCompiler compiler = new MacroCompiler();
+        private static readonly MacroCompiler Compiler = new MacroCompiler();
         private static readonly Regex NewLineRegex = new Regex(@"(?<!\r|</tr>|</li>|</ul>|</ol>|<hr />|</blockquote>)(?:\n|&#10;)(?!<h[1-6]>|<hr />|<ul>|<ol>|</li>|</blockquote>)", RegexOptions.Compiled);
         private static readonly Regex PreRegex = new Regex(@"(?s)((?><pre>)(?>.*?</pre>))", RegexOptions.Compiled);
+
+        private readonly IMacroParser parser;
+
+        /// <summary>
+        /// Instantiates a new instance of the <see cref="WikiEngine"/>.
+        /// </summary>
+        public WikiEngine() : this(new MacroParser(Compiler))
+        {}
+
+        /// <summary>
+        /// Instantiates a new instance of the <see cref="WikiEngine"/>.
+        /// </summary>
+        /// <param name="parser">The macro parser to use.</param>
+        protected WikiEngine(IMacroParser parser)
+        {
+            this.parser = parser;
+        }
 
         /// <summary>
         /// Renders the wiki content using the statically registered macros and renderers.
@@ -77,8 +94,6 @@ namespace WikiPlex
                 return wikiContent;
 
             wikiContent = wikiContent.Replace("\r\n", "\n");
-
-            var parser = new MacroParser(compiler);
 
             parser.Parse(wikiContent, macros, ScopeAugmenters.All, formatter.RecordParse);
 

@@ -25,7 +25,7 @@ namespace WikiPlex.PerformanceTests
             // register the local rss reader
             Renderers.Register(new SyndicatedFeedRenderer(new LocalXmlReader(), new SyndicationReader()));
 
-            var compiler = (MacroCompiler) typeof (WikiEngine).GetField("compiler", BindingFlags.Static | BindingFlags.NonPublic).GetValue(null);
+            var compiler = (MacroCompiler) typeof (WikiEngine).GetField("Compiler", BindingFlags.Static | BindingFlags.NonPublic).GetValue(null);
             compiler.Flush();
         }
 
