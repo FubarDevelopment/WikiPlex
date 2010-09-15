@@ -37,7 +37,7 @@ namespace WikiPlex.Web.Sample.WebForms
             title.Text = "WikiPlex Sample - " + HttpUtility.HtmlEncode(wikiContent.Title.Name);
             sourceSlug.Text = previewSlug.Text = wikiContent.Title.Slug;
             sourceVersion.Text = wikiContent.Version.ToString();
-            renderedSource.Text = wikiEngine.Render(wikiContent.Source, GetFormatter());
+            renderedSource.Text = wikiEngine.Render(wikiContent.Source, GetRenderers());
             Name.Value = wikiContent.Title.Name;
             NotLatestPlaceHolder.Visible = wikiContent.Version != wikiContent.Title.MaxVersion;
 
@@ -74,11 +74,10 @@ namespace WikiPlex.Web.Sample.WebForms
             }
         }
 
-        private static MacroFormatter GetFormatter()
+        private static IEnumerable<IRenderer> GetRenderers()
         {
             var siteRenderers = new IRenderer[] { new TitleLinkRenderer() };
-            IEnumerable<IRenderer> allRenderers = Renderers.All.Union(siteRenderers);
-            return new MacroFormatter(allRenderers);
+            return Renderers.All.Union(siteRenderers);
         }
 
         protected void SaveWikiContent(object sender, EventArgs e)

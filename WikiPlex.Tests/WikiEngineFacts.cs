@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Moq;
 using WikiPlex.Compilation;
 using WikiPlex.Compilation.Macros;
 using WikiPlex.Formatting;
+using WikiPlex.Parsing;
 using Xunit;
+using Xunit.Extensions;
 
 namespace WikiPlex.Tests
 {
@@ -15,7 +18,7 @@ namespace WikiPlex.Tests
             [Fact]
             public void Should_return_immediately_if_the_wiki_content_is_null()
             {
-                var engine = new WikiEngine();
+                var engine = TestableWikiEngine.Create();
 
                 string result = engine.Render(null);
 
@@ -23,20 +26,9 @@ namespace WikiPlex.Tests
             }
 
             [Fact]
-            public void Should_return_immediately_if_the_wiki_content_is_null_passing_macros()
-            {
-                var engine = new WikiEngine();
-                var macro = new Mock<IMacro>();
-
-                string result = engine.Render(null, new[] { macro.Object });
-
-                Assert.Null(result);
-            }
-
-            [Fact]
             public void Should_return_immediately_if_the_wiki_content_is_empty()
             {
-                var engine = new WikiEngine();
+                var engine = TestableWikiEngine.Create();
 
                 string result = engine.Render(string.Empty);
 
@@ -44,238 +36,200 @@ namespace WikiPlex.Tests
             }
 
             [Fact]
-            public void Should_return_immediately_if_the_wiki_content_is_empty_passing_macros()
-            {
-                var engine = new WikiEngine();
-                var macro = new Mock<IMacro>();
-
-                string result = engine.Render(string.Empty, new[] { macro.Object });
-
-                Assert.Empty(result);
-            }
-
-            [Fact]
             public void Should_throw_ArgumentNullException_if_macros_is_null()
             {
-                var engine = new WikiEngine();
+                var engine = TestableWikiEngine.Create();
 
-                var ex = Record.Exception(() => engine.Render("foo", (IMacro[]) null));
+                var ex = Record.Exception(() => engine.Render("foo", (IMacro[]) null)) as ArgumentNullException;
 
                 Assert.NotNull(ex);
-                Assert.IsType<ArgumentNullException>(ex);
-                Assert.Equal("macros", ((ArgumentNullException)ex).ParamName);
+                Assert.Equal("macros", ex.ParamName);
             }
 
             [Fact]
             public void Should_throw_ArgumentException_if_macros_is_empty()
             {
-                var engine = new WikiEngine();
+                var engine = TestableWikiEngine.Create();
 
-                var ex = Record.Exception(() => engine.Render("foo", new IMacro[0]));
+                var ex = Record.Exception(() => engine.Render("foo", new IMacro[0])) as ArgumentException;
 
                 Assert.NotNull(ex);
-                Assert.IsType<ArgumentException>(ex);
-                Assert.Equal("macros", ((ArgumentException)ex).ParamName);
+                Assert.Equal("macros", ex.ParamName);
+            }
+
+            [Fact]
+            public void Should_throw_ArgumentNullException_if_renderers_is_null()
+            {
+                var engine = TestableWikiEngine.Create();
+
+                var ex = Record.Exception(() => engine.Render("foo", new[] { new TestMacro() }, (IEnumerable<IRenderer>)null)) as ArgumentNullException;
+
+                Assert.NotNull(ex);
+                Assert.Equal("renderers", ex.ParamName);
+            }
+
+            [Fact]
+            public void Should_throw_ArgumentException_if_renderers_is_empty()
+            {
+                var engine = TestableWikiEngine.Create();
+
+                var ex = Record.Exception(() => engine.Render("foo", new[] {new TestMacro()}, new IRenderer[0])) as ArgumentException;
+
+                Assert.NotNull(ex);
+                Assert.Equal("renderers", ex.ParamName);
             }
 
             [Fact]
             public void Should_render_the_wiki_content_successfully()
             {
-                var engine = new WikiEngine();
+                var engine = TestableWikiEngine.Create();
+                var formatter = new Mock<IFormatter>();
+                formatter.Setup(x => x.Format("input")).Returns("output");
 
-                string result = engine.Render("*_wiki_*");
+                string result = engine.Render("input", formatter.Object);
 
-                Assert.Equal("<b><i>wiki</i></b>", result);
+                Assert.Equal("output", result);
             }
 
             [Fact]
             public void Should_render_the_wiki_content_successfully_using_only_the_specified_macro()
             {
-                var engine = new WikiEngine();
+                var engine = TestableWikiEngine.Create();
+                var formatter = new Mock<IFormatter>();
+                formatter.Setup(x => x.Format("input")).Returns("output");
 
-                string result = engine.Render("*_wiki_*", new[] { new BoldMacro() });
+                engine.Render("input", new[] { new BoldMacro() }, formatter.Object);
 
-                Assert.Equal("<b>_wiki_</b>", result);
+                engine.Parser.Verify(x => x.Parse("input", It.Is<IEnumerable<IMacro>>(m => (m.Count() == 1 && m.ElementAt(0) is BoldMacro)), ScopeAugmenters.All, It.IsAny<Action<IList<Scope>>>()));
             }
 
             [Fact]
             public void Should_convert_line_breaks_to_html_break_tags()
             {
-                var engine = new WikiEngine();
+                var engine = TestableWikiEngine.Create();
+                var formatter = new Mock<IFormatter>();
+                formatter.Setup(x => x.Format("input")).Returns("text\ntext");
 
-                string result = engine.Render("*wiki*_text_\n+rendered+");
+                string result = engine.Render("input", formatter.Object);
 
-                Assert.Equal("<b>wiki</b><i>text</i><br /><u>rendered</u>", result);
+                Assert.Equal("text<br />text", result);
             }
 
             [Fact]
             public void Should_convert_encoded_line_breaks_to_html_break_tags()
             {
-                var engine = new WikiEngine();
+                var engine = TestableWikiEngine.Create();
                 var formatter = new Mock<IFormatter>();
-                formatter.Setup(x => x.Format("input")).Returns("test&#10;break");
+                formatter.Setup(x => x.Format("input")).Returns("text&#10;text");
 
                 string result = engine.Render("input", formatter.Object);
 
-                Assert.Equal("test<br />break", result);
+                Assert.Equal("text<br />text", result);
             }
 
             [Fact]
             public void Should_not_convert_line_break_into_html_break_tag_after_unordered_list()
             {
-                var engine = new WikiEngine();
+                var engine = TestableWikiEngine.Create();
+                var formatter = new Mock<IFormatter>();
+                formatter.Setup(x => x.Format("input")).Returns("<ul><li>text</li></ul>\ntext");
 
-                string result = engine.Render("* wiki\n_text_");
+                string result = engine.Render("input", formatter.Object);
 
-                Assert.Equal("<ul><li>wiki</li></ul>\n<i>text</i>", result);
+                Assert.Equal("<ul><li>text</li></ul>\ntext", result);
             }
 
             [Fact]
             public void Should_not_convert_line_break_into_html_break_tag_after_ordered_list()
             {
-                var engine = new WikiEngine();
+                var engine = TestableWikiEngine.Create();
+                var formatter = new Mock<IFormatter>();
+                formatter.Setup(x => x.Format("input")).Returns("<ol><li>text</li></ol>\ntext");
 
-                string result = engine.Render("# wiki\n_text_");
+                string result = engine.Render("input", formatter.Object);
 
-                Assert.Equal("<ol><li>wiki</li></ol>\n<i>text</i>", result);
+                Assert.Equal("<ol><li>text</li></ol>\ntext", result);
             }
 
             [Fact]
             public void Should_not_convert_line_break_into_html_break_tag_after_blockquote()
             {
-                var engine = new WikiEngine();
+                var engine = TestableWikiEngine.Create();
+                var formatter = new Mock<IFormatter>();
+                formatter.Setup(x => x.Format("input")).Returns("<blockquote>text</blockquote>\ntext");
 
-                string result = engine.Render(": wiki\ntext");
+                string result = engine.Render("input", formatter.Object);
 
-                Assert.Equal("<blockquote>wiki</blockquote>text", result);
+                Assert.Equal("<blockquote>text</blockquote>\ntext", result);
             }
 
             [Fact]
             public void Should_not_convert_line_breaks_prior_to_ending_a_blockquote()
             {
-                var engine = new WikiEngine();
+                var engine = TestableWikiEngine.Create();
+                var formatter = new Mock<IFormatter>();
+                formatter.Setup(x => x.Format("input")).Returns("<blockquote>text\n</blockquote>");
 
-                string result = engine.Render(":{\nwiki\n:}");
+                string result = engine.Render("input", formatter.Object);
 
-                Assert.Equal("<blockquote>wiki\n</blockquote>", result);
+                Assert.Equal("<blockquote>text\n</blockquote>", result);
             }
 
             [Fact]
             public void Should_not_convert_line_breaks_into_html_break_tags_within_pre_tags()
             {
-                var engine = new WikiEngine();
+                var engine = TestableWikiEngine.Create();
+                var formatter = new Mock<IFormatter>();
+                formatter.Setup(x => x.Format("input")).Returns("<pre>code\ncode</pre>");
 
-                string result = engine.Render("{{code\ncode}}");
+                string result = engine.Render("input", formatter.Object);
 
                 Assert.Equal("<pre>code\ncode</pre>", result);
             }
 
-            [Fact]
-            public void Should_not_add_a_html_break_tag_right_before_a_heading_one_tag()
+            [Theory]
+            [InlineData("<h1>text</h1>")]
+            [InlineData("<h2>text</h2>")]
+            [InlineData("<h3>text</h3>")]
+            [InlineData("<h4>text</h4>")]
+            [InlineData("<h5>text</h5>")]
+            [InlineData("<h6>text</h6>")]
+            [InlineData("<hr />")]
+            [InlineData("<ul><li>one</li></ul>")]
+            [InlineData("<ol><li>one</li></ol>")]
+            public void Should_not_add_a_html_break_tag_right_before_a_tag(string html)
             {
-                var engine = new WikiEngine();
+                var engine = TestableWikiEngine.Create();
+                var formatter = new Mock<IFormatter>();
+                string expectation = "text\n" + html;
+                formatter.Setup(x => x.Format("input")).Returns(expectation);
 
-                string result = engine.Render("*wiki*\n! header");
+                string result = engine.Render("input", formatter.Object);
 
-                Assert.Equal("<b>wiki</b>\n<h1>header</h1>", result);
-            }
-
-            [Fact]
-            public void Should_not_add_a_html_break_tag_right_before_a_heading_two_tag()
-            {
-                var engine = new WikiEngine();
-
-                string result = engine.Render("*wiki*\n!! header");
-
-                Assert.Equal("<b>wiki</b>\n<h2>header</h2>", result);
-            }
-
-            [Fact]
-            public void Should_not_add_a_html_break_tag_right_before_a_heading_three_tag()
-            {
-                var engine = new WikiEngine();
-
-                string result = engine.Render("*wiki*\n!!! header");
-
-                Assert.Equal("<b>wiki</b>\n<h3>header</h3>", result);
-            }
-
-            [Fact]
-            public void Should_not_add_a_html_break_tag_right_before_a_heading_four_tag()
-            {
-                var engine = new WikiEngine();
-
-                string result = engine.Render("*wiki*\n!!!! header");
-
-                Assert.Equal("<b>wiki</b>\n<h4>header</h4>", result);
-            }
-
-            [Fact]
-            public void Should_not_add_a_html_break_tag_right_before_a_heading_five_tag()
-            {
-                var engine = new WikiEngine();
-
-                string result = engine.Render("*wiki*\n!!!!! header");
-
-                Assert.Equal("<b>wiki</b>\n<h5>header</h5>", result);
-            }
-
-            [Fact]
-            public void Should_not_add_a_html_break_tag_right_before_a_heading_six_tag()
-            {
-                var engine = new WikiEngine();
-
-                string result = engine.Render("*wiki*\n!!!!!! header");
-
-                Assert.Equal("<b>wiki</b>\n<h6>header</h6>", result);
-            }
-
-            [Fact]
-            public void Should_not_add_a_html_break_tag_right_before_a_horizontal_rule_tag()
-            {
-                var engine = new WikiEngine();
-
-                string result = engine.Render("*wiki*\n----");
-
-                Assert.Equal("<b>wiki</b>\n<hr />", result);
+                Assert.Equal(expectation, result);
             }
 
             [Fact]
             public void Should_not_add_a_html_break_tag_right_after_a_horizontal_rule_tag()
             {
-                var engine = new WikiEngine();
+                var engine = TestableWikiEngine.Create();
+                var formatter = new Mock<IFormatter>();
+                string expectation = "<hr />\ntext";
+                formatter.Setup(x => x.Format("input")).Returns(expectation);
 
-                string result = engine.Render("----\n*wiki*");
+                string result = engine.Render("input", formatter.Object);
 
-                Assert.Equal("<hr />\n<b>wiki</b>", result);
-            }
-
-            [Fact]
-            public void Should_not_add_a_html_break_tag_right_before_a_unordered_list_tag()
-            {
-                var engine = new WikiEngine();
-
-                string result = engine.Render("*wiki*\n* one");
-
-                Assert.Equal("<b>wiki</b>\n<ul><li>one</li></ul>", result);
-            }
-
-            [Fact]
-            public void Should_not_add_a_html_break_tag_right_before_a_ordered_list_tag()
-            {
-                var engine = new WikiEngine();
-
-                string result = engine.Render("*wiki*\n# one");
-
-                Assert.Equal("<b>wiki</b>\n<ol><li>one</li></ol>", result);
+                Assert.Equal(expectation, result);
             }
 
             [Fact]
             public void Should_not_add_a_html_break_tag_right_before_a_list_item_tag()
             {
-                var engine = new WikiEngine();
+                var engine = TestableWikiEngine.Create();
+                var formatter = new Mock<IFormatter>();
+                formatter.Setup(x => x.Format("input")).Returns("<ol><li>one\n</li></ol><ol><li>two</li></ol>");
 
-                string result = engine.Render("### one\n# two");
+                string result = engine.Render("input", formatter.Object);
 
                 Assert.Equal("<ol><li>one\n</li></ol><ol><li>two</li></ol>", result);
             }
@@ -283,61 +237,44 @@ namespace WikiPlex.Tests
             [Fact]
             public void Should_throw_ArgumentNullException_if_macros_is_null_when_specifying_a_formatter()
             {
-                var engine = new WikiEngine();
+                var engine = TestableWikiEngine.Create();
                 var renderer = new Mock<IRenderer>();
 
                 var formatter = new MacroFormatter(new[] { renderer.Object });
-                var ex = Record.Exception(() => engine.Render("*abc*", null, formatter));
+                var ex = Record.Exception(() => engine.Render("*abc*", null, formatter)) as ArgumentNullException;
 
                 Assert.NotNull(ex);
-                Assert.IsType<ArgumentNullException>(ex);
-                Assert.Equal("macros", ((ArgumentNullException)ex).ParamName);
+                Assert.Equal("macros", ex.ParamName);
             }
 
             [Fact]
             public void Should_throw_ArgumentException_if_macros_is_empty_when_specifying_a_formatter()
             {
-                var engine = new WikiEngine();
+                var engine = TestableWikiEngine.Create();
                 var renderer = new Mock<IRenderer>();
 
                 var formatter = new MacroFormatter(new[] { renderer.Object });
-                var ex = Record.Exception(() => engine.Render("*abc*", new IMacro[0], formatter));
+                var ex = Record.Exception(() => engine.Render("*abc*", new IMacro[0], formatter)) as ArgumentException;
 
                 Assert.NotNull(ex);
-                Assert.IsType<ArgumentException>(ex);
-                Assert.Equal("macros", ((ArgumentException)ex).ParamName);
+                Assert.Equal("macros", ex.ParamName);
             }
 
             [Fact]
             public void Should_throw_ArgumentNullException_if_formatter_is_null()
             {
-                var engine = new WikiEngine();
+                var engine = TestableWikiEngine.Create();
                 
-                var ex = Record.Exception(() => engine.Render("*abc*", new[] { new TestMacro() }, (IFormatter) null));
+                var ex = Record.Exception(() => engine.Render("*abc*", new[] { new TestMacro() }, (IFormatter) null)) as ArgumentNullException;
 
                 Assert.NotNull(ex);
-                Assert.IsType<ArgumentNullException>(ex);
-                Assert.Equal("formatter", ((ArgumentNullException)ex).ParamName);
-            }
-
-            [Fact]
-            public void Should_render_correctly_using_the_specific_formatter()
-            {
-                var engine = new WikiEngine();
-                var renderer = new Mock<IRenderer>();
-                renderer.Setup(x => x.CanExpand("Test")).Returns(true);
-                renderer.Setup(x => x.Expand("Test", "abc", It.IsAny<Func<string, string>>(), It.IsAny<Func<string, string>>())).Returns("Output");
-
-                var formatter = new MacroFormatter(new[] {renderer.Object});
-                string result = engine.Render("*abc*", new[] {new TestMacro()}, formatter);
-
-                Assert.Equal("*Output*", result);
+                Assert.Equal("formatter", ex.ParamName);
             }
 
             [Fact]
             public void Should_return_immediately_if_the_wiki_content_is_empty_passing_a_formatter()
             {
-                var engine = new WikiEngine();
+                var engine = TestableWikiEngine.Create();
                 var macro = new Mock<IMacro>();
                 var formatter = new Mock<IFormatter>();
 
@@ -349,11 +286,29 @@ namespace WikiPlex.Tests
             [Fact]
             public void Should_convert_carriage_return_and_new_line_into_only_new_line_prior_to_parsing()
             {
-                var engine = new WikiEngine();
+                var engine = TestableWikiEngine.Create();
+                var formatter = new Mock<IFormatter>();
+                formatter.Setup(x => x.Format("before\nafter")).Returns("before\nafter");
 
                 string result = engine.Render("before\r\nafter");
 
                 Assert.Equal("before<br />after", result);
+            }
+        }
+
+        private class TestableWikiEngine : WikiEngine
+        {
+            public readonly Mock<IMacroParser> Parser;
+
+            private TestableWikiEngine(Mock<IMacroParser> parser)
+                : base(parser.Object)
+            {
+                Parser = parser;
+            }
+
+            public static TestableWikiEngine Create()
+            {
+                return new TestableWikiEngine(new Mock<IMacroParser>());
             }
         }
 
