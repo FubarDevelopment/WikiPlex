@@ -14,7 +14,7 @@ properties {
 }
 
 task default -depends run-clean, run-build, run-tests, run-perf-tests
-task ci35 -depends run-clean, set-version, run-build35
+task net35 -depends run-clean, set-version, run-build35
 task ci -depends run-clean, set-version, run-build, run-tests, build-documentation, clean-documentation-files, build-package
 task doc -depends prepare-documentation
 task cleandoc -depends clean-documentation-files
