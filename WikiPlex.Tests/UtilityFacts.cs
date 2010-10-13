@@ -7,6 +7,48 @@ namespace WikiPlex.Tests
 {
     public class UtilityFacts
     {
+        public class The_IsDefinedOnEnum_Method
+        {
+            [Fact]
+            public void Should_throw_ArgumentException_if_the_type_is_not_an_enumeration()
+            {
+                var ex = Record.Exception(() => Utility.IsDefinedOnEnum<int>("foo"));
+
+                Assert.NotNull(ex);
+                Assert.IsType<ArgumentException>(ex);
+            }
+
+            [Fact]
+            public void Should_return_false_if_string_is_not_defined()
+            {
+                string input = "Invalid";
+
+                bool result = Utility.IsDefinedOnEnum<TestEnum>(input);
+
+                Assert.False(result);
+            }
+
+            [Fact]
+            public void Should_return_true_if_string_is_defined_matching_case()
+            {
+                string input = "Two";
+
+                bool result = Utility.IsDefinedOnEnum<TestEnum>(input);
+
+                Assert.True(result);
+            }
+
+            [Fact]
+            public void Should_return_true_if_string_is_defined_not_matching_case()
+            {
+                string input = "two";
+
+                bool result = Utility.IsDefinedOnEnum<TestEnum>(input);
+
+                Assert.True(result);
+            }
+        }
+
         public class The_ExtractTextParts_Method
         {
             [Fact]

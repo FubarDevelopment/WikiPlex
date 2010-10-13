@@ -10,7 +10,28 @@ namespace WikiPlex.Common
     public static class Utility
     {
         /// <summary>
-        /// Will extract the single text or pair text parts of a string, separated by a |.
+        /// Determines if the input is defined on an enumeration.
+        /// </summary>
+        /// <typeparam name="T">The type of the enumeration.</typeparam>
+        /// <param name="input">The input to check.</param>
+        /// <returns>A boolean value indicating if the input is defined on the enumeration.</returns>
+        /// <exception cref="ArgumentException">Thrown when the type T is not an enum.</exception>
+        public static bool IsDefinedOnEnum<T>(object input)
+            where T : struct
+        {
+            Type type = typeof(T);
+            Guard.NotEqual(false, type.IsEnum, "type");
+
+            if (Enum.IsDefined(type, input))
+                return true;
+
+            return Enum.GetNames(type)
+                       .Where(n => string.Compare(input.ToString(), n, StringComparison.OrdinalIgnoreCase) == 0)
+                       .Count() == 1;
+        }
+
+        /// <summary>
+        /// Will extract the text single or pair text parts of a string, separated by a |.
         /// </summary>
         /// <param name="input">The input to inspect.</param>
         /// <returns>A new <see cref="TextPart"/>.</returns>
