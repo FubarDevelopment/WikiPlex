@@ -55,7 +55,14 @@ task build-package -depends prepare-sample {
     roboexec { robocopy "$baseDir\WikiPlex.Web.Sample" $sampleDir /E }
     
     exec { .\lib\zip.exe -9 -A -j `
-                              "$archiveDir\WikiPlex.zip" `
+                              "$archiveDir\WikiPlex-net35.zip" `
+                              "$baseDir\WikiPlex\bin\net35\$configuration\*.dll" `
+                              "$baseDir\WikiPlex\bin\net35\$configuration\*.pdb" `
+                              "$baseDir\License.txt"
+    }
+    
+    exec { .\lib\zip.exe -9 -A -j `
+                              "$archiveDir\WikiPlex-net40.zip" `
                               "$baseDir\WikiPlex\bin\$configuration\*.dll" `
                               "$baseDir\WikiPlex\bin\$configuration\*.pdb" `
                               "$baseDir\License.txt"

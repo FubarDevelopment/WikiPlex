@@ -1,4 +1,4 @@
-rem @echo off
+@echo off
 
 if (%1)==(ci) goto Build35
 if (%1)==(CI) goto Build35
