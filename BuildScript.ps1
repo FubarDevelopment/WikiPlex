@@ -9,11 +9,13 @@ properties {
     $helpDir = "$baseDir\_help"
     $sampleDir = "$baseDir\Sample"
     $slnPath = "$baseDir\WikiPlex.sln"
+    $sln35Path = "$baseDir\WikiPlex35.sln"
     $docSlnPath = "$baseDir\WikiPlex.Documentation\WikiPlex.Documentation.shfbproj"
 }
 
 task default -depends run-clean, run-build, run-tests, run-perf-tests
-task ci -depends run-clean, set-version, run-build, run-tests, build-package
+task ci35 -depends run-clean, set-version, run-build35
+task ci -depends run-clean, set-version, run-build, run-tests, build-documentation, clean-documentation-files, build-package
 task doc -depends prepare-documentation
 task cleandoc -depends clean-documentation-files
 task builddoc -depends prepare-documentation, build-documentation, clean-documentation-files
@@ -25,6 +27,10 @@ task run-clean {
 
 task run-build {
     exec { msbuild $slnPath /t:Build /p:Configuration=$configuration /v:quiet }
+}
+
+task run-build35 {
+    exec { msbuild $sln35Path /t:Build /p:Configuration=$configuration /v:quiet }
 }
 
 task run-tests {
