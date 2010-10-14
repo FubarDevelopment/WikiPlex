@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package>
+    <metadata>
+        <id>WikiPlex</id>
+        <version>@Version@</version>
+        <authors>
+            <author>Microsoft</author>
+            <author>Matt Hawley</author>
+        </authors>
+        <description>A regular expression based wiki engine allowing developers to integrate a wiki experience into an existing .NET application</description>
+        <language>en-US</language>
+        <licenseUrl>http://wikiplex.codeplex.com/license</licenseUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    </metadata>
+    <dependencies>
+        <dependency id="ColorCode" version="1.0.1" />
+    </dependencies>
+</package>
