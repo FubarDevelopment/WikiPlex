@@ -9,7 +9,7 @@ namespace WikiPlex.Tests.Parsing
         public class Constructor_Facts
         {
             [Fact]
-            public void It_will_set_the_name_and_index_and_length()
+            public void It_Should_set_the_name_and_index_and_length()
             {
                 const string name = "The Scope Name";
                 const int index = 435;
@@ -23,7 +23,7 @@ namespace WikiPlex.Tests.Parsing
             }
 
             [Fact]
-            public void It_will_throw_when_name_is_null()
+            public void It_Should_throw_when_name_is_null()
             {
                 const string name = null;
                 const int index = 435;
@@ -36,7 +36,7 @@ namespace WikiPlex.Tests.Parsing
             }
 
             [Fact]
-            public void It_will_throw_when_name_is_empty()
+            public void It_Should_throw_when_name_is_empty()
             {
                 string name = string.Empty;
                 const int index = 435;
@@ -49,7 +49,7 @@ namespace WikiPlex.Tests.Parsing
             }
 
             [Fact]
-            public void It_will_throw_when_name_is_null_with_no_length()
+            public void It_Should_throw_when_name_is_null_with_no_length()
             {
                 const string name = null;
                 const int index = 435;
@@ -61,7 +61,7 @@ namespace WikiPlex.Tests.Parsing
             }
 
             [Fact]
-            public void It_will_throw_when_name_is_empty_with_no_length()
+            public void It_Should_throw_when_name_is_empty_with_no_length()
             {
                 string name = string.Empty;
                 const int index = 435;
@@ -73,7 +73,7 @@ namespace WikiPlex.Tests.Parsing
             }
 
             [Fact]
-            public void It_will_correctly_set_the_name_index()
+            public void It_Should_correctly_set_the_name_index()
             {
                 const string name = "The Scope Name";
                 const int index = 435;

@@ -60,7 +60,7 @@ namespace WikiPlex.Tests.Syndication
         public class Read
         {
             [Fact]
-            public void Will_throw_ArgumentNullException_when_xml_document_is_null()
+            public void Should_throw_ArgumentNullException_when_xml_document_is_null()
             {
                 var reader = new GoogleAtomFeedReader(null);
 
@@ -70,7 +70,7 @@ namespace WikiPlex.Tests.Syndication
             }
 
             [Fact]
-            public void Will_read_the_feed_info_correctly()
+            public void Should_read_the_feed_info_correctly()
             {
                 var xmlDoc = new XmlDocument();
                 xmlDoc.LoadXml(xml);
@@ -83,7 +83,7 @@ namespace WikiPlex.Tests.Syndication
             }
 
             [Fact]
-            public void Will_read_the_items_correctly()
+            public void Should_read_the_items_correctly()
             {
                 var xmlDoc = new XmlDocument();
                 xmlDoc.LoadXml(xml);
@@ -103,7 +103,7 @@ namespace WikiPlex.Tests.Syndication
             }
 
             [Fact]
-            public void Will_read_the_encoded_content_correctly()
+            public void Should_read_the_encoded_content_correctly()
             {
                 var xmlDoc = new XmlDocument();
                 xmlDoc.LoadXml(encodedXml);
@@ -117,7 +117,7 @@ namespace WikiPlex.Tests.Syndication
             }
 
             [Fact]
-            public void Will_read_the_content_element_over_summary()
+            public void Should_read_the_content_element_over_summary()
             {
                 var xmlDoc = new XmlDocument();
                 xmlDoc.LoadXml(contentBasedXml);

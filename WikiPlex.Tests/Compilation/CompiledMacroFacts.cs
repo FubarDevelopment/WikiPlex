@@ -11,7 +11,7 @@ namespace WikiPlex.Tests.Compilation
         public class Constructor
         {
             [Fact]
-            public void Will_throw_ArgumentNullException_when_identifier_is_null()
+            public void Should_throw_ArgumentNullException_when_identifier_is_null()
             {
                 var regex = new Regex("foo");
                 var captures = new List<string> {"foo"};
@@ -23,7 +23,7 @@ namespace WikiPlex.Tests.Compilation
             }
 
             [Fact]
-            public void Will_throw_ArgumentException_when_identifier_is_empty()
+            public void Should_throw_ArgumentException_when_identifier_is_empty()
             {
                 var regex = new Regex("foo");
                 var captures = new List<string> {"foo"};
@@ -35,7 +35,7 @@ namespace WikiPlex.Tests.Compilation
             }
 
             [Fact]
-            public void Will_throw_ArgumentNullException_when_regex_is_null()
+            public void Should_throw_ArgumentNullException_when_regex_is_null()
             {
                 const string id = "foo";
                 var captures = new List<string> {"foo"};
@@ -47,7 +47,7 @@ namespace WikiPlex.Tests.Compilation
             }
 
             [Fact]
-            public void Will_throw_ArgumentNullException_when_captures_is_null()
+            public void Should_throw_ArgumentNullException_when_captures_is_null()
             {
                 const string id = "foo";
                 var regex = new Regex("foo");
@@ -59,7 +59,7 @@ namespace WikiPlex.Tests.Compilation
             }
 
             [Fact]
-            public void Will_throw_ArgumentException_when_captures_is_empty()
+            public void Should_throw_ArgumentException_when_captures_is_empty()
             {
                 const string id = "foo";
                 var regex = new Regex("foo");
@@ -72,7 +72,7 @@ namespace WikiPlex.Tests.Compilation
             }
 
             [Fact]
-            public void Will_properly_set_all_properties()
+            public void Should_properly_set_all_properties()
             {
                 const string id = "foo";
                 var regex = new Regex("foo");

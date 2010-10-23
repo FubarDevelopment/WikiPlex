@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Should;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Moq;
@@ -39,82 +40,82 @@ namespace WikiPlex.Tests
         public class Register
         {
             [Fact]
-            public void Will_throw_ArgumentNullException_when_macro_is_null()
+            public void Should_throw_ArgumentNullException_when_macro_is_null()
             {
-                Exception ex = Record.Exception(() => Macros.Register(null));
+                var ex = Record.Exception(() => Macros.Register(null)) as ArgumentNullException;
 
-                Assert.IsType<ArgumentNullException>(ex);
-                Assert.Equal("macro", ((ArgumentNullException) ex).ParamName);
+                ex.ShouldNotBeNull();
+                ex.ParamName.ShouldEqual("macro");
             }
 
             [Fact]
-            public void Will_throw_ArgumentNullException_when_macro_id_is_null()
+            public void Should_throw_ArgumentNullException_when_macro_id_is_null()
             {
                 var macro = new Mock<IMacro>();
 
-                Exception ex = Record.Exception(() => Macros.Register(macro.Object));
+                var ex = Record.Exception(() => Macros.Register(macro.Object)) as ArgumentNullException;
 
-                Assert.IsType<ArgumentNullException>(ex);
-                Assert.Equal("macro", ((ArgumentNullException) ex).ParamName);
-                Assert.True(ex.Message.StartsWith("The macro identifier must not be null or empty."));
+                ex.ShouldNotBeNull();
+                ex.ParamName.ShouldEqual("macro");
+                ex.Message.ShouldStartWith("The macro identifier must not be null or empty.");
             }
 
             [Fact]
-            public void Will_throw_ArgumentNullException_when_macro_id_is_null_by_type()
+            public void Should_throw_ArgumentNullException_when_macro_id_is_null_by_type()
             {
-                Exception ex = Record.Exception(() => Macros.Register<NullIdMacro>());
+                var ex = Record.Exception(() => Macros.Register<NullIdMacro>()) as ArgumentNullException;
 
-                Assert.IsType<ArgumentNullException>(ex);
-                Assert.Equal("macro", ((ArgumentNullException) ex).ParamName);
-                Assert.True(ex.Message.StartsWith("The macro identifier must not be null or empty."));
+                ex.ShouldNotBeNull();
+                ex.ParamName.ShouldEqual("macro");
+                ex.Message.ShouldStartWith("The macro identifier must not be null or empty.");
             }
 
             [Fact]
-            public void Will_throw_ArgumentException_when_macro_id_is_empty()
+            public void Should_throw_ArgumentException_when_macro_id_is_empty()
             {
                 var macro = new Mock<IMacro>();
                 macro.Setup(x => x.Id).Returns(string.Empty);
 
-                Exception ex = Record.Exception(() => Macros.Register(macro.Object));
+                var ex = Record.Exception(() => Macros.Register(macro.Object)) as ArgumentException;
 
-                Assert.IsType<ArgumentException>(ex);
-                Assert.Equal("macro", ((ArgumentException) ex).ParamName);
-                Assert.True(ex.Message.StartsWith("The macro identifier must not be null or empty."));
+                ex.ShouldNotBeNull();
+                ex.ParamName.ShouldEqual("macro");
+                ex.Message.ShouldStartWith("The macro identifier must not be null or empty.");
             }
 
             [Fact]
-            public void Will_throw_ArgumentException_when_macro_id_is_empty_by_type()
+            public void Should_throw_ArgumentException_when_macro_id_is_empty_by_type()
             {
-                Exception ex = Record.Exception(() => Macros.Register<EmptyIdMacro>());
+                var ex = Record.Exception(() => Macros.Register<EmptyIdMacro>()) as ArgumentException;
 
-                Assert.IsType<ArgumentException>(ex);
-                Assert.Equal("macro", ((ArgumentException) ex).ParamName);
-                Assert.True(ex.Message.StartsWith("The macro identifier must not be null or empty."));
+                ex.ShouldNotBeNull();
+                ex.ParamName.ShouldEqual("macro");
+                ex.Message.ShouldStartWith("The macro identifier must not be null or empty.");
             }
 
             [Fact]
-            public void Will_correctly_load_the_macro()
+            public void Should_correctly_load_the_macro_by_object()
             {
                 var macro = new Mock<IMacro>();
                 macro.Setup(x => x.Id).Returns("foo");
 
                 Macros.Register(macro.Object);
 
-                Assert.Contains(macro.Object, Macros.All);
+                Macros.All.ShouldContain(macro.Object);
                 Macros.Unregister(macro.Object);
             }
 
             [Fact]
-            public void Will_correctly_load_the_macro_by_type()
+            public void Should_correctly_load_the_macro_by_type()
             {
                 Macros.Register<ValidMacro>();
 
-                Assert.Contains(typeof (ValidMacro), Macros.All.Select(m => m.GetType()));
+                Macros.All.Select(m => m.GetType()).ShouldContain(typeof(ValidMacro));
                 Macros.Unregister(new ValidMacro());
             }
 
             [Fact]
-            public void Will_replace_an_existing_macro_with_the_same_identifier()
+            public void Should_replace_an_existing_macro_with_the_same_identifier()
             {
                 var macro1 = new Mock<IMacro>();
                 macro1.Setup(x => x.Id).Returns("foo");
@@ -124,13 +125,13 @@ namespace WikiPlex.Tests
                 Macros.Register(macro1.Object);
                 Macros.Register(macro2.Object);
 
-                Assert.DoesNotContain(macro1.Object, Macros.All);
-                Assert.Contains(macro2.Object, Macros.All);
+                Macros.All.ShouldNotContain(macro1.Object);
+                Macros.All.ShouldContain(macro2.Object);
                 Macros.Unregister(macro2.Object);
             }
 
             [Fact]
-            public void Will_add_multiple_macros_with_the_a_different_identifier()
+            public void Should_add_multiple_macros_with_the_a_different_identifier()
             {
                 var macro1 = new Mock<IMacro>();
                 macro1.Setup(x => x.Id).Returns("foo");
@@ -140,8 +141,8 @@ namespace WikiPlex.Tests
                 Macros.Register(macro1.Object);
                 Macros.Register(macro2.Object);
 
-                Assert.Contains(macro1.Object, Macros.All);
-                Assert.Contains(macro2.Object, Macros.All);
+                Macros.All.ShouldContain(macro1.Object);
+                Macros.All.ShouldContain(macro2.Object);
                 Macros.Unregister(macro1.Object);
                 Macros.Unregister(macro2.Object);
             }
@@ -150,61 +151,61 @@ namespace WikiPlex.Tests
         public class Unregister
         {
             [Fact]
-            public void Will_throw_ArgumentNullException_when_macro_is_null()
+            public void Should_throw_ArgumentNullException_when_macro_is_null()
             {
-                Exception ex = Record.Exception(() => Macros.Unregister(null));
+                var ex = Record.Exception(() => Macros.Unregister(null)) as ArgumentNullException;
 
-                Assert.IsType<ArgumentNullException>(ex);
-                Assert.Equal("macro", ((ArgumentNullException) ex).ParamName);
+                ex.ShouldNotBeNull();
+                ex.ParamName.ShouldEqual("macro");
             }
 
             [Fact]
-            public void Will_throw_ArgumentNullException_when_macro_id_is_null()
+            public void Should_throw_ArgumentNullException_when_macro_id_is_null()
             {
                 var macro = new Mock<IMacro>();
 
-                Exception ex = Record.Exception(() => Macros.Unregister(macro.Object));
+                var ex = Record.Exception(() => Macros.Unregister(macro.Object)) as ArgumentNullException;
 
-                Assert.IsType<ArgumentNullException>(ex);
-                Assert.Equal("macro", ((ArgumentNullException) ex).ParamName);
-                Assert.True(ex.Message.StartsWith("The macro identifier must not be null or empty."));
+                ex.ShouldNotBeNull();
+                ex.ParamName.ShouldEqual("macro");
+                ex.Message.ShouldStartWith("The macro identifier must not be null or empty.");
             }
 
             [Fact]
-            public void Will_throw_ArgumentNullException_when_macro_id_is_null_by_type()
+            public void Should_throw_ArgumentNullException_when_macro_id_is_null_by_type()
             {
-                Exception ex = Record.Exception(() => Macros.Unregister<NullIdMacro>());
+                var ex = Record.Exception(() => Macros.Unregister<NullIdMacro>()) as ArgumentNullException;
 
-                Assert.IsType<ArgumentNullException>(ex);
-                Assert.Equal("macro", ((ArgumentNullException) ex).ParamName);
-                Assert.True(ex.Message.StartsWith("The macro identifier must not be null or empty."));
+                ex.ShouldNotBeNull();
+                ex.ParamName.ShouldEqual("macro");
+                ex.Message.ShouldStartWith("The macro identifier must not be null or empty.");
             }
 
             [Fact]
-            public void Will_throw_ArgumentException_when_macro_id_is_empty()
+            public void Should_throw_ArgumentException_when_macro_id_is_empty()
             {
                 var macro = new Mock<IMacro>();
                 macro.Setup(x => x.Id).Returns(string.Empty);
 
-                Exception ex = Record.Exception(() => Macros.Unregister(macro.Object));
+                var ex = Record.Exception(() => Macros.Unregister(macro.Object)) as ArgumentException;
 
-                Assert.IsType<ArgumentException>(ex);
-                Assert.Equal("macro", ((ArgumentException) ex).ParamName);
-                Assert.True(ex.Message.StartsWith("The macro identifier must not be null or empty."));
+                ex.ShouldNotBeNull();
+                ex.ParamName.ShouldEqual("macro");
+                ex.Message.ShouldStartWith("The macro identifier must not be null or empty.");
             }
 
             [Fact]
-            public void Will_throw_ArgumentException_when_macro_id_is_empty_by_type()
+            public void Should_throw_ArgumentException_when_macro_id_is_empty_by_type()
             {
-                Exception ex = Record.Exception(() => Macros.Unregister<EmptyIdMacro>());
+                var ex = Record.Exception(() => Macros.Unregister<EmptyIdMacro>()) as ArgumentException;
 
-                Assert.IsType<ArgumentException>(ex);
-                Assert.Equal("macro", ((ArgumentException) ex).ParamName);
-                Assert.True(ex.Message.StartsWith("The macro identifier must not be null or empty."));
+                ex.ShouldNotBeNull();
+                ex.ParamName.ShouldEqual("macro");
+                ex.Message.ShouldStartWith("The macro identifier must not be null or empty.");
             }
 
             [Fact]
-            public void Will_correctly_unregister_the_macro()
+            public void Should_correctly_unregister_the_macro_by_object()
             {
                 var macro = new Mock<IMacro>();
                 macro.Setup(x => x.Id).Returns("foo");
@@ -212,17 +213,17 @@ namespace WikiPlex.Tests
 
                 Macros.Unregister(macro.Object);
 
-                Assert.DoesNotContain(macro.Object, Macros.All);
+                Macros.All.ShouldNotContain(macro.Object);
             }
 
             [Fact]
-            public void Will_correctly_unregister_the_macro_by_type()
+            public void Should_correctly_unregister_the_macro_by_type()
             {
                 Macros.Register<ValidMacro>();
 
                 Macros.Unregister<ValidMacro>();
 
-                Assert.DoesNotContain(typeof (ValidMacro), Macros.All.Select(m => m.GetType()));
+                Macros.All.Select(m => m.GetType()).ShouldNotContain(typeof(ValidMacro));
             }
         }
 

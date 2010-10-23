@@ -10,7 +10,7 @@ namespace WikiPlex.Tests.Syndication
         public class Read
         {
             [Fact]
-            public void Will_throw_ArgumentNullException_when_xml_document_is_null()
+            public void Should_throw_ArgumentNullException_when_xml_document_is_null()
             {
                 var factory = new SyndicationReader();
 
@@ -20,7 +20,7 @@ namespace WikiPlex.Tests.Syndication
             }
 
             [Fact]
-            public void Will_return_feed_when_document_element_is_rss()
+            public void Should_return_feed_when_document_element_is_rss()
             {
                 var factory = new SyndicationReader();
                 var xmlDoc = new XmlDocument();
@@ -32,7 +32,7 @@ namespace WikiPlex.Tests.Syndication
             }
 
             [Fact]
-            public void Will_return_feed_when_document_element_is_feed_and_correct_xmlns()
+            public void Should_return_feed_when_document_element_is_feed_and_correct_xmlns()
             {
                 var factory = new SyndicationReader();
                 var xmlDoc = new XmlDocument();
@@ -44,7 +44,7 @@ namespace WikiPlex.Tests.Syndication
             }
 
             [Fact]
-            public void Will_return_feed_when_document_element_is_feed_and_correct_xmlns_for_google_atom()
+            public void Should_return_feed_when_document_element_is_feed_and_correct_xmlns_for_google_atom()
             {
                 var factory = new SyndicationReader();
                 var xmlDoc = new XmlDocument();
@@ -56,7 +56,7 @@ namespace WikiPlex.Tests.Syndication
             }
 
             [Fact]
-            public void Will_throw_ArgumentException_when_document_element_is_unsupported()
+            public void Should_throw_ArgumentException_when_document_element_is_unsupported()
             {
                 var factory = new SyndicationReader();
                 var xmlDoc = new XmlDocument();

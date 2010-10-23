@@ -30,7 +30,7 @@ namespace WikiPlex.Tests.Formatting
         public class Expand
         {
             [Fact]
-            public void Will_parse_the_content_and_return_an_unresolved_macro_if_url_is_not_specified()
+            public void Should_parse_the_content_and_return_an_unresolved_macro_if_url_is_not_specified()
             {
                 var renderer = new VideoRenderer();
 
@@ -40,7 +40,7 @@ namespace WikiPlex.Tests.Formatting
             }
 
             [Fact]
-            public void Will_parse_the_content_and_return_an_unresolved_macro_if_url_is_not_a_valid_url()
+            public void Should_parse_the_content_and_return_an_unresolved_macro_if_url_is_not_a_valid_url()
             {
                 var renderer = new VideoRenderer();
 
@@ -50,7 +50,7 @@ namespace WikiPlex.Tests.Formatting
             }
 
             [Fact]
-            public void Will_parse_the_content_and_return_an_unresolved_macro_if_align_is_not_valid()
+            public void Should_parse_the_content_and_return_an_unresolved_macro_if_align_is_not_valid()
             {
                 var renderer = new VideoRenderer();
 
@@ -60,7 +60,7 @@ namespace WikiPlex.Tests.Formatting
             }
 
             [Fact]
-            public void Will_parse_the_content_and_return_an_unresolved_macro_if_align_is_not_left_center_or_right()
+            public void Should_parse_the_content_and_return_an_unresolved_macro_if_align_is_not_left_center_or_right()
             {
                 var renderer = new VideoRenderer();
 
@@ -70,7 +70,7 @@ namespace WikiPlex.Tests.Formatting
             }
 
             [Fact]
-            public void Will_parse_the_content_and_return_an_unresolved_macro_if_url_contains_codeplex()
+            public void Should_parse_the_content_and_return_an_unresolved_macro_if_url_contains_codeplex()
             {
                 var renderer = new VideoRenderer();
 
@@ -83,7 +83,7 @@ namespace WikiPlex.Tests.Formatting
             [InlineData("Left")]
             [InlineData("Center")]
             [InlineData("Right")]
-            public void Will_parse_the_content_and_render_the_correct_alignment(string align)
+            public void Should_parse_the_content_and_render_the_correct_alignment(string align)
             {
                 var renderer = new VideoRenderer();
 
@@ -94,7 +94,7 @@ namespace WikiPlex.Tests.Formatting
             }
 
             [Fact]
-            public void Will_parse_the_content_and_render_the_Flash_video_type()
+            public void Should_parse_the_content_and_render_the_Flash_video_type()
             {
                 var renderer = new VideoRenderer();
 
@@ -105,7 +105,7 @@ namespace WikiPlex.Tests.Formatting
             }
 
             [Fact]
-            public void Will_parse_the_content_and_render_the_Quicktime_video_type()
+            public void Should_parse_the_content_and_render_the_Quicktime_video_type()
             {
                 var renderer = new VideoRenderer();
 
@@ -116,7 +116,7 @@ namespace WikiPlex.Tests.Formatting
             }
 
             [Fact]
-            public void Will_parse_the_content_and_render_the_Real_video_type()
+            public void Should_parse_the_content_and_render_the_Real_video_type()
             {
                 var renderer = new VideoRenderer();
 
@@ -127,7 +127,7 @@ namespace WikiPlex.Tests.Formatting
             }
 
             [Fact]
-            public void Will_parse_the_content_and_render_the_Windows_video_type()
+            public void Should_parse_the_content_and_render_the_Windows_video_type()
             {
                 var renderer = new VideoRenderer();
 
@@ -138,7 +138,7 @@ namespace WikiPlex.Tests.Formatting
             }
 
             [Fact]
-            public void Will_parse_the_content_and_render_the_YouTube_video_type()
+            public void Should_parse_the_content_and_render_the_YouTube_video_type()
             {
                 var renderer = new VideoRenderer();
 
@@ -149,7 +149,7 @@ namespace WikiPlex.Tests.Formatting
             }
 
             [Fact]
-            public void Will_parse_the_content_and_render_the_Vimeo_video_type()
+            public void Should_parse_the_content_and_render_the_Vimeo_video_type()
             {
                 var renderer = new VideoRenderer();
 
@@ -159,7 +159,7 @@ namespace WikiPlex.Tests.Formatting
             }
 
             [Fact]
-            public void Will_parse_the_content_and_render_an_unresolved_macro_for_the_invalid_video_scope()
+            public void Should_parse_the_content_and_render_an_unresolved_macro_for_the_invalid_video_scope()
             {
                 var renderer = new VideoRenderer();
 
@@ -169,7 +169,7 @@ namespace WikiPlex.Tests.Formatting
             }
 
             [Fact]
-            public void Will_parse_the_content_and_height_and_width()
+            public void Should_parse_the_content_and_height_and_width()
             {
                 var renderer = new VideoRenderer();
 
@@ -180,7 +180,7 @@ namespace WikiPlex.Tests.Formatting
             }
 
             [Fact]
-            public void Will_parse_the_content_and_render_the_YouTube_with_height_and_width()
+            public void Should_parse_the_content_and_render_the_YouTube_with_height_and_width()
             {
                 var renderer = new VideoRenderer();
 
@@ -191,7 +191,7 @@ namespace WikiPlex.Tests.Formatting
             }
 
             [Fact]
-            public void Will_parse_the_content_and_render_the_Channel9_with_height_and_width()
+            public void Should_parse_the_content_and_render_the_Channel9_with_height_and_width()
             {
                 var renderer = new VideoRenderer();
 
@@ -202,7 +202,7 @@ namespace WikiPlex.Tests.Formatting
             }
 
             [Fact]
-            public void Will_parse_the_content_and_render_the_Channel9_with_an_end_slash()
+            public void Should_parse_the_content_and_render_the_Channel9_with_an_end_slash()
             {
                 var renderer = new VideoRenderer();
 
@@ -213,7 +213,7 @@ namespace WikiPlex.Tests.Formatting
             }
 
             [Fact]
-            public void Will_parse_the_content_and_render_the_Channel9_with_ending_in_player()
+            public void Should_parse_the_content_and_render_the_Channel9_with_ending_in_player()
             {
                 var renderer = new VideoRenderer();
 
@@ -225,7 +225,7 @@ namespace WikiPlex.Tests.Formatting
             }
 
             [Fact]
-            public void Will_parse_the_content_and_render_the_Channel9_with_querystring_params()
+            public void Should_parse_the_content_and_render_the_Channel9_with_querystring_params()
             {
                 var renderer = new VideoRenderer();
 

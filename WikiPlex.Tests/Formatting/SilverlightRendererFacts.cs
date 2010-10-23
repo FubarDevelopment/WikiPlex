@@ -22,7 +22,7 @@ namespace WikiPlex.Tests.Formatting
         public class Expand
         {
             [Fact]
-            public void Will_parse_the_content_and_return_an_unresolved_macro_if_url_is_not_specified()
+            public void Should_parse_the_content_and_return_an_unresolved_macro_if_url_is_not_specified()
             {
                 var renderer = new SilverlightRenderer();
 
@@ -32,7 +32,7 @@ namespace WikiPlex.Tests.Formatting
             }
 
             [Fact]
-            public void Will_parse_the_content_and_return_an_unresolved_macro_is_url_is_not_a_valid_url()
+            public void Should_parse_the_content_and_return_an_unresolved_macro_is_url_is_not_a_valid_url()
             {
                 var renderer = new SilverlightRenderer();
 
@@ -42,7 +42,7 @@ namespace WikiPlex.Tests.Formatting
             }
 
             [Fact]
-            public void Will_parse_the_content_and_return_an_unresolved_macro_if_height_is_not_a_number()
+            public void Should_parse_the_content_and_return_an_unresolved_macro_if_height_is_not_a_number()
             {
                 var renderer = new SilverlightRenderer();
 
@@ -54,7 +54,7 @@ namespace WikiPlex.Tests.Formatting
             [Theory]
             [InlineData(-1)]
             [InlineData(0)]
-            public void Will_parse_the_content_and_return_an_unresolved_macro_if_height_is_invalid(int height)
+            public void Should_parse_the_content_and_return_an_unresolved_macro_if_height_is_invalid(int height)
             {
                 var renderer = new SilverlightRenderer();
 
@@ -64,7 +64,7 @@ namespace WikiPlex.Tests.Formatting
             }
 
             [Fact]
-            public void Will_parse_the_content_and_return_an_unresolved_macro_if_width_is_not_a_number()
+            public void Should_parse_the_content_and_return_an_unresolved_macro_if_width_is_not_a_number()
             {
                 var renderer = new SilverlightRenderer();
 
@@ -76,7 +76,7 @@ namespace WikiPlex.Tests.Formatting
             [Theory]
             [InlineData(-1)]
             [InlineData(0)]
-            public void Will_parse_the_content_and_return_an_unresolved_macro_if_width_is_invalid(int width)
+            public void Should_parse_the_content_and_return_an_unresolved_macro_if_width_is_invalid(int width)
             {
                 var renderer = new SilverlightRenderer();
 
@@ -86,7 +86,7 @@ namespace WikiPlex.Tests.Formatting
             }
 
             [Fact]
-            public void Will_not_allow_an_url_from_codeplex()
+            public void Should_not_allow_an_url_from_codeplex()
             {
                 var renderer = new SilverlightRenderer();
 
@@ -96,7 +96,7 @@ namespace WikiPlex.Tests.Formatting
             }
 
             [Fact]
-            public void Will_not_allow_gpuAcceleration_if_version_two()
+            public void Should_not_allow_gpuAcceleration_if_version_two()
             {
                 var renderer = new SilverlightRenderer();
 
@@ -106,7 +106,7 @@ namespace WikiPlex.Tests.Formatting
             }
 
             [Fact]
-            public void Will_render_the_silverlight_object_with_the_default_width_and_height()
+            public void Should_render_the_silverlight_object_with_the_default_width_and_height()
             {
                 var renderer = new SilverlightRenderer();
 
@@ -116,7 +116,7 @@ namespace WikiPlex.Tests.Formatting
             }
 
             [Fact]
-            public void Will_render_the_silverlight_object_with_the_custom_width_and_height()
+            public void Should_render_the_silverlight_object_with_the_custom_width_and_height()
             {
                 var renderer = new SilverlightRenderer();
 
@@ -126,7 +126,7 @@ namespace WikiPlex.Tests.Formatting
             }
 
             [Fact]
-            public void Will_render_the_silverlight_object_with_percentage_width()
+            public void Should_render_the_silverlight_object_with_percentage_width()
             {
                 var renderer = new SilverlightRenderer();
 
@@ -136,7 +136,7 @@ namespace WikiPlex.Tests.Formatting
             }
 
             [Fact]
-            public void Will_render_the_silverlight_object_with_percentage_height()
+            public void Should_render_the_silverlight_object_with_percentage_height()
             {
                 var renderer = new SilverlightRenderer();
 
@@ -146,7 +146,7 @@ namespace WikiPlex.Tests.Formatting
             }
 
             [Fact]
-            public void Will_render_silverlight_two()
+            public void Should_render_silverlight_two()
             {
                 var renderer = new SilverlightRenderer();
 
@@ -156,7 +156,7 @@ namespace WikiPlex.Tests.Formatting
             }
 
             [Fact]
-            public void Will_render_the_silverlight_three()
+            public void Should_render_the_silverlight_three()
             {
                 var renderer = new SilverlightRenderer();
 
@@ -166,7 +166,7 @@ namespace WikiPlex.Tests.Formatting
             }
 
             [Fact]
-            public void Will_render_the_silverlight_four()
+            public void Should_render_the_silverlight_four()
             {
                 var renderer = new SilverlightRenderer();
 
@@ -176,7 +176,7 @@ namespace WikiPlex.Tests.Formatting
             }
 
             [Fact]
-            public void Will_render_the_silverlight_four_object_as_fallback_if_low_version_not_supported()
+            public void Should_render_the_silverlight_four_object_as_fallback_if_low_version_not_supported()
             {
                 var renderer = new SilverlightRenderer();
 
@@ -186,7 +186,7 @@ namespace WikiPlex.Tests.Formatting
             }
 
             [Fact]
-            public void Will_render_the_silverlight_four_object_as_fallback_if_high_version_not_supported()
+            public void Should_render_the_silverlight_four_object_as_fallback_if_high_version_not_supported()
             {
                 var renderer = new SilverlightRenderer();
 
@@ -196,7 +196,7 @@ namespace WikiPlex.Tests.Formatting
             }
 
             [Fact]
-            public void Will_render_the_silverlight_object_with_initParams_included()
+            public void Should_render_the_silverlight_object_with_initParams_included()
             {
                 var renderer = new SilverlightRenderer();
 
@@ -206,7 +206,7 @@ namespace WikiPlex.Tests.Formatting
             }
 
             [Fact]
-            public void Will_enable_gpu_acceleration_and_disable_windowless_if_version_three()
+            public void Should_enable_gpu_acceleration_and_disable_windowless_if_version_three()
             {
                 var renderer = new SilverlightRenderer();
 
@@ -216,7 +216,7 @@ namespace WikiPlex.Tests.Formatting
             }
 
             [Fact]
-            public void Will_enable_gpu_acceleration_and_disable_windowless_if_version_four()
+            public void Should_enable_gpu_acceleration_and_disable_windowless_if_version_four()
             {
                 var renderer = new SilverlightRenderer();
 
@@ -226,7 +226,7 @@ namespace WikiPlex.Tests.Formatting
             }
 
             [Fact]
-            public void Will_not_render_gpuAcceleration_if_false()
+            public void Should_not_render_gpuAcceleration_if_false()
             {
                 var renderer = new SilverlightRenderer();
 

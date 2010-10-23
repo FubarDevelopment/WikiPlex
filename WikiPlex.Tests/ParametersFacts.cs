@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Should;
+using System;
 using System.Web.UI.WebControls;
 using WikiPlex.Common;
 using Xunit;
@@ -15,8 +16,8 @@ namespace WikiPlex.Tests
             {
                 var ex = Record.Exception(() => Parameters.ExtractUrl(new[] { "foo=bar" })) as ArgumentException;
 
-                Assert.NotNull(ex);
-                Assert.Equal("url", ex.ParamName);
+                ex.ShouldNotBeNull();
+                ex.ParamName.ShouldEqual("url");
             }
 
             [Fact]
@@ -24,8 +25,8 @@ namespace WikiPlex.Tests
             {
                 var ex = Record.Exception(() => Parameters.ExtractUrl(new[] { "url=" })) as ArgumentException;
 
-                Assert.NotNull(ex);
-                Assert.Equal("url", ex.ParamName);
+                ex.ShouldNotBeNull();
+                ex.ParamName.ShouldEqual("url");
             }
 
             [Fact]
@@ -33,8 +34,8 @@ namespace WikiPlex.Tests
             {
                 var ex = Record.Exception(() => Parameters.ExtractUrl(new[] { "url=blah" })) as ArgumentException;
 
-                Assert.NotNull(ex);
-                Assert.Equal("url", ex.ParamName);
+                ex.ShouldNotBeNull();
+                ex.ParamName.ShouldEqual("url");
             }
 
             [Fact]
@@ -42,8 +43,8 @@ namespace WikiPlex.Tests
             {
                 var ex = Record.Exception(() => Parameters.ExtractUrl(new[] { "url=http://www.codeplex.com" })) as ArgumentException;
 
-                Assert.NotNull(ex);
-                Assert.Equal("url", ex.ParamName);
+                ex.ShouldNotBeNull();
+                ex.ParamName.ShouldEqual("url");
             }
 
             [Fact]
@@ -51,7 +52,7 @@ namespace WikiPlex.Tests
             {
                 string url = Parameters.ExtractUrl(new[] {"url=http://www.foo.com"});
 
-                Assert.Equal("http://www.foo.com/", url);
+                url.ShouldEqual("http://www.foo.com/");
             }
 
             [Fact]
@@ -59,7 +60,7 @@ namespace WikiPlex.Tests
             {
                 var ex = Record.Exception(() => Parameters.ExtractUrl(new[] { "url=http://www.codeplex.com" }, false));
 
-                Assert.Null(ex);
+                ex.ShouldBeNull();
             }
         }
 
@@ -70,7 +71,7 @@ namespace WikiPlex.Tests
             {
                 HorizontalAlign align = Parameters.ExtractAlign(new string[0], HorizontalAlign.Center);
 
-                Assert.Equal(HorizontalAlign.Center, align);
+                align.ShouldEqual(HorizontalAlign.Center);
             }
 
             [Fact]
@@ -78,7 +79,7 @@ namespace WikiPlex.Tests
             {
                 HorizontalAlign align = Parameters.ExtractAlign(new[] {"align="}, HorizontalAlign.Center);
 
-                Assert.Equal(HorizontalAlign.Center, align);
+                align.ShouldEqual(HorizontalAlign.Center);
             }
 
             [Fact]
@@ -86,8 +87,8 @@ namespace WikiPlex.Tests
             {
                 var ex = Record.Exception(() => Parameters.ExtractAlign(new[] {"align=foo"}, HorizontalAlign.Center)) as ArgumentException;
 
-                Assert.NotNull(ex);
-                Assert.Equal("align", ex.ParamName);
+                ex.ShouldNotBeNull();
+                ex.ParamName.ShouldEqual("align");
             }
 
             [Fact]
@@ -95,7 +96,7 @@ namespace WikiPlex.Tests
             {
                 HorizontalAlign align = Parameters.ExtractAlign(new[] {"align=right"}, HorizontalAlign.Center);
 
-                Assert.Equal(HorizontalAlign.Right, align);
+                align.ShouldEqual(HorizontalAlign.Right);
             }
 
             [Theory]
@@ -105,8 +106,8 @@ namespace WikiPlex.Tests
             {
                 var ex = Record.Exception(() => Parameters.ExtractAlign(new[] { "align=" + align }, HorizontalAlign.Center)) as ArgumentException;
 
-                Assert.NotNull(ex);
-                Assert.Equal("align", ex.ParamName);
+                ex.ShouldNotBeNull();
+                ex.ParamName.ShouldEqual("align");
             }
         }
 
@@ -117,8 +118,8 @@ namespace WikiPlex.Tests
             {
                 Dimensions dimensions = Parameters.ExtractDimensions(new[] {"foo=bar"});
 
-                Assert.Null(dimensions.Height);
-                Assert.Null(dimensions.Width);
+                dimensions.Height.ShouldBeNull();
+                dimensions.Width.ShouldBeNull();
             }
 
             [Fact]
@@ -126,8 +127,8 @@ namespace WikiPlex.Tests
             {
                 Dimensions dimensions = Parameters.ExtractDimensions(new[] {"foo=bar"}, 200, 300);
 
-                Assert.Equal(200, dimensions.Height);
-                Assert.Equal(300, dimensions.Width);
+                dimensions.Height.ShouldEqual(200);
+                dimensions.Width.ShouldEqual(300);
             }
 
             [Fact]
@@ -135,8 +136,8 @@ namespace WikiPlex.Tests
             {
                 Dimensions dimensions = Parameters.ExtractDimensions(new[] { "height=", "width=" }, 200, 300);
 
-                Assert.Equal(200, dimensions.Height);
-                Assert.Equal(300, dimensions.Width);
+                dimensions.Height.ShouldEqual(200);
+                dimensions.Width.ShouldEqual(300);
             }
 
             [Fact]
@@ -144,8 +145,8 @@ namespace WikiPlex.Tests
             {
                 Dimensions dimensions = Parameters.ExtractDimensions(new[] {"height=300", "width=400"}, 200, 200);
 
-                Assert.Equal("300px", dimensions.Height.ToString());
-                Assert.Equal("400px", dimensions.Width.ToString());
+                dimensions.Height.ToString().ShouldEqual("300px");
+                dimensions.Width.ToString().ShouldEqual("400px");
             }
 
             [Fact]
@@ -153,8 +154,8 @@ namespace WikiPlex.Tests
             {
                 Dimensions dimensions = Parameters.ExtractDimensions(new[] {"height=50%", "width=75%"}, 200, 200);
 
-                Assert.Equal("50%", dimensions.Height.ToString());
-                Assert.Equal("75%", dimensions.Width.ToString());
+                dimensions.Height.ToString().ShouldEqual("50%");
+                dimensions.Width.ToString().ShouldEqual("75%");
             }
 
             [Theory]
@@ -164,8 +165,8 @@ namespace WikiPlex.Tests
             {
                 var ex = Record.Exception(() => Parameters.ExtractDimensions(new[] {paramName + "=abc"}, 200, 200)) as ArgumentException;
 
-                Assert.NotNull(ex);
-                Assert.Equal(paramName, ex.ParamName);
+                ex.ShouldNotBeNull();
+                ex.ParamName.ShouldEqual(paramName);
             }
 
             [Theory]
@@ -175,8 +176,8 @@ namespace WikiPlex.Tests
             {
                 var ex = Record.Exception(() => Parameters.ExtractDimensions(new[] {paramName + "=-10"}, 200, 200)) as ArgumentException;
 
-                Assert.NotNull(ex);
-                Assert.Equal(paramName, ex.ParamName);
+                ex.ShouldNotBeNull();
+                ex.ParamName.ShouldEqual(paramName);
             }
 
             [Theory]
@@ -186,8 +187,8 @@ namespace WikiPlex.Tests
             {
                 var ex = Record.Exception(() => Parameters.ExtractDimensions(new[] { paramName + "=0" }, 200, 200)) as ArgumentException;
 
-                Assert.NotNull(ex);
-                Assert.Equal(paramName, ex.ParamName);
+                ex.ShouldNotBeNull();
+                ex.ParamName.ShouldEqual(paramName);
             }
         }
 
@@ -198,7 +199,7 @@ namespace WikiPlex.Tests
             {
                 bool value = Parameters.ExtractBool(new[] {"foo=bar"}, "test", true);
 
-                Assert.True(value);
+                value.ShouldBeTrue();
             }
 
             [Fact]
@@ -206,16 +207,15 @@ namespace WikiPlex.Tests
             {
                 bool value = Parameters.ExtractBool(new[] {"test="}, "test", true);
 
-                Assert.True(value);
+                value.ShouldBeTrue();
             }
 
             [Fact]
             public void Should_throw_ArgumentException_if_value_is_not_a_boolean()
             {
-                var ex = Record.Exception(() => Parameters.ExtractBool(new[] {"test=bar"}, "test", true));
+                var ex = Record.Exception(() => Parameters.ExtractBool(new[] {"test=bar"}, "test", true)) as ArgumentException;
 
-                Assert.NotNull(ex);
-                Assert.IsType<ArgumentException>(ex);
+                ex.ShouldNotBeNull();
             }
 
             [Fact]
@@ -223,7 +223,7 @@ namespace WikiPlex.Tests
             {
                 bool value = Parameters.ExtractBool(new[] {"test=true"}, "test", false);
 
-                Assert.True(value);
+                value.ShouldBeTrue();
             }
         }
     }

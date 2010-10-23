@@ -17,7 +17,7 @@ namespace WikiPlex.Tests.Parsing
             [Theory]
             [InlineData(null)]
             [InlineData("")]
-            public void Will_immediately_return_when_wiki_content_is_not_present(string wikiContent)
+            public void Should_immediately_return_when_wiki_content_is_not_present(string wikiContent)
             {
                 var parser = new MacroParser(new Mock<IMacroCompiler>().Object);
                 var macros = new List<IMacro> {new Mock<IMacro>().Object};
@@ -29,7 +29,7 @@ namespace WikiPlex.Tests.Parsing
             }
 
             [Fact]
-            public void Will_throw_ArgumentNullException_when_macros_is_null()
+            public void Should_throw_ArgumentNullException_when_macros_is_null()
             {
                 var parser = new MacroParser(new Mock<IMacroCompiler>().Object);
                 int invocations = 0;
@@ -41,7 +41,7 @@ namespace WikiPlex.Tests.Parsing
             }
 
             [Fact]
-            public void Will_throw_ArgumentException_when_macros_is_empty()
+            public void Should_throw_ArgumentException_when_macros_is_empty()
             {
                 var parser = new MacroParser(new Mock<IMacroCompiler>().Object);
                 var macros = new List<IMacro>();
@@ -54,7 +54,7 @@ namespace WikiPlex.Tests.Parsing
             }
 
             [Fact]
-            public void Will_throw_ArgumentNullException_when_scope_augmenters_is_null()
+            public void Should_throw_ArgumentNullException_when_scope_augmenters_is_null()
             {
                 var parser = new MacroParser(new Mock<IMacroCompiler>().Object);
                 var macro = new Mock<IMacro>();
@@ -69,7 +69,7 @@ namespace WikiPlex.Tests.Parsing
             }
 
             [Fact]
-            public void Will_yield_the_correct_matches_from_a_compiled_macro()
+            public void Should_yield_the_correct_matches_from_a_compiled_macro()
             {
                 var compiler = new Mock<IMacroCompiler>();
                 compiler.Setup(x => x.Compile(It.IsAny<IMacro>())).Returns(new CompiledMacro("foo", new Regex("abc"), new List<string> {"All"}));
@@ -89,7 +89,7 @@ namespace WikiPlex.Tests.Parsing
             }
 
             [Fact]
-            public void Will_yield_the_correct_matches_from_a_compiled_macro_with_named_reference_omitted()
+            public void Should_yield_the_correct_matches_from_a_compiled_macro_with_named_reference_omitted()
             {
                 var compiler = new Mock<IMacroCompiler>();
                 compiler.Setup(x => x.Compile(It.IsAny<IMacro>())).Returns(new CompiledMacro("foo", new Regex("(?<test>abc)"), new List<string> { "All" }));
@@ -109,7 +109,7 @@ namespace WikiPlex.Tests.Parsing
             }
 
             [Fact]
-            public void Will_yield_the_scopes_from_the_augmenter()
+            public void Should_yield_the_scopes_from_the_augmenter()
             {
                 var compiler = new Mock<IMacroCompiler>();
                 var macro = new Mock<IMacro>();

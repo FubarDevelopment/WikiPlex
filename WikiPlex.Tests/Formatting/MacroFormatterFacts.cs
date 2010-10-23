@@ -12,7 +12,7 @@ namespace WikiPlex.Tests.Formatting
         public class Format
         {
             [Fact]
-            public void Will_format_a_list_of_scopes_in_order()
+            public void Should_format_a_list_of_scopes_in_order()
             {
                 var renderer = new Mock<IRenderer>();
                 const string scope = "scope";
@@ -29,7 +29,7 @@ namespace WikiPlex.Tests.Formatting
             }
 
             [Fact]
-            public void Will_format_the_string_when_it_cannot_resolve_a_macro()
+            public void Should_format_the_string_when_it_cannot_resolve_a_macro()
             {
                 var renderer = new Mock<IRenderer>();
                 const string scope = "scope";
@@ -44,7 +44,7 @@ namespace WikiPlex.Tests.Formatting
             }
 
             [Fact]
-            public void Will_html_encode_the_content_when_it_cannot_resolve_a_macro()
+            public void Should_html_encode_the_content_when_it_cannot_resolve_a_macro()
             {
                 var renderer = new Mock<IRenderer>();
                 const string scope = "scope";
@@ -59,7 +59,7 @@ namespace WikiPlex.Tests.Formatting
             }
 
             [Fact]
-            public void Will_remove_the_line_break_at_the_end_of_the_formatted_text()
+            public void Should_remove_the_line_break_at_the_end_of_the_formatted_text()
             {
                 var renderer = new Mock<IRenderer>();
                 renderer.Setup(x => x.CanExpand(It.IsAny<string>())).Returns(true);
@@ -74,7 +74,7 @@ namespace WikiPlex.Tests.Formatting
             }
 
             [Fact]
-            public void Will_skip_nested_scopes()
+            public void Should_skip_nested_scopes()
             {
                 var renderer = new Mock<IRenderer>();
                 const string scope = "scope";
@@ -92,7 +92,7 @@ namespace WikiPlex.Tests.Formatting
             }
 
             [Fact]
-            public void Will_not_skip_scopes_with_same_index_and_length()
+            public void Should_not_skip_scopes_with_same_index_and_length()
             {
                 var renderer = new Mock<IRenderer>();
                 const string scope = "scope";
@@ -110,7 +110,7 @@ namespace WikiPlex.Tests.Formatting
             }
 
             [Fact]
-            public void Will_html_encode_the_text_between_scopes()
+            public void Should_html_encode_the_text_between_scopes()
             {
                 var renderer = new Mock<IRenderer>();
                 const string scope = "scope";
@@ -127,7 +127,7 @@ namespace WikiPlex.Tests.Formatting
             }
 
             [Fact]
-            public void Will_html_encode_the_text_when_writing_to_the_end()
+            public void Should_html_encode_the_text_when_writing_to_the_end()
             {
                 var renderer = new Mock<IRenderer>();
                 const string scope = "scope";
@@ -144,7 +144,7 @@ namespace WikiPlex.Tests.Formatting
             }
 
             [Fact]
-            public void Will_capture_any_exception_when_resolving_a_scope_and_render_it_as_an_unresolved_macro()
+            public void Should_capture_any_exception_when_resolving_a_scope_and_render_it_as_an_unresolved_macro()
             {
                 var renderer = new Mock<IRenderer>();
                 const string scope = "scope";
@@ -160,7 +160,7 @@ namespace WikiPlex.Tests.Formatting
             }
 
             [Fact]
-            public void Will_html_encode_content_while_capturing_any_exception_when_resolving_a_scope_and_render_it_as_an_unresolved_macro()
+            public void Should_html_encode_content_while_capturing_any_exception_when_resolving_a_scope_and_render_it_as_an_unresolved_macro()
             {
                 var renderer = new Mock<IRenderer>();
                 const string scope = "scope";
@@ -176,7 +176,7 @@ namespace WikiPlex.Tests.Formatting
             }
 
             [Fact]
-            public void Will_raise_ScopeRendered_event_correctly()
+            public void Should_raise_ScopeRendered_event_correctly()
             {
                 var renderer = new Mock<IRenderer>();
                 const string scope = "scope";

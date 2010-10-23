@@ -13,7 +13,7 @@ namespace WikiPlex.Tests.Compilation
         public class Compile
         {
             [Fact]
-            public void Will_throw_ArgumentNullException_if_macro_is_null()
+            public void Should_throw_ArgumentNullException_if_macro_is_null()
             {
                 var compiler = new MacroCompiler();
 
@@ -24,7 +24,7 @@ namespace WikiPlex.Tests.Compilation
             }
 
             [Fact]
-            public void Will_throw_ArgumentNullException_if_macro_identifier_is_null()
+            public void Should_throw_ArgumentNullException_if_macro_identifier_is_null()
             {
                 var compiler = new MacroCompiler();
                 var macro = new Mock<IMacro>();
@@ -37,7 +37,7 @@ namespace WikiPlex.Tests.Compilation
             }
 
             [Fact]
-            public void Will_throw_ArgumentException_if_macro_identifier_is_empty()
+            public void Should_throw_ArgumentException_if_macro_identifier_is_empty()
             {
                 var compiler = new MacroCompiler();
                 var macro = new Mock<IMacro>();
@@ -51,7 +51,7 @@ namespace WikiPlex.Tests.Compilation
             }
 
             [Fact]
-            public void Will_throw_ArgumentNullException_if_macro_rules_is_null()
+            public void Should_throw_ArgumentNullException_if_macro_rules_is_null()
             {
                 var compiler = new MacroCompiler();
                 var macro = new Mock<IMacro>();
@@ -65,7 +65,7 @@ namespace WikiPlex.Tests.Compilation
             }
 
             [Fact]
-            public void Will_throw_ArgumentException_if_macro_rules_is_empty()
+            public void Should_throw_ArgumentException_if_macro_rules_is_empty()
             {
                 var compiler = new MacroCompiler();
                 var macro = new Mock<IMacro>();
@@ -80,7 +80,7 @@ namespace WikiPlex.Tests.Compilation
             }
 
             [Fact]
-            public void Will_correctly_compile_a_macro_using_the_identifier_from_the_macro()
+            public void Should_correctly_compile_a_macro_using_the_identifier_from_the_macro()
             {
                 var compiler = new MacroCompiler();
                 var macro = new Mock<IMacro>();
@@ -94,7 +94,7 @@ namespace WikiPlex.Tests.Compilation
             }
 
             [Fact]
-            public void Will_correctly_compile_a_macro_with_a_single_rule_and_whole_capture()
+            public void Should_correctly_compile_a_macro_with_a_single_rule_and_whole_capture()
             {
                 var compiler = new MacroCompiler();
                 var macro = new Mock<IMacro>();
@@ -111,7 +111,7 @@ namespace WikiPlex.Tests.Compilation
             }
 
             [Fact]
-            public void Will_correctly_compile_a_macro_with_a_single_rule_and_partial_capture()
+            public void Should_correctly_compile_a_macro_with_a_single_rule_and_partial_capture()
             {
                 var compiler = new MacroCompiler();
                 var macro = new Mock<IMacro>();
@@ -135,7 +135,7 @@ namespace WikiPlex.Tests.Compilation
             }
 
             [Fact]
-            public void Will_correctly_compile_a_macro_with_a_single_rule_and_partial_capture_with_whole_capture()
+            public void Should_correctly_compile_a_macro_with_a_single_rule_and_partial_capture_with_whole_capture()
             {
                 var compiler = new MacroCompiler();
                 var macro = new Mock<IMacro>();
@@ -159,7 +159,7 @@ namespace WikiPlex.Tests.Compilation
             }
 
             [Fact]
-            public void Will_correctly_compile_a_macro_with_multiple_rules()
+            public void Should_correctly_compile_a_macro_with_multiple_rules()
             {
                 var compiler = new MacroCompiler();
                 var macro = new Mock<IMacro>();
@@ -192,7 +192,7 @@ namespace WikiPlex.Tests.Compilation
             }
 
             [Fact]
-            public void Will_use_previously_compiled_macro()
+            public void Should_use_previously_compiled_macro()
             {
                 var compiler = new MacroCompiler();
                 var macro = new Mock<IMacro>();
@@ -214,7 +214,7 @@ namespace WikiPlex.Tests.Compilation
         public class Flush
         {
             [Fact]
-            public void Will_flush_the_compiled_macros()
+            public void Should_flush_the_compiled_macros()
             {
                 var compiler = new MacroCompiler();
                 var macro = new Mock<IMacro>();

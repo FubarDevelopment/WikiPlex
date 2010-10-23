@@ -10,7 +10,7 @@ namespace WikiPlex.Tests.Compilation
         public class Constructor
         {
             [Fact]
-            public void Will_throw_ArgumentNullException_when_regex_is_null()
+            public void Should_throw_ArgumentNullException_when_regex_is_null()
             {
                 var captures = new Dictionary<int, string> {{0, "foo"}};
 
@@ -21,7 +21,7 @@ namespace WikiPlex.Tests.Compilation
             }
 
             [Fact]
-            public void Will_throw_ArgumentException_when_regex_is_empty()
+            public void Should_throw_ArgumentException_when_regex_is_empty()
             {
                 var captures = new Dictionary<int, string> {{0, "foo"}};
 
@@ -32,7 +32,7 @@ namespace WikiPlex.Tests.Compilation
             }
 
             [Fact]
-            public void Will_throw_ArgumentNullException_when_captures_is_null()
+            public void Should_throw_ArgumentNullException_when_captures_is_null()
             {
                 const string regex = "foo";
 
@@ -43,7 +43,7 @@ namespace WikiPlex.Tests.Compilation
             }
 
             [Fact]
-            public void Will_properly_set_regex_and_captures()
+            public void Should_properly_set_regex_and_captures()
             {
                 const string regex = "foo";
                 var captures = new Dictionary<int, string> {{0, "foo"}};
@@ -55,7 +55,7 @@ namespace WikiPlex.Tests.Compilation
             }
 
             [Fact]
-            public void Will_throw_ArgumentNullException_when_only_setting_regex_and_is_null()
+            public void Should_throw_ArgumentNullException_when_only_setting_regex_and_is_null()
             {
                 Exception ex = Record.Exception(() => new MacroRule(null));
 
@@ -64,7 +64,7 @@ namespace WikiPlex.Tests.Compilation
             }
 
             [Fact]
-            public void Will_throw_ArgumentException_when_only_setting_regex_and_is_empty()
+            public void Should_throw_ArgumentException_when_only_setting_regex_and_is_empty()
             {
                 Exception ex = Record.Exception(() => new MacroRule(string.Empty));
 
@@ -73,7 +73,7 @@ namespace WikiPlex.Tests.Compilation
             }
 
             [Fact]
-            public void Will_correctly_set_regex_when_only_setting_regex()
+            public void Should_correctly_set_regex_when_only_setting_regex()
             {
                 const string regex = "foo";
 
@@ -84,7 +84,7 @@ namespace WikiPlex.Tests.Compilation
             }
 
             [Fact]
-            public void Will_throw_ArgumentNullException_when_setting_first_scope_and_regex_is_null()
+            public void Should_throw_ArgumentNullException_when_setting_first_scope_and_regex_is_null()
             {
                 Exception ex = Record.Exception(() => new MacroRule(null, "capture"));
 
@@ -93,7 +93,7 @@ namespace WikiPlex.Tests.Compilation
             }
 
             [Fact]
-            public void Will_throw_ArgumentException_when_setting_first_scope_and_regex_is_empty()
+            public void Should_throw_ArgumentException_when_setting_first_scope_and_regex_is_empty()
             {
                 Exception ex = Record.Exception(() => new MacroRule(string.Empty, "capture"));
 
@@ -102,7 +102,7 @@ namespace WikiPlex.Tests.Compilation
             }
 
             [Fact]
-            public void Will_throw_ArgumentNullException_when_setting_first_scope_and_is_null()
+            public void Should_throw_ArgumentNullException_when_setting_first_scope_and_is_null()
             {
                 const string regex = "foo";
 
@@ -113,7 +113,7 @@ namespace WikiPlex.Tests.Compilation
             }
 
             [Fact]
-            public void Will_throw_ArgumentNullException_when_setting_first_scope_and_is_empty()
+            public void Should_throw_ArgumentNullException_when_setting_first_scope_and_is_empty()
             {
                 const string regex = "foo";
 
@@ -124,7 +124,7 @@ namespace WikiPlex.Tests.Compilation
             }
 
             [Fact]
-            public void Will_correctly_set_regex_and_first_scope_capture()
+            public void Should_correctly_set_regex_and_first_scope_capture()
             {
                 const string regex = "foo";
 

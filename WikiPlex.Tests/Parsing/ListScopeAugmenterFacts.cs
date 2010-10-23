@@ -31,7 +31,7 @@ namespace WikiPlex.Tests.Parsing
             }
 
             [Fact]
-            public void Will_yield_the_correct_scopes()
+            public void Should_yield_the_correct_scopes()
             {
                 var origScopes = new List<Scope>(new[]
                                                      {
@@ -52,7 +52,7 @@ namespace WikiPlex.Tests.Parsing
             }
 
             [Fact]
-            public void Will_yield_the_correct_scopes_with_nested_item_at_end()
+            public void Should_yield_the_correct_scopes_with_nested_item_at_end()
             {
                 var origScopes = new List<Scope>(new[]
                                                      {
@@ -73,7 +73,7 @@ namespace WikiPlex.Tests.Parsing
             }
 
             [Fact]
-            public void Will_yield_the_correct_scopes_with_nested_item_in_middle()
+            public void Should_yield_the_correct_scopes_with_nested_item_in_middle()
             {
                 var origScopes = new List<Scope>(new[]
                                                      {
@@ -161,7 +161,7 @@ namespace WikiPlex.Tests.Parsing
             }
 
             [Fact]
-            public void Will_yield_the_correct_scopes_with_nested_item_in_middle_three_deep()
+            public void Should_yield_the_correct_scopes_with_nested_item_in_middle_three_deep()
             {
                 var origScopes = new List<Scope>(new[]
                                                      {
@@ -195,7 +195,7 @@ namespace WikiPlex.Tests.Parsing
             }
 
             [Fact]
-            public void Will_yield_the_correct_scopes_with_nested_item_at_end_with_multiple_blocks()
+            public void Should_yield_the_correct_scopes_with_nested_item_at_end_with_multiple_blocks()
             {
                 var origScopes = new List<Scope>(new[]
                                                      {
@@ -221,7 +221,7 @@ namespace WikiPlex.Tests.Parsing
             }
 
             [Fact]
-            public void Will_yield_the_correct_scopes_when_first_items_index_is_not_one_in_length()
+            public void Should_yield_the_correct_scopes_when_first_items_index_is_not_one_in_length()
             {
                 var origScopes = new List<Scope>(new[]
                                                      {
@@ -247,7 +247,7 @@ namespace WikiPlex.Tests.Parsing
             }
 
             [Fact]
-            public void Will_yield_the_correct_scopes_when_first_items_index_is_two_in_length_and_last_item_index_is_one_in_length()
+            public void Should_yield_the_correct_scopes_when_first_items_index_is_two_in_length_and_last_item_index_is_one_in_length()
             {
                 var origScopes = new List<Scope>(new[]
                                                      {
@@ -273,7 +273,7 @@ namespace WikiPlex.Tests.Parsing
             }
 
             [Fact]
-            public void Will_yield_the_correct_scopes_when_second_list_first_items_index_is_not_one_in_length()
+            public void Should_yield_the_correct_scopes_when_second_list_first_items_index_is_not_one_in_length()
             {
                 var origScopes = new List<Scope>(new[]
                                                      {
@@ -299,7 +299,7 @@ namespace WikiPlex.Tests.Parsing
             }
 
             [Fact]
-            public void Will_yield_the_correct_scopes_when_second_list_first_items_index_is_not_one_in_length_in_middle()
+            public void Should_yield_the_correct_scopes_when_second_list_first_items_index_is_not_one_in_length_in_middle()
             {
                 var origScopes = new List<Scope>(new[]
                                                      {
@@ -329,7 +329,7 @@ namespace WikiPlex.Tests.Parsing
             }
 
             [Fact]
-            public void Will_yield_the_correct_scopes_when_nested_list_is_different_type()
+            public void Should_yield_the_correct_scopes_when_nested_list_is_different_type()
             {
                 var origScopes = new List<Scope>(new[]
                                                      {
@@ -363,7 +363,7 @@ namespace WikiPlex.Tests.Parsing
             }
 
             [Fact]
-            public void Will_yield_the_correct_scopes_with_nested_item_in_middle_three_deep_when_nested_is_different_type()
+            public void Should_yield_the_correct_scopes_with_nested_item_in_middle_three_deep_when_nested_is_different_type()
             {
                 var origScopes = new List<Scope>(new[]
                                                      {
@@ -397,7 +397,7 @@ namespace WikiPlex.Tests.Parsing
             }
 
             [Fact]
-            public void Will_yield_the_correct_scopes_with_nested_item_in_middle_three_deep_when_nested_is_different_type_mixed()
+            public void Should_yield_the_correct_scopes_with_nested_item_in_middle_three_deep_when_nested_is_different_type_mixed()
             {
                 var origScopes = new List<Scope>(new[]
                                                      {

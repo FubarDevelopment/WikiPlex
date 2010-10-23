@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Should;
+using System;
 using System.Collections.Generic;
 using WikiPlex.Compilation;
 using WikiPlex.Compilation.Macros;
@@ -14,10 +15,10 @@ namespace WikiPlex.Tests
             [Fact]
             public void Should_contain_the_correct_scope_augmenters()
             {
-                Assert.Equal(3, ScopeAugmenters.All.Count);
-                Assert.IsType<TableScopeAugmenter>(ScopeAugmenters.All.FindByMacro<TableMacro>());
-                Assert.IsType<ListScopeAugmenter>(ScopeAugmenters.All.FindByMacro<ListMacro>());
-                Assert.IsType<IndentationScopeAugmenter>(ScopeAugmenters.All.FindByMacro<IndentationMacro>());
+                ScopeAugmenters.All.Count.ShouldEqual(3);
+                ScopeAugmenters.All.FindByMacro<TableMacro>().ShouldBeType<TableScopeAugmenter>();
+                ScopeAugmenters.All.FindByMacro<ListMacro>().ShouldBeType<ListScopeAugmenter>();
+                ScopeAugmenters.All.FindByMacro<IndentationMacro>().ShouldBeType<IndentationScopeAugmenter>();
             }
         }
 
@@ -45,59 +46,59 @@ namespace WikiPlex.Tests
         public class FindByMacro
         {
             [Fact]
-            public void Will_return_null_if_augmenter_not_found()
+            public void Should_return_null_if_augmenter_not_found()
             {
                 IDictionary<string, IScopeAugmenter> augmenters = new Dictionary<string, IScopeAugmenter>();
                 IScopeAugmenter result = augmenters.FindByMacro<FakeMacro>();
 
-                Assert.Null(result);
+                result.ShouldBeNull();
             }
 
             [Fact]
-            public void Will_return_the_augmenter_for_a_macro()
+            public void Should_return_the_augmenter_for_a_macro()
             {
                 var augmenter = new FakeAugmenter();
                 var augmenters = new Dictionary<string, IScopeAugmenter> {{"Fake", augmenter}};
 
                 IScopeAugmenter result = augmenters.FindByMacro<FakeMacro>();
 
-                Assert.Equal(augmenter, result);
+                result.ShouldEqual(augmenter);
                 ScopeAugmenters.Unregister<FakeMacro>();
             }
 
             [Fact]
-            public void Will_throw_ArgumentNullException_if_macro_object_is_null()
+            public void Should_throw_ArgumentNullException_if_macro_object_is_null()
             {
                 var augmenters = new Dictionary<string, IScopeAugmenter>();
                 Exception ex = Record.Exception(() => augmenters.FindByMacro<FakeMacro>(null));
 
-                Assert.IsType<ArgumentNullException>(ex);
+                ex.ShouldBeType<ArgumentNullException>();
             }
 
             [Fact]
-            public void Will_return_the_augmenter_for_a_macro_object()
+            public void Should_return_the_augmenter_for_a_macro_object()
             {
                 var augmenter = new FakeAugmenter();
                 var augmenters = new Dictionary<string, IScopeAugmenter> {{"Fake", augmenter}};
 
                 IScopeAugmenter result = augmenters.FindByMacro(new FakeMacro());
 
-                Assert.Equal(augmenter, result);
+                result.ShouldEqual(augmenter);
             }
         }
 
         public class Register
         {
             [Fact]
-            public void Will_throw_ArgumentNullException_when_augmenter_is_null()
+            public void Should_throw_ArgumentNullException_when_augmenter_is_null()
             {
                 Exception ex = Record.Exception(() => ScopeAugmenters.Register<FakeMacro>(null));
 
-                Assert.IsType<ArgumentNullException>(ex);
+                ex.ShouldBeType<ArgumentNullException>();
             }
 
             [Fact]
-            public void Will_correctly_load_the_augmenter()
+            public void Should_correctly_load_the_augmenter_by_object()
             {
                 try
                 {
@@ -105,8 +106,8 @@ namespace WikiPlex.Tests
 
                     ScopeAugmenters.Register<FakeMacro>(augmenter);
 
-                    Assert.Contains("Fake", ScopeAugmenters.All.Keys);
-                    Assert.Contains(augmenter, ScopeAugmenters.All.Values);
+                    ScopeAugmenters.All.Keys.ShouldContain("Fake");
+                    ScopeAugmenters.All.Values.ShouldContain(augmenter);
                 }
                 finally
                 {
@@ -115,14 +116,14 @@ namespace WikiPlex.Tests
             }
 
             [Fact]
-            public void Will_correctly_load_the_augmenter_by_type()
+            public void Should_correctly_load_the_augmenter_by_type()
             {
                 try
                 {
                     ScopeAugmenters.Register<FakeMacro, FakeAugmenter>();
 
-                    Assert.Contains("Fake", ScopeAugmenters.All.Keys);
-                    Assert.IsType<FakeAugmenter>(ScopeAugmenters.All["Fake"]);
+                    ScopeAugmenters.All.Keys.ShouldContain("Fake");
+                    ScopeAugmenters.All["Fake"].ShouldBeType<FakeAugmenter>();
                 }
                 finally
                 {
@@ -131,7 +132,7 @@ namespace WikiPlex.Tests
             }
 
             [Fact]
-            public void Will_correctly_replace_augmenter_with_same_macro_type()
+            public void Should_correctly_replace_augmenter_with_same_macro_type()
             {
                 try
                 {
@@ -140,7 +141,7 @@ namespace WikiPlex.Tests
 
                     ScopeAugmenters.Register<FakeMacro>(augmenter);
 
-                    Assert.Equal(augmenter, ScopeAugmenters.All["Fake"]);
+                    ScopeAugmenters.All["Fake"].ShouldEqual(augmenter);
                 }
                 finally
                 {
@@ -149,7 +150,7 @@ namespace WikiPlex.Tests
             }
 
             [Fact]
-            public void Will_correctly_load_multiple_augmenters()
+            public void Should_correctly_load_multiple_augmenters()
             {
                 try
                 {
@@ -159,8 +160,8 @@ namespace WikiPlex.Tests
                     ScopeAugmenters.Register<FakeMacro>(augmenter1);
                     ScopeAugmenters.Register<SecondFakeMacro>(augmenter2);
 
-                    Assert.Equal(augmenter1, ScopeAugmenters.All["Fake"]);
-                    Assert.Equal(augmenter2, ScopeAugmenters.All["SecondFake"]);
+                    ScopeAugmenters.All["Fake"].ShouldEqual(augmenter1);
+                    ScopeAugmenters.All["SecondFake"].ShouldEqual(augmenter2);
                 }
                 finally
                 {
@@ -194,7 +195,7 @@ namespace WikiPlex.Tests
         public class Unregister
         {
             [Fact]
-            public void Will_unregister_augmenter_by_macro_type_correctly()
+            public void Should_unregister_augmenter_by_macro_type_correctly()
             {
                 try
                 {
@@ -205,8 +206,8 @@ namespace WikiPlex.Tests
 
                     ScopeAugmenters.Unregister<FakeMacro>();
 
-                    Assert.False(ScopeAugmenters.All.ContainsKey("Fake"));
-                    Assert.Equal(augmenter2, ScopeAugmenters.All["SecondFake"]);
+                    ScopeAugmenters.All.ContainsKey("Fake").ShouldBeFalse();
+                    ScopeAugmenters.All["SecondFake"].ShouldEqual(augmenter2);
                 }
                 finally
                 {

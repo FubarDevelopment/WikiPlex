@@ -60,7 +60,7 @@ namespace WikiPlex.Tests.Syndication
         public class Read
         {
             [Fact]
-            public void Will_throw_ArgumentNullException_when_xml_document_is_null()
+            public void Should_throw_ArgumentNullException_when_xml_document_is_null()
             {
                 var reader = new RssFeedReader(null);
 
@@ -70,7 +70,7 @@ namespace WikiPlex.Tests.Syndication
             }
 
             [Fact]
-            public void Will_throw_ArgumentException_when_feed_contains_no_channels()
+            public void Should_throw_ArgumentException_when_feed_contains_no_channels()
             {
                 var xmlDoc = new XmlDocument();
                 xmlDoc.LoadXml("<rss />");
@@ -82,7 +82,7 @@ namespace WikiPlex.Tests.Syndication
             }
 
             [Fact]
-            public void Will_read_the_feed_info_correctly()
+            public void Should_read_the_feed_info_correctly()
             {
                 var xmlDoc = new XmlDocument();
                 xmlDoc.LoadXml(xml);
@@ -95,7 +95,7 @@ namespace WikiPlex.Tests.Syndication
             }
 
             [Fact]
-            public void Will_read_the_items_correctly()
+            public void Should_read_the_items_correctly()
             {
                 var xmlDoc = new XmlDocument();
                 xmlDoc.LoadXml(xml);
@@ -115,7 +115,7 @@ namespace WikiPlex.Tests.Syndication
             }
 
             [Fact]
-            public void Will_read_the_encoded_content_correctly()
+            public void Should_read_the_encoded_content_correctly()
             {
                 var xmlDoc = new XmlDocument();
                 xmlDoc.LoadXml(encodedXml);

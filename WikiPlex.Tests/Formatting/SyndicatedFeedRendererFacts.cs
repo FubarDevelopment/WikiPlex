@@ -26,7 +26,7 @@ namespace WikiPlex.Tests.Formatting
         public class Expand
         {
             [Fact]
-            public void Will_parse_the_content_and_return_an_unresolved_macro_if_url_is_not_specified()
+            public void Should_parse_the_content_and_return_an_unresolved_macro_if_url_is_not_specified()
             {
                 var renderer = new SyndicatedFeedRenderer(new Mock<IXmlDocumentReader>().Object, new Mock<ISyndicationReader>().Object);
 
@@ -36,7 +36,7 @@ namespace WikiPlex.Tests.Formatting
             }
 
             [Fact]
-            public void Will_parse_the_content_and_return_an_unresolved_macro_if_rss_feed_is_not_specified()
+            public void Should_parse_the_content_and_return_an_unresolved_macro_if_rss_feed_is_not_specified()
             {
                 var renderer = new SyndicatedFeedRenderer(new Mock<IXmlDocumentReader>().Object, new Mock<ISyndicationReader>().Object);
 
@@ -46,7 +46,7 @@ namespace WikiPlex.Tests.Formatting
             }
 
             [Fact]
-            public void Will_parse_the_content_and_return_an_unresolved_macro_if_max_is_not_a_number()
+            public void Should_parse_the_content_and_return_an_unresolved_macro_if_max_is_not_a_number()
             {
                 var renderer = new SyndicatedFeedRenderer(new Mock<IXmlDocumentReader>().Object, new Mock<ISyndicationReader>().Object);
 
@@ -59,7 +59,7 @@ namespace WikiPlex.Tests.Formatting
             [InlineData(-1)]
             [InlineData(0)]
             [InlineData(21)]
-            public void Will_parse_the_content_and_return_an_unresolved_macro_if_max_is_not_in_range(int max)
+            public void Should_parse_the_content_and_return_an_unresolved_macro_if_max_is_not_in_range(int max)
             {
                 var renderer = new SyndicatedFeedRenderer(new Mock<IXmlDocumentReader>().Object, new Mock<ISyndicationReader>().Object);
 
@@ -69,7 +69,7 @@ namespace WikiPlex.Tests.Formatting
             }
 
             [Fact]
-            public void Will_parse_the_content_and_return_an_unresolved_macro_if_titles_only_is_not_a_boolean()
+            public void Should_parse_the_content_and_return_an_unresolved_macro_if_titles_only_is_not_a_boolean()
             {
                 var renderer = new SyndicatedFeedRenderer(new Mock<IXmlDocumentReader>().Object, new Mock<ISyndicationReader>().Object);
 
@@ -79,7 +79,7 @@ namespace WikiPlex.Tests.Formatting
             }
 
             [Fact]
-            public void Will_parse_the_content_and_return_an_unresolved_macro_xml_document_is_null()
+            public void Should_parse_the_content_and_return_an_unresolved_macro_xml_document_is_null()
             {
                 var xmlLoader = new Mock<IXmlDocumentReader>();
                 xmlLoader.Setup(x => x.Read(It.IsAny<string>())).Returns<XmlDocument>(null);
@@ -91,7 +91,7 @@ namespace WikiPlex.Tests.Formatting
             }
 
             [Fact]
-            public void Will_parse_the_content_and_render_the_rss_feed()
+            public void Should_parse_the_content_and_render_the_rss_feed()
             {
                 var xmlLoader = new Mock<IXmlDocumentReader>();
                 var syndicationReader = new Mock<ISyndicationReader>();
@@ -124,7 +124,7 @@ namespace WikiPlex.Tests.Formatting
             }
 
             [Fact]
-            public void Will_parse_the_content_and_use_the_max_value()
+            public void Should_parse_the_content_and_use_the_max_value()
             {
                 var xmlLoader = new Mock<IXmlDocumentReader>();
                 var syndicationReader = new Mock<ISyndicationReader>();
@@ -157,7 +157,7 @@ namespace WikiPlex.Tests.Formatting
             }
 
             [Fact]
-            public void Will_parse_the_content_and_render_only_the_titles()
+            public void Should_parse_the_content_and_render_only_the_titles()
             {
                 var xmlLoader = new Mock<IXmlDocumentReader>();
                 var syndicationReader = new Mock<ISyndicationReader>();
@@ -190,7 +190,7 @@ namespace WikiPlex.Tests.Formatting
             }
 
             [Fact]
-            public void Will_render_an_unresolved_macro_when_the_syndication_factory_cannot_parse_the_feed()
+            public void Should_render_an_unresolved_macro_when_the_syndication_factory_cannot_parse_the_feed()
             {
                 var xmlLoader = new Mock<IXmlDocumentReader>();
                 var syndicationReader = new Mock<ISyndicationReader>();
