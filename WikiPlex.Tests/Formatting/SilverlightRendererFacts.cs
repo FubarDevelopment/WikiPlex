@@ -1,4 +1,5 @@
-﻿using Xunit;
+﻿using Should;
+using Xunit;
 using Xunit.Extensions;
 using WikiPlex.Formatting;
 
@@ -15,7 +16,7 @@ namespace WikiPlex.Tests.Formatting
 
                 bool result = renderer.CanExpand(ScopeName.Silverlight);
 
-                Assert.True(result);
+                result.ShouldBeTrue();
             }
         }
 
@@ -28,7 +29,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string output = renderer.Expand(ScopeName.Silverlight, "foo", x => x, x => x);
 
-                Assert.Equal("<span class=\"unresolved\">Cannot resolve silverlight macro, invalid parameter 'url'.</span>", output);
+                output.ShouldEqual("<span class=\"unresolved\">Cannot resolve silverlight macro, invalid parameter 'url'.</span>");
             }
 
             [Fact]
@@ -38,7 +39,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string output = renderer.Expand(ScopeName.Silverlight, "url=foo", x => x, x => x);
 
-                Assert.Equal("<span class=\"unresolved\">Cannot resolve silverlight macro, invalid parameter 'url'.</span>", output);
+                output.ShouldEqual("<span class=\"unresolved\">Cannot resolve silverlight macro, invalid parameter 'url'.</span>");
             }
 
             [Fact]
@@ -48,7 +49,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string output = renderer.Expand(ScopeName.Silverlight, "url=http://localhost/silverlight,height=a", x => x, x => x);
 
-                Assert.Equal("<span class=\"unresolved\">Cannot resolve silverlight macro, invalid parameter 'height'.</span>", output);
+                output.ShouldEqual("<span class=\"unresolved\">Cannot resolve silverlight macro, invalid parameter 'height'.</span>");
             }
 
             [Theory]
@@ -60,7 +61,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string output = renderer.Expand(ScopeName.Silverlight, "url=http://localhost/silverlight,height=" + height, x => x, x => x);
 
-                Assert.Equal("<span class=\"unresolved\">Cannot resolve silverlight macro, invalid parameter 'height'.</span>", output);
+                output.ShouldEqual("<span class=\"unresolved\">Cannot resolve silverlight macro, invalid parameter 'height'.</span>");
             }
 
             [Fact]
@@ -70,7 +71,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string output = renderer.Expand(ScopeName.Silverlight, "url=http://localhost/silverlight,width=a", x => x, x => x);
 
-                Assert.Equal("<span class=\"unresolved\">Cannot resolve silverlight macro, invalid parameter 'width'.</span>", output);
+                output.ShouldEqual("<span class=\"unresolved\">Cannot resolve silverlight macro, invalid parameter 'width'.</span>");
             }
 
             [Theory]
@@ -82,7 +83,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string output = renderer.Expand(ScopeName.Silverlight, "url=http://localhost/silverlight,width=" + width, x => x, x => x);
 
-                Assert.Equal("<span class=\"unresolved\">Cannot resolve silverlight macro, invalid parameter 'width'.</span>", output);
+                output.ShouldEqual("<span class=\"unresolved\">Cannot resolve silverlight macro, invalid parameter 'width'.</span>");
             }
 
             [Fact]
@@ -92,7 +93,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string output = renderer.Expand(ScopeName.Silverlight, "url=http://codeplex.com/foo", x => x, x => x);
 
-                Assert.Equal("<span class=\"unresolved\">Cannot resolve silverlight macro, invalid parameter 'url'.</span>", output);
+                output.ShouldEqual("<span class=\"unresolved\">Cannot resolve silverlight macro, invalid parameter 'url'.</span>");
             }
 
             [Fact]
@@ -102,7 +103,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string output = renderer.Expand(ScopeName.Silverlight, "url=http://localhost/silverlight,version=2,gpuAcceleration=true", x => x, x => x);
 
-                Assert.Equal("<span class\"unresolved\">Cannot resolve silverlight macro, 'gpuAcceleration' cannot be enabled with version 2 of Silverlight.</span>", output);
+                output.ShouldEqual("<span class\"unresolved\">Cannot resolve silverlight macro, 'gpuAcceleration' cannot be enabled with version 2 of Silverlight.</span>");
             }
 
             [Fact]
@@ -112,7 +113,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string output = renderer.Expand(ScopeName.Silverlight, "url=http://localhost/silverlight", x => x, x => x);
 
-                Assert.Equal(@"<object data=""data:application/x-silverlight-2,"" type=""application/x-silverlight-2"" style=""height:200px;width:200px;""><param name=""source"" value=""http://localhost/silverlight""></param><param name=""windowless"" value=""true""></param><param name=""minRuntimeVersion"" value=""4.0.50401.0""></param><param name=""autoUpgrade"" value=""true""></param><p>You need to install Microsoft Silverlight to view this content. <a href=""http://go.microsoft.com/fwlink/?LinkID=149156&v=4.0.50401.0"" style=""text-decoration:none;"">Get Silverlight!<br /><img src=""http://go.microsoft.com/fwlink/?LinkID=108181"" alt=""Get Microsoft Silverlight"" style=""border-style:none;"" /></a></p></object><iframe style=""visibility:hidden;height:0;width:0;border-width:0;""></iframe>", output);
+                output.ShouldEqual(@"<object data=""data:application/x-silverlight-2,"" type=""application/x-silverlight-2"" style=""height:200px;width:200px;""><param name=""source"" value=""http://localhost/silverlight""></param><param name=""windowless"" value=""true""></param><param name=""minRuntimeVersion"" value=""4.0.50401.0""></param><param name=""autoUpgrade"" value=""true""></param><p>You need to install Microsoft Silverlight to view this content. <a href=""http://go.microsoft.com/fwlink/?LinkID=149156&v=4.0.50401.0"" style=""text-decoration:none;"">Get Silverlight!<br /><img src=""http://go.microsoft.com/fwlink/?LinkID=108181"" alt=""Get Microsoft Silverlight"" style=""border-style:none;"" /></a></p></object><iframe style=""visibility:hidden;height:0;width:0;border-width:0;""></iframe>");
             }
 
             [Fact]
@@ -122,7 +123,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string output = renderer.Expand(ScopeName.Silverlight, "url=http://localhost/silverlight,height=30,width=40", x => x, x => x);
 
-                Assert.Equal(@"<object data=""data:application/x-silverlight-2,"" type=""application/x-silverlight-2"" style=""height:30px;width:40px;""><param name=""source"" value=""http://localhost/silverlight""></param><param name=""windowless"" value=""true""></param><param name=""minRuntimeVersion"" value=""4.0.50401.0""></param><param name=""autoUpgrade"" value=""true""></param><p>You need to install Microsoft Silverlight to view this content. <a href=""http://go.microsoft.com/fwlink/?LinkID=149156&v=4.0.50401.0"" style=""text-decoration:none;"">Get Silverlight!<br /><img src=""http://go.microsoft.com/fwlink/?LinkID=108181"" alt=""Get Microsoft Silverlight"" style=""border-style:none;"" /></a></p></object><iframe style=""visibility:hidden;height:0;width:0;border-width:0;""></iframe>", output);
+                output.ShouldEqual(@"<object data=""data:application/x-silverlight-2,"" type=""application/x-silverlight-2"" style=""height:30px;width:40px;""><param name=""source"" value=""http://localhost/silverlight""></param><param name=""windowless"" value=""true""></param><param name=""minRuntimeVersion"" value=""4.0.50401.0""></param><param name=""autoUpgrade"" value=""true""></param><p>You need to install Microsoft Silverlight to view this content. <a href=""http://go.microsoft.com/fwlink/?LinkID=149156&v=4.0.50401.0"" style=""text-decoration:none;"">Get Silverlight!<br /><img src=""http://go.microsoft.com/fwlink/?LinkID=108181"" alt=""Get Microsoft Silverlight"" style=""border-style:none;"" /></a></p></object><iframe style=""visibility:hidden;height:0;width:0;border-width:0;""></iframe>");
             }
 
             [Fact]
@@ -132,7 +133,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string output = renderer.Expand(ScopeName.Silverlight, "url=http://localhost/silverlight,width=100%", x => x, x => x);
 
-                Assert.Equal(@"<object data=""data:application/x-silverlight-2,"" type=""application/x-silverlight-2"" style=""height:200px;width:100%;""><param name=""source"" value=""http://localhost/silverlight""></param><param name=""windowless"" value=""true""></param><param name=""minRuntimeVersion"" value=""4.0.50401.0""></param><param name=""autoUpgrade"" value=""true""></param><p>You need to install Microsoft Silverlight to view this content. <a href=""http://go.microsoft.com/fwlink/?LinkID=149156&v=4.0.50401.0"" style=""text-decoration:none;"">Get Silverlight!<br /><img src=""http://go.microsoft.com/fwlink/?LinkID=108181"" alt=""Get Microsoft Silverlight"" style=""border-style:none;"" /></a></p></object><iframe style=""visibility:hidden;height:0;width:0;border-width:0;""></iframe>", output);
+                output.ShouldEqual(@"<object data=""data:application/x-silverlight-2,"" type=""application/x-silverlight-2"" style=""height:200px;width:100%;""><param name=""source"" value=""http://localhost/silverlight""></param><param name=""windowless"" value=""true""></param><param name=""minRuntimeVersion"" value=""4.0.50401.0""></param><param name=""autoUpgrade"" value=""true""></param><p>You need to install Microsoft Silverlight to view this content. <a href=""http://go.microsoft.com/fwlink/?LinkID=149156&v=4.0.50401.0"" style=""text-decoration:none;"">Get Silverlight!<br /><img src=""http://go.microsoft.com/fwlink/?LinkID=108181"" alt=""Get Microsoft Silverlight"" style=""border-style:none;"" /></a></p></object><iframe style=""visibility:hidden;height:0;width:0;border-width:0;""></iframe>");
             }
 
             [Fact]
@@ -142,7 +143,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string output = renderer.Expand(ScopeName.Silverlight, "url=http://localhost/silverlight,height=100%", x => x, x => x);
 
-                Assert.Equal(@"<object data=""data:application/x-silverlight-2,"" type=""application/x-silverlight-2"" style=""height:100%;width:200px;""><param name=""source"" value=""http://localhost/silverlight""></param><param name=""windowless"" value=""true""></param><param name=""minRuntimeVersion"" value=""4.0.50401.0""></param><param name=""autoUpgrade"" value=""true""></param><p>You need to install Microsoft Silverlight to view this content. <a href=""http://go.microsoft.com/fwlink/?LinkID=149156&v=4.0.50401.0"" style=""text-decoration:none;"">Get Silverlight!<br /><img src=""http://go.microsoft.com/fwlink/?LinkID=108181"" alt=""Get Microsoft Silverlight"" style=""border-style:none;"" /></a></p></object><iframe style=""visibility:hidden;height:0;width:0;border-width:0;""></iframe>", output);
+                output.ShouldEqual(@"<object data=""data:application/x-silverlight-2,"" type=""application/x-silverlight-2"" style=""height:100%;width:200px;""><param name=""source"" value=""http://localhost/silverlight""></param><param name=""windowless"" value=""true""></param><param name=""minRuntimeVersion"" value=""4.0.50401.0""></param><param name=""autoUpgrade"" value=""true""></param><p>You need to install Microsoft Silverlight to view this content. <a href=""http://go.microsoft.com/fwlink/?LinkID=149156&v=4.0.50401.0"" style=""text-decoration:none;"">Get Silverlight!<br /><img src=""http://go.microsoft.com/fwlink/?LinkID=108181"" alt=""Get Microsoft Silverlight"" style=""border-style:none;"" /></a></p></object><iframe style=""visibility:hidden;height:0;width:0;border-width:0;""></iframe>");
             }
 
             [Fact]
@@ -152,7 +153,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string output = renderer.Expand(ScopeName.Silverlight, "url=http://localhost/silverlight,version=2", x => x, x => x);
 
-                Assert.Equal(@"<object data=""data:application/x-silverlight,"" type=""application/x-silverlight"" style=""height:200px;width:200px;""><param name=""source"" value=""http://localhost/silverlight""></param><param name=""windowless"" value=""true""></param><p>You need to install Microsoft Silverlight to view this content. <a href=""http://go.microsoft.com/fwlink/?LinkID=124807"" style=""text-decoration:none;"">Get Silverlight!<br /><img src=""http://go.microsoft.com/fwlink/?LinkID=108181"" alt=""Get Microsoft Silverlight"" style=""border-style:none;"" /></a></p></object><iframe style=""visibility:hidden;height:0;width:0;border-width:0;""></iframe>", output);
+                output.ShouldEqual(@"<object data=""data:application/x-silverlight,"" type=""application/x-silverlight"" style=""height:200px;width:200px;""><param name=""source"" value=""http://localhost/silverlight""></param><param name=""windowless"" value=""true""></param><p>You need to install Microsoft Silverlight to view this content. <a href=""http://go.microsoft.com/fwlink/?LinkID=124807"" style=""text-decoration:none;"">Get Silverlight!<br /><img src=""http://go.microsoft.com/fwlink/?LinkID=108181"" alt=""Get Microsoft Silverlight"" style=""border-style:none;"" /></a></p></object><iframe style=""visibility:hidden;height:0;width:0;border-width:0;""></iframe>");
             }
 
             [Fact]
@@ -162,7 +163,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string output = renderer.Expand(ScopeName.Silverlight, "url=http://localhost/silverlight,height=30,width=40,version=3", x => x, x => x);
 
-                Assert.Equal(@"<object data=""data:application/x-silverlight-2,"" type=""application/x-silverlight-2"" style=""height:30px;width:40px;""><param name=""source"" value=""http://localhost/silverlight""></param><param name=""windowless"" value=""true""></param><param name=""minRuntimeVersion"" value=""3.0.40624.0""></param><param name=""autoUpgrade"" value=""true""></param><p>You need to install Microsoft Silverlight to view this content. <a href=""http://go.microsoft.com/fwlink/?LinkID=149156&v=3.0.40624.0"" style=""text-decoration:none;"">Get Silverlight!<br /><img src=""http://go.microsoft.com/fwlink/?LinkID=108181"" alt=""Get Microsoft Silverlight"" style=""border-style:none;"" /></a></p></object><iframe style=""visibility:hidden;height:0;width:0;border-width:0;""></iframe>", output);
+                output.ShouldEqual(@"<object data=""data:application/x-silverlight-2,"" type=""application/x-silverlight-2"" style=""height:30px;width:40px;""><param name=""source"" value=""http://localhost/silverlight""></param><param name=""windowless"" value=""true""></param><param name=""minRuntimeVersion"" value=""3.0.40624.0""></param><param name=""autoUpgrade"" value=""true""></param><p>You need to install Microsoft Silverlight to view this content. <a href=""http://go.microsoft.com/fwlink/?LinkID=149156&v=3.0.40624.0"" style=""text-decoration:none;"">Get Silverlight!<br /><img src=""http://go.microsoft.com/fwlink/?LinkID=108181"" alt=""Get Microsoft Silverlight"" style=""border-style:none;"" /></a></p></object><iframe style=""visibility:hidden;height:0;width:0;border-width:0;""></iframe>");
             }
 
             [Fact]
@@ -172,7 +173,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string output = renderer.Expand(ScopeName.Silverlight, "url=http://localhost/silverlight,height=30,width=40,version=4", x => x, x => x);
 
-                Assert.Equal(@"<object data=""data:application/x-silverlight-2,"" type=""application/x-silverlight-2"" style=""height:30px;width:40px;""><param name=""source"" value=""http://localhost/silverlight""></param><param name=""windowless"" value=""true""></param><param name=""minRuntimeVersion"" value=""4.0.50401.0""></param><param name=""autoUpgrade"" value=""true""></param><p>You need to install Microsoft Silverlight to view this content. <a href=""http://go.microsoft.com/fwlink/?LinkID=149156&v=4.0.50401.0"" style=""text-decoration:none;"">Get Silverlight!<br /><img src=""http://go.microsoft.com/fwlink/?LinkID=108181"" alt=""Get Microsoft Silverlight"" style=""border-style:none;"" /></a></p></object><iframe style=""visibility:hidden;height:0;width:0;border-width:0;""></iframe>", output);
+                output.ShouldEqual(@"<object data=""data:application/x-silverlight-2,"" type=""application/x-silverlight-2"" style=""height:30px;width:40px;""><param name=""source"" value=""http://localhost/silverlight""></param><param name=""windowless"" value=""true""></param><param name=""minRuntimeVersion"" value=""4.0.50401.0""></param><param name=""autoUpgrade"" value=""true""></param><p>You need to install Microsoft Silverlight to view this content. <a href=""http://go.microsoft.com/fwlink/?LinkID=149156&v=4.0.50401.0"" style=""text-decoration:none;"">Get Silverlight!<br /><img src=""http://go.microsoft.com/fwlink/?LinkID=108181"" alt=""Get Microsoft Silverlight"" style=""border-style:none;"" /></a></p></object><iframe style=""visibility:hidden;height:0;width:0;border-width:0;""></iframe>");
             }
 
             [Fact]
@@ -182,7 +183,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string output = renderer.Expand(ScopeName.Silverlight, "url=http://localhost/silverlight,version=1", x => x, x => x);
 
-                Assert.Equal(@"<object data=""data:application/x-silverlight-2,"" type=""application/x-silverlight-2"" style=""height:200px;width:200px;""><param name=""source"" value=""http://localhost/silverlight""></param><param name=""windowless"" value=""true""></param><param name=""minRuntimeVersion"" value=""4.0.50401.0""></param><param name=""autoUpgrade"" value=""true""></param><p>You need to install Microsoft Silverlight to view this content. <a href=""http://go.microsoft.com/fwlink/?LinkID=149156&v=4.0.50401.0"" style=""text-decoration:none;"">Get Silverlight!<br /><img src=""http://go.microsoft.com/fwlink/?LinkID=108181"" alt=""Get Microsoft Silverlight"" style=""border-style:none;"" /></a></p></object><iframe style=""visibility:hidden;height:0;width:0;border-width:0;""></iframe>", output);
+                output.ShouldEqual(@"<object data=""data:application/x-silverlight-2,"" type=""application/x-silverlight-2"" style=""height:200px;width:200px;""><param name=""source"" value=""http://localhost/silverlight""></param><param name=""windowless"" value=""true""></param><param name=""minRuntimeVersion"" value=""4.0.50401.0""></param><param name=""autoUpgrade"" value=""true""></param><p>You need to install Microsoft Silverlight to view this content. <a href=""http://go.microsoft.com/fwlink/?LinkID=149156&v=4.0.50401.0"" style=""text-decoration:none;"">Get Silverlight!<br /><img src=""http://go.microsoft.com/fwlink/?LinkID=108181"" alt=""Get Microsoft Silverlight"" style=""border-style:none;"" /></a></p></object><iframe style=""visibility:hidden;height:0;width:0;border-width:0;""></iframe>");
             }
 
             [Fact]
@@ -192,7 +193,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string output = renderer.Expand(ScopeName.Silverlight, "url=http://localhost/silverlight,version=10", x => x, x => x);
 
-                Assert.Equal(@"<object data=""data:application/x-silverlight-2,"" type=""application/x-silverlight-2"" style=""height:200px;width:200px;""><param name=""source"" value=""http://localhost/silverlight""></param><param name=""windowless"" value=""true""></param><param name=""minRuntimeVersion"" value=""4.0.50401.0""></param><param name=""autoUpgrade"" value=""true""></param><p>You need to install Microsoft Silverlight to view this content. <a href=""http://go.microsoft.com/fwlink/?LinkID=149156&v=4.0.50401.0"" style=""text-decoration:none;"">Get Silverlight!<br /><img src=""http://go.microsoft.com/fwlink/?LinkID=108181"" alt=""Get Microsoft Silverlight"" style=""border-style:none;"" /></a></p></object><iframe style=""visibility:hidden;height:0;width:0;border-width:0;""></iframe>", output);
+                output.ShouldEqual(@"<object data=""data:application/x-silverlight-2,"" type=""application/x-silverlight-2"" style=""height:200px;width:200px;""><param name=""source"" value=""http://localhost/silverlight""></param><param name=""windowless"" value=""true""></param><param name=""minRuntimeVersion"" value=""4.0.50401.0""></param><param name=""autoUpgrade"" value=""true""></param><p>You need to install Microsoft Silverlight to view this content. <a href=""http://go.microsoft.com/fwlink/?LinkID=149156&v=4.0.50401.0"" style=""text-decoration:none;"">Get Silverlight!<br /><img src=""http://go.microsoft.com/fwlink/?LinkID=108181"" alt=""Get Microsoft Silverlight"" style=""border-style:none;"" /></a></p></object><iframe style=""visibility:hidden;height:0;width:0;border-width:0;""></iframe>");
             }
 
             [Fact]
@@ -202,7 +203,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string output = renderer.Expand(ScopeName.Silverlight, "url=http://localhost/silverlight,version=2,param1=a,height=250,gpuAcceleration=false,width=250,param2=b", x => x, x => x);
 
-                Assert.Equal(@"<object data=""data:application/x-silverlight,"" type=""application/x-silverlight"" style=""height:250px;width:250px;""><param name=""source"" value=""http://localhost/silverlight""></param><param name=""windowless"" value=""true""></param><param name=""initParams"" value=""param1=a,param2=b""></param><p>You need to install Microsoft Silverlight to view this content. <a href=""http://go.microsoft.com/fwlink/?LinkID=124807"" style=""text-decoration:none;"">Get Silverlight!<br /><img src=""http://go.microsoft.com/fwlink/?LinkID=108181"" alt=""Get Microsoft Silverlight"" style=""border-style:none;"" /></a></p></object><iframe style=""visibility:hidden;height:0;width:0;border-width:0;""></iframe>", output);
+                output.ShouldEqual(@"<object data=""data:application/x-silverlight,"" type=""application/x-silverlight"" style=""height:250px;width:250px;""><param name=""source"" value=""http://localhost/silverlight""></param><param name=""windowless"" value=""true""></param><param name=""initParams"" value=""param1=a,param2=b""></param><p>You need to install Microsoft Silverlight to view this content. <a href=""http://go.microsoft.com/fwlink/?LinkID=124807"" style=""text-decoration:none;"">Get Silverlight!<br /><img src=""http://go.microsoft.com/fwlink/?LinkID=108181"" alt=""Get Microsoft Silverlight"" style=""border-style:none;"" /></a></p></object><iframe style=""visibility:hidden;height:0;width:0;border-width:0;""></iframe>");
             }
 
             [Fact]
@@ -212,7 +213,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string output = renderer.Expand(ScopeName.Silverlight, "url=http://localhost/silverlight,height=30,width=40,version=3,gpuAcceleration=true", x => x, x => x);
 
-                Assert.Equal(@"<object data=""data:application/x-silverlight-2,"" type=""application/x-silverlight-2"" style=""height:30px;width:40px;""><param name=""source"" value=""http://localhost/silverlight""></param><param name=""enableGPUAcceleration"" value=""true""></param><param name=""minRuntimeVersion"" value=""3.0.40624.0""></param><param name=""autoUpgrade"" value=""true""></param><p>You need to install Microsoft Silverlight to view this content. <a href=""http://go.microsoft.com/fwlink/?LinkID=149156&v=3.0.40624.0"" style=""text-decoration:none;"">Get Silverlight!<br /><img src=""http://go.microsoft.com/fwlink/?LinkID=108181"" alt=""Get Microsoft Silverlight"" style=""border-style:none;"" /></a></p></object><iframe style=""visibility:hidden;height:0;width:0;border-width:0;""></iframe>", output);
+                output.ShouldEqual(@"<object data=""data:application/x-silverlight-2,"" type=""application/x-silverlight-2"" style=""height:30px;width:40px;""><param name=""source"" value=""http://localhost/silverlight""></param><param name=""enableGPUAcceleration"" value=""true""></param><param name=""minRuntimeVersion"" value=""3.0.40624.0""></param><param name=""autoUpgrade"" value=""true""></param><p>You need to install Microsoft Silverlight to view this content. <a href=""http://go.microsoft.com/fwlink/?LinkID=149156&v=3.0.40624.0"" style=""text-decoration:none;"">Get Silverlight!<br /><img src=""http://go.microsoft.com/fwlink/?LinkID=108181"" alt=""Get Microsoft Silverlight"" style=""border-style:none;"" /></a></p></object><iframe style=""visibility:hidden;height:0;width:0;border-width:0;""></iframe>");
             }
 
             [Fact]
@@ -222,7 +223,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string output = renderer.Expand(ScopeName.Silverlight, "url=http://localhost/silverlight,height=30,width=40,version=4,gpuAcceleration=true", x => x, x => x);
 
-                Assert.Equal(@"<object data=""data:application/x-silverlight-2,"" type=""application/x-silverlight-2"" style=""height:30px;width:40px;""><param name=""source"" value=""http://localhost/silverlight""></param><param name=""enableGPUAcceleration"" value=""true""></param><param name=""minRuntimeVersion"" value=""4.0.50401.0""></param><param name=""autoUpgrade"" value=""true""></param><p>You need to install Microsoft Silverlight to view this content. <a href=""http://go.microsoft.com/fwlink/?LinkID=149156&v=4.0.50401.0"" style=""text-decoration:none;"">Get Silverlight!<br /><img src=""http://go.microsoft.com/fwlink/?LinkID=108181"" alt=""Get Microsoft Silverlight"" style=""border-style:none;"" /></a></p></object><iframe style=""visibility:hidden;height:0;width:0;border-width:0;""></iframe>", output);
+                output.ShouldEqual(@"<object data=""data:application/x-silverlight-2,"" type=""application/x-silverlight-2"" style=""height:30px;width:40px;""><param name=""source"" value=""http://localhost/silverlight""></param><param name=""enableGPUAcceleration"" value=""true""></param><param name=""minRuntimeVersion"" value=""4.0.50401.0""></param><param name=""autoUpgrade"" value=""true""></param><p>You need to install Microsoft Silverlight to view this content. <a href=""http://go.microsoft.com/fwlink/?LinkID=149156&v=4.0.50401.0"" style=""text-decoration:none;"">Get Silverlight!<br /><img src=""http://go.microsoft.com/fwlink/?LinkID=108181"" alt=""Get Microsoft Silverlight"" style=""border-style:none;"" /></a></p></object><iframe style=""visibility:hidden;height:0;width:0;border-width:0;""></iframe>");
             }
 
             [Fact]
@@ -232,7 +233,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string output = renderer.Expand(ScopeName.Silverlight, "url=http://localhost/silverlight,height=30,width=40,version=3,gpuAcceleration=false", x => x, x => x);
 
-                Assert.Equal(@"<object data=""data:application/x-silverlight-2,"" type=""application/x-silverlight-2"" style=""height:30px;width:40px;""><param name=""source"" value=""http://localhost/silverlight""></param><param name=""windowless"" value=""true""></param><param name=""minRuntimeVersion"" value=""3.0.40624.0""></param><param name=""autoUpgrade"" value=""true""></param><p>You need to install Microsoft Silverlight to view this content. <a href=""http://go.microsoft.com/fwlink/?LinkID=149156&v=3.0.40624.0"" style=""text-decoration:none;"">Get Silverlight!<br /><img src=""http://go.microsoft.com/fwlink/?LinkID=108181"" alt=""Get Microsoft Silverlight"" style=""border-style:none;"" /></a></p></object><iframe style=""visibility:hidden;height:0;width:0;border-width:0;""></iframe>", output);
+                output.ShouldEqual(@"<object data=""data:application/x-silverlight-2,"" type=""application/x-silverlight-2"" style=""height:30px;width:40px;""><param name=""source"" value=""http://localhost/silverlight""></param><param name=""windowless"" value=""true""></param><param name=""minRuntimeVersion"" value=""3.0.40624.0""></param><param name=""autoUpgrade"" value=""true""></param><p>You need to install Microsoft Silverlight to view this content. <a href=""http://go.microsoft.com/fwlink/?LinkID=149156&v=3.0.40624.0"" style=""text-decoration:none;"">Get Silverlight!<br /><img src=""http://go.microsoft.com/fwlink/?LinkID=108181"" alt=""Get Microsoft Silverlight"" style=""border-style:none;"" /></a></p></object><iframe style=""visibility:hidden;height:0;width:0;border-width:0;""></iframe>");
             }
         }
     }

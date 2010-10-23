@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Moq;
+using Should;
 using Xunit;
 using WikiPlex.Formatting;
 using WikiPlex.Parsing;
@@ -25,7 +26,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string result = formatter.Format("the ab abc code");
 
-                Assert.Equal("the <b>ab</b> <b>abc</b> code", result);
+                result.ShouldEqual("the <b>ab</b> <b>abc</b> code");
             }
 
             [Fact]
@@ -40,7 +41,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string result = formatter.Format("the ab abc code");
 
-                Assert.Equal("the <span class=\"unresolved\">Cannot resolve macro, as no renderers were found.</span>[ab] abc code", result);
+                result.ShouldEqual("the <span class=\"unresolved\">Cannot resolve macro, as no renderers were found.</span>[ab] abc code");
             }
 
             [Fact]
@@ -55,7 +56,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string result = formatter.Format("the &ab abc code");
 
-                Assert.Equal("the <span class=\"unresolved\">Cannot resolve macro, as no renderers were found.</span>[&amp;ab] abc code", result);
+                result.ShouldEqual("the <span class=\"unresolved\">Cannot resolve macro, as no renderers were found.</span>[&amp;ab] abc code");
             }
 
             [Fact]
@@ -70,7 +71,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string result = formatter.Format("f");
 
-                Assert.Equal("<h1>end</h1>", result);
+                result.ShouldEqual("<h1>end</h1>");
             }
 
             [Fact]
@@ -87,7 +88,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string result = formatter.Format("the abc code");
 
-                Assert.Equal("the notskipped code", result);
+                result.ShouldEqual("the notskipped code");
                 renderer.Verify();
             }
 
@@ -105,7 +106,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string result = formatter.Format("the abc code");
 
-                Assert.Equal("the notskippednotskipped code", result);
+                result.ShouldEqual("the notskippednotskipped code");
                 renderer.Verify();
             }
 
@@ -123,7 +124,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string result = formatter.Format("the& ab abc code");
 
-                Assert.Equal("the&amp; <b>ab</b> <b>abc</b> code", result);
+                result.ShouldEqual("the&amp; <b>ab</b> <b>abc</b> code");
             }
 
             [Fact]
@@ -140,7 +141,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string result = formatter.Format("the ab abc &code");
 
-                Assert.Equal("the <b>ab</b> <b>abc</b> &amp;code", result);
+                result.ShouldEqual("the <b>ab</b> <b>abc</b> &amp;code");
             }
 
             [Fact]
@@ -156,7 +157,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string result = formatter.Format("ab");
 
-                Assert.Equal("<span class=\"unresolved\">Cannot resolve macro, as an unhandled exception occurred.</span>[ab]", result);
+                result.ShouldEqual("<span class=\"unresolved\">Cannot resolve macro, as an unhandled exception occurred.</span>[ab]");
             }
 
             [Fact]
@@ -172,7 +173,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string result = formatter.Format("&ab");
 
-                Assert.Equal("<span class=\"unresolved\">Cannot resolve macro, as an unhandled exception occurred.</span>[&amp;ab]", result);
+                result.ShouldEqual("<span class=\"unresolved\">Cannot resolve macro, as an unhandled exception occurred.</span>[&amp;ab]");
             }
 
             [Fact]
@@ -198,8 +199,8 @@ namespace WikiPlex.Tests.Formatting
 
                 formatter.Format(expectedContent);
 
-                Assert.Equal(expectedScope, actualScope);
-                Assert.Equal(expectedContent, actualContent);
+                actualScope.ShouldEqual(expectedScope);
+                actualContent.ShouldEqual(expectedContent);
             }
         }
     }

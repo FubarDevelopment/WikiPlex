@@ -1,4 +1,5 @@
 ﻿using System.Web;
+using Should;
 using Xunit;
 using Xunit.Extensions;
 using WikiPlex.Formatting;
@@ -43,7 +44,7 @@ namespace WikiPlex.Tests.Formatting
 
                 bool result = renderer.CanExpand(scopeName);
 
-                Assert.True(result);
+                result.ShouldBeTrue();
             }
         }
 
@@ -75,7 +76,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string result = renderer.Expand(scopeName, "in", x => x, x => x);
 
-                Assert.Equal(string.Format("<{0}>", tagName), result);
+                result.ShouldEqual(string.Format("<{0}>", tagName));
             }
 
             [Theory]
@@ -91,7 +92,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string result = renderer.Expand(scopeName, "in", x => x, x => x);
 
-                Assert.Equal(string.Format("</{0}>\r", endTagName), result);
+                result.ShouldEqual(string.Format("</{0}>\r", endTagName));
             }
 
             [Fact]
@@ -101,7 +102,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string result = renderer.Expand(ScopeName.Remove, "in", x => x, x => x);
 
-                Assert.Empty(result);
+                result.ShouldBeEmpty();
             }
 
             [Fact]
@@ -111,7 +112,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string result = renderer.Expand(ScopeName.EscapedMarkup, "this is content", x => x, x => x);
 
-                Assert.Equal("this is content", result);
+                result.ShouldEqual("this is content");
             }
 
             [Fact]
@@ -121,7 +122,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string result = renderer.Expand(ScopeName.EscapedMarkup, "this is &content", HttpUtility.HtmlEncode, x => x);
 
-                Assert.Equal("this is &amp;content", result);
+                result.ShouldEqual("this is &amp;content");
             }
 
             [Fact]
@@ -131,7 +132,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string result = renderer.Expand("foo", "in", x => x, x => x);
 
-                Assert.Equal("in", result);
+                result.ShouldEqual("in");
             }
         }
     }

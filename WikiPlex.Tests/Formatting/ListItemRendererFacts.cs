@@ -1,4 +1,5 @@
-﻿using Xunit;
+﻿using Should;
+using Xunit;
 using Xunit.Extensions;
 using WikiPlex.Formatting;
 
@@ -21,7 +22,7 @@ namespace WikiPlex.Tests.Formatting
 
                 bool result = renderer.CanExpand(scopeName);
 
-                Assert.True(result);
+                result.ShouldBeTrue();
             }
         }
 
@@ -34,7 +35,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string result = renderer.Expand(ScopeName.OrderedListBeginTag, string.Empty, x => x, x => x);
 
-                Assert.Equal("<ol><li>", result);
+                result.ShouldEqual("<ol><li>");
             }
 
             [Fact]
@@ -44,7 +45,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string result = renderer.Expand(ScopeName.OrderedListEndTag, string.Empty, x => x, x => x);
 
-                Assert.Equal("</li></ol>", result);
+                result.ShouldEqual("</li></ol>");
             }
 
             [Fact]
@@ -54,7 +55,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string result = renderer.Expand(ScopeName.UnorderedListBeginTag, string.Empty, x => x, x => x);
 
-                Assert.Equal("<ul><li>", result);
+                result.ShouldEqual("<ul><li>");
             }
 
             [Fact]
@@ -64,7 +65,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string result = renderer.Expand(ScopeName.UnorderedListEndTag, string.Empty, x => x, x => x);
 
-                Assert.Equal("</li></ul>", result);
+                result.ShouldEqual("</li></ul>");
             }
 
             [Fact]
@@ -74,7 +75,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string result = renderer.Expand(ScopeName.ListItemBegin, string.Empty, x => x, x => x);
 
-                Assert.Equal("<li>", result);
+                result.ShouldEqual("<li>");
             }
 
             [Fact]
@@ -84,7 +85,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string result = renderer.Expand(ScopeName.ListItemEnd, string.Empty, x => x, x => x);
 
-                Assert.Equal("</li>", result);
+                result.ShouldEqual("</li>");
             }
 
             [Fact]
@@ -94,7 +95,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string result = renderer.Expand("foo", "in", x => x, x => x);
 
-                Assert.Equal("in", result);
+                result.ShouldEqual("in");
             }
         }
     }

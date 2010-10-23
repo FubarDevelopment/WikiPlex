@@ -3,6 +3,7 @@ using System.Web;
 using ColorCode;
 using ColorCode.Common;
 using Moq;
+using Should;
 using Xunit;
 using Xunit.Extensions;
 using WikiPlex.Formatting;
@@ -36,7 +37,7 @@ namespace WikiPlex.Tests.Formatting
 
                 bool result = renderer.CanExpand(scopeName);
 
-                Assert.True(result);
+                result.ShouldBeTrue();
             }
         }
 
@@ -49,7 +50,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string result = renderer.Expand(ScopeName.SingleLineCode, "public class { }", x => x, x => x);
 
-                Assert.Equal("<span class=\"codeInline\">public class { }</span>", result);
+                result.ShouldEqual("<span class=\"codeInline\">public class { }</span>");
             }
 
             [Fact]
@@ -59,7 +60,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string result = renderer.Expand(ScopeName.SingleLineCode, "&public class { }", HttpUtility.HtmlEncode, x => x);
 
-                Assert.Equal("<span class=\"codeInline\">&amp;public class { }</span>", result);
+                result.ShouldEqual("<span class=\"codeInline\">&amp;public class { }</span>");
             }
 
             [Fact]
@@ -69,7 +70,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string result = renderer.Expand(ScopeName.MultiLineCode, "public class { }", x => x, x => x);
 
-                Assert.Equal("<pre>public class { }</pre>", result);
+                result.ShouldEqual("<pre>public class { }</pre>");
             }
 
             [Fact]
@@ -79,7 +80,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string result = renderer.Expand(ScopeName.MultiLineCode, "public &class { }", HttpUtility.HtmlEncode, x => x);
 
-                Assert.Equal("<pre>public &amp;class { }</pre>", result);
+                result.ShouldEqual("<pre>public &amp;class { }</pre>");
             }
 
             [Fact]
@@ -89,7 +90,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string result = renderer.Expand(ScopeName.MultiLineCode, "public class { }\r\n", x => x, x => x);
 
-                Assert.Equal("<pre>public class { }</pre>", result);
+                result.ShouldEqual("<pre>public class { }</pre>");
             }
 
             [Theory]
@@ -115,7 +116,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string result = renderer.Expand(scopeName, "I am not colorized.", x => x, x => x);
 
-                Assert.Equal("I am colorized!", result);
+                result.ShouldEqual("I am colorized!");
             }
 
             [Fact]
@@ -125,7 +126,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string result = renderer.Expand("foo", "in", x => x, x => x);
 
-                Assert.Equal("in", result);
+                result.ShouldEqual("in");
             }
 
             [Fact]
@@ -140,7 +141,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string result = renderer.Expand(ScopeName.ColorCodeCss, "I am not colorized.", x => "plain", x => x);
 
-                Assert.Equal("<pre>plain</pre>", result);
+                result.ShouldEqual("<pre>plain</pre>");
             }
         }
     }

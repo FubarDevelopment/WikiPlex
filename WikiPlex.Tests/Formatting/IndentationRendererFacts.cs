@@ -1,4 +1,5 @@
-﻿using WikiPlex.Formatting;
+﻿using Should;
+using WikiPlex.Formatting;
 using Xunit;
 using Xunit.Extensions;
 
@@ -17,7 +18,7 @@ namespace WikiPlex.Tests.Formatting
 
                 bool result = renderer.CanExpand(scopeName);
 
-                Assert.True(result);
+                result.ShouldBeTrue();
             }
         }
 
@@ -30,7 +31,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string result = renderer.Expand(ScopeName.IndentationBegin, string.Empty, x => x, x => x);
 
-                Assert.Equal("<blockquote>", result);
+                result.ShouldEqual("<blockquote>");
             }
 
             [Fact]
@@ -40,7 +41,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string result = renderer.Expand(ScopeName.IndentationEnd, string.Empty, x => x, x => x);
 
-                Assert.Equal("</blockquote>", result);
+                result.ShouldEqual("</blockquote>");
             }
         }
     }

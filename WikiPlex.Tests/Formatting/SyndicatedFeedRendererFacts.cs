@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Xml;
 using Moq;
+using Should;
 using WikiPlex.Formatting;
 using WikiPlex.Syndication;
 using Xunit;
@@ -19,7 +20,7 @@ namespace WikiPlex.Tests.Formatting
 
                 bool result = renderer.CanExpand(ScopeName.SyndicatedFeed);
 
-                Assert.True(result);
+                result.ShouldBeTrue();
             }
         }
 
@@ -32,7 +33,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string output = renderer.Expand(ScopeName.SyndicatedFeed, "foo", x => x, x => x);
 
-                Assert.Equal("<span class=\"unresolved\">Cannot resolve syndicated feed macro, invalid parameter 'url'.</span>", output);
+                output.ShouldEqual("<span class=\"unresolved\">Cannot resolve syndicated feed macro, invalid parameter 'url'.</span>");
             }
 
             [Fact]
@@ -42,7 +43,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string output = renderer.Expand(ScopeName.SyndicatedFeed, "url=foo", x => x, x => x);
 
-                Assert.Equal("<span class=\"unresolved\">Cannot resolve syndicated feed macro, invalid parameter 'url'.</span>", output);
+                output.ShouldEqual("<span class=\"unresolved\">Cannot resolve syndicated feed macro, invalid parameter 'url'.</span>");
             }
 
             [Fact]
@@ -52,7 +53,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string output = renderer.Expand(ScopeName.SyndicatedFeed, "url=http://localhost/rss,max=a", x => x, x => x);
 
-                Assert.Equal("<span class=\"unresolved\">Cannot resolve syndicated feed macro, invalid parameter 'max'.</span>", output);
+                output.ShouldEqual("<span class=\"unresolved\">Cannot resolve syndicated feed macro, invalid parameter 'max'.</span>");
             }
 
             [Theory]
@@ -65,7 +66,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string output = renderer.Expand(ScopeName.SyndicatedFeed, "url=http://localhost/rss,max=" + max, x => x, x => x);
 
-                Assert.Equal("<span class=\"unresolved\">Cannot resolve syndicated feed macro, invalid parameter 'max'.</span>", output);
+                output.ShouldEqual("<span class=\"unresolved\">Cannot resolve syndicated feed macro, invalid parameter 'max'.</span>");
             }
 
             [Fact]
@@ -75,7 +76,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string output = renderer.Expand(ScopeName.SyndicatedFeed, "url=http://localhost/rss,titlesOnly=a", x => x, x => x);
 
-                Assert.Equal("<span class=\"unresolved\">Cannot resolve syndicated feed macro, invalid parameter 'titlesOnly'.</span>", output);
+                output.ShouldEqual("<span class=\"unresolved\">Cannot resolve syndicated feed macro, invalid parameter 'titlesOnly'.</span>");
             }
 
             [Fact]
@@ -87,7 +88,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string output = renderer.Expand(ScopeName.SyndicatedFeed, "url=http://localhost/rss", x => x, x => x);
 
-                Assert.Equal("<span class=\"unresolved\">Cannot resolve syndicated feed macro, invalid parameter 'url'.</span>", output);
+                output.ShouldEqual("<span class=\"unresolved\">Cannot resolve syndicated feed macro, invalid parameter 'url'.</span>");
             }
 
             [Fact]
@@ -119,8 +120,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string output = renderer.Expand(ScopeName.SyndicatedFeed, "url=http://localhost/rss", x => x, x => x);
 
-                Assert.Equal(@"<div class=""rss""><div class=""accentbar""><span class=""left"">&nbsp;</span>Localhost News Feed<span class=""right"">&nbsp;</span></div><div class=""entry""><div class=""title""><a href=""http://localhost/1"">Title1</a></div><div class=""moreinfo""><span class=""date"">Tuesday, February 17, 2009</span> &nbsp;|&nbsp; <span class=""source"">From <a target=""_blank"" href=""http://localhost/rss"">Localhost</a></span></div><p>Description1</p></div><div class=""entry""><div class=""title""><a href=""http://localhost/2"">Title2</a></div><div class=""moreinfo""><span class=""date"">Tuesday, February 17, 2009</span> &nbsp;|&nbsp; <span class=""source"">From <a target=""_blank"" href=""http://localhost/rss"">Localhost</a></span></div><p>Description2</p></div><div class=""accentbar""><span class=""left"">&nbsp;</span>Localhost News Feed<span class=""right"">&nbsp;</span></div></div>"
-                             , output);
+                output.ShouldEqual(@"<div class=""rss""><div class=""accentbar""><span class=""left"">&nbsp;</span>Localhost News Feed<span class=""right"">&nbsp;</span></div><div class=""entry""><div class=""title""><a href=""http://localhost/1"">Title1</a></div><div class=""moreinfo""><span class=""date"">Tuesday, February 17, 2009</span> &nbsp;|&nbsp; <span class=""source"">From <a target=""_blank"" href=""http://localhost/rss"">Localhost</a></span></div><p>Description1</p></div><div class=""entry""><div class=""title""><a href=""http://localhost/2"">Title2</a></div><div class=""moreinfo""><span class=""date"">Tuesday, February 17, 2009</span> &nbsp;|&nbsp; <span class=""source"">From <a target=""_blank"" href=""http://localhost/rss"">Localhost</a></span></div><p>Description2</p></div><div class=""accentbar""><span class=""left"">&nbsp;</span>Localhost News Feed<span class=""right"">&nbsp;</span></div></div>");
             }
 
             [Fact]
@@ -152,8 +152,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string output = renderer.Expand(ScopeName.SyndicatedFeed, "url=http://localhost/rss,max=1", x => x, x => x);
 
-                Assert.Equal(@"<div class=""rss""><div class=""accentbar""><span class=""left"">&nbsp;</span>Localhost News Feed<span class=""right"">&nbsp;</span></div><div class=""entry""><div class=""title""><a href=""http://localhost/1"">Title1</a></div><div class=""moreinfo""><span class=""date"">Tuesday, February 17, 2009</span> &nbsp;|&nbsp; <span class=""source"">From <a target=""_blank"" href=""http://localhost/rss"">Localhost</a></span></div><p>Description1</p></div><div class=""accentbar""><span class=""left"">&nbsp;</span>Localhost News Feed<span class=""right"">&nbsp;</span></div></div>"
-                             , output);
+                output.ShouldEqual(@"<div class=""rss""><div class=""accentbar""><span class=""left"">&nbsp;</span>Localhost News Feed<span class=""right"">&nbsp;</span></div><div class=""entry""><div class=""title""><a href=""http://localhost/1"">Title1</a></div><div class=""moreinfo""><span class=""date"">Tuesday, February 17, 2009</span> &nbsp;|&nbsp; <span class=""source"">From <a target=""_blank"" href=""http://localhost/rss"">Localhost</a></span></div><p>Description1</p></div><div class=""accentbar""><span class=""left"">&nbsp;</span>Localhost News Feed<span class=""right"">&nbsp;</span></div></div>");
             }
 
             [Fact]
@@ -185,8 +184,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string output = renderer.Expand(ScopeName.SyndicatedFeed, "url=http://localhost/rss,titlesOnly=true", x => x, x => x);
 
-                Assert.Equal(@"<div class=""rss""><div class=""accentbar""><span class=""left"">&nbsp;</span>Localhost News Feed<span class=""right"">&nbsp;</span></div><div class=""entry""><div class=""title""><a href=""http://localhost/1"">Title1</a></div><div class=""moreinfo""><span class=""date"">Tuesday, February 17, 2009</span> &nbsp;|&nbsp; <span class=""source"">From <a target=""_blank"" href=""http://localhost/rss"">Localhost</a></span></div></div><div class=""entry""><div class=""title""><a href=""http://localhost/2"">Title2</a></div><div class=""moreinfo""><span class=""date"">Tuesday, February 17, 2009</span> &nbsp;|&nbsp; <span class=""source"">From <a target=""_blank"" href=""http://localhost/rss"">Localhost</a></span></div></div><div class=""accentbar""><span class=""left"">&nbsp;</span>Localhost News Feed<span class=""right"">&nbsp;</span></div></div>"
-                             , output);
+                output.ShouldEqual(@"<div class=""rss""><div class=""accentbar""><span class=""left"">&nbsp;</span>Localhost News Feed<span class=""right"">&nbsp;</span></div><div class=""entry""><div class=""title""><a href=""http://localhost/1"">Title1</a></div><div class=""moreinfo""><span class=""date"">Tuesday, February 17, 2009</span> &nbsp;|&nbsp; <span class=""source"">From <a target=""_blank"" href=""http://localhost/rss"">Localhost</a></span></div></div><div class=""entry""><div class=""title""><a href=""http://localhost/2"">Title2</a></div><div class=""moreinfo""><span class=""date"">Tuesday, February 17, 2009</span> &nbsp;|&nbsp; <span class=""source"">From <a target=""_blank"" href=""http://localhost/rss"">Localhost</a></span></div></div><div class=""accentbar""><span class=""left"">&nbsp;</span>Localhost News Feed<span class=""right"">&nbsp;</span></div></div>");
             }
 
             [Fact]
@@ -200,7 +198,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string output = renderer.Expand(ScopeName.SyndicatedFeed, "url=http://localhost/rss", x => x, x => x);
 
-                Assert.Equal("<span class=\"unresolved\">Cannot resolve syndicated feed macro, invalid parameter 'url'.</span>", output);
+                output.ShouldEqual("<span class=\"unresolved\">Cannot resolve syndicated feed macro, invalid parameter 'url'.</span>");
             }
         }
     }

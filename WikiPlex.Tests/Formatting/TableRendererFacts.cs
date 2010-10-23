@@ -1,4 +1,5 @@
-﻿using Xunit;
+﻿using Should;
+using Xunit;
 using Xunit.Extensions;
 using WikiPlex.Formatting;
 
@@ -23,7 +24,7 @@ namespace WikiPlex.Tests.Formatting
 
                 bool result = renderer.CanExpand(scopeName);
 
-                Assert.True(result);
+                result.ShouldBeTrue();
             }
         }
 
@@ -44,7 +45,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string actualResult = renderer.Expand(scopeName, string.Empty, x => x, x => x);
 
-                Assert.Equal(expectedResult, actualResult);
+                actualResult.ShouldEqual(expectedResult);
             }
 
             [Fact]
@@ -54,7 +55,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string result = renderer.Expand("foo", "in", x => x, x => x);
 
-                Assert.Equal("in", result);
+                result.ShouldEqual("in");
             }
         }
     }

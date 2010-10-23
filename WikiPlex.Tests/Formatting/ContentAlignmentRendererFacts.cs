@@ -1,4 +1,5 @@
-﻿using WikiPlex.Formatting;
+﻿using Should;
+using WikiPlex.Formatting;
 using Xunit;
 using Xunit.Extensions;
 
@@ -18,7 +19,7 @@ namespace WikiPlex.Tests.Formatting
 
                 bool result = renderer.CanExpand(scopeName);
 
-                Assert.True(result);
+                result.ShouldBeTrue();
             }
         }
 
@@ -31,7 +32,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string result = renderer.Expand(ScopeName.AlignEnd, "in", x => x, x => x);
 
-                Assert.Equal("</div><div style=\"clear:both;height:0;\">&nbsp;</div>", result);
+                result.ShouldEqual("</div><div style=\"clear:both;height:0;\">&nbsp;</div>");
             }
 
             [Theory]
@@ -43,7 +44,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string result = renderer.Expand(scopeName, "in", x => x, x => x);
 
-                Assert.Equal(string.Format("<div style=\"text-align:{0};float:{0};\">", alignment), result);
+                result.ShouldEqual(string.Format("<div style=\"text-align:{0};float:{0};\">", alignment));
             }
 
             [Fact]
@@ -53,7 +54,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string result = renderer.Expand("foo", "in", x => x, x => x);
 
-                Assert.Equal("in", result);
+                result.ShouldEqual("in");
             }
         }
     }
