@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Moq;
+using Should;
 using WikiPlex.Compilation;
 using WikiPlex.Compilation.Macros;
 using WikiPlex.Formatting;
@@ -22,7 +23,7 @@ namespace WikiPlex.Tests
 
                 string result = engine.Render(null);
 
-                Assert.Null(result);
+                result.ShouldBeNull();
             }
 
             [Fact]
@@ -32,7 +33,7 @@ namespace WikiPlex.Tests
 
                 string result = engine.Render(string.Empty);
 
-                Assert.Empty(result);
+                result.ShouldBeEmpty();
             }
 
             [Fact]
@@ -42,8 +43,8 @@ namespace WikiPlex.Tests
 
                 var ex = Record.Exception(() => engine.Render("foo", (IMacro[]) null)) as ArgumentNullException;
 
-                Assert.NotNull(ex);
-                Assert.Equal("macros", ex.ParamName);
+                ex.ShouldNotBeNull();
+                ex.ParamName.ShouldEqual("macros");
             }
 
             [Fact]
@@ -53,8 +54,8 @@ namespace WikiPlex.Tests
 
                 var ex = Record.Exception(() => engine.Render("foo", new IMacro[0])) as ArgumentException;
 
-                Assert.NotNull(ex);
-                Assert.Equal("macros", ex.ParamName);
+                ex.ShouldNotBeNull();
+                ex.ParamName.ShouldEqual("macros");
             }
 
             [Fact]
@@ -64,8 +65,8 @@ namespace WikiPlex.Tests
 
                 var ex = Record.Exception(() => engine.Render("foo", new[] { new TestMacro() }, (IEnumerable<IRenderer>)null)) as ArgumentNullException;
 
-                Assert.NotNull(ex);
-                Assert.Equal("renderers", ex.ParamName);
+                ex.ShouldNotBeNull();
+                ex.ParamName.ShouldEqual("renderers");
             }
 
             [Fact]
@@ -75,8 +76,8 @@ namespace WikiPlex.Tests
 
                 var ex = Record.Exception(() => engine.Render("foo", new[] {new TestMacro()}, new IRenderer[0])) as ArgumentException;
 
-                Assert.NotNull(ex);
-                Assert.Equal("renderers", ex.ParamName);
+                ex.ShouldNotBeNull();
+                ex.ParamName.ShouldEqual("renderers");
             }
 
             [Fact]
@@ -88,7 +89,7 @@ namespace WikiPlex.Tests
 
                 string result = engine.Render("input", formatter.Object);
 
-                Assert.Equal("output", result);
+                result.ShouldEqual("output");
             }
 
             [Fact]
@@ -112,7 +113,7 @@ namespace WikiPlex.Tests
 
                 string result = engine.Render("input", formatter.Object);
 
-                Assert.Equal("text<br />text", result);
+                result.ShouldEqual("text<br />text");
             }
 
             [Fact]
@@ -124,7 +125,7 @@ namespace WikiPlex.Tests
 
                 string result = engine.Render("input", formatter.Object);
 
-                Assert.Equal("text<br />text", result);
+                result.ShouldEqual("text<br />text");
             }
 
             [Fact]
@@ -136,7 +137,7 @@ namespace WikiPlex.Tests
 
                 string result = engine.Render("input", formatter.Object);
 
-                Assert.Equal("<ul><li>text</li></ul>\ntext", result);
+                result.ShouldEqual("<ul><li>text</li></ul>\ntext");
             }
 
             [Fact]
@@ -148,7 +149,7 @@ namespace WikiPlex.Tests
 
                 string result = engine.Render("input", formatter.Object);
 
-                Assert.Equal("<ol><li>text</li></ol>\ntext", result);
+                result.ShouldEqual("<ol><li>text</li></ol>\ntext");
             }
 
             [Fact]
@@ -160,7 +161,7 @@ namespace WikiPlex.Tests
 
                 string result = engine.Render("input", formatter.Object);
 
-                Assert.Equal("<blockquote>text</blockquote>\ntext", result);
+                result.ShouldEqual("<blockquote>text</blockquote>\ntext");
             }
 
             [Fact]
@@ -172,7 +173,7 @@ namespace WikiPlex.Tests
 
                 string result = engine.Render("input", formatter.Object);
 
-                Assert.Equal("<blockquote>text\n</blockquote>", result);
+                result.ShouldEqual("<blockquote>text\n</blockquote>");
             }
 
             [Fact]
@@ -184,7 +185,7 @@ namespace WikiPlex.Tests
 
                 string result = engine.Render("input", formatter.Object);
 
-                Assert.Equal("<pre>code\ncode</pre>", result);
+                result.ShouldEqual("<pre>code\ncode</pre>");
             }
 
             [Theory]
@@ -206,7 +207,7 @@ namespace WikiPlex.Tests
 
                 string result = engine.Render("input", formatter.Object);
 
-                Assert.Equal(expectation, result);
+                result.ShouldEqual(expectation);
             }
 
             [Fact]
@@ -214,12 +215,12 @@ namespace WikiPlex.Tests
             {
                 var engine = TestableWikiEngine.Create();
                 var formatter = new Mock<IFormatter>();
-                string expectation = "<hr />\ntext";
+                const string expectation = "<hr />\ntext";
                 formatter.Setup(x => x.Format("input")).Returns(expectation);
 
                 string result = engine.Render("input", formatter.Object);
 
-                Assert.Equal(expectation, result);
+                result.ShouldEqual(expectation);
             }
 
             [Fact]
@@ -227,11 +228,12 @@ namespace WikiPlex.Tests
             {
                 var engine = TestableWikiEngine.Create();
                 var formatter = new Mock<IFormatter>();
-                formatter.Setup(x => x.Format("input")).Returns("<ol><li>one\n</li></ol><ol><li>two</li></ol>");
+                const string expectation = "<ol><li>one\n</li></ol><ol><li>two</li></ol>";
+                formatter.Setup(x => x.Format("input")).Returns(expectation);
 
                 string result = engine.Render("input", formatter.Object);
 
-                Assert.Equal("<ol><li>one\n</li></ol><ol><li>two</li></ol>", result);
+                result.ShouldEqual(expectation);
             }
 
             [Fact]
@@ -243,8 +245,8 @@ namespace WikiPlex.Tests
                 var formatter = new MacroFormatter(new[] { renderer.Object });
                 var ex = Record.Exception(() => engine.Render("*abc*", null, formatter)) as ArgumentNullException;
 
-                Assert.NotNull(ex);
-                Assert.Equal("macros", ex.ParamName);
+                ex.ShouldNotBeNull();
+                ex.ParamName.ShouldEqual("macros");
             }
 
             [Fact]
@@ -256,8 +258,8 @@ namespace WikiPlex.Tests
                 var formatter = new MacroFormatter(new[] { renderer.Object });
                 var ex = Record.Exception(() => engine.Render("*abc*", new IMacro[0], formatter)) as ArgumentException;
 
-                Assert.NotNull(ex);
-                Assert.Equal("macros", ex.ParamName);
+                ex.ShouldNotBeNull();
+                ex.ParamName.ShouldEqual("macros");
             }
 
             [Fact]
@@ -267,8 +269,8 @@ namespace WikiPlex.Tests
                 
                 var ex = Record.Exception(() => engine.Render("*abc*", new[] { new TestMacro() }, (IFormatter) null)) as ArgumentNullException;
 
-                Assert.NotNull(ex);
-                Assert.Equal("formatter", ex.ParamName);
+                ex.ShouldNotBeNull();
+                ex.ParamName.ShouldEqual("formatter");
             }
 
             [Fact]
@@ -280,7 +282,7 @@ namespace WikiPlex.Tests
 
                 string result = engine.Render(string.Empty, new[] { macro.Object }, formatter.Object);
 
-                Assert.Empty(result);
+                result.ShouldBeEmpty();
             }
 
             [Fact]
@@ -292,7 +294,7 @@ namespace WikiPlex.Tests
 
                 string result = engine.Render("before\r\nafter");
 
-                Assert.Equal("before<br />after", result);
+                result.ShouldEqual("before<br />after");
             }
         }
 

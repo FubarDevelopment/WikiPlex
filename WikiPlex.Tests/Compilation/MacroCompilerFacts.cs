@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using Moq;
+using Should;
 using WikiPlex.Compilation;
 using WikiPlex.Compilation.Macros;
 using Xunit;
@@ -17,10 +18,10 @@ namespace WikiPlex.Tests.Compilation
             {
                 var compiler = new MacroCompiler();
 
-                Exception ex = Record.Exception(() => compiler.Compile(null));
+                var ex = Record.Exception(() => compiler.Compile(null)) as ArgumentNullException;
 
-                Assert.IsType<ArgumentNullException>(ex);
-                Assert.Equal("macro", ((ArgumentNullException) ex).ParamName);
+                ex.ShouldNotBeNull();
+                ex.ParamName.ShouldEqual("macro");
             }
 
             [Fact]
@@ -29,11 +30,11 @@ namespace WikiPlex.Tests.Compilation
                 var compiler = new MacroCompiler();
                 var macro = new Mock<IMacro>();
 
-                Exception ex = Record.Exception(() => compiler.Compile(macro.Object));
+                var ex = Record.Exception(() => compiler.Compile(macro.Object)) as ArgumentNullException;
 
-                Assert.IsType<ArgumentNullException>(ex);
-                Assert.Equal("macro", ((ArgumentNullException) ex).ParamName);
-                Assert.True(ex.Message.StartsWith("The macro identifier must not be null or empty."));
+                ex.ShouldNotBeNull();
+                ex.ParamName.ShouldEqual("macro");
+                ex.Message.ShouldStartWith("The macro identifier must not be null or empty.");
             }
 
             [Fact]
@@ -43,11 +44,11 @@ namespace WikiPlex.Tests.Compilation
                 var macro = new Mock<IMacro>();
                 macro.Setup(x => x.Id).Returns(string.Empty);
 
-                Exception ex = Record.Exception(() => compiler.Compile(macro.Object));
+                var ex = Record.Exception(() => compiler.Compile(macro.Object)) as ArgumentException;
 
-                Assert.IsType<ArgumentException>(ex);
-                Assert.Equal("macro", ((ArgumentException) ex).ParamName);
-                Assert.True(ex.Message.StartsWith("The macro identifier must not be null or empty."));
+                ex.ShouldNotBeNull();
+                ex.ParamName.ShouldEqual("macro");
+                ex.Message.ShouldStartWith("The macro identifier must not be null or empty.");
             }
 
             [Fact]
@@ -57,11 +58,11 @@ namespace WikiPlex.Tests.Compilation
                 var macro = new Mock<IMacro>();
                 macro.Setup(x => x.Id).Returns("foo");
 
-                Exception ex = Record.Exception(() => compiler.Compile(macro.Object));
+                var ex = Record.Exception(() => compiler.Compile(macro.Object)) as ArgumentNullException;
 
-                Assert.IsType<ArgumentNullException>(ex);
-                Assert.Equal("macro", ((ArgumentNullException) ex).ParamName);
-                Assert.True(ex.Message.StartsWith("The macro rules must not be null or empty."));
+                ex.ShouldNotBeNull();
+                ex.ParamName.ShouldEqual("macro");
+                ex.Message.ShouldStartWith("The macro rules must not be null or empty");
             }
 
             [Fact]
@@ -72,11 +73,11 @@ namespace WikiPlex.Tests.Compilation
                 macro.Setup(x => x.Id).Returns("foo");
                 macro.Setup(x => x.Rules).Returns(new List<MacroRule>());
 
-                Exception ex = Record.Exception(() => compiler.Compile(macro.Object));
+                var ex = Record.Exception(() => compiler.Compile(macro.Object)) as ArgumentException;
 
-                Assert.IsType<ArgumentException>(ex);
-                Assert.Equal("macro", ((ArgumentException) ex).ParamName);
-                Assert.True(ex.Message.StartsWith("The macro rules must not be null or empty."));
+                ex.ShouldNotBeNull();
+                ex.ParamName.ShouldEqual("macro");
+                ex.Message.ShouldStartWith("The macro rules must not be null or empty");
             }
 
             [Fact]
@@ -90,7 +91,7 @@ namespace WikiPlex.Tests.Compilation
 
                 CompiledMacro compiledMacro = compiler.Compile(macro.Object);
 
-                Assert.Equal("foo", compiledMacro.Id);
+                compiledMacro.Id.ShouldEqual("foo");
             }
 
             [Fact]
@@ -104,10 +105,10 @@ namespace WikiPlex.Tests.Compilation
 
                 CompiledMacro compiledMacro = compiler.Compile(macro.Object);
 
-                Assert.Equal(@"(?x)
-(?-xis)(?m)(abc)(?x)", compiledMacro.Regex.ToString());
-                Assert.Null(compiledMacro.Captures[0]);
-                Assert.Equal("All", compiledMacro.Captures[1]);
+                compiledMacro.Regex.ToString().ShouldEqual(@"(?x)
+(?-xis)(?m)(abc)(?x)");
+                compiledMacro.Captures[0].ShouldBeNull();
+                compiledMacro.Captures[1].ShouldEqual("All");
             }
 
             [Fact]
@@ -125,13 +126,13 @@ namespace WikiPlex.Tests.Compilation
 
                 CompiledMacro compiledMacro = compiler.Compile(macro.Object);
 
-                Assert.Equal(@"(?x)
-(?-xis)(?m)((a) (b) (c))(?x)", compiledMacro.Regex.ToString());
-                Assert.Null(compiledMacro.Captures[0]);
-                Assert.Null(compiledMacro.Captures[1]);
-                Assert.Equal("a", compiledMacro.Captures[2]);
-                Assert.Equal("b", compiledMacro.Captures[3]);
-                Assert.Equal("c", compiledMacro.Captures[4]);
+                compiledMacro.Regex.ToString().ShouldEqual(@"(?x)
+(?-xis)(?m)((a) (b) (c))(?x)");
+                compiledMacro.Captures[0].ShouldBeNull();
+                compiledMacro.Captures[1].ShouldBeNull();
+                compiledMacro.Captures[2].ShouldEqual("a");
+                compiledMacro.Captures[3].ShouldEqual("b");
+                compiledMacro.Captures[4].ShouldEqual("c");
             }
 
             [Fact]
@@ -149,13 +150,13 @@ namespace WikiPlex.Tests.Compilation
 
                 CompiledMacro compiledMacro = compiler.Compile(macro.Object);
 
-                Assert.Equal(@"(?x)
-(?-xis)(?m)((a) (b) (c))(?x)", compiledMacro.Regex.ToString());
-                Assert.Null(compiledMacro.Captures[0]);
-                Assert.Equal("whole", compiledMacro.Captures[1]);
-                Assert.Equal("a", compiledMacro.Captures[2]);
-                Assert.Equal("b", compiledMacro.Captures[3]);
-                Assert.Equal("c", compiledMacro.Captures[4]);
+                compiledMacro.Regex.ToString().ShouldEqual(@"(?x)
+(?-xis)(?m)((a) (b) (c))(?x)");
+                compiledMacro.Captures[0].ShouldBeNull();
+                compiledMacro.Captures[1].ShouldEqual("whole");
+                compiledMacro.Captures[2].ShouldEqual("a");
+                compiledMacro.Captures[3].ShouldEqual("b");
+                compiledMacro.Captures[4].ShouldEqual("c");
             }
 
             [Fact]
@@ -175,20 +176,19 @@ namespace WikiPlex.Tests.Compilation
 
                 CompiledMacro compiledMacro = compiler.Compile(macro.Object);
 
-                Assert.Equal(@"(?x)
+                compiledMacro.Regex.ToString().ShouldEqual(@"(?x)
 (?-xis)(?m)((a) (b) (c))(?x)
 
 |
 
-(?-xis)(?m)(a (second) rule)(?x)",
-                             compiledMacro.Regex.ToString());
-                Assert.Null(compiledMacro.Captures[0]);
-                Assert.Equal("whole", compiledMacro.Captures[1]);
-                Assert.Equal("a", compiledMacro.Captures[2]);
-                Assert.Equal("b", compiledMacro.Captures[3]);
-                Assert.Equal("c", compiledMacro.Captures[4]);
-                Assert.Null(compiledMacro.Captures[5]);
-                Assert.Equal("second", compiledMacro.Captures[6]);
+(?-xis)(?m)(a (second) rule)(?x)");
+                compiledMacro.Captures[0].ShouldBeNull();
+                compiledMacro.Captures[1].ShouldEqual("whole");
+                compiledMacro.Captures[2].ShouldEqual("a");
+                compiledMacro.Captures[3].ShouldEqual("b");
+                compiledMacro.Captures[4].ShouldEqual("c");
+                compiledMacro.Captures[5].ShouldBeNull();
+                compiledMacro.Captures[6].ShouldEqual("second");
             }
 
             [Fact]
@@ -207,7 +207,7 @@ namespace WikiPlex.Tests.Compilation
                 CompiledMacro compiledMacro1 = compiler.Compile(macro.Object);
                 CompiledMacro compiledMacro2 = compiler.Compile(macro.Object);
 
-                Assert.Equal(compiledMacro1, compiledMacro2);
+                compiledMacro1.ShouldEqual(compiledMacro2);
             }
         }
 
@@ -232,7 +232,7 @@ namespace WikiPlex.Tests.Compilation
                 FieldInfo macrosField = typeof (MacroCompiler).GetField("compiledMacros",
                                                                         BindingFlags.Instance | BindingFlags.NonPublic);
                 var compiledMacros = (Dictionary<string, CompiledMacro>) macrosField.GetValue(compiler);
-                Assert.Equal(0, compiledMacros.Count);
+                compiledMacros.ShouldBeEmpty();
             }
         }
     }

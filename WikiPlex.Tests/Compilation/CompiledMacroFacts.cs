@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using Should;
 using Xunit;
 using WikiPlex.Compilation;
 
@@ -16,10 +17,10 @@ namespace WikiPlex.Tests.Compilation
                 var regex = new Regex("foo");
                 var captures = new List<string> {"foo"};
 
-                Exception ex = Record.Exception(() => new CompiledMacro(null, regex, captures));
+                var ex = Record.Exception(() => new CompiledMacro(null, regex, captures)) as ArgumentNullException;
 
-                Assert.IsType<ArgumentNullException>(ex);
-                Assert.Equal("id", ((ArgumentNullException) ex).ParamName);
+                ex.ShouldNotBeNull();
+                ex.ParamName.ShouldEqual("id");
             }
 
             [Fact]
@@ -28,10 +29,10 @@ namespace WikiPlex.Tests.Compilation
                 var regex = new Regex("foo");
                 var captures = new List<string> {"foo"};
 
-                Exception ex = Record.Exception(() => new CompiledMacro(string.Empty, regex, captures));
+                var ex = Record.Exception(() => new CompiledMacro(string.Empty, regex, captures)) as ArgumentException;
 
-                Assert.IsType<ArgumentException>(ex);
-                Assert.Equal("id", ((ArgumentException) ex).ParamName);
+                ex.ShouldNotBeNull();
+                ex.ParamName.ShouldEqual("id");
             }
 
             [Fact]
@@ -40,10 +41,10 @@ namespace WikiPlex.Tests.Compilation
                 const string id = "foo";
                 var captures = new List<string> {"foo"};
 
-                Exception ex = Record.Exception(() => new CompiledMacro(id, null, captures));
+                var ex = Record.Exception(() => new CompiledMacro(id, null, captures)) as ArgumentNullException;
 
-                Assert.IsType<ArgumentNullException>(ex);
-                Assert.Equal("regex", ((ArgumentNullException) ex).ParamName);
+                ex.ShouldNotBeNull();
+                ex.ParamName.ShouldEqual("regex");
             }
 
             [Fact]
@@ -52,10 +53,10 @@ namespace WikiPlex.Tests.Compilation
                 const string id = "foo";
                 var regex = new Regex("foo");
 
-                Exception ex = Record.Exception(() => new CompiledMacro(id, regex, null));
+                var ex = Record.Exception(() => new CompiledMacro(id, regex, null)) as ArgumentNullException;
 
-                Assert.IsType<ArgumentNullException>(ex);
-                Assert.Equal("captures", ((ArgumentNullException) ex).ParamName);
+                ex.ShouldNotBeNull();
+                ex.ParamName.ShouldEqual("captures");
             }
 
             [Fact]
@@ -65,10 +66,10 @@ namespace WikiPlex.Tests.Compilation
                 var regex = new Regex("foo");
                 var captures = new List<string>();
 
-                Exception ex = Record.Exception(() => new CompiledMacro(id, regex, captures));
+                var ex = Record.Exception(() => new CompiledMacro(id, regex, captures)) as ArgumentException;
 
-                Assert.IsType<ArgumentException>(ex);
-                Assert.Equal("captures", ((ArgumentException) ex).ParamName);
+                ex.ShouldNotBeNull();
+                ex.ParamName.ShouldEqual("captures");
             }
 
             [Fact]
@@ -80,9 +81,9 @@ namespace WikiPlex.Tests.Compilation
 
                 var compiledMacro = new CompiledMacro(id, regex, captures);
 
-                Assert.Equal(id, compiledMacro.Id);
-                Assert.Equal(regex, compiledMacro.Regex);
-                Assert.Equal(captures, compiledMacro.Captures);
+                compiledMacro.Id.ShouldEqual(id);
+                compiledMacro.Regex.ShouldEqual(regex);
+                compiledMacro.Captures.ShouldEqual(captures);
             }
         }
     }

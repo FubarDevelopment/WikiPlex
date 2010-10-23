@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Should;
+using System;
 using System.Web.UI.WebControls;
 using WikiPlex.Common;
 using Xunit;
@@ -12,10 +13,9 @@ namespace WikiPlex.Tests
             [Fact]
             public void Should_throw_ArgumentException_if_the_type_is_not_an_enumeration()
             {
-                var ex = Record.Exception(() => Utility.IsDefinedOnEnum<int>("foo"));
+                var ex = Record.Exception(() => Utility.IsDefinedOnEnum<int>("foo")) as ArgumentException;
 
-                Assert.NotNull(ex);
-                Assert.IsType<ArgumentException>(ex);
+                ex.ShouldNotBeNull();
             }
 
             [Fact]
@@ -25,7 +25,7 @@ namespace WikiPlex.Tests
 
                 bool result = Utility.IsDefinedOnEnum<TestEnum>(input);
 
-                Assert.False(result);
+                result.ShouldBeFalse();
             }
 
             [Fact]
@@ -35,7 +35,7 @@ namespace WikiPlex.Tests
 
                 bool result = Utility.IsDefinedOnEnum<TestEnum>(input);
 
-                Assert.True(result);
+                result.ShouldBeTrue();
             }
 
             [Fact]
@@ -45,7 +45,7 @@ namespace WikiPlex.Tests
 
                 bool result = Utility.IsDefinedOnEnum<TestEnum>(input);
 
-                Assert.True(result);
+                result.ShouldBeTrue();
             }
         }
 
@@ -54,32 +54,29 @@ namespace WikiPlex.Tests
             [Fact]
             public void Should_throw_ArgumentNullException_if_the_input_is_null()
             {
-                var ex = Record.Exception(() => Utility.ExtractTextParts(null));
+                var ex = Record.Exception(() => Utility.ExtractTextParts(null)) as ArgumentNullException;
 
-                Assert.NotNull(ex);
-                Assert.IsType<ArgumentNullException>(ex);
-                Assert.Equal("input", ((ArgumentNullException)ex).ParamName);
+                ex.ShouldNotBeNull();
+                ex.ParamName.ShouldEqual("input");
             }
 
             [Fact]
             public void Should_throw_ArgumentException_if_the_input_is_empty()
             {
-                var ex = Record.Exception(() => Utility.ExtractTextParts(string.Empty));
+                var ex = Record.Exception(() => Utility.ExtractTextParts(string.Empty)) as ArgumentException;
 
-                Assert.NotNull(ex);
-                Assert.IsType<ArgumentException>(ex);
-                Assert.Equal("input", ((ArgumentException)ex).ParamName);
+                ex.ShouldNotBeNull();
+                ex.ParamName.ShouldEqual("input");
             }
 
             [Fact]
             public void Should_throw_ArgumentException_if_the_input_contains_more_than_two_parts()
             {
-                var ex = Record.Exception(() => Utility.ExtractTextParts("a|b|c"));
+                var ex = Record.Exception(() => Utility.ExtractTextParts("a|b|c")) as ArgumentException;
 
-                Assert.NotNull(ex);
-                Assert.IsType<ArgumentException>(ex);
-                Assert.Equal("input", ((ArgumentException)ex).ParamName);
-                Assert.Contains("Invalid number of parts.", ex.Message);
+                ex.ShouldNotBeNull();
+                ex.ParamName.ShouldEqual("input");
+                ex.Message.ShouldContain("Invalid number of parts.");
             }
 
             [Fact]
@@ -87,9 +84,9 @@ namespace WikiPlex.Tests
             {
                 TextPart part = Utility.ExtractTextParts("a");
 
-                Assert.NotNull(part);
-                Assert.Equal("a", part.Text);
-                Assert.Null(part.FriendlyText);
+                part.ShouldNotBeNull();
+                part.Text.ShouldEqual("a");
+                part.FriendlyText.ShouldBeNull();
             }
 
             [Fact]
@@ -97,9 +94,9 @@ namespace WikiPlex.Tests
             {
                 TextPart part = Utility.ExtractTextParts("a|b");
 
-                Assert.NotNull(part);
-                Assert.Equal("a", part.FriendlyText);
-                Assert.Equal("b", part.Text);
+                part.ShouldNotBeNull();
+                part.FriendlyText.ShouldEqual("a");
+                part.Text.ShouldEqual("b");
             }
 
             [Fact]
@@ -107,8 +104,8 @@ namespace WikiPlex.Tests
             {
                 TextPart part = Utility.ExtractTextParts(" a ");
 
-                Assert.NotNull(part);
-                Assert.Equal("a", part.Text);
+                part.ShouldNotBeNull();
+                part.Text.ShouldEqual("a");
             }
 
             [Fact]
@@ -116,9 +113,9 @@ namespace WikiPlex.Tests
             {
                 TextPart part = Utility.ExtractTextParts(" a | b ");
 
-                Assert.NotNull(part);
-                Assert.Equal("a", part.FriendlyText);
-                Assert.Equal("b", part.Text);
+                part.ShouldNotBeNull();
+                part.FriendlyText.ShouldEqual("a");
+                part.Text.ShouldEqual("b");
             }
         }
 
@@ -127,42 +124,38 @@ namespace WikiPlex.Tests
             [Fact]
             public void Should_throw_ArgumentNullException_if_the_input_is_null()
             {
-                var ex = Record.Exception(() => Utility.ExtractImageParts(null, ImagePartExtras.None));
+                var ex = Record.Exception(() => Utility.ExtractImageParts(null, ImagePartExtras.None)) as ArgumentNullException;
 
-                Assert.NotNull(ex);
-                Assert.IsType<ArgumentNullException>(ex);
-                Assert.Equal("input", ((ArgumentNullException)ex).ParamName);
+                ex.ShouldNotBeNull();
+                ex.ParamName.ShouldEqual("input");
             }
 
             [Fact]
             public void Should_throw_ArgumentException_if_the_input_is_empty()
             {
-                var ex = Record.Exception(() => Utility.ExtractImageParts(string.Empty, ImagePartExtras.None));
+                var ex = Record.Exception(() => Utility.ExtractImageParts(string.Empty, ImagePartExtras.None)) as ArgumentException;
 
-                Assert.NotNull(ex);
-                Assert.IsType<ArgumentException>(ex);
-                Assert.Equal("input", ((ArgumentException)ex).ParamName);
+                ex.ShouldNotBeNull();
+                ex.ParamName.ShouldEqual("input");
             }
 
             [Fact]
             public void Should_throw_ArgumentException_image_url_cannot_be_determined()
             {
-                var ex = Record.Exception(() => Utility.ExtractImageParts("a|b", ImagePartExtras.None));
+                var ex = Record.Exception(() => Utility.ExtractImageParts("a|b", ImagePartExtras.None)) as ArgumentException;
 
-                Assert.NotNull(ex);
-                Assert.IsType<ArgumentException>(ex);
-                Assert.Equal("input", ((ArgumentException)ex).ParamName);
+                ex.ShouldNotBeNull();
+                ex.ParamName.ShouldEqual("input");
             }
 
             [Fact]
             public void Should_throw_ArgumentException_if_the_input_contains_more_than_three_parts()
             {
-                var ex = Record.Exception(() => Utility.ExtractImageParts("a|b|c|d", ImagePartExtras.All));
+                var ex = Record.Exception(() => Utility.ExtractImageParts("a|b|c|d", ImagePartExtras.All)) as ArgumentException;
 
-                Assert.NotNull(ex);
-                Assert.IsType<ArgumentException>(ex);
-                Assert.Equal("input", ((ArgumentException)ex).ParamName);
-                Assert.Contains("Invalid number of parts.", ex.Message);
+                ex.ShouldNotBeNull();
+                ex.ParamName.ShouldEqual("input");
+                ex.Message.ShouldContain("Invalid number of parts.");
             }
 
             [Fact]
@@ -170,10 +163,10 @@ namespace WikiPlex.Tests
             {
                 ImagePart part = Utility.ExtractImageParts("a", ImagePartExtras.None);
 
-                Assert.NotNull(part);
-                Assert.Equal("a", part.ImageUrl);
-                Assert.Null(part.Text);
-                Assert.Null(part.LinkUrl);
+                part.ShouldNotBeNull();
+                part.ImageUrl.ShouldEqual("a");
+                part.Text.ShouldBeNull();
+                part.LinkUrl.ShouldBeNull();
             }
 
             [Fact]
@@ -181,12 +174,12 @@ namespace WikiPlex.Tests
             {
                 ImagePart part = Utility.ExtractImageParts("a,height=220,width=380", ImagePartExtras.None);
 
-                Assert.NotNull(part);
-                Assert.Equal("a", part.ImageUrl);
-                Assert.Null(part.Text);
-                Assert.Null(part.LinkUrl);
-                Assert.Equal(new Unit(220), part.Dimensions.Height);
-                Assert.Equal(new Unit(380), part.Dimensions.Width);
+                part.ShouldNotBeNull();
+                part.ImageUrl.ShouldEqual("a");
+                part.Text.ShouldBeNull();
+                part.LinkUrl.ShouldBeNull();
+                part.Dimensions.Height.ShouldEqual(new Unit(220));
+                part.Dimensions.Width.ShouldEqual(new Unit(380));
             }
 
             [Fact]
@@ -194,10 +187,10 @@ namespace WikiPlex.Tests
             {
                 ImagePart part = Utility.ExtractImageParts("a|b|c", ImagePartExtras.All);
 
-                Assert.NotNull(part);
-                Assert.Equal("a", part.Text);
-                Assert.Equal("b", part.ImageUrl);
-                Assert.Equal("c", part.LinkUrl);
+                part.ShouldNotBeNull();
+                part.Text.ShouldEqual("a");
+                part.ImageUrl.ShouldEqual("b");
+                part.LinkUrl.ShouldEqual("c");
             }
 
             [Fact]
@@ -205,11 +198,11 @@ namespace WikiPlex.Tests
             {
                 ImagePart part = Utility.ExtractImageParts("a|b,height=220,width=380", ImagePartExtras.ContainsText);
 
-                Assert.NotNull(part);
-                Assert.Equal("a", part.Text);
-                Assert.Equal("b", part.ImageUrl);
-                Assert.Equal(new Unit(220), part.Dimensions.Height);
-                Assert.Equal(new Unit(380), part.Dimensions.Width);
+                part.ShouldNotBeNull();
+                part.Text.ShouldEqual("a");
+                part.ImageUrl.ShouldEqual("b");
+                part.Dimensions.Height.ShouldEqual(new Unit(220));
+                part.Dimensions.Width.ShouldEqual(new Unit(380));
             }
 
             [Fact]
@@ -217,9 +210,9 @@ namespace WikiPlex.Tests
             {
                 ImagePart part = Utility.ExtractImageParts("a|b", ImagePartExtras.ContainsLink);
 
-                Assert.NotNull(part);
-                Assert.Equal("a", part.ImageUrl);
-                Assert.Equal("b", part.LinkUrl);
+                part.ShouldNotBeNull();
+                part.ImageUrl.ShouldEqual("a");
+                part.LinkUrl.ShouldEqual("b");
             }
 
             [Fact]
@@ -227,8 +220,8 @@ namespace WikiPlex.Tests
             {
                 ImagePart part = Utility.ExtractImageParts(" a ", ImagePartExtras.None);
 
-                Assert.NotNull(part);
-                Assert.Equal("a", part.ImageUrl);
+                part.ShouldNotBeNull();
+                part.ImageUrl.ShouldEqual("a");
             }
 
             [Fact]
@@ -236,9 +229,9 @@ namespace WikiPlex.Tests
             {
                 ImagePart part = Utility.ExtractImageParts(" a | b ", ImagePartExtras.ContainsText);
 
-                Assert.NotNull(part);
-                Assert.Equal("a", part.Text);
-                Assert.Equal("b", part.ImageUrl);
+                part.ShouldNotBeNull();
+                part.Text.ShouldEqual("a");
+                part.ImageUrl.ShouldEqual("b");
             }
         }
 
@@ -249,7 +242,7 @@ namespace WikiPlex.Tests
             {
                 int result = Utility.CountChars('*', null);
 
-                Assert.Equal(0, result);
+                result.ShouldEqual(0);
             }
 
             [Fact]
@@ -257,7 +250,7 @@ namespace WikiPlex.Tests
             {
                 int result = Utility.CountChars('*', "** a");
 
-                Assert.Equal(2, result);
+                result.ShouldEqual(2);
             }
         }
 
