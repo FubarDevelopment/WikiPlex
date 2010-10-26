@@ -96,6 +96,7 @@ namespace WikiPlex.Parsing
                     if (currentLevel < peekLevel)
                     {
                         // starting a new nested block
+                        peekLevel = currentLevel + 1;
                         newScopes.Add(new Scope(GetStartScope(currentDepthChar), peek.Index, peek.Length));
 
                         currentIndex = AugmentRecursively(wikiContent, scopes, newScopes, currentIndex + 2, peekLevel, startingLevel, currentDepthChar);

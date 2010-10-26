@@ -429,5 +429,27 @@ namespace WikiPlex.Tests.Parsing
             actualScopes[8].Name.ShouldEqual(ScopeName.ListItemBegin);
             actualScopes[9].Name.ShouldEqual(ScopeName.UnorderedListEndTag);
         }
+
+        [Fact]
+        public void Should_yield_correct_scopes_with_indentation_incorrectly_set()
+        {
+            var origScopes = new List<Scope>(new[]
+                                                 {
+                                                     new Scope(ScopeName.ListItemBegin, 0, 2),
+                                                     new Scope(ScopeName.ListItemEnd, 3, 0),
+                                                     new Scope(ScopeName.ListItemBegin, 4, 4),
+                                                     new Scope(ScopeName.ListItemEnd, 9, 0)
+                                                 });
+
+            var augmenter = new ListScopeAugmenter();
+
+            IList<Scope> actualScopes = augmenter.Augment(new ListMacro(), origScopes, "* a\n*** b");
+
+            actualScopes.Count.ShouldEqual(4);
+            actualScopes[0].Name.ShouldEqual(ScopeName.UnorderedListBeginTag);
+            actualScopes[1].Name.ShouldEqual(ScopeName.UnorderedListBeginTag);
+            actualScopes[2].Name.ShouldEqual(ScopeName.UnorderedListEndTag);
+            actualScopes[3].Name.ShouldEqual(ScopeName.UnorderedListEndTag);
+        }
     }
 }
