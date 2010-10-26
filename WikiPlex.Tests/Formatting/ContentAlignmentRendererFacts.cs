@@ -1,4 +1,5 @@
-﻿using Should;
+﻿using System;
+using Should;
 using WikiPlex.Formatting;
 using Xunit;
 using Xunit.Extensions;
@@ -48,13 +49,14 @@ namespace WikiPlex.Tests.Formatting
             }
 
             [Fact]
-            public void Should_return_content_for_invalid_scope_name()
+            public void Should_raise_ArgumentException_for_invalid_scope_name()
             {
                 var renderer = new ContentAlignmentRenderer();
 
-                string result = renderer.Expand("foo", "in", x => x, x => x);
+                var ex = Record.Exception(() => renderer.Expand("foo", "in", x => x, x => x)) as ArgumentException;
 
-                result.ShouldEqual("in");
+                ex.ShouldNotBeNull();
+                ex.ParamName.ShouldEqual("scopeName");
             }
         }
     }

@@ -6,7 +6,7 @@ namespace WikiPlex.Formatting
     /// <summary>
     /// Will render the image scopes.
     /// </summary>
-    public class ImageRenderer : IRenderer
+    public class ImageRenderer : RendererBase
     {
         private const string ImageAndLink = "<a href=\"{2}\"><img style=\"border:none;\" src=\"{3}\" {4}/></a>";
         private const string ImageAndLinkWithStyle = "<div style=\"clear:both;height:0;\">&nbsp;</div><a style=\"float:{0};{1}\" href=\"{2}\"><img style=\"border:none;\" src=\"{3}\" {4}/></a>";
@@ -18,32 +18,21 @@ namespace WikiPlex.Formatting
         private const string ImageNoLinkWithStyle = "<div style=\"clear:both;height:0;\">&nbsp;</div><img style=\"float:{0};{1}\" src=\"{2}\" {3}/>";
 
         /// <summary>
-        /// Gets the id of a renderer.
+        /// Creates a new instance of the <see cref="ImageRenderer"/> class.
         /// </summary>
-        public string Id
-        {
-            get { return "Image Renderer"; }
-        }
+        public ImageRenderer()
+            : base(ScopeName.ImageWithLinkNoAltLeftAlign, ScopeName.ImageWithLinkNoAltRightAlign, ScopeName.ImageWithLinkNoAlt,
+                   ScopeName.ImageWithLinkWithAltLeftAlign, ScopeName.ImageWithLinkWithAltRightAlign, ScopeName.ImageWithLinkWithAlt,
+                   ScopeName.ImageLeftAlign, ScopeName.ImageRightAlign, ScopeName.ImageNoAlign,
+                   ScopeName.ImageLeftAlignWithAlt, ScopeName.ImageRightAlignWithAlt, ScopeName.ImageNoAlignWithAlt)
+        {}
 
         /// <summary>
-        /// Determines if this renderer can expand the given scope name.
+        /// Gets the invalid macro error text.
         /// </summary>
-        /// <param name="scopeName">The scope name to check.</param>
-        /// <returns>A boolean value indicating if the renderer can or cannot expand the macro.</returns>
-        public bool CanExpand(string scopeName)
+        public override string InvalidMacroError
         {
-            return (scopeName == ScopeName.ImageWithLinkNoAltLeftAlign
-                    || scopeName == ScopeName.ImageWithLinkNoAltRightAlign
-                    || scopeName == ScopeName.ImageWithLinkNoAlt
-                    || scopeName == ScopeName.ImageWithLinkWithAltLeftAlign
-                    || scopeName == ScopeName.ImageWithLinkWithAltRightAlign
-                    || scopeName == ScopeName.ImageWithLinkWithAlt
-                    || scopeName == ScopeName.ImageLeftAlign
-                    || scopeName == ScopeName.ImageRightAlign
-                    || scopeName == ScopeName.ImageNoAlign
-                    || scopeName == ScopeName.ImageLeftAlignWithAlt
-                    || scopeName == ScopeName.ImageRightAlignWithAlt
-                    || scopeName == ScopeName.ImageNoAlignWithAlt);
+            get { return "Cannot resolve image macro, invalid number of parameters."; }
         }
 
         /// <summary>
@@ -54,19 +43,11 @@ namespace WikiPlex.Formatting
         /// <param name="htmlEncode">Function that will html encode the output.</param>
         /// <param name="attributeEncode">Function that will html attribute encode the output.</param>
         /// <returns>The expanded content.</returns>
-        public string Expand(string scopeName, string input, Func<string, string> htmlEncode, Func<string, string> attributeEncode)
+        protected override string ExpandImpl(string scopeName, string input, Func<string, string> htmlEncode, Func<string, string> attributeEncode)
         {
-            try
-            {
-                FloatAlignment alignment = GetAlignment(scopeName);
-                var renderMethod = GetRenderMethod(scopeName);
-
-                return renderMethod(input, alignment, attributeEncode);
-            }
-            catch
-            {
-                return RenderUnresolvedMacro();
-            }
+            FloatAlignment alignment = GetAlignment(scopeName);
+            var renderMethod = GetRenderMethod(scopeName);
+            return renderMethod(input, alignment, attributeEncode);
         }
 
         private static FloatAlignment GetAlignment(string scopeName)
@@ -108,14 +89,9 @@ namespace WikiPlex.Formatting
                 case ScopeName.ImageWithLinkWithAltLeftAlign:
                 case ScopeName.ImageWithLinkWithAltRightAlign:
                     return RenderImageWithLinkAndAltMacro;
-                default:
-                    return (x, y, z) => x;
             }
-        }
 
-        private static string RenderUnresolvedMacro()
-        {
-            return "<span class=\"unresolved\">Cannot resolve image macro, invalid number of parameters.</span>";
+            return null;
         }
 
         private static string RenderImageNoLinkMacro(string input, FloatAlignment alignment, Func<string, string> encode)

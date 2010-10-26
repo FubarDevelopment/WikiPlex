@@ -6,31 +6,25 @@ namespace WikiPlex.Formatting
     /// <summary>
     /// Will render all link based scopes.
     /// </summary>
-    public class LinkRenderer : IRenderer
+    public class LinkRenderer : RendererBase
     {
         private const string ExternalLinkFormat = "<a href=\"{0}\" class=\"externalLink\">{1}<span class=\"externalLinkIcon\"></span></a>";
         private const string LinkFormat = "<a href=\"{0}\">{1}</a>";
 
         /// <summary>
-        /// Gets the id of a renderer.
+        /// Creates a new instance of the <see cref="LinkRenderer"/> class.
         /// </summary>
-        public string Id
-        {
-            get { return "LinkFormatting"; }
-        }
+        public LinkRenderer()
+            : base(ScopeName.LinkNoText, ScopeName.LinkWithText, ScopeName.LinkAsMailto, 
+                   ScopeName.Anchor, ScopeName.LinkToAnchor)
+        {}
 
         /// <summary>
-        /// Determines if this renderer can expand the given scope name.
+        /// Gets the invalid macro error text.
         /// </summary>
-        /// <param name="scopeName">The scope name to check.</param>
-        /// <returns>A boolean value indicating if the renderer can or cannot expand the macro.</returns>
-        public bool CanExpand(string scopeName)
+        public override string InvalidMacroError
         {
-            return (scopeName == ScopeName.LinkNoText
-                    || scopeName == ScopeName.LinkWithText
-                    || scopeName == ScopeName.LinkAsMailto
-                    || scopeName == ScopeName.Anchor
-                    || scopeName == ScopeName.LinkToAnchor);
+            get { return "Cannot resolve link macro, invalid number of parameters."; }
         }
 
         /// <summary>
@@ -41,51 +35,41 @@ namespace WikiPlex.Formatting
         /// <param name="htmlEncode">Function that will html encode the output.</param>
         /// <param name="attributeEncode">Function that will html attribute encode the output.</param>
         /// <returns>The expanded content.</returns>
-        public string Expand(string scopeName, string input, Func<string, string> htmlEncode, Func<string, string> attributeEncode)
+        protected override string ExpandImpl(string scopeName, string input, Func<string, string> htmlEncode, Func<string, string> attributeEncode)
         {
             input = input.Trim();
 
             if (scopeName == ScopeName.LinkNoText)
-            {
-                string url = input;
-                if (!url.StartsWith("http", StringComparison.OrdinalIgnoreCase))
-                    url = "http://" + url;
-
-                return string.Format(ExternalLinkFormat, attributeEncode(url), htmlEncode(input));
-            }
-
+                return ExpandLinkNoText(input, attributeEncode, htmlEncode);
             if (scopeName == ScopeName.LinkWithText)
-            {
-                try
-                {
-                    TextPart part = Utility.ExtractTextParts(input);
-                    string url = part.Text;
-                    if (!url.StartsWith("http", StringComparison.OrdinalIgnoreCase) && !url.StartsWith("mailto", StringComparison.OrdinalIgnoreCase))
-                        url = "http://" + url;
-
-                    return string.Format(ExternalLinkFormat, attributeEncode(url), htmlEncode(part.FriendlyText));
-                }
-                catch
-                {
-                    return RenderUnresolvedMacro();
-                }
-            }
-
+                return ExpandLinkWithText(input, attributeEncode, htmlEncode);
             if (scopeName == ScopeName.LinkAsMailto)
                 return string.Format(ExternalLinkFormat, attributeEncode("mailto:" + input), htmlEncode(input));
-
             if (scopeName == ScopeName.Anchor)
                 return string.Format("<a name=\"{0}\"></a>", attributeEncode(input));
-
             if (scopeName == ScopeName.LinkToAnchor)
                 return string.Format(LinkFormat, attributeEncode("#" + input), htmlEncode(input));
 
-            return input;
+            return null;
         }
 
-        private static string RenderUnresolvedMacro()
+        private static string ExpandLinkWithText(string input, Func<string, string> attributeEncode, Func<string, string> htmlEncode)
         {
-            return "<span class=\"unresolved\">Cannot resolve link macro, invalid number of parameters.</span>";
+            TextPart part = Utility.ExtractTextParts(input);
+            string url = part.Text;
+            if (!url.StartsWith("http", StringComparison.OrdinalIgnoreCase) && !url.StartsWith("mailto", StringComparison.OrdinalIgnoreCase))
+                url = "http://" + url;
+
+            return string.Format(ExternalLinkFormat, attributeEncode(url), htmlEncode(part.FriendlyText));
+        }
+
+        private static string ExpandLinkNoText(string input, Func<string, string> attributeEncode, Func<string, string> htmlEncode)
+        {
+            string url = input;
+            if (!url.StartsWith("http", StringComparison.OrdinalIgnoreCase))
+                url = "http://" + url;
+
+            return string.Format(ExternalLinkFormat, attributeEncode(url), htmlEncode(input));
         }
     }
 }
