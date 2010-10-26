@@ -138,5 +138,30 @@ namespace WikiPlex.Common
 
             return string.Empty;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public delegate T ExecuteDelegate<T>();
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="executionDelegate"></param>
+        /// <returns></returns>
+        public static T ConvertException<T>(ExecuteDelegate<T> executionDelegate)
+        {
+            try
+            {
+                return executionDelegate();
+            }
+            catch
+            {
+                throw new RenderException();
+            }
+        }
     }
 }

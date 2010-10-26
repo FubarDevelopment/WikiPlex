@@ -39,8 +39,7 @@ namespace WikiPlex.Formatting
         {
             input = input.Trim();
 
-            try
-            {
+            
                 if (scopeName == ScopeName.LinkNoText)
                     return ExpandLinkNoText(input, attributeEncode, htmlEncode);
                 if (scopeName == ScopeName.LinkWithText)
@@ -51,18 +50,14 @@ namespace WikiPlex.Formatting
                     return string.Format("<a name=\"{0}\"></a>", attributeEncode(input));
                 if (scopeName == ScopeName.LinkToAnchor)
                     return string.Format(LinkFormat, attributeEncode("#" + input), htmlEncode(input));
-            }
-            catch (ArgumentException)
-            {
-                throw new RenderException();
-            }
+            
 
             return null;
         }
 
         private static string ExpandLinkWithText(string input, Func<string, string> attributeEncode, Func<string, string> htmlEncode)
         {
-            TextPart part = Utility.ExtractTextParts(input);
+            TextPart part = Utility.ConvertException(() => Utility.ExtractTextParts(input));
             string url = part.Text;
             if (!url.StartsWith("http", StringComparison.OrdinalIgnoreCase) && !url.StartsWith("mailto", StringComparison.OrdinalIgnoreCase))
                 url = "http://" + url;
