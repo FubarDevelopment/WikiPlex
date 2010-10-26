@@ -193,7 +193,7 @@ namespace WikiPlex.Tests.Formatting
                 var xmlLoader = new Mock<IXmlDocumentReader>();
                 var syndicationReader = new Mock<ISyndicationReader>();
                 xmlLoader.Setup(x => x.Read("http://localhost/rss")).Returns(new XmlDocument());
-                syndicationReader.Setup(x => x.Read(It.IsAny<XmlDocument>())).Throws<ArgumentException>();
+                syndicationReader.Setup(x => x.Read(It.IsAny<XmlDocument>())).Throws(new ArgumentException(string.Empty, "url"));
                 var renderer = new SyndicatedFeedRenderer(xmlLoader.Object, syndicationReader.Object);
 
                 string output = renderer.Expand(ScopeName.SyndicatedFeed, "url=http://localhost/rss", x => x, x => x);

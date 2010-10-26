@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using WikiPlex.Common;
 
 namespace WikiPlex.Formatting
 {
@@ -53,7 +54,7 @@ namespace WikiPlex.Formatting
         /// <returns>A boolean value indicating if the renderer can or cannot expand the macro.</returns>
         public bool CanExpand(string scopeName)
         {
-            return scopeNames.Contains(scopeName);
+            return scopeNames.Any(s => s == scopeName);
         }
 
         /// <summary>

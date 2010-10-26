@@ -61,6 +61,7 @@
     <Compile Include="Common\ImagePart.cs" />
     <Compile Include="Common\ImagePartExtras.cs" />
     <Compile Include="Common\InvalidDimensionException.cs" />
+    <Compile Include="Common\RenderException.cs" />
     <Compile Include="Compilation\Macros\IndentationMacro.cs" />
     <Compile Include="Compilation\Macros\ListMacro.cs" />
     <Compile Include="EscapeRegexPatterns.cs" />
@@ -69,6 +70,7 @@
     <Compile Include="Common\Guard.cs" />
     <Compile Include="Formatting\IndentationRenderer.cs" />
     <Compile Include="Common\Parameters.cs" />
+    <Compile Include="Formatting\RendererBase.cs" />
     <Compile Include="Formatting\SilverlightRendering\Silverlight4Renderer.cs" />
     <Compile Include="Formatting\VideoRendering\Channel9VideoRenderer.cs" />
     <Compile Include="Formatting\VideoRendering\EmbeddedVideoRender.cs" />

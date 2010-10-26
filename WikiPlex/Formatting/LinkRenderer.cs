@@ -39,16 +39,23 @@ namespace WikiPlex.Formatting
         {
             input = input.Trim();
 
-            if (scopeName == ScopeName.LinkNoText)
-                return ExpandLinkNoText(input, attributeEncode, htmlEncode);
-            if (scopeName == ScopeName.LinkWithText)
-                return ExpandLinkWithText(input, attributeEncode, htmlEncode);
-            if (scopeName == ScopeName.LinkAsMailto)
-                return string.Format(ExternalLinkFormat, attributeEncode("mailto:" + input), htmlEncode(input));
-            if (scopeName == ScopeName.Anchor)
-                return string.Format("<a name=\"{0}\"></a>", attributeEncode(input));
-            if (scopeName == ScopeName.LinkToAnchor)
-                return string.Format(LinkFormat, attributeEncode("#" + input), htmlEncode(input));
+            try
+            {
+                if (scopeName == ScopeName.LinkNoText)
+                    return ExpandLinkNoText(input, attributeEncode, htmlEncode);
+                if (scopeName == ScopeName.LinkWithText)
+                    return ExpandLinkWithText(input, attributeEncode, htmlEncode);
+                if (scopeName == ScopeName.LinkAsMailto)
+                    return string.Format(ExternalLinkFormat, attributeEncode("mailto:" + input), htmlEncode(input));
+                if (scopeName == ScopeName.Anchor)
+                    return string.Format("<a name=\"{0}\"></a>", attributeEncode(input));
+                if (scopeName == ScopeName.LinkToAnchor)
+                    return string.Format(LinkFormat, attributeEncode("#" + input), htmlEncode(input));
+            }
+            catch (ArgumentException)
+            {
+                throw new RenderException();
+            }
 
             return null;
         }

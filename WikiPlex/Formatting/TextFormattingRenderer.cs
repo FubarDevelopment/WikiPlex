@@ -5,51 +5,22 @@ namespace WikiPlex.Formatting
     /// <summary>
     /// This will render all text formatting options (bold, italics, underline, headings, strikethrough, subscript, superscript, horizontal rule and escaped markup)
     /// </summary>
-    public class TextFormattingRenderer : IRenderer
+    public class TextFormattingRenderer : RendererBase
     {
         /// <summary>
-        /// Gets the id of a renderer.
+        /// Creates a new instance of the <see cref="TextFormattingRenderer"/> class.
         /// </summary>
-        public string Id
-        {
-            get { return "TextFormatting"; }
-        }
-
-        /// <summary>
-        /// Determines if this renderer can expand the given scope name.
-        /// </summary>
-        /// <param name="scopeName">The scope name to check.</param>
-        /// <returns>A boolean value indicating if the renderer can or cannot expand the macro.</returns>
-        public bool CanExpand(string scopeName)
-        {
-            return (scopeName == ScopeName.BoldBegin
-                    || scopeName == ScopeName.BoldEnd
-                    || scopeName == ScopeName.ItalicsBegin
-                    || scopeName == ScopeName.ItalicsEnd
-                    || scopeName == ScopeName.UnderlineBegin
-                    || scopeName == ScopeName.UnderlineEnd
-                    || scopeName == ScopeName.HeadingOneBegin
-                    || scopeName == ScopeName.HeadingOneEnd
-                    || scopeName == ScopeName.HeadingTwoBegin
-                    || scopeName == ScopeName.HeadingTwoEnd
-                    || scopeName == ScopeName.HeadingThreeBegin
-                    || scopeName == ScopeName.HeadingThreeEnd
-                    || scopeName == ScopeName.HeadingFourBegin
-                    || scopeName == ScopeName.HeadingFourEnd
-                    || scopeName == ScopeName.HeadingFiveBegin
-                    || scopeName == ScopeName.HeadingFiveEnd
-                    || scopeName == ScopeName.HeadingSixBegin
-                    || scopeName == ScopeName.HeadingSixEnd
-                    || scopeName == ScopeName.StrikethroughBegin
-                    || scopeName == ScopeName.StrikethroughEnd
-                    || scopeName == ScopeName.SubscriptBegin
-                    || scopeName == ScopeName.SubscriptEnd
-                    || scopeName == ScopeName.SuperscriptBegin
-                    || scopeName == ScopeName.SuperscriptEnd
-                    || scopeName == ScopeName.HorizontalRule
-                    || scopeName == ScopeName.EscapedMarkup
-                    || scopeName == ScopeName.Remove);
-        }
+        public TextFormattingRenderer()
+            : base(ScopeName.BoldBegin, ScopeName.BoldEnd, ScopeName.ItalicsBegin, ScopeName.ItalicsEnd,
+                   ScopeName.UnderlineBegin, ScopeName.UnderlineEnd, ScopeName.HeadingOneBegin,
+                   ScopeName.HeadingOneEnd, ScopeName.HeadingTwoBegin, ScopeName.HeadingTwoEnd,
+                   ScopeName.HeadingThreeBegin, ScopeName.HeadingThreeEnd, ScopeName.HeadingFourBegin,
+                   ScopeName.HeadingFourEnd, ScopeName.HeadingFiveBegin, ScopeName.HeadingFiveEnd,
+                   ScopeName.HeadingSixBegin, ScopeName.HeadingSixEnd, ScopeName.StrikethroughBegin, 
+                   ScopeName.StrikethroughEnd, ScopeName.SubscriptBegin, ScopeName.SubscriptEnd, 
+                   ScopeName.SuperscriptBegin, ScopeName.SuperscriptEnd, ScopeName.HorizontalRule, 
+                   ScopeName.EscapedMarkup, ScopeName.Remove)
+        {}
 
         /// <summary>
         /// Will expand the input into the appropriate content based on scope.
@@ -59,7 +30,7 @@ namespace WikiPlex.Formatting
         /// <param name="htmlEncode">Function that will html encode the output.</param>
         /// <param name="attributeEncode">Function that will html attribute encode the output.</param>
         /// <returns>The expanded content.</returns>
-        public string Expand(string scopeName, string input, Func<string, string> htmlEncode, Func<string, string> attributeEncode)
+        protected override string ExpandImpl(string scopeName, string input, Func<string, string> htmlEncode, Func<string, string> attributeEncode)
         {
             switch (scopeName)
             {
@@ -118,7 +89,7 @@ namespace WikiPlex.Formatting
                 case ScopeName.EscapedMarkup:
                     return htmlEncode(input);
                 default:
-                    return input;
+                    return null;
             }
         }
     }

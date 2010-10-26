@@ -47,7 +47,15 @@ namespace WikiPlex.Formatting
         {
             FloatAlignment alignment = GetAlignment(scopeName);
             var renderMethod = GetRenderMethod(scopeName);
-            return renderMethod(input, alignment, attributeEncode);
+
+            try
+            {
+                return renderMethod(input, alignment, attributeEncode);
+            }
+            catch (ArgumentException)
+            {
+                throw new RenderException();
+            }
         }
 
         private static FloatAlignment GetAlignment(string scopeName)

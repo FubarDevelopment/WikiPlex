@@ -39,7 +39,7 @@ namespace WikiPlex.Syndication
                     return new GoogleAtomFeedReader(xmlDocument);
             }
 
-            throw new ArgumentException("Syndication Feed Not Supported", "xmlDocument");
+            throw new ArgumentException("Syndication Feed Not Supported", "url");
         }
     }
 }

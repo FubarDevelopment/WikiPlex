@@ -7,7 +7,7 @@ namespace WikiPlex.Formatting
     /// <summary>
     /// Will render all source code scopes.
     /// </summary>
-    public class SourceCodeRenderer : IRenderer
+    public class SourceCodeRenderer : RendererBase
     {
         private readonly ICodeColorizer codeColorizer;
 
@@ -24,41 +24,14 @@ namespace WikiPlex.Formatting
         /// </summary>
         /// <param name="codeColorizer">The <see cref="ICodeColorizer"/> to use for syntax highlighting.</param>
         public SourceCodeRenderer(ICodeColorizer codeColorizer)
+            : base(ScopeName.SingleLineCode, ScopeName.MultiLineCode, ScopeName.ColorCodeAshx,
+                   ScopeName.ColorCodeAspxCs, ScopeName.ColorCodeAspxVb, ScopeName.ColorCodeCpp,
+                   ScopeName.ColorCodeCSharp, ScopeName.ColorCodeCss, ScopeName.ColorCodeHtml,
+                   ScopeName.ColorCodeJava, ScopeName.ColorCodeJavaScript, ScopeName.ColorCodePhp,
+                   ScopeName.ColorCodePowerShell, ScopeName.ColorCodeSql, ScopeName.ColorCodeVbDotNet,
+                   ScopeName.ColorCodeXml)
         {
             this.codeColorizer = codeColorizer;
-        }
-
-        /// <summary>
-        /// Gets the id of a renderer.
-        /// </summary>
-        public string Id
-        {
-            get { return "SourceCode"; }
-        }
-
-        /// <summary>
-        /// Determines if this renderer can expand the given scope name.
-        /// </summary>
-        /// <param name="scopeName">The scope name to check.</param>
-        /// <returns>A boolean value indicating if the renderer can or cannot expand the macro.</returns>
-        public bool CanExpand(string scopeName)
-        {
-            return (scopeName == ScopeName.SingleLineCode
-                    || scopeName == ScopeName.MultiLineCode
-                    || scopeName == ScopeName.ColorCodeAshx
-                    || scopeName == ScopeName.ColorCodeAspxCs
-                    || scopeName == ScopeName.ColorCodeAspxVb
-                    || scopeName == ScopeName.ColorCodeCpp
-                    || scopeName == ScopeName.ColorCodeCSharp
-                    || scopeName == ScopeName.ColorCodeHtml
-                    || scopeName == ScopeName.ColorCodeJava
-                    || scopeName == ScopeName.ColorCodeJavaScript
-                    || scopeName == ScopeName.ColorCodeSql
-                    || scopeName == ScopeName.ColorCodeVbDotNet
-                    || scopeName == ScopeName.ColorCodeXml
-                    || scopeName == ScopeName.ColorCodePhp
-                    || scopeName == ScopeName.ColorCodeCss
-                    || scopeName == ScopeName.ColorCodePowerShell);
         }
 
         /// <summary>
@@ -69,7 +42,7 @@ namespace WikiPlex.Formatting
         /// <param name="htmlEncode">Function that will html encode the output.</param>
         /// <param name="attributeEncode">Function that will html attribute encode the output.</param>
         /// <returns>The expanded content.</returns>
-        public string Expand(string scopeName, string input, Func<string, string> htmlEncode, Func<string, string> attributeEncode)
+        protected override string ExpandImpl(string scopeName, string input, Func<string, string> htmlEncode, Func<string, string> attributeEncode)
         {
             switch (scopeName)
             {
@@ -106,7 +79,7 @@ namespace WikiPlex.Formatting
                 case ScopeName.ColorCodePowerShell:
                     return Colorize(input, Languages.PowerShell, htmlEncode);
                 default:
-                    return input;
+                    return null;
             }
         }
 

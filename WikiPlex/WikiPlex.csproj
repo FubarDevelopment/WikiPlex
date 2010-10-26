@@ -83,6 +83,7 @@
     <Compile Include="Common\ImagePart.cs" />
     <Compile Include="Common\ImagePartExtras.cs" />
     <Compile Include="Common\InvalidDimensionException.cs" />
+    <Compile Include="Common\RenderException.cs" />
     <Compile Include="Compilation\Macros\IndentationMacro.cs" />
     <Compile Include="Compilation\Macros\ListMacro.cs" />
     <Compile Include="EscapeRegexPatterns.cs" />

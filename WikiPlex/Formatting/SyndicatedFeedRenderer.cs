@@ -12,7 +12,7 @@ namespace WikiPlex.Formatting
     /// <summary>
     /// Will render the syndicated feed scopes.
     /// </summary>
-    public class SyndicatedFeedRenderer : IRenderer
+    public class SyndicatedFeedRenderer : RendererBase
     {
         private readonly ISyndicationReader syndicationReader;
         private readonly IXmlDocumentReader xmlDocumentReader;
@@ -31,27 +31,18 @@ namespace WikiPlex.Formatting
         /// <param name="xmlDocumentReader">The xml document reader.</param>
         /// <param name="syndicationReader">The syndication reader.</param>
         public SyndicatedFeedRenderer(IXmlDocumentReader xmlDocumentReader, ISyndicationReader syndicationReader)
+            : base(ScopeName.SyndicatedFeed)
         {
             this.xmlDocumentReader = xmlDocumentReader;
             this.syndicationReader = syndicationReader;
         }
 
         /// <summary>
-        /// Gets the id of a renderer.
+        /// Gets the invalid argument error text.
         /// </summary>
-        public string Id
+        public override string InvalidArgumentError
         {
-            get { return "Syndicated Feed Renderer"; }
-        }
-
-        /// <summary>
-        /// Determines if this renderer can expand the given scope name.
-        /// </summary>
-        /// <param name="scopeName">The scope name to check.</param>
-        /// <returns>A boolean value indicating if the renderer can or cannot expand the macro.</returns>
-        public bool CanExpand(string scopeName)
-        {
-            return scopeName == ScopeName.SyndicatedFeed;
+            get { return "Cannot resolve syndicated feed macro, invalid parameter '{0}'."; }
         }
 
         /// <summary>
@@ -62,39 +53,32 @@ namespace WikiPlex.Formatting
         /// <param name="htmlEncode">Function that will html encode the output.</param>
         /// <param name="attributeEncode">Function that will html attribute encode the output.</param>
         /// <returns>The expanded content.</returns>
-        public string Expand(string scopeName, string input, Func<string, string> htmlEncode, Func<string, string> attributeEncode)
+        protected override string ExpandImpl(string scopeName, string input, Func<string, string> htmlEncode, Func<string, string> attributeEncode)
         {
             string[] parameters = input.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries);
 
-            try
+            string url = Parameters.ExtractUrl(parameters, false);
+            string maxParameter, titlesOnlyParameter;
+            int max = 20;
+            bool titlesOnly = false;
+
+            if (Parameters.TryGetValue(parameters, "max", out maxParameter)
+                && (!int.TryParse(maxParameter, out max) || max <= 0 || max > 20))
+                throw new ArgumentException("Invalid parameter.", "max");
+
+            if (Parameters.TryGetValue(parameters, "titlesOnly", out titlesOnlyParameter)
+                && !bool.TryParse(titlesOnlyParameter, out titlesOnly))
+                throw new ArgumentException("Invalid parameter.", "titlesOnly");
+
+            var content = new StringBuilder();
+            using (var tw = new StringWriter(content))
+            using (var writer = new HtmlTextWriter(tw, string.Empty))
             {
-                string url = Parameters.ExtractUrl(parameters, false);
-                string maxParameter, titlesOnlyParameter;
-                int max = 20;
-                bool titlesOnly = false;
-
-                if (Parameters.TryGetValue(parameters, "max", out maxParameter)
-                    && (!int.TryParse(maxParameter, out max) || max <= 0 || max > 20))
-                    throw new ArgumentException("Invalid parameter.", "max");
-
-                if (Parameters.TryGetValue(parameters, "titlesOnly", out titlesOnlyParameter)
-                    && !bool.TryParse(titlesOnlyParameter, out titlesOnly))
-                    throw new ArgumentException("Invalid parameter.", "titlesOnly");
-
-                var content = new StringBuilder();
-                using (var tw = new StringWriter(content))
-                using (var writer = new HtmlTextWriter(tw, string.Empty))
-                {
-                    writer.NewLine = string.Empty;
-                    RenderFeed(url, titlesOnly, max, writer);
-                }
-
-                return content.ToString();
+                writer.NewLine = string.Empty;
+                RenderFeed(url, titlesOnly, max, writer);
             }
-            catch (ArgumentException ex)
-            {
-                return RenderUnresolvedMacro(ex.ParamName);
-            }
+
+            return content.ToString();
         }
 
         /// <summary>
@@ -107,74 +91,62 @@ namespace WikiPlex.Formatting
         protected virtual void RenderFeed(string url, bool titlesOnly, int max, HtmlTextWriter writer)
         {
             XmlDocument xdoc = xmlDocumentReader.Read(url);
+            Guard.NotNull(xdoc, "url");
 
-            if (xdoc == null)
+            SyndicationFeed feed = syndicationReader.Read(xdoc);
+
+            writer.AddAttribute(HtmlTextWriterAttribute.Class, "rss");
+            writer.RenderBeginTag(HtmlTextWriterTag.Div);
+
+            RenderAccentBar(writer, feed.Title);
+
+            for (int i = 0; i < feed.Items.Count(); i++)
             {
-                writer.Write(RenderUnresolvedMacro("url"));
-                return;
-            }
+                if (i >= max)
+                    break;
 
-            try
-            {
-                SyndicationFeed feed = syndicationReader.Read(xdoc);
+                SyndicationItem item = feed.Items.ElementAt(i);
 
-                writer.AddAttribute(HtmlTextWriterAttribute.Class, "rss");
+                writer.AddAttribute(HtmlTextWriterAttribute.Class, "entry");
                 writer.RenderBeginTag(HtmlTextWriterTag.Div);
+                writer.AddAttribute(HtmlTextWriterAttribute.Class, "title");
+                writer.RenderBeginTag(HtmlTextWriterTag.Div);
+                writer.AddAttribute(HtmlTextWriterAttribute.Href, item.Link, false);
+                writer.RenderBeginTag(HtmlTextWriterTag.A);
+                writer.Write(item.Title);
+                writer.RenderEndTag(); //a
+                writer.RenderEndTag(); // div
 
-                RenderAccentBar(writer, feed.Title);
+                writer.AddAttribute(HtmlTextWriterAttribute.Class, "moreinfo");
+                writer.RenderBeginTag(HtmlTextWriterTag.Div);
+                writer.AddAttribute(HtmlTextWriterAttribute.Class, "date");
+                writer.RenderBeginTag(HtmlTextWriterTag.Span);
+                writer.Write(item.Date);
+                writer.RenderEndTag(); // span
+                writer.Write(" &nbsp;|&nbsp; ");
+                writer.AddAttribute(HtmlTextWriterAttribute.Class, "source");
+                writer.RenderBeginTag(HtmlTextWriterTag.Span);
+                writer.Write("From ");
+                writer.AddAttribute(HtmlTextWriterAttribute.Target, "_blank");
+                writer.AddAttribute(HtmlTextWriterAttribute.Href, url, false);
+                writer.RenderBeginTag(HtmlTextWriterTag.A);
+                writer.Write(feed.Title);
+                writer.RenderEndTag(); // a
+                writer.RenderEndTag(); // span
+                writer.RenderEndTag(); // div
 
-                for (int i = 0; i < feed.Items.Count(); i++)
+                if (!titlesOnly)
                 {
-                    if (i >= max)
-                        break;
-
-                    SyndicationItem item = feed.Items.ElementAt(i);
-
-                    writer.AddAttribute(HtmlTextWriterAttribute.Class, "entry");
-                    writer.RenderBeginTag(HtmlTextWriterTag.Div);
-                    writer.AddAttribute(HtmlTextWriterAttribute.Class, "title");
-                    writer.RenderBeginTag(HtmlTextWriterTag.Div);
-                    writer.AddAttribute(HtmlTextWriterAttribute.Href, item.Link, false);
-                    writer.RenderBeginTag(HtmlTextWriterTag.A);
-                    writer.Write(item.Title);
-                    writer.RenderEndTag(); //a
-                    writer.RenderEndTag(); // div
-
-                    writer.AddAttribute(HtmlTextWriterAttribute.Class, "moreinfo");
-                    writer.RenderBeginTag(HtmlTextWriterTag.Div);
-                    writer.AddAttribute(HtmlTextWriterAttribute.Class, "date");
-                    writer.RenderBeginTag(HtmlTextWriterTag.Span);
-                    writer.Write(item.Date);
-                    writer.RenderEndTag(); // span
-                    writer.Write(" &nbsp;|&nbsp; ");
-                    writer.AddAttribute(HtmlTextWriterAttribute.Class, "source");
-                    writer.RenderBeginTag(HtmlTextWriterTag.Span);
-                    writer.Write("From ");
-                    writer.AddAttribute(HtmlTextWriterAttribute.Target, "_blank");
-                    writer.AddAttribute(HtmlTextWriterAttribute.Href, url, false);
-                    writer.RenderBeginTag(HtmlTextWriterTag.A);
-                    writer.Write(feed.Title);
-                    writer.RenderEndTag(); // a
-                    writer.RenderEndTag(); // span
-                    writer.RenderEndTag(); // div
-
-                    if (!titlesOnly)
-                    {
-                        writer.RenderBeginTag(HtmlTextWriterTag.P);
-                        writer.Write(item.Description);
-                        writer.RenderEndTag(); // p
-                    }
-
-                    writer.RenderEndTag(); // div
+                    writer.RenderBeginTag(HtmlTextWriterTag.P);
+                    writer.Write(item.Description);
+                    writer.RenderEndTag(); // p
                 }
 
-                RenderAccentBar(writer, feed.Title);
                 writer.RenderEndTag(); // div
             }
-            catch
-            {
-                writer.Write(RenderUnresolvedMacro("url"));
-            }
+
+            RenderAccentBar(writer, feed.Title);
+            writer.RenderEndTag(); // div
         }
 
         /// <summary>
@@ -196,12 +168,6 @@ namespace WikiPlex.Formatting
             writer.Write("&nbsp;");
             writer.RenderEndTag(); // span
             writer.RenderEndTag(); // div
-        }
-
-        private static string RenderUnresolvedMacro(string parameterName)
-        {
-            return
-                string.Format("<span class=\"unresolved\">Cannot resolve syndicated feed macro, invalid parameter '{0}'.</span>", parameterName);
         }
     }
 }

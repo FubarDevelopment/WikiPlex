@@ -10,31 +10,23 @@ namespace WikiPlex.Formatting
     /// <summary>
     /// Will render all the video scopes.
     /// </summary>
-    public class VideoRenderer : IRenderer
+    public class VideoRenderer : RendererBase
     {
         /// <summary>
-        /// Gets the id of a renderer.
+        /// Creates a new instance of the <see cref="VideoRenderer"/> class.
         /// </summary>
-        public string Id
-        {
-            get { return "Video"; }
-        }
+        public VideoRenderer()
+            : base(ScopeName.Channel9Video, ScopeName.FlashVideo, ScopeName.QuickTimeVideo,
+                   ScopeName.RealPlayerVideo, ScopeName.VimeoVideo, ScopeName.WindowsMediaVideo,
+                   ScopeName.YouTubeVideo, ScopeName.InvalidVideo)
+        {}
 
         /// <summary>
-        /// Determines if this renderer can expand the given scope name.
+        /// Gets the invalid argument error text.
         /// </summary>
-        /// <param name="scopeName">The scope name to check.</param>
-        /// <returns>A boolean value indicating if the renderer can or cannot expand the macro.</returns>
-        public bool CanExpand(string scopeName)
+        public override string InvalidArgumentError
         {
-            return (scopeName == ScopeName.Channel9Video
-                    || scopeName == ScopeName.FlashVideo
-                    || scopeName == ScopeName.QuickTimeVideo
-                    || scopeName == ScopeName.RealPlayerVideo
-                    || scopeName == ScopeName.VimeoVideo
-                    || scopeName == ScopeName.WindowsMediaVideo
-                    || scopeName == ScopeName.YouTubeVideo
-                    || scopeName == ScopeName.InvalidVideo);
+            get { return "Cannot resolve video macro, invalid parameter '{0}'."; }
         }
 
         /// <summary>
@@ -45,10 +37,10 @@ namespace WikiPlex.Formatting
         /// <param name="htmlEncode">Function that will html encode the output.</param>
         /// <param name="attributeEncode">Function that will html attribute encode the output.</param>
         /// <returns>The expanded content.</returns>
-        public string Expand(string scopeName, string input, Func<string, string> htmlEncode, Func<string, string> attributeEncode)
+        protected override string ExpandImpl(string scopeName, string input, Func<string, string> htmlEncode, Func<string, string> attributeEncode)
         {
             if (scopeName == ScopeName.InvalidVideo)
-                return RenderUnresolvedMacro("type", string.Empty);
+                throw new ArgumentException("Invalid video type.", "type");
 
             try
             {
@@ -95,41 +87,29 @@ namespace WikiPlex.Formatting
             {
                 return RenderUnresolvedMacro(ex.ParamName, ex.Reason);
             }
-            catch (ArgumentException ex)
-            {
-                return RenderUnresolvedMacro(ex.ParamName, string.Empty);
-            }
         }
 
         private static IVideoRenderer GetVideoRenderer(string scopeName)
         {
-            IVideoRenderer videoRenderer = null;
-
             switch (scopeName)
             {
                 case ScopeName.Channel9Video:
-                    videoRenderer = new Channel9VideoRenderer();
-                    break;
+                    return new Channel9VideoRenderer();
                 case ScopeName.FlashVideo:
-                    videoRenderer = new FlashVideoRenderer();
-                    break;
+                    return new FlashVideoRenderer();
                 case ScopeName.QuickTimeVideo:
-                    videoRenderer = new QuickTimeVideoRenderer();
-                    break;
+                    return new QuickTimeVideoRenderer();
                 case ScopeName.RealPlayerVideo:
-                    videoRenderer = new RealPlayerVideoRenderer();
-                    break;
+                    return new RealPlayerVideoRenderer();
                 case ScopeName.VimeoVideo:
-                    videoRenderer = new VimeoVideoRenderer();
-                    break;
+                    return new VimeoVideoRenderer();
                 case ScopeName.WindowsMediaVideo:
-                    videoRenderer = new WindowsMediaPlayerVideoRenderer();
-                    break;
+                    return new WindowsMediaPlayerVideoRenderer();
                 case ScopeName.YouTubeVideo:
-                    videoRenderer = new YouTubeVideoRenderer();
-                    break;
+                    return new YouTubeVideoRenderer();
+                default:
+                    return null;
             }
-            return videoRenderer;
         }
 
         private static string RenderUnresolvedMacro(string parameterName, string message)

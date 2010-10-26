@@ -5,32 +5,16 @@ namespace WikiPlex.Formatting
     /// <summary>
     /// Will render all table based scopes.
     /// </summary>
-    public class TableRenderer : IRenderer
+    public class TableRenderer : RendererBase
     {
         /// <summary>
-        /// Gets the id of the renderer.
+        /// Creates a new instance of the <see cref="TableRenderer"/> class.
         /// </summary>
-        public string Id
-        {
-            get { return "Table"; }
-        }
-
-        /// <summary>
-        /// Determines if this renderer can expand the given scope name.
-        /// </summary>
-        /// <param name="scopeName">The scope name to check.</param>
-        /// <returns>A boolean value indicating if the renderer can or cannot expand the macro.</returns>
-        public bool CanExpand(string scopeName)
-        {
-            return (scopeName == ScopeName.TableBegin
-                    || scopeName == ScopeName.TableEnd
-                    || scopeName == ScopeName.TableCell
-                    || scopeName == ScopeName.TableCellHeader
-                    || scopeName == ScopeName.TableRowBegin
-                    || scopeName == ScopeName.TableRowEnd
-                    || scopeName == ScopeName.TableRowHeaderBegin
-                    || scopeName == ScopeName.TableRowHeaderEnd);
-        }
+        public TableRenderer()
+            : base(ScopeName.TableBegin, ScopeName.TableCell, ScopeName.TableCellHeader,
+                   ScopeName.TableEnd, ScopeName.TableRowBegin, ScopeName.TableRowEnd,
+                   ScopeName.TableRowHeaderBegin, ScopeName.TableRowHeaderEnd)
+        {}
 
         /// <summary>
         /// Will expand the input into the appropriate content based on scope.
@@ -40,7 +24,7 @@ namespace WikiPlex.Formatting
         /// <param name="htmlEncode">Function that will html encode the output.</param>
         /// <param name="attributeEncode">Function that will html attribute encode the output.</param>
         /// <returns>The expanded content.</returns>
-        public string Expand(string scopeName, string input, Func<string, string> htmlEncode, Func<string, string> attributeEncode)
+        protected override string ExpandImpl(string scopeName, string input, Func<string, string> htmlEncode, Func<string, string> attributeEncode)
         {
             switch (scopeName)
             {
@@ -61,7 +45,7 @@ namespace WikiPlex.Formatting
                 case ScopeName.TableRowHeaderEnd:
                     return "</th></tr>";
                 default:
-                    return input;
+                    return null;
             }
         }
     }
