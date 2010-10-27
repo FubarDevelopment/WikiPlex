@@ -103,7 +103,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string output = renderer.Expand(ScopeName.Silverlight, "url=http://localhost/silverlight,version=2,gpuAcceleration=true", x => x, x => x);
 
-                output.ShouldEqual("<span class\"unresolved\">Cannot resolve silverlight macro, 'gpuAcceleration' cannot be enabled with version 2 of Silverlight.</span>");
+                output.ShouldEqual("<span class=\"unresolved\">Cannot resolve silverlight macro, 'gpuAcceleration' cannot be enabled with version 2 of Silverlight.</span>");
             }
 
             [Fact]

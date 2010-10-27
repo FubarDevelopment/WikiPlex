@@ -78,6 +78,10 @@ namespace WikiPlex.Formatting
             {
                 return string.Format(UnresolvedError, string.Format(InvalidArgumentError, ex.ParamName));
             }
+            catch (RenderException ex)
+            {
+                return string.Format(UnresolvedError, string.IsNullOrEmpty(ex.Message) ? InvalidMacroError : ex.Message);
+            }
             catch
             {
                 return string.Format(UnresolvedError, InvalidMacroError);

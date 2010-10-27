@@ -7,14 +7,16 @@ namespace WikiPlex.Formatting
 {
     internal class Channel9VideoRenderer : IVideoRenderer
     {
+        private const string DimensionErrorText = "Cannot resolve video macro, invalid parameter '{0}'. Value can only be pixel based.";
+
         public Dimensions Dimensions { get; set; }
 
         public void Render(string url, HtmlTextWriter writer)
         {
             if (Dimensions.Height.Value.Type != UnitType.Pixel)
-                throw new InvalidDimensionException("height", " Value can only be pixel based.");
+                throw new RenderException(string.Format(DimensionErrorText, "height"));
             if (Dimensions.Width.Value.Type != UnitType.Pixel)
-                throw new InvalidDimensionException("width", " Value can only be pixel based.");
+                throw new RenderException(string.Format(DimensionErrorText, "width"));
 
             var actualUri = new Uri(url);
             url = actualUri.GetLeftPart(UriPartial.Path);

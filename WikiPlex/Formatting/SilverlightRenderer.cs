@@ -51,7 +51,7 @@ namespace WikiPlex.Formatting
             }
 
             if (version == 2 && gpuAcceleration)
-                return "<span class\"unresolved\">Cannot resolve silverlight macro, 'gpuAcceleration' cannot be enabled with version 2 of Silverlight.</span>";
+                throw new RenderException("Cannot resolve silverlight macro, 'gpuAcceleration' cannot be enabled with version 2 of Silverlight.");
 
             string[] initParams = GetInitParams(parameters);
 

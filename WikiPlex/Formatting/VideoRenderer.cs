@@ -42,51 +42,44 @@ namespace WikiPlex.Formatting
             if (scopeName == ScopeName.InvalidVideo)
                 throw new ArgumentException("Invalid video type.", "type");
 
-            try
+            string[] parameters = input.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries);
+            string url = Parameters.ExtractUrl(parameters);
+            HorizontalAlign align = Parameters.ExtractAlign(parameters, HorizontalAlign.Center);
+
+            IVideoRenderer videoRenderer = GetVideoRenderer(scopeName);
+            videoRenderer.Dimensions = Parameters.ExtractDimensions(parameters, 285, 320);
+
+            var content = new StringBuilder();
+            using (var tw = new StringWriter(content))
+            using (var writer = new HtmlTextWriter(tw, string.Empty))
             {
-                string[] parameters = input.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries);
-                string url = Parameters.ExtractUrl(parameters);
-                HorizontalAlign align = Parameters.ExtractAlign(parameters, HorizontalAlign.Center);
+                writer.NewLine = string.Empty;
+                writer.AddAttribute(HtmlTextWriterAttribute.Class, "video");
+                writer.AddAttribute(HtmlTextWriterAttribute.Style, string.Format("text-align:{0}", align));
+                writer.RenderBeginTag(HtmlTextWriterTag.Div);
 
-                IVideoRenderer videoRenderer = GetVideoRenderer(scopeName);
-                videoRenderer.Dimensions = Parameters.ExtractDimensions(parameters, 285, 320);
+                writer.AddAttribute(HtmlTextWriterAttribute.Class, "player");
+                writer.RenderBeginTag(HtmlTextWriterTag.Span);
 
-                var content = new StringBuilder();
-                using (var tw = new StringWriter(content))
-                using (var writer = new HtmlTextWriter(tw, string.Empty))
-                {
-                    writer.NewLine = string.Empty;
-                    writer.AddAttribute(HtmlTextWriterAttribute.Class, "video");
-                    writer.AddAttribute(HtmlTextWriterAttribute.Style, string.Format("text-align:{0}", align));
-                    writer.RenderBeginTag(HtmlTextWriterTag.Div);
-
-                    writer.AddAttribute(HtmlTextWriterAttribute.Class, "player");
-                    writer.RenderBeginTag(HtmlTextWriterTag.Span);
-
-                    videoRenderer.Render(url, writer);
+                videoRenderer.Render(url, writer);
                     
-                    writer.RenderEndTag(); // </span>
+                writer.RenderEndTag(); // </span>
 
-                    writer.Write("<br />");
+                writer.Write("<br />");
 
-                    writer.AddAttribute(HtmlTextWriterAttribute.Class, "external");
-                    writer.RenderBeginTag(HtmlTextWriterTag.Span);
-                    writer.AddAttribute(HtmlTextWriterAttribute.Href, url);
-                    writer.AddAttribute(HtmlTextWriterAttribute.Target, "_blank");
-                    writer.RenderBeginTag(HtmlTextWriterTag.A);
-                    writer.Write("Launch in another window");
-                    writer.RenderEndTag();
-                    writer.RenderEndTag();
+                writer.AddAttribute(HtmlTextWriterAttribute.Class, "external");
+                writer.RenderBeginTag(HtmlTextWriterTag.Span);
+                writer.AddAttribute(HtmlTextWriterAttribute.Href, url);
+                writer.AddAttribute(HtmlTextWriterAttribute.Target, "_blank");
+                writer.RenderBeginTag(HtmlTextWriterTag.A);
+                writer.Write("Launch in another window");
+                writer.RenderEndTag();
+                writer.RenderEndTag();
 
-                    writer.RenderEndTag(); // </div>
-                }
-
-                return content.ToString();
+                writer.RenderEndTag(); // </div>
             }
-            catch (InvalidDimensionException ex)
-            {
-                return RenderUnresolvedMacro(ex.ParamName, ex.Reason);
-            }
+
+            return content.ToString();
         }
 
         private static IVideoRenderer GetVideoRenderer(string scopeName)
@@ -110,11 +103,6 @@ namespace WikiPlex.Formatting
                 default:
                     return null;
             }
-        }
-
-        private static string RenderUnresolvedMacro(string parameterName, string message)
-        {
-            return string.Format("<span class=\"unresolved\">Cannot resolve video macro, invalid parameter '{0}'.{1}</span>", parameterName, message);
         }
     }
 }
