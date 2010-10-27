@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Web.Mvc;
 using WikiPlex.Formatting;
 
 namespace WikiPlex.Web.Sample.Wiki
 {
-    public class TitleLinkRenderer : IRenderer
+    public class TitleLinkRenderer : Renderer
     {
         private const string LinkFormat = "<a href=\"{0}\">{1}</a>";
         private readonly UrlHelper urlHelper;
@@ -18,17 +19,12 @@ namespace WikiPlex.Web.Sample.Wiki
             this.urlHelper = urlHelper;
         }
 
-        public string Id
+        protected override ICollection<string> ScopeNames
         {
-            get { return "Wiki Title Link Renderer"; }
+            get { return new[] {WikiScopeName.WikiLink}; }
         }
 
-        public bool CanExpand(string scopeName)
-        {
-            return scopeName == WikiScopeName.WikiLink;
-        }
-
-        public string Expand(string scopeName, string input, Func<string, string> htmlEncode, Func<string, string> attributeEncode)
+        protected override string ExpandImpl(string scopeName, string input, Func<string, string> htmlEncode, Func<string, string> attributeEncode)
         {
             string url;
 
