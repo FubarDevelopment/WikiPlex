@@ -24,7 +24,7 @@ namespace WikiPlex.Web.Sample.Wiki
             get { return new[] {WikiScopeName.WikiLink}; }
         }
 
-        protected override string ExpandImpl(string scopeName, string input, Func<string, string> htmlEncode, Func<string, string> attributeEncode)
+        protected override string PerformExpand(string scopeName, string input, Func<string, string> htmlEncode, Func<string, string> attributeEncode)
         {
             string url;
 

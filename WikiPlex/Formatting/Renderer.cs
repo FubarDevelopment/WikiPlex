@@ -38,7 +38,7 @@ namespace WikiPlex.Formatting
         /// <summary>
         /// Gets the invalid macro error text.
         /// </summary>
-        public virtual string InvalidMacroError
+        protected virtual string InvalidMacroError
         {
             get { return "Cannot resolve macro."; }
         }
@@ -46,7 +46,7 @@ namespace WikiPlex.Formatting
         /// <summary>
         /// Gets the invalid argument error text.
         /// </summary>
-        public virtual string InvalidArgumentError
+        protected virtual string InvalidArgumentError
         {
             get { return "Cannot resolve macro, invalid parameter '{0}'."; }
         }
@@ -76,7 +76,7 @@ namespace WikiPlex.Formatting
 
             try
             {
-                return ExpandImpl(scopeName, input, htmlEncode, attributeEncode);
+                return PerformExpand(scopeName, input, htmlEncode, attributeEncode);
             }
             catch (ArgumentException ex)
             {
@@ -100,6 +100,6 @@ namespace WikiPlex.Formatting
         /// <param name="htmlEncode">Function that will html encode the output.</param>
         /// <param name="attributeEncode">Function that will html attribute encode the output.</param>
         /// <returns>The expanded content.</returns>
-        protected abstract string ExpandImpl(string scopeName, string input, Func<string, string> htmlEncode, Func<string, string> attributeEncode);
+        protected abstract string PerformExpand(string scopeName, string input, Func<string, string> htmlEncode, Func<string, string> attributeEncode);
     }
 }

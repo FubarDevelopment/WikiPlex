@@ -31,7 +31,7 @@ namespace WikiPlex.Formatting
         /// <summary>
         /// Gets the invalid argument error text.
         /// </summary>
-        public override string InvalidArgumentError
+        protected override string InvalidArgumentError
         {
             get { return "Cannot resolve video macro, invalid parameter '{0}'."; }
         }
@@ -44,7 +44,7 @@ namespace WikiPlex.Formatting
         /// <param name="htmlEncode">Function that will html encode the output.</param>
         /// <param name="attributeEncode">Function that will html attribute encode the output.</param>
         /// <returns>The expanded content.</returns>
-        protected override string ExpandImpl(string scopeName, string input, Func<string, string> htmlEncode, Func<string, string> attributeEncode)
+        protected override string PerformExpand(string scopeName, string input, Func<string, string> htmlEncode, Func<string, string> attributeEncode)
         {
             if (scopeName == ScopeName.InvalidVideo)
                 throw new ArgumentException("Invalid video type.", "type");
