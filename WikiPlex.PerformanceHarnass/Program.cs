@@ -4,8 +4,7 @@ using System.IO;
 using System.Reflection;
 using System.Threading;
 using System.Xml;
-using WikiPlex.Common;
-using WikiPlex.Formatting;
+using WikiPlex.Formatting.Renderers;
 using WikiPlex.Syndication;
 
 namespace WikiPlex.PerformanceHarnass

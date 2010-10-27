@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using ColorCode;
 
-namespace WikiPlex.Formatting
+namespace WikiPlex.Formatting.Renderers
 {
     /// <summary>
     /// Will render all source code scopes.

@@ -7,6 +7,7 @@ using System.Threading;
 using WikiPlex.Compilation;
 using WikiPlex.Compilation.Macros;
 using WikiPlex.Formatting;
+using WikiPlex.Formatting.Renderers;
 using WikiPlex.IntegrationTests;
 using WikiPlex.Syndication;
 using Xunit;

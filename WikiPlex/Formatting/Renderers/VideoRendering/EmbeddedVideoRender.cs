@@ -1,7 +1,7 @@
 ﻿using System.Web.UI;
 using WikiPlex.Common;
 
-namespace WikiPlex.Formatting
+namespace WikiPlex.Formatting.Renderers
 {
     internal abstract class EmbeddedVideoRender : IVideoRenderer
     {

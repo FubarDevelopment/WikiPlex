@@ -6,7 +6,7 @@ using System.Text;
 using System.Web.UI;
 using WikiPlex.Common;
 
-namespace WikiPlex.Formatting
+namespace WikiPlex.Formatting.Renderers
 {
     /// <summary>
     /// Will render the silverlight scopes.

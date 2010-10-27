@@ -1,6 +1,6 @@
 ﻿using System.Web.UI;
 
-namespace WikiPlex.Formatting
+namespace WikiPlex.Formatting.Renderers
 {
     internal abstract class PluginVideoRenderer : EmbeddedVideoRender
     {

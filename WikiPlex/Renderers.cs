@@ -2,6 +2,7 @@
 using System.Threading;
 using WikiPlex.Common;
 using WikiPlex.Formatting;
+using WikiPlex.Formatting.Renderers;
 
 namespace WikiPlex
 {

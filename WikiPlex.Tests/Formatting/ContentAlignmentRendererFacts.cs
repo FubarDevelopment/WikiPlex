@@ -1,6 +1,6 @@
 ﻿using System;
 using Should;
-using WikiPlex.Formatting;
+using WikiPlex.Formatting.Renderers;
 using Xunit;
 using Xunit.Extensions;
 

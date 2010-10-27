@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using WikiPlex.Common;
 
-namespace WikiPlex.Formatting
+namespace WikiPlex.Formatting.Renderers
 {
     /// <summary>
     /// Will render all link based scopes.

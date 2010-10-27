@@ -2,7 +2,7 @@
 using System.Xml;
 using Moq;
 using Should;
-using WikiPlex.Formatting;
+using WikiPlex.Formatting.Renderers;
 using WikiPlex.Syndication;
 using Xunit;
 using Xunit.Extensions;

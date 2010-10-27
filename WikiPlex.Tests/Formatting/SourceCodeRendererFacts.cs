@@ -5,9 +5,9 @@ using ColorCode;
 using ColorCode.Common;
 using Moq;
 using Should;
+using WikiPlex.Formatting.Renderers;
 using Xunit;
 using Xunit.Extensions;
-using WikiPlex.Formatting;
 
 namespace WikiPlex.Tests.Formatting
 {

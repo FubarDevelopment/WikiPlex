@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Text.RegularExpressions;
-using WikiPlex.Formatting;
+using WikiPlex.Formatting.Renderers;
 using WikiPlex.Syndication;
 using Xunit;
 using Xunit.Extensions;

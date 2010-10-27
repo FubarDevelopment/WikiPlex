@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Web;
 using Should;
+using WikiPlex.Formatting.Renderers;
 using Xunit;
 using Xunit.Extensions;
-using WikiPlex.Formatting;
 
 namespace WikiPlex.Tests.Formatting
 {

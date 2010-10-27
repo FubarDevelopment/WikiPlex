@@ -1,4 +1,4 @@
-﻿namespace WikiPlex.Formatting
+﻿namespace WikiPlex.Formatting.Renderers
 {
     internal class Silverlight4Renderer : Silverlight3Renderer
     {

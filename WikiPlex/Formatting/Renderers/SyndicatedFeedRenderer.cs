@@ -8,7 +8,7 @@ using System.Xml;
 using WikiPlex.Common;
 using WikiPlex.Syndication;
 
-namespace WikiPlex.Formatting
+namespace WikiPlex.Formatting.Renderers
 {
     /// <summary>
     /// Will render the syndicated feed scopes.
