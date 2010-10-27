@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Web.UI;
@@ -10,16 +11,22 @@ namespace WikiPlex.Formatting
     /// <summary>
     /// Will render all the video scopes.
     /// </summary>
-    public class VideoRenderer : RendererBase
+    public class VideoRenderer : Renderer
     {
         /// <summary>
-        /// Creates a new instance of the <see cref="VideoRenderer"/> class.
+        /// Gets the collection of scope names for this <see cref="IRenderer"/>.
         /// </summary>
-        public VideoRenderer()
-            : base(ScopeName.Channel9Video, ScopeName.FlashVideo, ScopeName.QuickTimeVideo,
-                   ScopeName.RealPlayerVideo, ScopeName.VimeoVideo, ScopeName.WindowsMediaVideo,
-                   ScopeName.YouTubeVideo, ScopeName.InvalidVideo)
-        {}
+        protected override ICollection<string> ScopeNames
+        {
+            get
+            {
+                return new[] {
+                                ScopeName.Channel9Video, ScopeName.FlashVideo, ScopeName.QuickTimeVideo,
+                                ScopeName.RealPlayerVideo, ScopeName.VimeoVideo, ScopeName.WindowsMediaVideo,
+                                ScopeName.YouTubeVideo, ScopeName.InvalidVideo
+                           };
+            }
+        }
 
         /// <summary>
         /// Gets the invalid argument error text.

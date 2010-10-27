@@ -1,20 +1,27 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace WikiPlex.Formatting
 {
     /// <summary>
     /// This will render the ordered list and unordered list scopes.
     /// </summary>
-    public class ListItemRenderer : RendererBase
+    public class ListItemRenderer : Renderer
     {
-        ///<summary>
-        /// Creates a new instance of the <see cref="ListItemRenderer"/> class.
-        ///</summary>
-        public ListItemRenderer()
-            : base(ScopeName.OrderedListBeginTag, ScopeName.OrderedListEndTag,
-                   ScopeName.UnorderedListBeginTag, ScopeName.UnorderedListEndTag,
-                   ScopeName.ListItemBegin, ScopeName.ListItemEnd)
-        {}
+        /// <summary>
+        /// Gets the collection of scope names for this <see cref="IRenderer"/>.
+        /// </summary>
+        protected override ICollection<string> ScopeNames
+        {
+            get 
+            {
+                return new[] {
+                                ScopeName.OrderedListBeginTag, ScopeName.OrderedListEndTag,
+                                ScopeName.UnorderedListBeginTag, ScopeName.UnorderedListEndTag,
+                                ScopeName.ListItemBegin, ScopeName.ListItemEnd
+                             };
+            }
+        }
 
         /// <summary>
         /// Will expand the input into the appropriate content based on scope.

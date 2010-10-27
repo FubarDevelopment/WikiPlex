@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using ColorCode;
 
@@ -7,7 +8,7 @@ namespace WikiPlex.Formatting
     /// <summary>
     /// Will render all source code scopes.
     /// </summary>
-    public class SourceCodeRenderer : RendererBase
+    public class SourceCodeRenderer : Renderer
     {
         private readonly ICodeColorizer codeColorizer;
 
@@ -24,14 +25,26 @@ namespace WikiPlex.Formatting
         /// </summary>
         /// <param name="codeColorizer">The <see cref="ICodeColorizer"/> to use for syntax highlighting.</param>
         public SourceCodeRenderer(ICodeColorizer codeColorizer)
-            : base(ScopeName.SingleLineCode, ScopeName.MultiLineCode, ScopeName.ColorCodeAshx,
-                   ScopeName.ColorCodeAspxCs, ScopeName.ColorCodeAspxVb, ScopeName.ColorCodeCpp,
-                   ScopeName.ColorCodeCSharp, ScopeName.ColorCodeCss, ScopeName.ColorCodeHtml,
-                   ScopeName.ColorCodeJava, ScopeName.ColorCodeJavaScript, ScopeName.ColorCodePhp,
-                   ScopeName.ColorCodePowerShell, ScopeName.ColorCodeSql, ScopeName.ColorCodeVbDotNet,
-                   ScopeName.ColorCodeXml)
         {
             this.codeColorizer = codeColorizer;
+        }
+
+        /// <summary>
+        /// Gets the collection of scope names for this <see cref="IRenderer"/>.
+        /// </summary>
+        protected override ICollection<string> ScopeNames
+        {
+            get
+            {
+                return new[] {
+                                ScopeName.SingleLineCode, ScopeName.MultiLineCode, ScopeName.ColorCodeAshx,
+                                ScopeName.ColorCodeAspxCs, ScopeName.ColorCodeAspxVb, ScopeName.ColorCodeCpp,
+                                ScopeName.ColorCodeCSharp, ScopeName.ColorCodeCss, ScopeName.ColorCodeHtml,
+                                ScopeName.ColorCodeJava, ScopeName.ColorCodeJavaScript, ScopeName.ColorCodePhp,
+                                ScopeName.ColorCodePowerShell, ScopeName.ColorCodeSql, ScopeName.ColorCodeVbDotNet,
+                                ScopeName.ColorCodeXml
+                             };
+            }
         }
 
         /// <summary>

@@ -1,20 +1,27 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace WikiPlex.Formatting
 {
     /// <summary>
     /// Will render all table based scopes.
     /// </summary>
-    public class TableRenderer : RendererBase
+    public class TableRenderer : Renderer
     {
         /// <summary>
-        /// Creates a new instance of the <see cref="TableRenderer"/> class.
+        /// Gets the collection of scope names for this <see cref="IRenderer"/>.
         /// </summary>
-        public TableRenderer()
-            : base(ScopeName.TableBegin, ScopeName.TableCell, ScopeName.TableCellHeader,
-                   ScopeName.TableEnd, ScopeName.TableRowBegin, ScopeName.TableRowEnd,
-                   ScopeName.TableRowHeaderBegin, ScopeName.TableRowHeaderEnd)
-        {}
+        protected override ICollection<string> ScopeNames
+        {
+            get 
+            { 
+                return new[] {
+                                ScopeName.TableBegin, ScopeName.TableCell, ScopeName.TableCellHeader,
+                                ScopeName.TableEnd, ScopeName.TableRowBegin, ScopeName.TableRowEnd,
+                                ScopeName.TableRowHeaderBegin, ScopeName.TableRowHeaderEnd
+                             }; 
+            }
+        }
 
         /// <summary>
         /// Will expand the input into the appropriate content based on scope.

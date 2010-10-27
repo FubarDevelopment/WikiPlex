@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using WikiPlex.Common;
 
 namespace WikiPlex.Formatting
@@ -6,18 +7,25 @@ namespace WikiPlex.Formatting
     /// <summary>
     /// Will render all link based scopes.
     /// </summary>
-    public class LinkRenderer : RendererBase
+    public class LinkRenderer : Renderer
     {
         private const string ExternalLinkFormat = "<a href=\"{0}\" class=\"externalLink\">{1}<span class=\"externalLinkIcon\"></span></a>";
         private const string LinkFormat = "<a href=\"{0}\">{1}</a>";
 
         /// <summary>
-        /// Creates a new instance of the <see cref="LinkRenderer"/> class.
+        /// Gets the collection of scope names for this <see cref="IRenderer"/>.
         /// </summary>
-        public LinkRenderer()
-            : base(ScopeName.LinkNoText, ScopeName.LinkWithText, ScopeName.LinkAsMailto, 
-                   ScopeName.Anchor, ScopeName.LinkToAnchor)
-        {}
+        protected override ICollection<string> ScopeNames
+        {
+            get
+            {
+                return new[] { 
+                                ScopeName.LinkNoText, ScopeName.LinkWithText, 
+                                ScopeName.LinkAsMailto, ScopeName.Anchor,
+                                ScopeName.LinkToAnchor
+                             };
+            }
+        }
 
         /// <summary>
         /// Gets the invalid macro error text.

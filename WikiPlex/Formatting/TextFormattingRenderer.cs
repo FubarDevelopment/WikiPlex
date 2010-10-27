@@ -1,26 +1,33 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace WikiPlex.Formatting
 {
     /// <summary>
     /// This will render all text formatting options (bold, italics, underline, headings, strikethrough, subscript, superscript, horizontal rule and escaped markup)
     /// </summary>
-    public class TextFormattingRenderer : RendererBase
+    public class TextFormattingRenderer : Renderer
     {
         /// <summary>
-        /// Creates a new instance of the <see cref="TextFormattingRenderer"/> class.
+        /// Gets the collection of scope names for this <see cref="IRenderer"/>.
         /// </summary>
-        public TextFormattingRenderer()
-            : base(ScopeName.BoldBegin, ScopeName.BoldEnd, ScopeName.ItalicsBegin, ScopeName.ItalicsEnd,
-                   ScopeName.UnderlineBegin, ScopeName.UnderlineEnd, ScopeName.HeadingOneBegin,
-                   ScopeName.HeadingOneEnd, ScopeName.HeadingTwoBegin, ScopeName.HeadingTwoEnd,
-                   ScopeName.HeadingThreeBegin, ScopeName.HeadingThreeEnd, ScopeName.HeadingFourBegin,
-                   ScopeName.HeadingFourEnd, ScopeName.HeadingFiveBegin, ScopeName.HeadingFiveEnd,
-                   ScopeName.HeadingSixBegin, ScopeName.HeadingSixEnd, ScopeName.StrikethroughBegin, 
-                   ScopeName.StrikethroughEnd, ScopeName.SubscriptBegin, ScopeName.SubscriptEnd, 
-                   ScopeName.SuperscriptBegin, ScopeName.SuperscriptEnd, ScopeName.HorizontalRule, 
-                   ScopeName.EscapedMarkup, ScopeName.Remove)
-        {}
+        protected override ICollection<string> ScopeNames
+        {
+            get
+            {
+                return new[] {
+                                ScopeName.BoldBegin, ScopeName.BoldEnd, ScopeName.ItalicsBegin, ScopeName.ItalicsEnd,
+                                ScopeName.UnderlineBegin, ScopeName.UnderlineEnd, ScopeName.HeadingOneBegin,
+                                ScopeName.HeadingOneEnd, ScopeName.HeadingTwoBegin, ScopeName.HeadingTwoEnd,
+                                ScopeName.HeadingThreeBegin, ScopeName.HeadingThreeEnd, ScopeName.HeadingFourBegin,
+                                ScopeName.HeadingFourEnd, ScopeName.HeadingFiveBegin, ScopeName.HeadingFiveEnd,
+                                ScopeName.HeadingSixBegin, ScopeName.HeadingSixEnd, ScopeName.StrikethroughBegin,
+                                ScopeName.StrikethroughEnd, ScopeName.SubscriptBegin, ScopeName.SubscriptEnd,
+                                ScopeName.SuperscriptBegin, ScopeName.SuperscriptEnd, ScopeName.HorizontalRule,
+                                ScopeName.EscapedMarkup, ScopeName.Remove
+                             };
+            }
+        }
 
         /// <summary>
         /// Will expand the input into the appropriate content based on scope.

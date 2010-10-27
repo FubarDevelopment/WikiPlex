@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using WikiPlex.Common;
 
@@ -7,28 +8,31 @@ namespace WikiPlex.Formatting
     /// <summary>
     /// The base class for a <see cref="IRenderer"/>.
     /// </summary>
-    public abstract class RendererBase : IRenderer
+    public abstract class Renderer : IRenderer
     {
         private const string UnresolvedError = @"<span class=""unresolved"">{0}</span>";
-        private readonly string[] scopeNames;
-        private readonly string rendererId;
-
-        ///<summary>
-        /// Creates a new instance of the <see cref="RendererBase"/>.
-        ///</summary>
-        /// <param name="scopeNames">The list of scope names the renderer can use.</param>
-        protected RendererBase(params string[] scopeNames)
-        {
-            this.scopeNames = scopeNames;
-            rendererId = GetType().Name.Replace("Renderer", string.Empty);
-        }
+        private string rendererId;
 
         /// <summary>
         /// Gets the id of a renderer.
         /// </summary>
         public string Id
         {
-            get { return rendererId; }
+            get
+            {
+                if (string.IsNullOrEmpty(rendererId))
+                    rendererId = GetType().Name.Replace("Renderer", string.Empty);
+                
+                return rendererId;
+            }
+        }
+
+        /// <summary>
+        /// Gets the collection of scope names for this <see cref="IRenderer"/>.
+        /// </summary>
+        protected abstract ICollection<string> ScopeNames
+        {
+            get;
         }
 
         /// <summary>
@@ -54,7 +58,7 @@ namespace WikiPlex.Formatting
         /// <returns>A boolean value indicating if the renderer can or cannot expand the macro.</returns>
         public bool CanExpand(string scopeName)
         {
-            return scopeNames.Any(s => s == scopeName);
+            return ScopeNames.Any(s => s == scopeName);
         }
 
         /// <summary>

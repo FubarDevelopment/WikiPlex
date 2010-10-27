@@ -11,13 +11,15 @@ namespace WikiPlex.Formatting
     /// <summary>
     /// Will render the silverlight scopes.
     /// </summary>
-    public class SilverlightRenderer : RendererBase
+    public class SilverlightRenderer : Renderer
     {
         /// <summary>
-        /// Creates a new instance of the <see cref="SilverlightRenderer"/> class.
+        /// Gets the collection of scope names for this <see cref="IRenderer"/>.
         /// </summary>
-        public SilverlightRenderer() : base(ScopeName.Silverlight)
-        {}
+        protected override ICollection<string> ScopeNames
+        {
+            get { return new[] { ScopeName.Silverlight }; }
+        }
 
         /// <summary>
         /// Gets the invalid argument error text.

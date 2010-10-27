@@ -1,18 +1,20 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace WikiPlex.Formatting
 {
     /// <summary>
     /// This will render the content alignment scopes.
     /// </summary>
-    public class ContentAlignmentRenderer : RendererBase
+    public class ContentAlignmentRenderer : Renderer
     {
-        ///<summary>
-        /// Creates a new instance of the <see cref="ContentAlignmentRenderer"/> class.
-        ///</summary>
-        public ContentAlignmentRenderer() 
-            : base(ScopeName.AlignEnd, ScopeName.LeftAlign, ScopeName.RightAlign)
-        {}
+        /// <summary>
+        /// Gets the collection of scope names for this <see cref="IRenderer"/>.
+        /// </summary>
+        protected override ICollection<string> ScopeNames
+        {
+            get { return new[] { ScopeName.AlignEnd, ScopeName.LeftAlign, ScopeName.RightAlign }; }
+        }
 
         /// <summary>
         /// Will expand the input into the appropriate content based on scope.

@@ -10,6 +10,13 @@ namespace WikiPlex.Common
     public static class Utility
     {
         /// <summary>
+        /// The delegate used when executing a method and converting any exception to a <see cref="RenderException"/>.
+        /// </summary>
+        /// <typeparam name="T">The return type.</typeparam>
+        /// <returns>The value from the method.</returns>
+        public delegate T ExecuteDelegate<T>();
+
+        /// <summary>
         /// Determines if the input is defined on an enumeration.
         /// </summary>
         /// <typeparam name="T">The type of the enumeration.</typeparam>
@@ -140,18 +147,12 @@ namespace WikiPlex.Common
         }
 
         /// <summary>
-        /// 
+        /// This will handle executing the delegate. Should any exception occur, a RenderException will be thrown instead.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
-        public delegate T ExecuteDelegate<T>();
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="executionDelegate"></param>
-        /// <returns></returns>
+        /// <typeparam name="T">The return type.</typeparam>
+        /// <param name="executionDelegate">The delegate that should be executed.</param>
+        /// <returns>The value from the delegate.</returns>
+        /// <exception cref="RenderException">Thrown when any exception is thrown from the delegate.</exception>
         public static T ConvertException<T>(ExecuteDelegate<T> executionDelegate)
         {
             try

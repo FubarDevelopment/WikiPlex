@@ -1,18 +1,20 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace WikiPlex.Formatting
 {
     /// <summary>
     /// This will render the indentation scopes.
     /// </summary>
-    public class IndentationRenderer : RendererBase
+    public class IndentationRenderer : Renderer
     {
         /// <summary>
-        /// Creates a new instance of the <see cref="IndentationRenderer"/> class.
+        /// Gets the collection of scope names for this <see cref="IRenderer"/>.
         /// </summary>
-        public IndentationRenderer()
-            : base(ScopeName.IndentationBegin, ScopeName.IndentationEnd)
-        {}
+        protected override ICollection<string> ScopeNames
+        {
+            get { return new[] { ScopeName.IndentationBegin, ScopeName.IndentationEnd }; }
+        }
 
         /// <summary>
         /// Will expand the input into the appropriate content based on scope.

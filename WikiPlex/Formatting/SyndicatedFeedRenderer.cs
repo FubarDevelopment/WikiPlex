@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -12,7 +13,7 @@ namespace WikiPlex.Formatting
     /// <summary>
     /// Will render the syndicated feed scopes.
     /// </summary>
-    public class SyndicatedFeedRenderer : RendererBase
+    public class SyndicatedFeedRenderer : Renderer
     {
         private readonly ISyndicationReader syndicationReader;
         private readonly IXmlDocumentReader xmlDocumentReader;
@@ -31,10 +32,17 @@ namespace WikiPlex.Formatting
         /// <param name="xmlDocumentReader">The xml document reader.</param>
         /// <param name="syndicationReader">The syndication reader.</param>
         public SyndicatedFeedRenderer(IXmlDocumentReader xmlDocumentReader, ISyndicationReader syndicationReader)
-            : base(ScopeName.SyndicatedFeed)
         {
             this.xmlDocumentReader = xmlDocumentReader;
             this.syndicationReader = syndicationReader;
+        }
+
+        /// <summary>
+        /// Gets the collection of scope names for this <see cref="IRenderer"/>.
+        /// </summary>
+        protected override ICollection<string> ScopeNames
+        {
+            get { return new[] { ScopeName.SyndicatedFeed }; }
         }
 
         /// <summary>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using WikiPlex.Common;
 
 namespace WikiPlex.Formatting
@@ -6,7 +7,7 @@ namespace WikiPlex.Formatting
     /// <summary>
     /// Will render the image scopes.
     /// </summary>
-    public class ImageRenderer : RendererBase
+    public class ImageRenderer : Renderer
     {
         private const string ImageAndLink = "<a href=\"{2}\"><img style=\"border:none;\" src=\"{3}\" {4}/></a>";
         private const string ImageAndLinkWithStyle = "<div style=\"clear:both;height:0;\">&nbsp;</div><a style=\"float:{0};{1}\" href=\"{2}\"><img style=\"border:none;\" src=\"{3}\" {4}/></a>";
@@ -18,14 +19,22 @@ namespace WikiPlex.Formatting
         private const string ImageNoLinkWithStyle = "<div style=\"clear:both;height:0;\">&nbsp;</div><img style=\"float:{0};{1}\" src=\"{2}\" {3}/>";
 
         /// <summary>
-        /// Creates a new instance of the <see cref="ImageRenderer"/> class.
+        /// Gets the collection of scope names for this <see cref="IRenderer"/>.
         /// </summary>
-        public ImageRenderer()
-            : base(ScopeName.ImageWithLinkNoAltLeftAlign, ScopeName.ImageWithLinkNoAltRightAlign, ScopeName.ImageWithLinkNoAlt,
-                   ScopeName.ImageWithLinkWithAltLeftAlign, ScopeName.ImageWithLinkWithAltRightAlign, ScopeName.ImageWithLinkWithAlt,
-                   ScopeName.ImageLeftAlign, ScopeName.ImageRightAlign, ScopeName.ImageNoAlign,
-                   ScopeName.ImageLeftAlignWithAlt, ScopeName.ImageRightAlignWithAlt, ScopeName.ImageNoAlignWithAlt)
-        {}
+        protected override ICollection<string> ScopeNames
+        {
+            get
+            {
+                return new[] { 
+                                ScopeName.ImageWithLinkNoAltLeftAlign, ScopeName.ImageWithLinkNoAltRightAlign, 
+                                ScopeName.ImageWithLinkNoAlt, ScopeName.ImageWithLinkWithAltLeftAlign, 
+                                ScopeName.ImageWithLinkWithAltRightAlign, ScopeName.ImageWithLinkWithAlt,
+                                ScopeName.ImageLeftAlign, ScopeName.ImageRightAlign, 
+                                ScopeName.ImageNoAlign, ScopeName.ImageLeftAlignWithAlt, 
+                                ScopeName.ImageRightAlignWithAlt, ScopeName.ImageNoAlignWithAlt 
+                             };
+            }
+        }
 
         /// <summary>
         /// Gets the invalid macro error text.
