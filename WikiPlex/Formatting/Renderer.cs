@@ -12,7 +12,7 @@ namespace WikiPlex.Formatting
     {
         private const string UnresolvedError = @"<span class=""unresolved"">{0}</span>";
         private string rendererId;
-        private ICollection<string> scopeNames;
+        private HashSet<string> scopeNames;
 
         /// <summary>
         /// Gets the id of a renderer.
@@ -60,9 +60,9 @@ namespace WikiPlex.Formatting
         public bool CanExpand(string scopeName)
         {
             if (scopeNames == null)
-                scopeNames = ScopeNames;
+                scopeNames = new HashSet<string>(ScopeNames);
 
-            return scopeNames.Any(s => s == scopeName);
+            return scopeNames.Contains(scopeName);
         }
 
         /// <summary>
