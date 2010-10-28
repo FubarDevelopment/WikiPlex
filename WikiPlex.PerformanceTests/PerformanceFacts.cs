@@ -6,7 +6,6 @@ using System.Reflection;
 using System.Threading;
 using WikiPlex.Compilation;
 using WikiPlex.Compilation.Macros;
-using WikiPlex.Formatting;
 using WikiPlex.Formatting.Renderers;
 using WikiPlex.IntegrationTests;
 using WikiPlex.Syndication;
@@ -47,9 +46,9 @@ namespace WikiPlex.PerformanceTests
             wiki.Render(content);
             stopWatch.Stop();
 
-            Trace.WriteLine(fileName + ": " + stopWatch.ElapsedMilliseconds);
+            Trace.WriteLine(fileName + ": " + stopWatch.ElapsedMilliseconds + "ms, expected under" + millisecondsToFinish + "ms");
 
-            Assert.True(stopWatch.ElapsedMilliseconds < millisecondsToFinish, "Finished in " + stopWatch.ElapsedMilliseconds + "ms");
+            Assert.True(stopWatch.ElapsedMilliseconds < millisecondsToFinish, "Finished in " + stopWatch.ElapsedMilliseconds + "ms, expected under " + millisecondsToFinish + "ms");
         }
 
         private static string ReadContent(string prefix, string fileName)

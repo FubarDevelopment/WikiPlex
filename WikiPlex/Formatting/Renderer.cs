@@ -12,6 +12,7 @@ namespace WikiPlex.Formatting
     {
         private const string UnresolvedError = @"<span class=""unresolved"">{0}</span>";
         private string rendererId;
+        private ICollection<string> scopeNames;
 
         /// <summary>
         /// Gets the id of a renderer.
@@ -58,7 +59,10 @@ namespace WikiPlex.Formatting
         /// <returns>A boolean value indicating if the renderer can or cannot expand the macro.</returns>
         public bool CanExpand(string scopeName)
         {
-            return ScopeNames.Any(s => s == scopeName);
+            if (scopeNames == null)
+                scopeNames = ScopeNames;
+
+            return scopeNames.Any(s => s == scopeName);
         }
 
         /// <summary>
