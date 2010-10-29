@@ -18,7 +18,7 @@ namespace WikiPlex
         private static readonly Regex NewLineRegex = new Regex(@"(?<!\r|</tr>|</li>|</ul>|</ol>|<hr />|</blockquote>)(?:\n|&#10;)(?!<h[1-6]>|<hr />|<ul>|<ol>|</li>|</blockquote>)", RegexOptions.Compiled);
         private static readonly Regex PreRegex = new Regex(@"(?s)((?><pre>)(?>.*?</pre>))", RegexOptions.Compiled);
 
-        private readonly IMacroParser parser;
+        private readonly MacroParser parser;
 
         /// <summary>
         /// Instantiates a new instance of the <see cref="WikiEngine"/>.
@@ -30,7 +30,7 @@ namespace WikiPlex
         /// Instantiates a new instance of the <see cref="WikiEngine"/>.
         /// </summary>
         /// <param name="parser">The macro parser to use.</param>
-        protected WikiEngine(IMacroParser parser)
+        protected WikiEngine(MacroParser parser)
         {
             this.parser = parser;
         }

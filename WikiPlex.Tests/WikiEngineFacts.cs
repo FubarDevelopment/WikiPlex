@@ -300,9 +300,9 @@ namespace WikiPlex.Tests
 
         private class TestableWikiEngine : WikiEngine
         {
-            public readonly Mock<IMacroParser> Parser;
+            public readonly Mock<MacroParser> Parser;
 
-            private TestableWikiEngine(Mock<IMacroParser> parser)
+            private TestableWikiEngine(Mock<MacroParser> parser)
                 : base(parser.Object)
             {
                 Parser = parser;
@@ -310,7 +310,7 @@ namespace WikiPlex.Tests
 
             public static TestableWikiEngine Create()
             {
-                return new TestableWikiEngine(new Mock<IMacroParser>());
+                return new TestableWikiEngine(new Mock<MacroParser>(new Mock<MacroCompiler>().Object));
             }
         }
 

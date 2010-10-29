@@ -10,7 +10,7 @@ namespace WikiPlex.Parsing
     /// <summary>
     /// Handles parsing the wiki content.
     /// </summary>
-    public class MacroParser : IMacroParser
+    public class MacroParser
     {
         private readonly MacroCompiler compiler;
 
@@ -38,7 +38,7 @@ namespace WikiPlex.Parsing
         /// Thrown when scope augmenters is null.
         /// </exception>
         /// <exception cref="ArgumentException">Thrown when macros is empty.</exception>
-        public void Parse(string wikiContent, IEnumerable<IMacro> macros, IDictionary<string, IScopeAugmenter> scopeAugmenters, Action<IList<Scope>> parseHandler)
+        public virtual void Parse(string wikiContent, IEnumerable<IMacro> macros, IDictionary<string, IScopeAugmenter> scopeAugmenters, Action<IList<Scope>> parseHandler)
         {
             if (string.IsNullOrEmpty(wikiContent))
                 return;

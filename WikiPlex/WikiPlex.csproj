@@ -164,7 +164,6 @@
     <Compile Include="Formatting\Renderers\TextFormattingRenderer.cs" />
     <Compile Include="Formatting\Renderers\ListItemRenderer.cs" />
     <Compile Include="Macros.cs" />
-    <Compile Include="Parsing\IMacroParser.cs" />
     <Compile Include="Parsing\MacroParser.cs" />
     <Compile Include="Parsing\Scope.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
