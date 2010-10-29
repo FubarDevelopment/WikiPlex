@@ -30,7 +30,7 @@ namespace WikiPlex
         /// Instantiates a new instance of the <see cref="WikiEngine"/>.
         /// </summary>
         /// <param name="parser">The macro parser to use.</param>
-        protected WikiEngine(MacroParser parser)
+        protected internal WikiEngine(MacroParser parser)
         {
             this.parser = parser;
         }

@@ -8,6 +8,7 @@ using WikiPlex.Compilation;
 using WikiPlex.Compilation.Macros;
 using WikiPlex.Formatting.Renderers;
 using WikiPlex.IntegrationTests;
+using WikiPlex.Parsing;
 using WikiPlex.Syndication;
 using Xunit;
 using ThreadState = System.Threading.ThreadState;
@@ -16,6 +17,14 @@ namespace WikiPlex.PerformanceTests
 {
     public class PerformanceFacts : IDisposable
     {
+        private readonly WikiEngine engine;
+
+        class PerformanceWikiEngine : WikiEngine
+        {
+            public PerformanceWikiEngine() : base(new MacroParser(new MacroCompiler()))
+            {}
+        }
+
         public PerformanceFacts()
         {
             // clean the wiki engine
@@ -25,8 +34,7 @@ namespace WikiPlex.PerformanceTests
             // register the local rss reader
             Renderers.Register(new SyndicatedFeedRenderer(new LocalXmlReader(), new SyndicationReader()));
 
-            var compiler = (MacroCompiler) typeof (WikiEngine).GetField("Compiler", BindingFlags.Static | BindingFlags.NonPublic).GetValue(null);
-            compiler.Flush();
+            engine = new PerformanceWikiEngine();
         }
 
         public void Dispose()
@@ -36,14 +44,13 @@ namespace WikiPlex.PerformanceTests
             Renderers.Register<SyndicatedFeedRenderer>();
         }
 
-        private static void ExecutePerformanceTest(string fileName, int millisecondsToFinish)
+        private void ExecutePerformanceTest(string fileName, int millisecondsToFinish)
         {
             string content = ReadContent("WikiPlex.PerformanceTests.Data.", fileName);
-            var wiki = new WikiEngine();
             var stopWatch = new Stopwatch();
 
             stopWatch.Start();
-            wiki.Render(content);
+            engine.Render(content);
             stopWatch.Stop();
 
             Trace.WriteLine(fileName + ": " + stopWatch.ElapsedMilliseconds + "ms, expected under" + millisecondsToFinish + "ms");
@@ -230,7 +237,7 @@ namespace WikiPlex.PerformanceTests
             }
         }
 
-        private static void ExecuteThreadPerfTest()
+        private void ExecuteThreadPerfTest()
         {
             for (int i = 0; i < 1000000; i++)
                 ExecutePerformanceTest("FormatAndLayout.wiki", 50);
