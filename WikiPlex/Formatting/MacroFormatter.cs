@@ -10,10 +10,16 @@ namespace WikiPlex.Formatting
     /// <summary>
     /// Handles formatting wiki content based on recorded scopes.
     /// </summary>
-    public class MacroFormatter : IFormatter
+    public class MacroFormatter
     {
         private readonly IEnumerable<IRenderer> renderers;
         private readonly List<Scope> scopes;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MacroFormatter"/> class.
+        /// </summary>
+        public MacroFormatter() : this(WikiPlex.Renderers.All)
+        {}
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MacroFormatter"/> class.
@@ -44,7 +50,7 @@ namespace WikiPlex.Formatting
         /// </summary>
         /// <param name="wikiContent">The wiki content to format.</param>
         /// <returns>The formatted wiki content.</returns>
-        public string Format(string wikiContent)
+        public virtual string Format(string wikiContent)
         {
             var writer = new StringBuilder(wikiContent.Length);
 

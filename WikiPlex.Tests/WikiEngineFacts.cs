@@ -84,7 +84,7 @@ namespace WikiPlex.Tests
             public void Should_render_the_wiki_content_successfully()
             {
                 var engine = TestableWikiEngine.Create();
-                var formatter = new Mock<IFormatter>();
+                var formatter = new Mock<MacroFormatter>();
                 formatter.Setup(x => x.Format("input")).Returns("output");
 
                 string result = engine.Render("input", formatter.Object);
@@ -96,7 +96,7 @@ namespace WikiPlex.Tests
             public void Should_render_the_wiki_content_successfully_using_only_the_specified_macro()
             {
                 var engine = TestableWikiEngine.Create();
-                var formatter = new Mock<IFormatter>();
+                var formatter = new Mock<MacroFormatter>();
                 formatter.Setup(x => x.Format("input")).Returns("output");
 
                 engine.Render("input", new[] { new BoldMacro() }, formatter.Object);
@@ -108,7 +108,7 @@ namespace WikiPlex.Tests
             public void Should_convert_line_breaks_to_html_break_tags()
             {
                 var engine = TestableWikiEngine.Create();
-                var formatter = new Mock<IFormatter>();
+                var formatter = new Mock<MacroFormatter>();
                 formatter.Setup(x => x.Format("input")).Returns("text\ntext");
 
                 string result = engine.Render("input", formatter.Object);
@@ -120,7 +120,7 @@ namespace WikiPlex.Tests
             public void Should_convert_encoded_line_breaks_to_html_break_tags()
             {
                 var engine = TestableWikiEngine.Create();
-                var formatter = new Mock<IFormatter>();
+                var formatter = new Mock<MacroFormatter>();
                 formatter.Setup(x => x.Format("input")).Returns("text&#10;text");
 
                 string result = engine.Render("input", formatter.Object);
@@ -132,7 +132,7 @@ namespace WikiPlex.Tests
             public void Should_not_convert_line_break_into_html_break_tag_after_unordered_list()
             {
                 var engine = TestableWikiEngine.Create();
-                var formatter = new Mock<IFormatter>();
+                var formatter = new Mock<MacroFormatter>();
                 formatter.Setup(x => x.Format("input")).Returns("<ul><li>text</li></ul>\ntext");
 
                 string result = engine.Render("input", formatter.Object);
@@ -144,7 +144,7 @@ namespace WikiPlex.Tests
             public void Should_not_convert_line_break_into_html_break_tag_after_ordered_list()
             {
                 var engine = TestableWikiEngine.Create();
-                var formatter = new Mock<IFormatter>();
+                var formatter = new Mock<MacroFormatter>();
                 formatter.Setup(x => x.Format("input")).Returns("<ol><li>text</li></ol>\ntext");
 
                 string result = engine.Render("input", formatter.Object);
@@ -156,7 +156,7 @@ namespace WikiPlex.Tests
             public void Should_not_convert_line_break_into_html_break_tag_after_blockquote()
             {
                 var engine = TestableWikiEngine.Create();
-                var formatter = new Mock<IFormatter>();
+                var formatter = new Mock<MacroFormatter>();
                 formatter.Setup(x => x.Format("input")).Returns("<blockquote>text</blockquote>\ntext");
 
                 string result = engine.Render("input", formatter.Object);
@@ -168,7 +168,7 @@ namespace WikiPlex.Tests
             public void Should_not_convert_line_breaks_prior_to_ending_a_blockquote()
             {
                 var engine = TestableWikiEngine.Create();
-                var formatter = new Mock<IFormatter>();
+                var formatter = new Mock<MacroFormatter>();
                 formatter.Setup(x => x.Format("input")).Returns("<blockquote>text\n</blockquote>");
 
                 string result = engine.Render("input", formatter.Object);
@@ -180,7 +180,7 @@ namespace WikiPlex.Tests
             public void Should_not_convert_line_breaks_into_html_break_tags_within_pre_tags()
             {
                 var engine = TestableWikiEngine.Create();
-                var formatter = new Mock<IFormatter>();
+                var formatter = new Mock<MacroFormatter>();
                 formatter.Setup(x => x.Format("input")).Returns("<pre>code\ncode</pre>");
 
                 string result = engine.Render("input", formatter.Object);
@@ -201,7 +201,7 @@ namespace WikiPlex.Tests
             public void Should_not_add_a_html_break_tag_right_before_a_tag(string html)
             {
                 var engine = TestableWikiEngine.Create();
-                var formatter = new Mock<IFormatter>();
+                var formatter = new Mock<MacroFormatter>();
                 string expectation = "text\n" + html;
                 formatter.Setup(x => x.Format("input")).Returns(expectation);
 
@@ -214,7 +214,7 @@ namespace WikiPlex.Tests
             public void Should_not_add_a_html_break_tag_right_after_a_horizontal_rule_tag()
             {
                 var engine = TestableWikiEngine.Create();
-                var formatter = new Mock<IFormatter>();
+                var formatter = new Mock<MacroFormatter>();
                 const string expectation = "<hr />\ntext";
                 formatter.Setup(x => x.Format("input")).Returns(expectation);
 
@@ -227,7 +227,7 @@ namespace WikiPlex.Tests
             public void Should_not_add_a_html_break_tag_right_before_a_list_item_tag()
             {
                 var engine = TestableWikiEngine.Create();
-                var formatter = new Mock<IFormatter>();
+                var formatter = new Mock<MacroFormatter>();
                 const string expectation = "<ol><li>one\n</li></ol><ol><li>two</li></ol>";
                 formatter.Setup(x => x.Format("input")).Returns(expectation);
 
@@ -267,7 +267,7 @@ namespace WikiPlex.Tests
             {
                 var engine = TestableWikiEngine.Create();
                 
-                var ex = Record.Exception(() => engine.Render("*abc*", new[] { new TestMacro() }, (IFormatter) null)) as ArgumentNullException;
+                var ex = Record.Exception(() => engine.Render("*abc*", new[] { new TestMacro() }, (MacroFormatter) null)) as ArgumentNullException;
 
                 ex.ShouldNotBeNull();
                 ex.ParamName.ShouldEqual("formatter");
@@ -278,7 +278,7 @@ namespace WikiPlex.Tests
             {
                 var engine = TestableWikiEngine.Create();
                 var macro = new Mock<IMacro>();
-                var formatter = new Mock<IFormatter>();
+                var formatter = new Mock<MacroFormatter>();
 
                 string result = engine.Render(string.Empty, new[] { macro.Object }, formatter.Object);
 
@@ -289,10 +289,10 @@ namespace WikiPlex.Tests
             public void Should_convert_carriage_return_and_new_line_into_only_new_line_prior_to_parsing()
             {
                 var engine = TestableWikiEngine.Create();
-                var formatter = new Mock<IFormatter>();
+                var formatter = new Mock<MacroFormatter>();
                 formatter.Setup(x => x.Format("before\nafter")).Returns("before\nafter");
 
-                string result = engine.Render("before\r\nafter");
+                string result = engine.Render("before\r\nafter", formatter.Object);
 
                 result.ShouldEqual("before<br />after");
             }

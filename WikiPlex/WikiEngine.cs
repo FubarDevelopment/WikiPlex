@@ -52,7 +52,7 @@ namespace WikiPlex
         /// <param name="formatter">The custom formatter used when rendering.</param>
         /// <returns>The rendered html content.</returns>
         /// <exception cref="System.ArgumentNullException">Thrown when formatter is null.</exception>
-        public string Render(string wikiContent, IFormatter formatter)
+        public string Render(string wikiContent, MacroFormatter formatter)
         {
             return Render(wikiContent, Macros.All, formatter);
         }
@@ -109,7 +109,7 @@ namespace WikiPlex
         /// <para>Thrown when formatter is null.</para>
         /// </exception>
         /// <exception cref="System.ArgumentException">Thrown when macros is an empty enumerable.</exception>
-        public string Render(string wikiContent, IEnumerable<IMacro> macros, IFormatter formatter)
+        public string Render(string wikiContent, IEnumerable<IMacro> macros, MacroFormatter formatter)
         {
             Guard.NotNullOrEmpty(macros, "macros");
             Guard.NotNull(formatter, "formatter");

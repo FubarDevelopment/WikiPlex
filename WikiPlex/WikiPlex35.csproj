@@ -131,7 +131,6 @@
     <Compile Include="Syndication\SyndicationReader.cs" />
     <Compile Include="Syndication\SyndicationItem.cs" />
     <Compile Include="WikiEngine.cs" />
-    <Compile Include="Formatting\IFormatter.cs" />
     <Compile Include="Formatting\Renderers\ImageRenderer.cs" />
     <Compile Include="Formatting\IRenderer.cs" />
     <Compile Include="Formatting\Renderers\LinkRenderer.cs" />

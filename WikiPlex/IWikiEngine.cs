@@ -1,5 +1,3 @@
-// Copyright (c) Microsoft Corporation.  All rights reserved.
-
 using System.Collections.Generic;
 using WikiPlex.Compilation.Macros;
 using WikiPlex.Formatting;
@@ -24,7 +22,7 @@ namespace WikiPlex
         /// <param name="wikiContent">The wiki content to be rendered.</param>
         /// <param name="formatter">The custom formatter used when rendering.</param>
         /// <returns>The rendered html content.</returns>
-        string Render(string wikiContent, IFormatter formatter);
+        string Render(string wikiContent, MacroFormatter formatter);
 
         /// <summary>
         /// Renders the wiki content using the specified macros and statically registered renderers.
@@ -58,6 +56,6 @@ namespace WikiPlex
         /// <param name="macros">A collection of macros to be used when rendering.</param>
         /// <param name="formatter">The custom formatter used when rendering.</param>
         /// <returns>The rendered html content.</returns>
-        string Render(string wikiContent, IEnumerable<IMacro> macros, IFormatter formatter);
+        string Render(string wikiContent, IEnumerable<IMacro> macros, MacroFormatter formatter);
     }
 }
