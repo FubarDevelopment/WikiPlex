@@ -5,7 +5,7 @@ using WikiPlex.Common;
 namespace WikiPlex.Compilation
 {
     /// <summary>
-    /// Will hold a compiled macro that is generated from <see cref="IMacroCompiler"/>.
+    /// Will hold a compiled macro that is generated from the <see cref="MacroCompiler"/>.
     /// </summary>
     public class CompiledMacro
     {

@@ -12,13 +12,13 @@ namespace WikiPlex.Parsing
     /// </summary>
     public class MacroParser : IMacroParser
     {
-        private readonly IMacroCompiler compiler;
+        private readonly MacroCompiler compiler;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MacroParser"/> class.
         /// </summary>
-        /// <param name="compiler">The <see cref="IMacroCompiler"/> to use for compiling macros.</param>
-        public MacroParser(IMacroCompiler compiler)
+        /// <param name="compiler">The <see cref="MacroCompiler"/> to use for compiling macros.</param>
+        public MacroParser(MacroCompiler compiler)
         {
             this.compiler = compiler;
         }

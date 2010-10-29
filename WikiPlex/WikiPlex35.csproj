@@ -78,7 +78,6 @@
     <Compile Include="Syndication\IXmlDocumentReader.cs" />
     <Compile Include="Syndication\XmlDocumentReaderWrapper.cs" />
     <Compile Include="Compilation\CompiledMacro.cs" />
-    <Compile Include="Compilation\IMacroCompiler.cs" />
     <Compile Include="Compilation\MacroCompiler.cs" />
     <Compile Include="Compilation\Macros\BoldMacro.cs" />
     <Compile Include="Compilation\Macros\ContentRightAlignmentMacro.cs" />

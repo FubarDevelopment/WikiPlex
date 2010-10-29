@@ -10,7 +10,7 @@ namespace WikiPlex.Compilation
     /// <summary>
     /// Handles compiling and caching a <see cref="IMacro"/>. Compilation includes normalizing all rules into a single regular expression.
     /// </summary>
-    public class MacroCompiler : IMacroCompiler
+    public class MacroCompiler
     {
         private static readonly Regex numberOfCapturesRegex = new Regex(@"(?x)(?<!\\)\((?!\?)", RegexOptions.Compiled);
         private readonly Dictionary<string, CompiledMacro> compiledMacros;
@@ -30,7 +30,7 @@ namespace WikiPlex.Compilation
         /// </summary>
         /// <param name="macro">The macro to compile.</param>
         /// <returns>The compiled macro.</returns>
-        public CompiledMacro Compile(IMacro macro)
+        public virtual CompiledMacro Compile(IMacro macro)
         {
             Guard.NotNull(macro, "macro");
             Guard.NotNullOrEmpty(macro.Id, "macro", "The macro identifier must not be null or empty.");
