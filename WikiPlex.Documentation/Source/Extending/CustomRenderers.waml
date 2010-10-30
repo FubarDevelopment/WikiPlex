@@ -27,30 +27,29 @@ As you probably realized, there is currently no macro/renderer that will take th
 {p}
 Creating a renderer is actually the easiest portion of defining new wiki syntaxes, as it's as complicated as you need to make it. Again, a 
 renderer simply takes in a scope (which is a contextual identifier), processes the content, and returns new content. Let's get started - 
-so in your solution, create a class called {{TitleLinkRenderer}} and extend it from {{WikiPlex.Formatting.IRenderer}}. You'll then 
-implement the members it requires ({{Id}}, {{CanExpand}} and {{Expand}}). 
-{alert:note}The Id value is simply a string that is used as a key for static renderer registration, so it should be unique (follow the same rule of thumb for naming as the macros).{alert}
+so in your solution, create a class called {{TitleLinkRenderer}} and extend it from {{WikiPlex.Formatting.Renderer}}. You'll then 
+implement the members it requires ({{ScopeNames}} and {{PerformExpand}}). 
+{alert:note}An Id value is generated based on the name of the class, minus "Renderer". This Id is used as a key for static renderer registration, so your class names should be unique and not clash.{alert}
 {p}
 {step}
 
 {step}
 {p}
-Implement the {{CanExpand}} method. This method simply takes in a scope name and returns a boolean value indicating if this renderer can expand (or render) 
-the scope successfully. As the formatter is processing all scopes, it goes through the list of renderers in the formatter and finds the first match that 
+Implement the {{ScopeNames}} property. This property returns a collection of strings that are the supported scope names for this renderer can expand (or render)
+the scope successfully. As the formatter is processing all scopes, it goes through the list of renderers in the formatter and finds the first match based on this list that 
 can expand that particular scope. There is no guarantee of the order of checking renderers, so always unregister a renderer you're overriding its 
-implementation for. As you'll see below, the {{CanExpand}} method is fairly trivial, however should your renderer support a number of scopes, 
-you'll need to change this code to include all of them.
+implementation for.
 {p}
 {code:c#}
-public bool CanExpand(string scopeName)
+public ICollection<string> ScopeNames(string scopeName)
 {
-   return scopeName == WikiScopeName.WikiLink;
+   get { return new[] { WikiScopeName.WikiLink }; }
 }
 {code:c#}
 {step}
 
 {step}
-{p}Implement the {{Expand}} method. This method will take in a scope name, the related input from the wiki source, and html / attribute encoding functions.{p}
+{p}Implement the {{PerformExpand}} method. This method will take in a scope name, the related input from the wiki source, and html / attribute encoding functions.{p}
 {alert:note}
     The reason we're passing in html / attribute encoding functions, is so that you can utilize a consistent encoding scheme across all of the renderers.
     Out of the box, WikiPlex uses HttpUtility.HtmlEncode and HttpUtility.HtmlAttributeEncode, but by creating & supplying your own formatter, you can change 
@@ -63,14 +62,19 @@ MVC UrlHelper (which is supplied via the constructor).
 {code:c#}
 private const string LinkFormat = "<a href=\"{0}\">{1}</a>";
 
-public string Expand(string scopeName, string input,
-                     Func<string, string> htmlEncode, 
-                     Func<string, string> attributeEncode)
+public string PerformExpand(string scopeName, string input,
+                            Func<string, string> htmlEncode, 
+                            Func<string, string> attributeEncode)
 {
    string url = urlHelper.RouteUrl("Default", new { slug = SlugHelper.Generate(input) });
    return string.Format(LinkFormat, attributeEncode(url), htmlEncode(input));
 }
 {code:c#}
+{p}
+Within the PerformExpand method, any exception that is thrown will render an unresolved macro content. Should an ArgumentException be thrown, it will render the content of 
+{{InvalidArgumentError}} and any other exceptions will render the content of {{InvalidMacroError}}. If you would like to specify any addititional content on the error message
+raise a {{WikiPlex.Common.RenderException}} with the content.
+{p}
 {step}
 
 {step}
@@ -88,18 +92,15 @@ Renderers.Register<TitleLinkRenderer>();
 {step}
 {p}*Renderers with Runtime Dependencies*{p}
 {p}
-A little bit of extra work is required when calling {{WikiEngine.Render}} - as you'll need to pass in a {{MacroFormatter}} instead. 
-However, if you utilize the overload to only take in a formatter, you'll need to union the statically defined renderers with yours.
+A little bit of extra work is required when calling {{WikiEngine.Render}} - as you'll need to union the statically defined renderers with yours.
+Optionally, you can use the overload that specifies a {{MacroFormatter}} with the list of renderers.
 {p}
 {code:c#}
-private MacroFormatter GetFormatter()
-{
-   var siteRenderers = new IRenderer[] {new TitleLinkRenderer(Url)};
-   IEnumerable<IRenderer> allRenderers = Renderers.All.Union(siteRenderers);
-   return new MacroFormatter(allRenderers);
-}
+var siteRenderers = new IRenderer[] {new TitleLinkRenderer(Url)};
+IEnumerable<IRenderer> allRenderers = Renderers.All.Union(siteRenderers);
+var engine = new WikiEngine();
+string output = engine.Render("content", allRenderers);
 {code:c#}
-{p}Now, when you call {{WikiEngine.Render}}, you'll utilize the overload that takes in an {{IFormatter}} as a parameter.{p}
 {step}
 
 {step}

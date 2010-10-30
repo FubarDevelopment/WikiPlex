@@ -2,17 +2,27 @@
 
 {intro}Images allow you to link to images hosted elsewhere and linked from the wiki.{intro}
 
+{section:Optional Parameters}
+_The following parameters should be added at the end of the image url._
+
+|| Name || Description || Range || Default ||
+| height | The height of the image | px/pt/pc/in/mm/cm/%/em/ex | None |
+| width | The width of the image | px/pt/pc/in/mm/cm/%/em/ex | None |
+{section}
+
 {section:Basic Example}
 *Source Markup*
 {{
 [image:http://www.domain.com/myimage.jpg]
 [image:WikiPlex Logo|http://www.domain.com/myimage.jpg]
+[image:WikiPlex Logo|http://www.domain.com/myimage.jpg,height=50,width=150]
 }}
 
 {p}*Rendered Markup*{p}
 {markup}
 <img src="http://download.codeplex.com/Project/Download/FileDownload.aspx?ProjectName=WikiPlex&amp;DownloadId=74720&amp;Build=15321" /><br />
-<img src="http://download.codeplex.com/Project/Download/FileDownload.aspx?ProjectName=WikiPlex&amp;DownloadId=74720&amp;Build=15321" alt="WikiPlex Logo" title="WikiPlex Logo" />
+<img src="http://download.codeplex.com/Project/Download/FileDownload.aspx?ProjectName=WikiPlex&amp;DownloadId=74720&amp;Build=15321" alt="WikiPlex Logo" title="WikiPlex Logo" /><br />
+<img src="http://download.codeplex.com/Project/Download/FileDownload.aspx?ProjectName=WikiPlex&amp;DownloadId=74720&amp;Build=15321" alt="WikiPlex Logo" title="WikiPlex Logo" height="50px" width="150px" />
 {markup}
 
 {section}
