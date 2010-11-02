@@ -11,5 +11,6 @@ namespace WikiPlex.Web.Sample.Repositories
         Content GetByVersion(int id, int version);
         ICollection<Content> GetHistory(string slug);
         void Save(string slug, string title, string source);
+        int Save(int id, string slug, string title, string source);
     }
 }

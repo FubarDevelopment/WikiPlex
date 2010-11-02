@@ -182,6 +182,39 @@ namespace WikiPlex.Web.Sample.Repositories
             }
         }
 
+        public int Save(int id, string slug, string title, string source)
+        {
+            const string sql = @"DECLARE @ContentCount INT
+
+                                 SELECT @ContentCount = (SELECT COUNT(*) FROM Content WHERE TitleId = T.Id) 
+                                 FROM Title T
+                                 WHERE T.Id = @TitleId
+
+                                 IF (@TitleId = 0) BEGIN
+                                    INSERT INTO Title (Name, Slug)
+                                    VALUES (@Name, @Slug)
+
+                                    SELECT @TitleId = SCOPE_IDENTITY()
+                                 END
+
+                                 INSERT INTO Content (TitleId, Source, Version, VersionDate)
+                                 VALUES (@TitleId, @Source, ISNULL(@ContentCount, 0) + 1, GETDATE())
+
+                                 SELECT @TitleId";
+
+            using (var conn = new SqlConnection(connectionString))
+            using (var cmd = new SqlCommand(sql, conn))
+            {
+                cmd.Parameters.Add(new SqlParameter("@TitleId", id));
+                cmd.Parameters.Add(new SqlParameter("@Slug", slug));
+                cmd.Parameters.Add(new SqlParameter("@Name", title));
+                cmd.Parameters.Add(new SqlParameter("@Source", source));
+
+                conn.Open();
+                return (int) cmd.ExecuteScalar();
+            }
+        }
+
         private static Content BuildContent(IDataRecord reader)
         {
             return new Content

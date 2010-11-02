@@ -60,9 +60,9 @@ namespace WikiPlex.Web.Sample.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
-        public ActionResult EditWiki(string slug)
+        public ActionResult EditWiki(int id, string slug)
         {
-            Content content = repository.Get(slug, null);
+            Content content = repository.Get(id);
 
             if (content == null)
                 content = new Content {Title = new Title {Slug = slug}};
@@ -74,7 +74,7 @@ namespace WikiPlex.Web.Sample.Controllers
         [ValidateInput(false)]
         public ActionResult EditWiki(int id, string slug, string name, string source)
         {
-            repository.Save(slug, name, source);
+            id = repository.Save(id, slug, name, source);
             return RedirectToAction("ViewWiki", new {id, slug});
         }
 

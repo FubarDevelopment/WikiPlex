@@ -12,31 +12,44 @@ namespace WikiPlex.Web.Sample.WebForms
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (Page.IsPostBack)
+                return;
+
+            int id = GetId();
             string slug = GetSlug();
-            Content content = repository.Get(slug, null);
+            Content content = repository.Get(id);
 
             if (content != null)
             {
                 Name.Text = content.Title.Name;
                 Source.Text = content.Source;
                 CancelPlaceHolder.Visible = true;
-                Cancel.OnClientClick = "window.location.href='" + ResolveClientUrl("~/WebForms/?p=" + HttpUtility.UrlEncode(slug) + "'");
+                Cancel.OnClientClick = "window.location.href='" + ResolveClientUrl("~/WebForms/?i=" + id + "&p=" + HttpUtility.UrlEncode(slug) + "'");
             }
+        }
+
+        private int GetId()
+        {
+            string idParam = Request.QueryString["i"];
+            if (string.IsNullOrEmpty(idParam))
+                return 0;
+            return int.Parse(idParam);
         }
 
         private string GetSlug()
         {
             string slug = Request.QueryString["p"];
             if (string.IsNullOrEmpty(slug))
-                slug = "home";
+                return string.Empty;
             return slug;
         }
 
         protected void SaveSource(object sender, EventArgs e)
         {
+            int id = GetId();
             string slug = GetSlug();
-            repository.Save(slug, Name.Text, Source.Text);
-            Response.Redirect("~/WebForms/?p=" + HttpUtility.UrlEncode(slug));
+            id = repository.Save(id, slug, Name.Text, Source.Text);
+            Response.Redirect("~/WebForms/?i=" + id + "&p=" + HttpUtility.UrlEncode(slug));
         }
     }
 }
