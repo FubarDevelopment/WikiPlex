@@ -27,13 +27,12 @@ namespace WikiPlex.Web.Sample.Controllers
             this.wikiEngine = wikiEngine;
         }
 
-        public ActionResult ViewWiki(string slug)
+        public ActionResult ViewWiki(int id, string slug)
         {
-            var viewData = new ViewContent();
-            viewData.Content = repository.Get(slug);
+            var viewData = new ViewContent {Content = repository.Get(id)};
 
             if (viewData.Content == null)
-                return RedirectToAction("EditWiki", new {slug});
+                return RedirectToAction("EditWiki", new {id, slug});
 
             viewData.Content.RenderedSource = wikiEngine.Render(viewData.Content.Source, GetRenderers());
             viewData.History = repository.GetHistory(slug);
@@ -41,13 +40,13 @@ namespace WikiPlex.Web.Sample.Controllers
             return View("View", viewData);
         }
 
-        public ActionResult ViewWikiVersion(string slug, int version)
+        public ActionResult ViewWikiVersion(int id, string slug, int version)
         {
             var viewData = new ViewContent();
             viewData.Content = repository.GetByVersion(slug, version);
 
             if (viewData.Content == null)
-                return RedirectToAction("ViewWiki", new {slug});
+                return RedirectToAction("ViewWiki", new {id, slug});
 
             viewData.Content.RenderedSource = wikiEngine.Render(viewData.Content.Source, GetRenderers());
             viewData.History = repository.GetHistory(slug);
@@ -57,14 +56,14 @@ namespace WikiPlex.Web.Sample.Controllers
 
         private IEnumerable<IRenderer> GetRenderers()
         {
-            var siteRenderers = new IRenderer[] {new TitleLinkRenderer(Url)};
+            var siteRenderers = new IRenderer[] {new TitleLinkRenderer(Url, repository)};
             return Renderers.All.Union(siteRenderers);
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult EditWiki(string slug)
         {
-            Content content = repository.Get(slug);
+            Content content = repository.Get(slug, null);
 
             if (content == null)
                 content = new Content {Title = new Title {Slug = slug}};
@@ -74,15 +73,15 @@ namespace WikiPlex.Web.Sample.Controllers
 
         [AcceptVerbs(HttpVerbs.Post)]
         [ValidateInput(false)]
-        public ActionResult EditWiki(string slug, string name, string source)
+        public ActionResult EditWiki(int id, string slug, string name, string source)
         {
             repository.Save(slug, name, source);
-            return RedirectToAction("ViewWiki", new {slug});
+            return RedirectToAction("ViewWiki", new {id, slug});
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
         [OutputCache(Location = OutputCacheLocation.None)]
-        public string GetWikiSource(string slug, int version)
+        public string GetWikiSource(int id, string slug, int version)
         {
             Content content = repository.GetByVersion(slug, version);
 
@@ -92,7 +91,7 @@ namespace WikiPlex.Web.Sample.Controllers
         [AcceptVerbs(HttpVerbs.Post)]
         [OutputCache(Location = OutputCacheLocation.None)]
         [ValidateInput(false)]
-        public string GetWikiPreview(string slug, string source)
+        public string GetWikiPreview(int id, string slug, string source)
         {
             return wikiEngine.Render(source, GetRenderers());
         }

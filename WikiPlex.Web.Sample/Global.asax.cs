@@ -18,29 +18,30 @@ namespace WikiPlex.Web.Sample
 
             routes.MapRoute(
                 "History",
-                "{slug}/v{version}",
+                "{id}/{slug}/v{version}",
                 new {controller = "Home", action = "ViewWikiVersion"},
-                new {version = @"\d+"}
+                new {id = @"\d+", version = @"\d+"}
                 );
 
             routes.MapRoute(
                 "Source",
-                "{slug}/source/v{version}",
-                new { controller = "Home", action = "GetWikiSource" },
-                new {version = @"\d+"}
+                "{id}/{slug}/source/v{version}",
+                new {controller = "Home", action = "GetWikiSource"},
+                new {id = @"\d+", version = @"\d+"}
                 );
 
             routes.MapRoute(
                 "Act",
-                "{slug}/{action}",
-                new { controller = "Home", action = "ViewWiki" },
-                new {action = @"\w+"}
+                "{id}/{slug}/{action}",
+                new {controller = "Home", action = "ViewWiki"},
+                new {id = @"\d+", action = @"\w+"}
                 );
 
             routes.MapRoute(
                 "Default",
-                "{slug}",
-                new { controller = "Home", action = "ViewWiki", slug = "home" }
+                "{id}/{slug}",
+                new {controller = "Home", action = "ViewWiki", id = 1, slug = "home"},
+                new {id = @"\d+"}
                 );
         }
 

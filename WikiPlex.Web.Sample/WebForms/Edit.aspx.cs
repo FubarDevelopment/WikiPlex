@@ -13,7 +13,7 @@ namespace WikiPlex.Web.Sample.WebForms
         protected void Page_Load(object sender, EventArgs e)
         {
             string slug = GetSlug();
-            Content content = repository.Get(slug);
+            Content content = repository.Get(slug, null);
 
             if (content != null)
             {

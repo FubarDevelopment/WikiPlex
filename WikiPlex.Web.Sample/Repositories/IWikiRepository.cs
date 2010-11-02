@@ -5,7 +5,8 @@ namespace WikiPlex.Web.Sample.Repositories
 {
     public interface IWikiRepository
     {
-        Content Get(string slug);
+        Content Get(string slug, string title);
+        Content Get(int id);
         Content GetByVersion(string slug, int version);
         ICollection<Content> GetHistory(string slug);
         void Save(string slug, string title, string source);

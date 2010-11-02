@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
@@ -15,7 +16,7 @@ namespace WikiPlex.Web.Sample.Repositories
             connectionString = ConfigurationManager.ConnectionStrings["WikiConnectionString"].ConnectionString;
         }
 
-        public Content Get(string slug)
+        public Content Get(string slug, string title)
         {
             const string sql = @"SELECT TOP 1
                                     C.Id, C.Source, C.Version, C.VersionDate, C.TitleId, T.Name, T.Slug,
@@ -23,12 +24,40 @@ namespace WikiPlex.Web.Sample.Repositories
                                  FROM Content C
                                  JOIN Title T ON T.Id = C.TitleId
                                  WHERE T.Slug = @Slug
+                                    OR T.Name = @Title
                                  ORDER BY C.Version DESC";
 
             using (var conn = new SqlConnection(connectionString))
             using (var cmd = new SqlCommand(sql, conn))
             {
                 cmd.Parameters.Add(new SqlParameter("@Slug", slug));
+                cmd.Parameters.Add(new SqlParameter("@Title", title));
+
+                conn.Open();
+                using (SqlDataReader reader = cmd.ExecuteReader(CommandBehavior.CloseConnection))
+                {
+                    if (reader.Read())
+                        return BuildContent(reader);
+                }
+            }
+
+            return null;
+        }
+
+        public Content Get(int id)
+        {
+            const string sql = @"SELECT TOP 1
+                                    C.Id, C.Source, C.Version, C.VersionDate, C.TitleId, T.Name, T.Slug,
+                                    (SELECT COUNT(*) FROM Content WHERE TitleId = T.Id)
+                                 FROM Content C
+                                 JOIN Title T ON T.Id = C.TitleId
+                                 WHERE T.Id = @Id
+                                 ORDER BY C.Version DESC";
+
+            using (var conn = new SqlConnection(connectionString))
+            using (var cmd = new SqlCommand(sql, conn))
+            {
+                cmd.Parameters.Add(new SqlParameter("@Id", id));
 
                 conn.Open();
                 using (SqlDataReader reader = cmd.ExecuteReader(CommandBehavior.CloseConnection))

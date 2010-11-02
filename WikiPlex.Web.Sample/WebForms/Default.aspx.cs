@@ -19,6 +19,7 @@ namespace WikiPlex.Web.Sample.WebForms
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            int id = GetId();
             string slug = GetSlug();
 
             int version;
@@ -29,10 +30,10 @@ namespace WikiPlex.Web.Sample.WebForms
                     Response.Redirect(ResolveClientUrl("~/WebForms/?p=" + HttpUtility.UrlEncode(slug)));
             }
             else
-                wikiContent = repository.Get(slug);
+                wikiContent = repository.Get(id);
 
             if (wikiContent == null)
-                Response.Redirect(ResolveClientUrl("~/WebForms/Edit.aspx?p=" + HttpUtility.UrlEncode(slug)));
+                Response.Redirect(ResolveClientUrl("~/WebForms/Edit.aspx?i=" + id + "&p=" + HttpUtility.UrlEncode(slug)));
 
             title.Text = "WikiPlex Sample - " + HttpUtility.HtmlEncode(wikiContent.Title.Name);
             sourceSlug.Text = previewSlug.Text = wikiContent.Title.Slug;
@@ -43,6 +44,14 @@ namespace WikiPlex.Web.Sample.WebForms
 
             pageHistory.DataSource = repository.GetHistory(slug);
             pageHistory.DataBind();
+        }
+
+        private int GetId()
+        {
+            string idParam = Request.QueryString["i"];
+            if (string.IsNullOrEmpty(idParam))
+                return 1;
+            return int.Parse(idParam);
         }
 
         private string GetSlug()

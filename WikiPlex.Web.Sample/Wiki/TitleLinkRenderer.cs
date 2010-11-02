@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Web.Mvc;
 using WikiPlex.Formatting;
+using WikiPlex.Web.Sample.Models;
+using WikiPlex.Web.Sample.Repositories;
 
 namespace WikiPlex.Web.Sample.Wiki
 {
@@ -9,14 +11,16 @@ namespace WikiPlex.Web.Sample.Wiki
     {
         private const string LinkFormat = "<a href=\"{0}\">{1}</a>";
         private readonly UrlHelper urlHelper;
+        private readonly IWikiRepository wikiRepository;
 
-        public TitleLinkRenderer()
+        public TitleLinkRenderer() : this(null, new WikiRepository())
         {
         }
 
-        public TitleLinkRenderer(UrlHelper urlHelper)
+        public TitleLinkRenderer(UrlHelper urlHelper, IWikiRepository wikiRepository)
         {
             this.urlHelper = urlHelper;
+            this.wikiRepository = wikiRepository;
         }
 
         protected override ICollection<string> ScopeNames
@@ -26,12 +30,15 @@ namespace WikiPlex.Web.Sample.Wiki
 
         protected override string PerformExpand(string scopeName, string input, Func<string, string> htmlEncode, Func<string, string> attributeEncode)
         {
+            string slug = SlugHelper.Generate(input);
+            Content content = wikiRepository.Get(slug, input);
+            int id = content != null ? content.Title.Id : 0;
             string url;
 
             if (urlHelper != null)
-                url = urlHelper.RouteUrl("Default", new { slug = SlugHelper.Generate(input) });
+                url = urlHelper.RouteUrl("Default", new { id, slug });
             else
-                url = "/WebForms/?p=" + SlugHelper.Generate(input);
+                url = "/WebForms/?i=" + id + "&p=" + slug;
 
             return string.Format(LinkFormat, attributeEncode(url), htmlEncode(input));
         }
