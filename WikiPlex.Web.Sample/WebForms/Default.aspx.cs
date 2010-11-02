@@ -25,9 +25,9 @@ namespace WikiPlex.Web.Sample.WebForms
             int version;
             if (!string.IsNullOrEmpty(Request.QueryString["v"]) && int.TryParse(Request.QueryString["v"], out version))
             {
-                wikiContent = repository.GetByVersion(slug, version);
+                wikiContent = repository.GetByVersion(id, version);
                 if (wikiContent == null)
-                    Response.Redirect(ResolveClientUrl("~/WebForms/?p=" + HttpUtility.UrlEncode(slug)));
+                    Response.Redirect(ResolveClientUrl("~/WebForms/?i=" + id + "&p=" + HttpUtility.UrlEncode(slug)));
             }
             else
                 wikiContent = repository.Get(id);
@@ -78,7 +78,7 @@ namespace WikiPlex.Web.Sample.WebForms
             else
             {
                 versionLink.Visible = true;
-                versionLink.NavigateUrl = ResolveClientUrl("~/WebForms/?p=" + HttpUtility.UrlEncode(wikiContent.Title.Slug) + "&v=" + historyItem.Version);
+                versionLink.NavigateUrl = ResolveClientUrl("~/WebForms/?i=" + wikiContent.Title.Id + "&p=" + HttpUtility.UrlEncode(wikiContent.Title.Slug) + "&v=" + historyItem.Version);
                 versionLink.Text = historyItem.VersionDate.ToString();
             }
         }

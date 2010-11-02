@@ -97,6 +97,33 @@ namespace WikiPlex.Web.Sample.Repositories
             return null;
         }
 
+        public Content GetByVersion(int id, int version)
+        {
+            const string sql = @"SELECT TOP 1
+                                    C.Id, C.Source, C.Version, C.VersionDate, C.TitleId, T.Name, T.Slug,
+                                    (SELECT COUNT(*) FROM Content WHERE TitleId = T.Id)
+                                 FROM Content C
+                                 JOIN Title T ON T.Id = C.TitleId
+                                 WHERE T.Id = @Id
+                                 AND C.Version = @Version";
+
+            using (var conn = new SqlConnection(connectionString))
+            using (var cmd = new SqlCommand(sql, conn))
+            {
+                cmd.Parameters.Add(new SqlParameter("@Id", id));
+                cmd.Parameters.Add(new SqlParameter("@Version", version));
+
+                conn.Open();
+                using (SqlDataReader reader = cmd.ExecuteReader(CommandBehavior.CloseConnection))
+                {
+                    if (reader.Read())
+                        return BuildContent(reader);
+                }
+            }
+
+            return null;
+        }
+
         public ICollection<Content> GetHistory(string slug)
         {
             const string sql = @"SELECT

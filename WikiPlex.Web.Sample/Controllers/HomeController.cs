@@ -42,8 +42,7 @@ namespace WikiPlex.Web.Sample.Controllers
 
         public ActionResult ViewWikiVersion(int id, string slug, int version)
         {
-            var viewData = new ViewContent();
-            viewData.Content = repository.GetByVersion(slug, version);
+            var viewData = new ViewContent {Content = repository.GetByVersion(id, version)};
 
             if (viewData.Content == null)
                 return RedirectToAction("ViewWiki", new {id, slug});
