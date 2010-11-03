@@ -35,7 +35,7 @@ namespace WikiPlex.Web.Sample.Controllers
                 return RedirectToAction("EditWiki", new {id, slug});
 
             viewData.Content.RenderedSource = wikiEngine.Render(viewData.Content.Source, GetRenderers());
-            viewData.History = repository.GetHistory(slug);
+            viewData.History = repository.GetHistory(id);
 
             return View("View", viewData);
         }
@@ -48,7 +48,7 @@ namespace WikiPlex.Web.Sample.Controllers
                 return RedirectToAction("ViewWiki", new {id, slug});
 
             viewData.Content.RenderedSource = wikiEngine.Render(viewData.Content.Source, GetRenderers());
-            viewData.History = repository.GetHistory(slug);
+            viewData.History = repository.GetHistory(id);
 
             return View("View", viewData);
         }

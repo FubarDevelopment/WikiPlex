@@ -61,7 +61,7 @@
                    if (Model.Content.Version == content.Version) { %>
             <li><%= content.VersionDate.ToString() %></li>
                 <% } else { %>
-            <li><a href="<%= Url.RouteUrl("History", new {Model.Content.Title.Slug, content.Version}) %>"><%= content.VersionDate.ToString() %></a></li>
+            <li><a href="<%= Url.RouteUrl("History", new {Model.Content.Title.Id, Model.Content.Title.Slug, content.Version}) %>"><%= content.VersionDate.ToString() %></a></li>
             <% } } %>
         </ul>
     </div>

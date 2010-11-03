@@ -70,33 +70,6 @@ namespace WikiPlex.Web.Sample.Repositories
             return null;
         }
 
-        public Content GetByVersion(string slug, int version)
-        {
-            const string sql = @"SELECT TOP 1
-                                    C.Id, C.Source, C.Version, C.VersionDate, C.TitleId, T.Name, T.Slug,
-                                    (SELECT COUNT(*) FROM Content WHERE TitleId = T.Id)
-                                 FROM Content C
-                                 JOIN Title T ON T.Id = C.TitleId
-                                 WHERE T.Slug = @Slug
-                                 AND C.Version = @Version";
-
-            using (var conn = new SqlConnection(connectionString))
-            using (var cmd = new SqlCommand(sql, conn))
-            {
-                cmd.Parameters.Add(new SqlParameter("@Slug", slug));
-                cmd.Parameters.Add(new SqlParameter("@Version", version));
-
-                conn.Open();
-                using (SqlDataReader reader = cmd.ExecuteReader(CommandBehavior.CloseConnection))
-                {
-                    if (reader.Read())
-                        return BuildContent(reader);
-                }
-            }
-
-            return null;
-        }
-
         public Content GetByVersion(int id, int version)
         {
             const string sql = @"SELECT TOP 1
@@ -124,13 +97,13 @@ namespace WikiPlex.Web.Sample.Repositories
             return null;
         }
 
-        public ICollection<Content> GetHistory(string slug)
+        public ICollection<Content> GetHistory(int titleId)
         {
             const string sql = @"SELECT
                                     C.Id, C.Source, C.Version, C.VersionDate, C.TitleId, T.Name, T.Slug, 0
                                  FROM Content C
                                  JOIN Title T ON T.Id = C.TitleId
-                                 WHERE T.Slug = @Slug
+                                 WHERE T.Id = @Id
                                  ORDER BY C.Version DESC";
 
             var history = new List<Content>();
@@ -138,7 +111,7 @@ namespace WikiPlex.Web.Sample.Repositories
             using (var conn = new SqlConnection(connectionString))
             using (var cmd = new SqlCommand(sql, conn))
             {
-                cmd.Parameters.Add(new SqlParameter("@Slug", slug));
+                cmd.Parameters.Add(new SqlParameter("@Id", titleId));
 
                 conn.Open();
                 using (SqlDataReader reader = cmd.ExecuteReader(CommandBehavior.CloseConnection))
@@ -149,37 +122,6 @@ namespace WikiPlex.Web.Sample.Repositories
             }
 
             return history;
-        }
-
-        public void Save(string slug, string title, string source)
-        {
-            const string sql = @"DECLARE @TitleId INT
-                                 DECLARE @ContentCount INT
-
-                                 SELECT @TitleId = T.Id, @ContentCount = (SELECT COUNT(*) FROM Content WHERE TitleId = T.Id) 
-                                 FROM Title T
-                                 WHERE T.Slug = @Slug
-
-                                 IF (@TitleId IS NULL) BEGIN
-                                    INSERT INTO Title (Name, Slug)
-                                    VALUES (@Name, @Slug)
-
-                                    SELECT @TitleId = SCOPE_IDENTITY()
-                                 END
-
-                                 INSERT INTO Content (TitleId, Source, Version, VersionDate)
-                                 VALUES (@TitleId, @Source, ISNULL(@ContentCount, 0) + 1, GETDATE())";
-
-            using (var conn = new SqlConnection(connectionString))
-            using (var cmd = new SqlCommand(sql, conn))
-            {
-                cmd.Parameters.Add(new SqlParameter("@Slug", slug));
-                cmd.Parameters.Add(new SqlParameter("@Name", title));
-                cmd.Parameters.Add(new SqlParameter("@Source", source));
-
-                conn.Open();
-                cmd.ExecuteNonQuery();
-            }
         }
 
         public int Save(int id, string slug, string title, string source)

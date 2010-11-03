@@ -43,7 +43,7 @@ namespace WikiPlex.Web.Sample.WebForms
             Name.Value = wikiContent.Title.Name;
             NotLatestPlaceHolder.Visible = wikiContent.Version != wikiContent.Title.MaxVersion;
 
-            pageHistory.DataSource = repository.GetHistory(slug);
+            pageHistory.DataSource = repository.GetHistory(id);
             pageHistory.DataBind();
         }
 
@@ -92,8 +92,9 @@ namespace WikiPlex.Web.Sample.WebForms
 
         protected void SaveWikiContent(object sender, EventArgs e)
         {
+            int id = GetId();
             string slug = GetSlug();
-            repository.Save(slug, Name.Value, Source.Text);
+            repository.Save(id, slug, Name.Value, Source.Text);
             Response.Redirect("~/WebForms/?p=" + HttpUtility.UrlEncode(slug));
         }
     }
