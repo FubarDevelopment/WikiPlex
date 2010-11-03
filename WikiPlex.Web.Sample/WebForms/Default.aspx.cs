@@ -36,6 +36,7 @@ namespace WikiPlex.Web.Sample.WebForms
                 Response.Redirect(ResolveClientUrl("~/WebForms/Edit.aspx?i=" + id + "&p=" + HttpUtility.UrlEncode(slug)));
 
             title.Text = "WikiPlex Sample - " + HttpUtility.HtmlEncode(wikiContent.Title.Name);
+            sourceId.Text = previewId.Text = wikiContent.Title.Id.ToString();
             sourceSlug.Text = previewSlug.Text = wikiContent.Title.Slug;
             sourceVersion.Text = wikiContent.Version.ToString();
             renderedSource.Text = wikiEngine.Render(wikiContent.Source, GetRenderers());

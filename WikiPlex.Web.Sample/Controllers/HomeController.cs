@@ -82,7 +82,7 @@ namespace WikiPlex.Web.Sample.Controllers
         [OutputCache(Location = OutputCacheLocation.None)]
         public string GetWikiSource(int id, string slug, int version)
         {
-            Content content = repository.GetByVersion(slug, version);
+            Content content = repository.GetByVersion(id, version);
 
             return content.Source;
         }

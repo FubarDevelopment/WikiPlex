@@ -20,7 +20,7 @@
                         type: 'POST',
                         contentType: 'application/json; charset=utf-8',
                         url: 'Wiki.asmx/GetWikiSource',
-                        data: "{slug: '<asp:Literal id="sourceSlug" runat="server" />', version: '<asp:Literal id="sourceVersion" runat="server" />'}",
+                        data: "{id: '<asp:Literal id="sourceId" runat="server" />', slug: '<asp:Literal id="sourceSlug" runat="server" />', version: '<asp:Literal id="sourceVersion" runat="server" />'}",
                         dataType: 'json',
                         success: function(data) {
                             $('#<%= Source.ClientID %>').val(data.d);
@@ -47,7 +47,7 @@
                         type: 'POST',
                         contentType: 'application/json; charset=utf-8',
                         url: 'Wiki.asmx/GetWikiPreview',
-                        data: "{slug: '<asp:Literal id="previewSlug" runat="server" />', source: '" + self.val()  + "'}",
+                        data: "{id: '<asp:Literal id="previewId" runat="server" />', slug: '<asp:Literal id="previewSlug" runat="server" />', source: '" + self.val()  + "'}",
                         dataType: 'json',
                         success: function(data) { $('#previewWikiContent').html(data.d); }
                     });

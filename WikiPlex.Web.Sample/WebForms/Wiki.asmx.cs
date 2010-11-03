@@ -20,16 +20,16 @@ namespace WikiPlex.Web.Sample.WebForms
     public class Wiki : WebService
     {
         [WebMethod]
-        public string GetWikiSource(string slug, int version)
+        public string GetWikiSource(int id, string slug, int version)
         {
             var repository = new WikiRepository();
-            Content content = repository.GetByVersion(slug, version);
+            Content content = repository.GetByVersion(id, version);
 
             return content.Source;
         }
 
         [WebMethod]
-        public string GetWikiPreview(string slug, string source)
+        public string GetWikiPreview(int id, string slug, string source)
         {
             var wikiEngine = new WikiEngine();
             return wikiEngine.Render(source, GetFormatter());

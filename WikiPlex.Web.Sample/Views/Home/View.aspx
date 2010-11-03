@@ -16,7 +16,7 @@
                       });
             cnt.click(function() {
                 if (!dlg.dialog('isOpen')) {
-                    $.post('<%= Url.RouteUrl("Source", new { Model.Content.Title.Slug, Model.Content.Version }) %>', function(data) {
+                    $.post('<%= Url.RouteUrl("Source", new { Model.Content.Title.Id, Model.Content.Title.Slug, Model.Content.Version }) %>', function(data) {
                         $('#Source').val(data);
                         var original = $('#originalWikiContent');
                         original.hide();
@@ -36,7 +36,7 @@
                 
                 var self = $(this);
                 timeout = setTimeout(function() {
-                $.post('<%= Url.RouteUrl("Act", new { action = "GetWikiPreview", Model.Content.Title.Slug }) %>',
+                $.post('<%= Url.RouteUrl("Act", new { action = "GetWikiPreview", Model.Content.Title.Id, Model.Content.Title.Slug }) %>',
                            { source: self.val() },
                            function(data) { $('#previewWikiContent').html(data); });
                 }, 250);
