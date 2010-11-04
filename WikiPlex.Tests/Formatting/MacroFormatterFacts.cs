@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Web;
 using Moq;
 using Should;
 using Xunit;
@@ -10,6 +11,42 @@ namespace WikiPlex.Tests.Formatting
 {
     public class MacroFormatterFacts
     {
+        public class Constructor
+        {
+            [Fact]
+            public void Should_throw_ArgumentNullException_if_renderers_is_null()
+            {
+                var ex = Record.Exception(() => new MacroFormatter(null)) as ArgumentNullException;
+
+                ex.ShouldNotBeNull();
+                ex.ParamName.ShouldEqual("renderers");
+            }
+
+            [Fact]
+            public void Should_throw_ArgumentException_if_renderers_is_empty()
+            {
+                var ex = Record.Exception(() => new MacroFormatter(new IRenderer[0])) as ArgumentException;
+
+                ex.ShouldNotBeNull();
+                ex.ParamName.ShouldEqual("renderers");
+            }
+        }
+
+        public class RecordParse
+        {
+            [Fact]
+            public void Should_throw_ArgumentNullException_if_scopes_is_null()
+            {
+                var renderer = Mocks.OneOf<IRenderer>();
+                var formatter = new MacroFormatter(new[] {renderer});
+
+                var ex = Record.Exception(() => formatter.RecordParse(null)) as ArgumentNullException;
+
+                ex.ShouldNotBeNull();
+                ex.ParamName.ShouldEqual("scopes");
+            }
+        }
+
         public class Format
         {
             [Fact]
@@ -201,6 +238,69 @@ namespace WikiPlex.Tests.Formatting
 
                 actualScope.ShouldEqual(expectedScope);
                 actualContent.ShouldEqual(expectedContent);
+            }
+        }
+
+        public class EncodeContent
+        {
+            [Fact]
+            public void Should_throw_ArgumentNullException_if_content_is_null()
+            {
+                var formatter = new TestableFormatter();
+
+                var ex = Record.Exception(() => formatter.DoEncodeContent(null)) as ArgumentNullException;
+
+                ex.ShouldNotBeNull();
+                ex.ParamName.ShouldEqual("input");
+            }
+
+            [Fact]
+            public void Should_html_encode_content()
+            {
+                var formatter = new TestableFormatter();
+
+                const string input = "<script>alert('hi')</script>";
+                string result = formatter.DoEncodeContent(input);
+
+                result.ShouldEqual(HttpUtility.HtmlEncode(input));
+            }
+        }
+
+        public class AttributeEncodeContent
+        {
+            [Fact]
+            public void Should_throw_ArgumentNullException_if_content_is_null()
+            {
+                var formatter = new TestableFormatter();
+
+                var ex = Record.Exception(() => formatter.DoAttributeEncodeContent(null)) as ArgumentNullException;
+
+                ex.ShouldNotBeNull();
+                ex.ParamName.ShouldEqual("input");
+            }
+
+            [Fact]
+            public void Should_html_encode_content()
+            {
+                var formatter = new TestableFormatter();
+
+                const string input = "hi\"hi";
+                string result = formatter.DoAttributeEncodeContent(input);
+
+                result.ShouldEqual(HttpUtility.HtmlAttributeEncode(input));
+            }
+        }
+
+        class TestableFormatter : MacroFormatter
+        {
+            public string DoEncodeContent(string input)
+            {
+                return EncodeContent(input);
+            }
+
+            public string DoAttributeEncodeContent(string input)
+            {
+                return EncodeAttributeContent(input);
             }
         }
     }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Web;
+using WikiPlex.Common;
 using WikiPlex.Parsing;
 
 namespace WikiPlex.Formatting
@@ -25,8 +26,11 @@ namespace WikiPlex.Formatting
         /// Initializes a new instance of the <see cref="MacroFormatter"/> class.
         /// </summary>
         /// <param name="renderers">The renderers to use when formatting.</param>
+        /// <exception cref="ArgumentNullException">Thrown when renderers is null.</exception>
         public MacroFormatter(IEnumerable<IRenderer> renderers)
         {
+            Guard.NotNullOrEmpty(renderers, "renderers");
+
             this.renderers = renderers;
             scopes = new List<Scope>();
         }
@@ -40,8 +44,11 @@ namespace WikiPlex.Formatting
         /// Will record the parsing of scopes.
         /// </summary>
         /// <param name="scopes">The parsed scopes.</param>
+        /// <exception cref="ArgumentNullException">Thrown when scopes is null.</exception>
         public void RecordParse(IList<Scope> scopes)
         {
+            Guard.NotNull(scopes, "scopes");
+
             this.scopes.AddRange(scopes);
         }
 
@@ -105,8 +112,11 @@ namespace WikiPlex.Formatting
         /// </summary>
         /// <param name="input">The input to encode.</param>
         /// <returns>The encoded output.</returns>
+        /// <exception cref="ArgumentNullException">Thrown when input is null.</exception>
         protected virtual string EncodeContent(string input)
         {
+            Guard.NotNull(input, "input");
+
             return HttpUtility.HtmlEncode(input);
         }
 
@@ -115,8 +125,11 @@ namespace WikiPlex.Formatting
         /// </summary>
         /// <param name="input">The input to encode.</param>
         /// <returns>The encoded output.</returns>
+        /// <exception cref="ArgumentNullException">Thrown when input is null.</exception>
         protected virtual string EncodeAttributeContent(string input)
         {
+            Guard.NotNull(input, "input");
+
             return HttpUtility.HtmlAttributeEncode(input);
         }
 

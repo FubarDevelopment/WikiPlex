@@ -1,4 +1,6 @@
-﻿using System.Xml;
+﻿using System;
+using System.Xml;
+using WikiPlex.Common;
 
 namespace WikiPlex.Syndication
 {
@@ -12,8 +14,12 @@ namespace WikiPlex.Syndication
         /// </summary>
         /// <param name="path">The path to read the document from.</param>
         /// <returns>The loaded <see cref="XmlDocument"/> or null if any exception occurs during loading.</returns>
+        /// <exception cref="ArgumentNullException">Thrown when path is null.</exception>
+        /// <exception cref="ArgumentException">Thrown when path is empty.</exception>
         public XmlDocument Read(string path)
         {
+            Guard.NotNullOrEmpty(path, "path");
+
             try
             {
                 var xdoc = new XmlDocument();
