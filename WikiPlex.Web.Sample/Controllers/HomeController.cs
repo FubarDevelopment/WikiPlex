@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.UI;
-using WikiPlex.Formatting;
+using WikiPlex.Formatting.Renderers;
 using WikiPlex.Web.Sample.Models;
 using WikiPlex.Web.Sample.Repositories;
 using WikiPlex.Web.Sample.Views.Home;

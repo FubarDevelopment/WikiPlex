@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WikiPlex.Formatting
+namespace WikiPlex.Formatting.Renderers
 {
     /// <summary>
     /// Defines the fields necessary for a renderer.

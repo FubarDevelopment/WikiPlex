@@ -6,6 +6,7 @@ using Should;
 using WikiPlex.Compilation;
 using WikiPlex.Compilation.Macros;
 using WikiPlex.Formatting;
+using WikiPlex.Formatting.Renderers;
 using WikiPlex.Parsing;
 using Xunit;
 using Xunit.Extensions;

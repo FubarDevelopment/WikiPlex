@@ -2,7 +2,7 @@
 using System;
 using System.Linq;
 using Moq;
-using WikiPlex.Formatting;
+using WikiPlex.Formatting.Renderers;
 using Xunit;
 
 namespace WikiPlex.Tests

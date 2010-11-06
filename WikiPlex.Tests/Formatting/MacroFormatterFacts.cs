@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Web;
 using Moq;
 using Should;
+using WikiPlex.Formatting.Renderers;
 using Xunit;
 using WikiPlex.Formatting;
 using WikiPlex.Parsing;

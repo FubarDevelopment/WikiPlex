@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
-using WikiPlex.Formatting;
+using WikiPlex.Formatting.Renderers;
 using WikiPlex.Web.Sample.Models;
 using WikiPlex.Web.Sample.Repositories;
 

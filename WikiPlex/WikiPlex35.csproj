@@ -69,7 +69,7 @@
     <Compile Include="Common\Guard.cs" />
     <Compile Include="Formatting\Renderers\IndentationRenderer.cs" />
     <Compile Include="Common\Parameters.cs" />
-    <Compile Include="Formatting\Renderer.cs" />
+    <Compile Include="Formatting\Renderers\Renderer.cs" />
     <Compile Include="Formatting\Renderers\SilverlightRendering\Silverlight4Renderer.cs" />
     <Compile Include="Formatting\Renderers\VideoRendering\Channel9VideoRenderer.cs" />
     <Compile Include="Formatting\Renderers\VideoRendering\EmbeddedVideoRender.cs" />
@@ -131,7 +131,7 @@
     <Compile Include="Syndication\SyndicationItem.cs" />
     <Compile Include="WikiEngine.cs" />
     <Compile Include="Formatting\Renderers\ImageRenderer.cs" />
-    <Compile Include="Formatting\IRenderer.cs" />
+    <Compile Include="Formatting\Renderers\IRenderer.cs" />
     <Compile Include="Formatting\Renderers\LinkRenderer.cs" />
     <Compile Include="Formatting\MacroFormatter.cs" />
     <Compile Include="ScopeName.cs" />

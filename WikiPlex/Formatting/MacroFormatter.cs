@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using WikiPlex.Common;
+using WikiPlex.Formatting.Renderers;
 using WikiPlex.Parsing;
 
 namespace WikiPlex.Formatting

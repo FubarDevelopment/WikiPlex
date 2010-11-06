@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using WikiPlex.Formatting;
+using WikiPlex.Formatting.Renderers;
 using WikiPlex.Web.Sample.Repositories;
 using WikiPlex.Web.Sample.Wiki;
 using Content=WikiPlex.Web.Sample.Models.Content;

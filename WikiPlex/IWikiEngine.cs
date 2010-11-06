@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using WikiPlex.Compilation.Macros;
 using WikiPlex.Formatting;
+using WikiPlex.Formatting.Renderers;
 
 namespace WikiPlex
 {

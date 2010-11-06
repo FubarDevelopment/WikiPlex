@@ -5,6 +5,7 @@ using WikiPlex.Common;
 using WikiPlex.Compilation;
 using WikiPlex.Compilation.Macros;
 using WikiPlex.Formatting;
+using WikiPlex.Formatting.Renderers;
 using WikiPlex.Parsing;
 
 namespace WikiPlex
