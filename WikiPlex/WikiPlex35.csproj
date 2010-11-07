@@ -133,7 +133,7 @@
     <Compile Include="Formatting\Renderers\ImageRenderer.cs" />
     <Compile Include="Formatting\Renderers\IRenderer.cs" />
     <Compile Include="Formatting\Renderers\LinkRenderer.cs" />
-    <Compile Include="Formatting\MacroFormatter.cs" />
+    <Compile Include="Formatting\Formatter.cs" />
     <Compile Include="ScopeName.cs" />
     <Compile Include="Compilation\MacroRule.cs" />
     <Compile Include="Compilation\Macros\HeadingsMacro.cs" />
@@ -142,7 +142,7 @@
     <Compile Include="Formatting\Renderers\TextFormattingRenderer.cs" />
     <Compile Include="Formatting\Renderers\ListItemRenderer.cs" />
     <Compile Include="Macros.cs" />
-    <Compile Include="Parsing\MacroParser.cs" />
+    <Compile Include="Parsing\Parser.cs" />
     <Compile Include="Parsing\Scope.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Renderers.cs" />

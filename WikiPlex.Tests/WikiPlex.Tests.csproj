@@ -113,14 +113,14 @@
     <Compile Include="Formatting\ImageRendererFacts.cs" />
     <Compile Include="Formatting\LinkRendererFacts.cs" />
     <Compile Include="Formatting\ListItemRendererFacts.cs" />
-    <Compile Include="Formatting\MacroFormatterFacts.cs" />
+    <Compile Include="Formatting\FormatterFacts.cs" />
     <Compile Include="Formatting\SyndicatedFeedRendererFacts.cs" />
     <Compile Include="Formatting\SilverlightRendererFacts.cs" />
     <Compile Include="Formatting\SourceCodeRendererFacts.cs" />
     <Compile Include="Formatting\TextFormattingRendererFacts.cs" />
     <Compile Include="Formatting\VideoRendererFacts.cs" />
     <Compile Include="MacrosFacts.cs" />
-    <Compile Include="Parsing\MacroParserFacts.cs" />
+    <Compile Include="Parsing\ParserFacts.cs" />
     <Compile Include="Parsing\ScopeFacts.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RenderersFacts.cs" />

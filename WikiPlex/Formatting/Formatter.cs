@@ -12,23 +12,23 @@ namespace WikiPlex.Formatting
     /// <summary>
     /// Handles formatting wiki content based on recorded scopes.
     /// </summary>
-    public class MacroFormatter
+    public class Formatter
     {
         private readonly IEnumerable<IRenderer> renderers;
         private readonly List<Scope> scopes;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MacroFormatter"/> class.
+        /// Initializes a new instance of the <see cref="Formatter"/> class.
         /// </summary>
-        public MacroFormatter() : this(WikiPlex.Renderers.All)
+        public Formatter() : this(WikiPlex.Renderers.All)
         {}
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MacroFormatter"/> class.
+        /// Initializes a new instance of the <see cref="Formatter"/> class.
         /// </summary>
         /// <param name="renderers">The renderers to use when formatting.</param>
         /// <exception cref="ArgumentNullException">Thrown when renderers is null.</exception>
-        public MacroFormatter(IEnumerable<IRenderer> renderers)
+        public Formatter(IEnumerable<IRenderer> renderers)
         {
             Guard.NotNullOrEmpty(renderers, "renderers");
 

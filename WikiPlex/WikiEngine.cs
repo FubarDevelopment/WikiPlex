@@ -19,19 +19,19 @@ namespace WikiPlex
         private static readonly Regex NewLineRegex = new Regex(@"(?<!\r|</tr>|</li>|</ul>|</ol>|<hr />|</blockquote>)(?:\n|&#10;)(?!<h[1-6]>|<hr />|<ul>|<ol>|</li>|</blockquote>)", RegexOptions.Compiled);
         private static readonly Regex PreRegex = new Regex(@"(?s)((?><pre>)(?>.*?</pre>))", RegexOptions.Compiled);
 
-        private readonly MacroParser parser;
+        private readonly Parser parser;
 
         /// <summary>
         /// Instantiates a new instance of the <see cref="WikiEngine"/>.
         /// </summary>
-        public WikiEngine() : this(new MacroParser(Compiler))
+        public WikiEngine() : this(new Parser(Compiler))
         {}
 
         /// <summary>
         /// Instantiates a new instance of the <see cref="WikiEngine"/>.
         /// </summary>
         /// <param name="parser">The macro parser to use.</param>
-        protected internal WikiEngine(MacroParser parser)
+        protected internal WikiEngine(Parser parser)
         {
             this.parser = parser;
         }
@@ -53,7 +53,7 @@ namespace WikiPlex
         /// <param name="formatter">The custom formatter used when rendering.</param>
         /// <returns>The rendered html content.</returns>
         /// <exception cref="System.ArgumentNullException">Thrown when formatter is null.</exception>
-        public string Render(string wikiContent, MacroFormatter formatter)
+        public string Render(string wikiContent, Formatter formatter)
         {
             return Render(wikiContent, Macros.All, formatter);
         }
@@ -93,7 +93,7 @@ namespace WikiPlex
         {
             Guard.NotNullOrEmpty(renderers, "renderers");
 
-            var formatter = new MacroFormatter(renderers);
+            var formatter = new Formatter(renderers);
             return Render(wikiContent, macros, formatter);
         }
 
@@ -110,7 +110,7 @@ namespace WikiPlex
         /// <para>Thrown when formatter is null.</para>
         /// </exception>
         /// <exception cref="System.ArgumentException">Thrown when macros is an empty enumerable.</exception>
-        public string Render(string wikiContent, IEnumerable<IMacro> macros, MacroFormatter formatter)
+        public string Render(string wikiContent, IEnumerable<IMacro> macros, Formatter formatter)
         {
             Guard.NotNullOrEmpty(macros, "macros");
             Guard.NotNull(formatter, "formatter");

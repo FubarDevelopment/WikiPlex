@@ -36,11 +36,11 @@ namespace WikiPlex.Web.Sample.WebForms
             return wikiEngine.Render(source, GetFormatter());
         }
 
-        private static MacroFormatter GetFormatter()
+        private static Formatter GetFormatter()
         {
             var siteRenderers = new IRenderer[] { new TitleLinkRenderer() };
             IEnumerable<IRenderer> allRenderers = Renderers.All.Union(siteRenderers);
-            return new MacroFormatter(allRenderers);
+            return new Formatter(allRenderers);
         }
     }
 }

@@ -10,15 +10,15 @@ namespace WikiPlex.Parsing
     /// <summary>
     /// Handles parsing the wiki content.
     /// </summary>
-    public class MacroParser
+    public class Parser
     {
         private readonly MacroCompiler compiler;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MacroParser"/> class.
+        /// Initializes a new instance of the <see cref="Parser"/> class.
         /// </summary>
         /// <param name="compiler">The <see cref="MacroCompiler"/> to use for compiling macros.</param>
-        public MacroParser(MacroCompiler compiler)
+        public Parser(MacroCompiler compiler)
         {
             this.compiler = compiler;
         }

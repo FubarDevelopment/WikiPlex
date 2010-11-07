@@ -93,7 +93,7 @@ Renderers.Register<TitleLinkRenderer>();
 {p}*Renderers with Runtime Dependencies*{p}
 {p}
 A little bit of extra work is required when calling {{WikiEngine.Render}} - as you'll need to union the statically defined renderers with yours.
-Optionally, you can use the overload that specifies a {{MacroFormatter}} with the list of renderers.
+Optionally, you can use the overload that specifies a {{Formatter}} with the list of renderers.
 {p}
 {code:c#}
 var siteRenderers = new IRenderer[] {new TitleLinkRenderer(Url)};

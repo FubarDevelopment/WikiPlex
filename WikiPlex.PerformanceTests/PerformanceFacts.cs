@@ -21,7 +21,7 @@ namespace WikiPlex.PerformanceTests
 
         class PerformanceWikiEngine : WikiEngine
         {
-            public PerformanceWikiEngine() : base(new MacroParser(new MacroCompiler()))
+            public PerformanceWikiEngine() : base(new Parser(new MacroCompiler()))
             {}
         }
 
