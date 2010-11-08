@@ -103,6 +103,7 @@
     <Compile Include="Parsing\IndentationScopeAugmenterFacts.cs" />
     <Compile Include="Parsing\ListScopeAugmenterFacts.cs" />
     <Compile Include="Parsing\TableScopeAugmenterFacts.cs" />
+    <Compile Include="RenderExceptionFacts.cs" />
     <Compile Include="ScopeAugmentersFacts.cs" />
     <Compile Include="Syndication\AtomFeedReaderFacts.cs" />
     <Compile Include="Syndication\GoogleAtomFeedReaderFacts.cs" />

@@ -254,25 +254,6 @@ namespace WikiPlex.Tests
             }
         }
 
-        public class ConvertException
-        {
-            [Fact]
-            public void Should_throw_RenderException_if_action_throws_an_exception()
-            {
-                var ex = Record.Exception(() => Utility.ConvertException<string>(() => { throw new ArgumentException(); })) as RenderException;
-
-                ex.ShouldNotBeNull();
-            }
-
-            [Fact]
-            public void Should_return_value_of_action()
-            {
-                var result = Utility.ConvertException(() => "abc");
-
-                result.ShouldEqual("abc");
-            }
-        }
-
         private enum TestEnum
         {
             One,

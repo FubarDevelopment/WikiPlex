@@ -57,7 +57,7 @@ namespace WikiPlex.Formatting.Renderers
             FloatAlignment alignment = GetAlignment(scopeName);
             var renderMethod = GetRenderMethod(scopeName);
 
-            return Utility.ConvertException(() => renderMethod(input, alignment, attributeEncode));
+            return RenderException.ConvertAny(() => renderMethod(input, alignment, attributeEncode));
         }
 
         private static FloatAlignment GetAlignment(string scopeName)

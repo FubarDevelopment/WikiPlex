@@ -65,7 +65,7 @@ namespace WikiPlex.Formatting.Renderers
 
         private static string ExpandLinkWithText(string input, Func<string, string> attributeEncode, Func<string, string> htmlEncode)
         {
-            TextPart part = Utility.ConvertException(() => Utility.ExtractTextParts(input));
+            TextPart part = RenderException.ConvertAny(() => Utility.ExtractTextParts(input));
             string url = part.Text;
             if (!url.StartsWith("http", StringComparison.OrdinalIgnoreCase) && !url.StartsWith("mailto", StringComparison.OrdinalIgnoreCase))
                 url = "http://" + url;
