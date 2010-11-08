@@ -3,16 +3,15 @@
     <metadata>
         <id>WikiPlex</id>
         <version>@Version@</version>
-        <authors>
-            <author>Microsoft</author>
-            <author>Matt Hawley</author>
-        </authors>
+        <title>WikiPlex - a Regex Wiki Engine</title>
+        <authors>Microsoft, Matt Hawley</authors>
         <description>A regular expression based wiki engine allowing developers to integrate a wiki experience into an existing .NET application</description>
         <language>en-US</language>
+        <projectUrl>http://wikiplex.codeplex.com</projectUrl>
         <licenseUrl>http://wikiplex.codeplex.com/license</licenseUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <dependencies>
+          <dependency id="ColorCode" version="1.0.1" />
+      </dependencies>
     </metadata>
-    <dependencies>
-        <dependency id="ColorCode" version="1.0.1" />
-    </dependencies>
 </package>

@@ -90,7 +90,7 @@ task build-package -depends prepare-sample, prepare-nupack {
                               "_nupack"
     }
     
-    exec { &"$baseDir\lib\NuPack\NuPack.exe" "$nupackDir\WikiPlex.nuspec" >> $NULL }
+    exec { &"$baseDir\lib\NuPack\NuPack.exe" pack "$nupackDir\WikiPlex.nuspec" >> $NULL }
     move-item "$baseDir\*.nupkg" -destination $archiveDir
     
     clean $sampleDir, $nupackDir
