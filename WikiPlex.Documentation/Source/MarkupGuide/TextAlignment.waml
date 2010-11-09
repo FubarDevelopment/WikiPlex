@@ -9,6 +9,13 @@
 
 : this is indented
 :: this is double-indented
+
+or Multi-line indentation
+
+:{
+|cell 1|cell 2|
+|cell 3|cell 4|
+:}
 }}
 
 *Rendered Markup*
@@ -17,6 +24,8 @@
 <div style="text-align:right;float:right;">this is right aligned content</div><div style="clear:both;"></div><br />
 <blockquote>this is indented</blockquote>
 <blockquote><blockquote>this is double-indented</blockquote></blockquote>
+or Multi-line indentation<br /><br />
+<blockquote><table><tr><td>cell 1</td><td>cell 2</td></tr><tr><td>cell 3</td><td>cell 4</td></tr></table></blockquote>
 {markup}
 {section}
 {topic}

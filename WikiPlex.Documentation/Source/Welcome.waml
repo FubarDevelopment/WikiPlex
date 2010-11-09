@@ -30,11 +30,11 @@
 	public interface IWikiEngine
 	{
     string Render(string wikiContent);
-    string Render(string wikiContent, MacroFormatter formatter);
+    string Render(string wikiContent, Formatter formatter);
     string Render(string wikiContent, IEnumerable<IMacro> macros);
     string Render(string wikiContent, IEnumerable<IRenderer> renderers);
     string Render(string wikiContent, IEnumerable<IMacro> macros, IEnumerable<IRenderer> renderers);
-    string Render(string wikiContent, IEnumerable<IMacro> macros, MacroFormatter formatter);
+    string Render(string wikiContent, IEnumerable<IMacro> macros, Formatter formatter);
 	}
 {code:c#}
 {section}
