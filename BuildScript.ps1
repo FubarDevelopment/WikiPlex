@@ -7,7 +7,7 @@ properties {
     $baseDir = resolve-path .
     $archiveDir = "$baseDir\_zip"
     $helpDir = "$baseDir\_help"
-    $nupackDir = "$baseDir\_nupack"
+    $nugetDir = "$baseDir\_nuget"
     $sampleDir = "$baseDir\Sample"
     $slnPath = "$baseDir\WikiPlex.sln"
     $sln35Path = "$baseDir\WikiPlex35.sln"
@@ -22,7 +22,7 @@ task cleandoc -depends clean-documentation-files
 task builddoc -depends prepare-documentation, build-documentation, clean-documentation-files
 
 task run-clean-dirs {
-    clean $archiveDir, $helpDir, $sampleDir, $nupackDir
+    clean $archiveDir, $helpDir, $sampleDir, $nugetDir
 }
 
 task run-clean35 -depends run-clean-dirs {
@@ -57,7 +57,7 @@ task set-version {
     regex-replace $assemInfo 'AssemblyFileVersion\("\d+\.\d+\.\d+\.\d+"\)' "AssemblyFileVersion(`"$buildNumber`")"
 }
 
-task build-package -depends prepare-sample, prepare-nupack {
+task build-package -depends prepare-sample, prepare-nuget {
     create $archiveDir
     
     roboexec { robocopy "$baseDir\WikiPlex.Web.Sample" $sampleDir /E }
@@ -86,14 +86,14 @@ task build-package -depends prepare-sample, prepare-nupack {
     }
     
     exec { .\lib\zip.exe -9 -A -r -q `
-                              "$archiveDir\WikiPlex-NuPack.zip" `
-                              "_nupack"
+                              "$archiveDir\WikiPlex-NuGet.zip" `
+                              "_nuget"
     }
     
-    exec { &"$baseDir\lib\NuPack\NuPack.exe" pack "$nupackDir\WikiPlex.nuspec" >> $NULL }
+    exec { &"$baseDir\lib\NuGet\NuGet.exe" pack "$nugetDir\WikiPlex.nuspec" >> $NULL }
     move-item "$baseDir\*.nupkg" -destination $archiveDir
     
-    clean $sampleDir, $nupackDir
+    clean $sampleDir, $nugetDir
 }
 
 task prepare-sample {   
@@ -107,19 +107,19 @@ task prepare-sample {
     regex-replace $csproj '(?ms)<ProjectReference Include="\.\.\\WikiPlex\\WikiPlex\.csproj">.+?</ProjectReference>' '<Reference Include="WikiPlex" />'
 }
 
-task prepare-nupack {
-    $nupack20 = "$nupackDir\lib\Net20"
-    $nupack40 = "$nupackDir\lib\Net40"
+task prepare-nuget {
+    $nuget20 = "$nugetDir\lib\Net20"
+    $nuget40 = "$nugetDir\lib\Net40"
     $nuspec = "$baseDir\WikiPlex.nuspec"
     
-    create $nupackDir, $nupack20, $nupack40
+    create $nugetDir, $nuget20, $nuget40
     
-    copy-item "$baseDir\License.txt", $nuspec -destination $nupackDir
-    copy-item "$baseDir\WikiPlex\bin\net35\$configuration\WikiPlex.*" -destination $nupack20
-    copy-item "$baseDir\WikiPlex\bin\$configuration\WikiPlex.*" -destination $nupack40
+    copy-item "$baseDir\License.txt", $nuspec -destination $nugetDir
+    copy-item "$baseDir\WikiPlex\bin\net35\$configuration\WikiPlex.*" -destination $nuget20
+    copy-item "$baseDir\WikiPlex\bin\$configuration\WikiPlex.*" -destination $nuget40
     
     $version = new-object -TypeName System.Version -ArgumentList $buildNumber
-    regex-replace "$nupackDir\WikiPlex.nuspec" '(?m)@Version@' $version.ToString(2)
+    regex-replace "$nugetDir\WikiPlex.nuspec" '(?m)@Version@' $version.ToString(2)
 }
 
 task prepare-documentation -depends run-build {
