@@ -228,10 +228,12 @@ namespace WikiPlex.Tests.Formatting
                 formatter.RecordParse(scopes);
                 Scope actualScope = null;
                 string actualContent = null;
+                string actualRenderedContent = null;
 
                 formatter.ScopeRendered += delegate(object obj, RenderedScopeEventArgs e)
                                                {
                                                    actualContent = e.Content;
+                                                   actualRenderedContent = e.RenderedContent;
                                                    actualScope = e.Scope;
                                                };
 
@@ -239,6 +241,7 @@ namespace WikiPlex.Tests.Formatting
 
                 actualScope.ShouldEqual(expectedScope);
                 actualContent.ShouldEqual(expectedContent);
+                actualRenderedContent.ShouldEqual(expectedContent);
             }
         }
 

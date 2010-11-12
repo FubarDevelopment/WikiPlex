@@ -148,22 +148,21 @@ namespace WikiPlex.Formatting
         private void RenderScope(StringBuilder writer, Scope scope, string content)
         {
             IRenderer renderer = renderers.FirstOrDefault(r => r.CanExpand(scope.Name));
+            string renderedContent;
 
-            if (renderer != null)
+            try
             {
-                try
-                {
-                    writer.Append(renderer.Expand(scope.Name, content, EncodeContent, EncodeAttributeContent));
-                }
-                catch
-                {
-                    writer.Append(string.Format("<span class=\"unresolved\">Cannot resolve macro, as an unhandled exception occurred.</span>[{0}]", EncodeContent(content)));
-                }
+                renderedContent = renderer == null
+                                    ? string.Format("<span class=\"unresolved\">Cannot resolve macro, as no renderers were found.</span>[{0}]", EncodeContent(content))
+                                    : renderer.Expand(scope.Name, content, EncodeContent, EncodeAttributeContent);
             }
-            else
-                writer.Append(string.Format("<span class=\"unresolved\">Cannot resolve macro, as no renderers were found.</span>[{0}]", EncodeContent(content)));
+            catch
+            {
+                renderedContent = string.Format("<span class=\"unresolved\">Cannot resolve macro, as an unhandled exception occurred.</span>[{0}]", EncodeContent(content));
+            }
 
-            OnScopeRendered(new RenderedScopeEventArgs(scope, content));
+            writer.Append(renderedContent);
+            OnScopeRendered(new RenderedScopeEventArgs(scope, content, renderedContent));
         }
     }
 }
