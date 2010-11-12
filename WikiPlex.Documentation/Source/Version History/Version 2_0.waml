@@ -1,5 +1,5 @@
 {topic:conceptual=83333494-71a8-4418-b77b-5cb218350fe3}
-{p}Version 2.0 was released on November 11, 2010{p}
+{p}Version 2.0 was released on November 16, 2010{p}
 
 {section:Changes in This Release}
 # +*Breaking Changes from v1.x*+
@@ -21,6 +21,7 @@
 ### The number of starting and ending colons must match in order for the macro to be valid.
 ## Headings can now be indented on a single line by simply specifying the indentation macro, ie ": ! Heading"
 ## Two new overloads were added to IWikiEngine that accept an {{IEnumerable<IRenderer>}}. This is an exclusive list the engine will use to format, similarly to overload that takes macros.
+## The {{ScopeRendered}} event on {{Formatter}} now also includes {{RenderedContent}}.
 ## The sample application now supports unicode characters as internal wiki page links.
 {section}
 {topic}
