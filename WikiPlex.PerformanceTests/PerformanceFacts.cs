@@ -210,6 +210,15 @@ namespace WikiPlex.PerformanceTests
             ExecutePerformanceTest("AllFormatting.wiki", 3250);
         }
 
+        [Fact]
+        public void Should_format_video_performantly()
+        {
+            Macros.Register<VideoMacro>();
+            ExecutePerformanceTest("Video.wiki", 1500);
+            ExecutePerformanceTest("Video.wiki", 1500);
+            Macros.Unregister<VideoMacro>();
+        }
+
         [Fact(Skip = "Threading Not Supported")]
         public void Should_format_five_threads_concurrently_1_million_times_each_with_each_format_in_under_50ms_each()
         {
