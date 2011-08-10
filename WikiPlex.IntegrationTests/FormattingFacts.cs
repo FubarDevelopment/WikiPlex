@@ -10,7 +10,7 @@ namespace WikiPlex.IntegrationTests
 {
     public class FormattingFacts : IDisposable
     {
-        private static readonly Regex WhitespaceRemovalRegex = new Regex(@"\r|\n|\t|\s{3,4}", RegexOptions.Compiled);
+        private static readonly Regex WhitespaceRemovalRegex = new Regex(@"\r|\n|\t|\s{3,4}");
 
         public FormattingFacts()
         {

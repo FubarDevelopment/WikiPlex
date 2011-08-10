@@ -12,7 +12,7 @@ namespace WikiPlex.Compilation
     /// </summary>
     public class MacroCompiler
     {
-        private static readonly Regex numberOfCapturesRegex = new Regex(@"(?x)(?<!\\)\((?!\?)", RegexOptions.Compiled);
+        private static readonly Regex numberOfCapturesRegex = new Regex(@"(?x)(?<!\\)\((?!\?)");
         private readonly Dictionary<string, CompiledMacro> compiledMacros;
         private readonly ReaderWriterLockSlim compileLock;
 
@@ -101,7 +101,7 @@ namespace WikiPlex.Compilation
             for (int i = 0; i < rules.Count; i++)
                 CompileRule(rules[i], regexBuilder, captures, i == 0);
 
-            regex = new Regex(regexBuilder.ToString(), RegexOptions.Compiled);
+            regex = new Regex(regexBuilder.ToString());
         }
 
         private static void CompileRule(MacroRule rule, StringBuilder regex, IList<string> captures, bool isFirstRule)

@@ -6,7 +6,7 @@ namespace WikiPlex.Formatting.Renderers
 {
     internal class VimeoVideoRenderer : EmbeddedVideoRender
     {
-        private static readonly Regex VideoIdRegex = new Regex(@"^http://(?:www\.)?vimeo\.com/(.+)$", RegexOptions.Compiled);
+        private static readonly Regex VideoIdRegex = new Regex(@"^http://(?:www\.)?vimeo\.com/(.+)$");
         const string WModeAttributeString = "transparent";
         const string SrcSttributeFormatString = "http://vimeo.com/moogaloop.swf?clip_id={0}&server=vimeo.com&show_title=1&show_byline=1&show_portrait=1&color=&fullscreen=1&autoplay=0&loop=0";
 

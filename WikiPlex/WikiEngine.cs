@@ -16,8 +16,8 @@ namespace WikiPlex
     public class WikiEngine : IWikiEngine
     {
         private static readonly MacroCompiler Compiler = new MacroCompiler();
-        private static readonly Regex NewLineRegex = new Regex(@"(?<!\r|</tr>|</li>|</ul>|</ol>|<hr />|</blockquote>)(?:\n|&#10;)(?!<h[1-6]>|<hr />|<ul>|<ol>|</li>|</blockquote>)", RegexOptions.Compiled);
-        private static readonly Regex PreRegex = new Regex(@"(?s)((?><pre>)(?>.*?</pre>))", RegexOptions.Compiled);
+        private static readonly Regex NewLineRegex = new Regex(@"(?<!\r|</tr>|</li>|</ul>|</ol>|<hr />|</blockquote>)(?:\n|&#10;)(?!<h[1-6]>|<hr />|<ul>|<ol>|</li>|</blockquote>)");
+        private static readonly Regex PreRegex = new Regex(@"(?s)((?><pre>)(?>.*?</pre>))");
 
         private readonly Parser parser;
 

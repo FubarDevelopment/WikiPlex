@@ -6,7 +6,7 @@ namespace WikiPlex.Formatting.Renderers
 {
     internal class YouTubeVideoRenderer : EmbeddedVideoRender
     {
-        private static readonly Regex VideoIdRegex = new Regex(@"^http://www\.youtube\.com/watch\?v=(.+)$", RegexOptions.Compiled);
+        private static readonly Regex VideoIdRegex = new Regex(@"^http://www\.youtube\.com/watch\?v=(.+)$");
         const string WModeAttributeString = "transparent";
         const string SrcSttributeFormatString = "http://www.youtube.com/v/{0}";
 
