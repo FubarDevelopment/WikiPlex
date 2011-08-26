@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.Web;
 using System.Web.UI;
 using WikiPlex.Web.Sample.Models;
@@ -12,6 +13,9 @@ namespace WikiPlex.Web.Sample.WebForms
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (!IsEditable())
+                Response.Redirect("/WebForms");
+
             if (Page.IsPostBack)
                 return;
 
@@ -42,6 +46,11 @@ namespace WikiPlex.Web.Sample.WebForms
             if (string.IsNullOrEmpty(slug))
                 return string.Empty;
             return slug;
+        }
+
+        private static bool IsEditable()
+        {
+            return ConfigurationManager.AppSettings["Environment"] == "Debug";
         }
 
         protected void SaveSource(object sender, EventArgs e)

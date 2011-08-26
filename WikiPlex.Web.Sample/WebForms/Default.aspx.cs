@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -7,7 +8,7 @@ using System.Web.UI.WebControls;
 using WikiPlex.Formatting.Renderers;
 using WikiPlex.Web.Sample.Repositories;
 using WikiPlex.Web.Sample.Wiki;
-using Content=WikiPlex.Web.Sample.Models.Content;
+using Content = WikiPlex.Web.Sample.Models.Content;
 
 namespace WikiPlex.Web.Sample.WebForms
 {
@@ -42,6 +43,7 @@ namespace WikiPlex.Web.Sample.WebForms
             renderedSource.Text = wikiEngine.Render(wikiContent.Source, GetRenderers());
             Name.Value = wikiContent.Title.Name;
             NotLatestPlaceHolder.Visible = wikiContent.Version != wikiContent.Title.MaxVersion;
+            editWiki.Visible = editWikiForm.Visible = IsEditable();
 
             pageHistory.DataSource = repository.GetHistory(id);
             pageHistory.DataBind();
@@ -88,6 +90,11 @@ namespace WikiPlex.Web.Sample.WebForms
         {
             var siteRenderers = new IRenderer[] { new TitleLinkRenderer() };
             return Renderers.All.Union(siteRenderers);
+        }
+
+        private static bool IsEditable()
+        {
+            return ConfigurationManager.AppSettings["Environment"] == "Debug";
         }
 
         protected void SaveWikiContent(object sender, EventArgs e)

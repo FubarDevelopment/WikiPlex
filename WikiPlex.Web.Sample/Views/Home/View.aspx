@@ -1,22 +1,24 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<WikiPlex.Web.Sample.Views.Home.ViewContent>" %>
 <asp:Content ID="titleContent" ContentPlaceHolderID="head" runat="server">
     <title>WikiPlex Sample - <%= Html.Encode(Model.Content.Title.Name) %></title>
+    <% if (Model.Editable)
+       { %>
     <script type="text/javascript">
         var timeout = null;
-        $(function() {
+        $(function () {
             var dlg = $('#editWikiForm');
             var cnt = $('#editWikiContent');
             var cntPos = cnt.position();
-            dlg.dialog({ autoOpen: false, 
-                         width: 450,
-                         position: [cntPos.left - 450 + cnt.outerWidth(), cntPos.top + cnt.outerHeight()],
-                         show: 'blind', 
-                         hide: 'blind',
-                         beforeclose: function() { $('#originalWikiContent').show(); $('#previewWikiContent').hide(); }
-                      });
-            cnt.click(function() {
+            dlg.dialog({ autoOpen: false,
+                width: 450,
+                position: [cntPos.left - 450 + cnt.outerWidth(), cntPos.top + cnt.outerHeight()],
+                show: 'blind',
+                hide: 'blind',
+                beforeclose: function () { $('#originalWikiContent').show(); $('#previewWikiContent').hide(); }
+            });
+            cnt.click(function () {
                 if (!dlg.dialog('isOpen')) {
-                    $.post('<%= Url.RouteUrl("Source", new { Model.Content.Title.Id, Model.Content.Title.Slug, Model.Content.Version }) %>', function(data) {
+                    $.post('<%= Url.RouteUrl("Source", new { Model.Content.Title.Id, Model.Content.Title.Slug, Model.Content.Version }) %>', function (data) {
                         $('#Source').val(data);
                         var original = $('#originalWikiContent');
                         original.hide();
@@ -27,32 +29,35 @@
                     dlg.dialog('close');
                 }
             });
-            
-            $('#Source').keyup(function(e) {
+
+            $('#Source').keyup(function (e) {
                 if (timeout != null) {
                     clearTimeout(timeout);
                     timeout = null;
                 }
-                
+
                 var self = $(this);
-                timeout = setTimeout(function() {
-                $.post('<%= Url.RouteUrl("Act", new { action = "GetWikiPreview", Model.Content.Title.Id, Model.Content.Title.Slug }) %>',
+                timeout = setTimeout(function () {
+                    $.post('<%= Url.RouteUrl("Act", new { action = "GetWikiPreview", Model.Content.Title.Id, Model.Content.Title.Slug }) %>',
                            { source: self.val() },
-                           function(data) { $('#previewWikiContent').html(data); });
+                           function (data) { $('#previewWikiContent').html(data); });
                 }, 250);
             });
-            
-            $('#cancelEdit').click(function() {
+
+            $('#cancelEdit').click(function () {
                 $('#editWikiForm').dialog('close');
             });
         });
     </script>
+    <% } %>
 </asp:Content>
 
 <asp:Content ID="indexContent" ContentPlaceHolderID="MainContent" runat="server">
-    <div id="editWiki">
+    <% if (Model.Editable) { %>
+    <div id="editWiki" class="editWiki">
         <a id="editWikiContent" href="#">Edit Content</a>
     </div>
+    <% } %>
     
     <div id="wikiHistory">
         <h3>Page History</h3>
@@ -73,7 +78,8 @@
     
     <div class="clear"></div>
     
-    <div id="editWikiForm">
+    <% if (Model.Editable) { %>
+    <div id="editWikiForm" class="editWikiForm">
         <% using (Html.BeginRouteForm("Act", new { action = "EditWiki", Model.Content.Title.Slug }, FormMethod.Post)) { %>
             <%= Html.Hidden("Name", Model.Content.Title.Name)%>
             <fieldset>
@@ -89,4 +95,5 @@
             </fieldset>
         <% } %>
     </div>
+    <% } %>
 </asp:Content>

@@ -7,5 +7,6 @@ namespace WikiPlex.Web.Sample.Views.Home
     {
         public Content Content { get; set; }
         public ICollection<Content> History { get; set; }
+        public bool Editable { get; set; }
     }
 }

@@ -4,7 +4,7 @@
     <script type="text/javascript">
         var timeout = null;
         $(function() {
-            var dlg = $('#editWikiForm');
+            var dlg = $('#<%= editWikiForm.ClientID %>');
             var cnt = $('#editWikiContent');
             var cntPos = cnt.position();
             dlg.dialog({ autoOpen: false,
@@ -55,14 +55,14 @@
             });
 
             $('#cancelEdit').click(function() {
-                $('#editWikiForm').dialog('close');
+                $('#<%= editWikiForm.ClientID %>').dialog('close');
             });
         });
     </script>
 </asp:Content>
 
 <asp:Content ID="indexContent" ContentPlaceHolderID="MainContent" runat="server">
-    <div id="editWiki">
+    <div id="editWiki" class="editWiki" runat="server">
         <a id="editWikiContent" href="#">Edit Content</a>
     </div>
     
@@ -87,7 +87,7 @@
     
     <div class="clear"></div>
     
-    <div id="editWikiForm">
+    <div id="editWikiForm" class="editWikiForm" runat="server">
         <form runat="server">
             <asp:HiddenField ID="Name" runat="server" />
             <fieldset>

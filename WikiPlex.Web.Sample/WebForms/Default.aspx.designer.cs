@@ -67,6 +67,15 @@ namespace WikiPlex.Web.Sample.WebForms {
         protected global::System.Web.UI.WebControls.Literal previewSlug;
         
         /// <summary>
+        /// editWiki control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl editWiki;
+        
+        /// <summary>
         /// pageHistory control.
         /// </summary>
         /// <remarks>
@@ -83,6 +92,15 @@ namespace WikiPlex.Web.Sample.WebForms {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Literal renderedSource;
+        
+        /// <summary>
+        /// editWikiForm control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl editWikiForm;
         
         /// <summary>
         /// Name control.

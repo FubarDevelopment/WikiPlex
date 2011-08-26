@@ -311,42 +311,42 @@ form table label
 	width:85%;
 }
 
-#editWiki
+.editWiki
 {
 	text-align:right;
 	border-top:solid 1px #CCC;
 	padding-top:.25em;
 }
 
-#editWiki a
+.editWiki a
 {
 	background-color:#CCC;
 	padding: .25em 2em .40em 2em;
 	color:White;
 }
 
-#editWiki a:hover
+.editWiki a:hover
 {
 	color: #585858;
 }
 
-#editWikiForm
+.editWikiForm
 {
 	display:none;
 }
 
-#editWikiForm fieldset
+.editWikiForm fieldset
 {
 	background-color:#FFF;
 	margin-top:0;
 }
 
-#editWikiForm form textarea
+.editWikiForm form textarea
 {
 	width:98%;
 }
 
-#editWikiNotLatest
+.editWikiNotLatest
 {
 	color:Red;
 }
