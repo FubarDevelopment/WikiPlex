@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -46,11 +47,16 @@ namespace WikiPlex.PerformanceTests
 
         private void ExecutePerformanceTest(string fileName, int millisecondsToFinish)
         {
+            ExecutePerformanceTest(fileName, millisecondsToFinish, Renderers.All);
+        }
+
+        private void ExecutePerformanceTest(string fileName, int millisecondsToFinish, IEnumerable<IRenderer> renderers)
+        {
             string content = ReadContent("WikiPlex.PerformanceTests.Data.", fileName);
             var stopWatch = new Stopwatch();
 
             stopWatch.Start();
-            engine.Render(content);
+            engine.Render(content, renderers);
             stopWatch.Stop();
 
             Trace.WriteLine(fileName + ": " + stopWatch.ElapsedMilliseconds + "ms, expected under" + millisecondsToFinish + "ms");
@@ -217,6 +223,15 @@ namespace WikiPlex.PerformanceTests
             ExecutePerformanceTest("Video.wiki", 1500);
             ExecutePerformanceTest("Video.wiki", 1500);
             Macros.Unregister<VideoMacro>();
+        }
+
+        [Fact]
+        public void Should_format_all_as_plaintext_performantly()
+        {
+            RegisterMacros();
+
+            ExecutePerformanceTest("AllFormatting.wiki", 3500, new[] {new PlainTextRenderer()});
+            ExecutePerformanceTest("AllFormatting.wiki", 3250, new[] { new PlainTextRenderer() });
         }
 
         [Fact(Skip = "Threading Not Supported")]

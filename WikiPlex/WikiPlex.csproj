@@ -91,6 +91,7 @@
     <Compile Include="Common\Guard.cs" />
     <Compile Include="Formatting\Renderers\IndentationRenderer.cs" />
     <Compile Include="Common\Parameters.cs" />
+    <Compile Include="Formatting\Renderers\PlainTextRenderer.cs" />
     <Compile Include="Formatting\Renderers\Renderer.cs" />
     <Compile Include="Formatting\Renderers\SilverlightRendering\Silverlight4Renderer.cs" />
     <Compile Include="Formatting\Renderers\VideoRendering\Channel9VideoRenderer.cs" />

@@ -386,6 +386,18 @@
   <ItemGroup>
     <EmbeddedResource Include="Data\ListFormatting\MixedProducingError.html" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Data\PlainText\Macros.wiki" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Data\PlainText\Macros.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Data\PlainText\FormatAndLayout.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Data\PlainText\FormatAndLayout.wiki" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

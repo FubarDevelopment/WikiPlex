@@ -49,6 +49,21 @@ namespace WikiPlex.IntegrationTests
             Assert.Equal(expectedText, actualText);
         }
 
+        [Theory]
+        [InputData("PlainText")]
+        public void Will_verify_plain_text_formatting(string inputFile, string expectedFile, string prefix)
+        {
+            string expectedText = InputDataAttribute.ReadContent(prefix, expectedFile);
+            string actualText = new WikiEngine().Render(InputDataAttribute.ReadContent(prefix, inputFile), new[] {new PlainTextRenderer()});
+
+            // comment out the following lines if you wish to compare
+            // the whitespace correctly
+            expectedText = WhitespaceRemovalRegex.Replace(expectedText, string.Empty);
+            actualText = WhitespaceRemovalRegex.Replace(actualText, string.Empty);
+
+            Assert.Equal(expectedText, actualText);
+        }
+
         [Fact(Skip = "This is only used to test 1-off inputs manually.")]
         //[Fact]
         public void TestIt()

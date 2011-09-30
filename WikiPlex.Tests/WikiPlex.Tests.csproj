@@ -96,6 +96,7 @@
     <Compile Include="Compilation\CompiledMacroFacts.cs" />
     <Compile Include="Compilation\MacroCompilerFacts.cs" />
     <Compile Include="Compilation\MacroRuleFacts.cs" />
+    <Compile Include="Formatting\PlainTextRendererFacts.cs" />
     <Compile Include="ParametersFacts.cs" />
     <Compile Include="Formatting\IndentationRendererFacts.cs" />
     <Compile Include="Formatting\ContentAlignmentRendererFacts.cs" />
