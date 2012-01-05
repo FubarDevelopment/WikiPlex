@@ -45,11 +45,11 @@ namespace WikiPlex.Formatting.Renderers
             bool gpuAcceleration = Parameters.ExtractBool(parameters, "gpuAcceleration", false);
 
             string versionValue;
-            int version = 4;
+            int version = 5;
             if (Parameters.TryGetValue(parameters, "version", out versionValue) && int.TryParse(versionValue, out version))
             {
-                if (version < 2 || version > 4)
-                    version = 4;
+                if (version < 2 || version > 5)
+                    version = 5;
             }
 
             if (version == 2 && gpuAcceleration)
@@ -101,6 +101,8 @@ namespace WikiPlex.Formatting.Renderers
         {
             switch (version)
             {
+                case 5:
+                    return new Silverlight5Renderer();
                 case 4:
                     return new Silverlight4Renderer();
                 case 3:

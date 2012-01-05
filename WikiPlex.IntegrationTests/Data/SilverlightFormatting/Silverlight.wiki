@@ -10,4 +10,6 @@
 
 {silverlight:url=http://localhost/silverlight,version=4}
 
+{silverlight:url=http://localhost/silverlight,version=5}
+
 {silverlight:url=http://localhost/silverlight,width=25%,height=50%}

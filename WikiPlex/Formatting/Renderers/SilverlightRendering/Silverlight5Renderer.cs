@@ -1,10 +1,10 @@
 ﻿namespace WikiPlex.Formatting.Renderers
 {
-    internal class Silverlight4Renderer : BaseVersionedSilverlightRenderer
+    internal class Silverlight5Renderer : BaseVersionedSilverlightRenderer
     {
         public override string Version
         {
-            get { return "4.0.50401.0"; }
+            get { return "5.0.61118.0"; }
         }
     }
 }
