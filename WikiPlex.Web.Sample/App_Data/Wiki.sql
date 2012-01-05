@@ -62,12 +62,26 @@ INSERT [dbo].[Content] ([Id], [TitleId], [Source], [Version], [VersionDate]) VAL
 
 _The Silverlight macro allows you to insert Silverlight applications into your wiki page_
 
+!!!!! Required Parameters
+|| Name || Description || Range ||
+| url | absolute url to xap file | n/a |
+
+!!!!! Optional Parameters
+|| Name || Description || Range || Default ||
+| height | the height of the Silverlight object | px, %, em, etc. | 200px |
+| width | the width of the Silverlight object | px, %, em, etc. | 200px |
+| version | the version of Silverlight to use | 2/3/4/5 | 5 |
+| gpuAcceleration | enables gpu acceleration for Silverlight > 2 | true/false | false|
+
+!!!! Initialized Parameters
+If your Silverlight object requires initParams to be set, you can add arbitrary key/value pairs to the markup. They will be combined and rendered correctly at runtime.
+
 !!!!! Source Markup
 {{
-{silverlight:url=http://slkit.blob.core.windows.net/xaps/ToolkitBanner.xap,height=280,width=880}
+{silverlight:url=http://silverlight.microsoft.com/Assets/ToolkitBanner.xap,height=280,width=880,param1=a,param2=b}
 }}
 !!!!! Rendered Markup
-{silverlight:url=http://slkit.blob.core.windows.net/xaps/ToolkitBanner.xap,height=280,width=880}', 1, CAST(0x00009BDB017AD902 AS DateTime))
+{silverlight:url=http://silverlight.microsoft.com/Assets/ToolkitBanner.xap,height=280,width=880,param1=a,param2=b}', 1, CAST(0x00009BDB017AD902 AS DateTime))
 INSERT [dbo].[Content] ([Id], [TitleId], [Source], [Version], [VersionDate]) VALUES (3, 3, N'!! Video Macro
 _The video macro allows you to insert video media into your wiki page_
 !!!!! Required Parameters
