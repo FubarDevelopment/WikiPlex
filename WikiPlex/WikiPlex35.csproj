@@ -70,7 +70,9 @@
     <Compile Include="Formatting\Renderers\IndentationRenderer.cs" />
     <Compile Include="Common\Parameters.cs" />
     <Compile Include="Formatting\Renderers\Renderer.cs" />
+    <Compile Include="Formatting\Renderers\SilverlightRendering\BaseVersionedSilverlightRenderer.cs" />
     <Compile Include="Formatting\Renderers\SilverlightRendering\Silverlight4Renderer.cs" />
+    <Compile Include="Formatting\Renderers\SilverlightRendering\Silverlight5Renderer.cs" />
     <Compile Include="Formatting\Renderers\VideoRendering\Channel9VideoRenderer.cs" />
     <Compile Include="Formatting\Renderers\VideoRendering\EmbeddedVideoRender.cs" />
     <Compile Include="Formatting\Renderers\VideoRendering\VimeoVideoRenderer.cs" />
