@@ -6,7 +6,7 @@ properties {
     # paths
     $baseDir = resolve-path .
     $archiveDir = "$baseDir\_zip"
-    $helpDir = "$baseDir\_help"
+    $helpDir = "$baseDir\_help\"
     $nugetDir = "$baseDir\_nuget"
     $sampleDir = "$baseDir\Sample"
     $slnPath = "$baseDir\WikiPlex.sln"
