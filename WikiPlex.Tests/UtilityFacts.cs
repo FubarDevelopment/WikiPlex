@@ -161,10 +161,10 @@ namespace WikiPlex.Tests
             [Fact]
             public void Should_return_the_part_with_only_image_url_when_it_has_no_friendly_text()
             {
-                ImagePart part = Utility.ExtractImageParts("a", ImagePartExtras.None);
+                ImagePart part = Utility.ExtractImageParts("http://localhost", ImagePartExtras.None);
 
                 part.ShouldNotBeNull();
-                part.ImageUrl.ShouldEqual("a");
+                part.ImageUrl.ShouldEqual("http://localhost/");
                 part.Text.ShouldBeNull();
                 part.LinkUrl.ShouldBeNull();
             }
@@ -172,10 +172,10 @@ namespace WikiPlex.Tests
             [Fact]
             public void Should_return_the_part_with_only_image_url_when_it_has_no_friendly_text_with_height_width()
             {
-                ImagePart part = Utility.ExtractImageParts("a,height=220,width=380", ImagePartExtras.None);
+                ImagePart part = Utility.ExtractImageParts("http://localhost,height=220,width=380", ImagePartExtras.None);
 
                 part.ShouldNotBeNull();
-                part.ImageUrl.ShouldEqual("a");
+                part.ImageUrl.ShouldEqual("http://localhost/");
                 part.Text.ShouldBeNull();
                 part.LinkUrl.ShouldBeNull();
                 part.Dimensions.Height.ShouldEqual(new Unit(220));
@@ -185,22 +185,22 @@ namespace WikiPlex.Tests
             [Fact]
             public void Should_return_the_fully_loaded_part()
             {
-                ImagePart part = Utility.ExtractImageParts("a|b|c", ImagePartExtras.All);
+                ImagePart part = Utility.ExtractImageParts("a|http://localhost|c", ImagePartExtras.All);
 
                 part.ShouldNotBeNull();
                 part.Text.ShouldEqual("a");
-                part.ImageUrl.ShouldEqual("b");
+                part.ImageUrl.ShouldEqual("http://localhost/");
                 part.LinkUrl.ShouldEqual("c");
             }
 
             [Fact]
             public void Should_return_the_part_with_dimensions()
             {
-                ImagePart part = Utility.ExtractImageParts("a|b,height=220,width=380", ImagePartExtras.ContainsText);
+                ImagePart part = Utility.ExtractImageParts("a|http://localhost,height=220,width=380", ImagePartExtras.ContainsText);
 
                 part.ShouldNotBeNull();
                 part.Text.ShouldEqual("a");
-                part.ImageUrl.ShouldEqual("b");
+                part.ImageUrl.ShouldEqual("http://localhost/");
                 part.Dimensions.Height.ShouldEqual(new Unit(220));
                 part.Dimensions.Width.ShouldEqual(new Unit(380));
             }
@@ -208,30 +208,39 @@ namespace WikiPlex.Tests
             [Fact]
             public void Should_return_the_part_with_link()
             {
-                ImagePart part = Utility.ExtractImageParts("a|b", ImagePartExtras.ContainsLink);
+                ImagePart part = Utility.ExtractImageParts("http://localhost|b", ImagePartExtras.ContainsLink);
 
                 part.ShouldNotBeNull();
-                part.ImageUrl.ShouldEqual("a");
+                part.ImageUrl.ShouldEqual("http://localhost/");
                 part.LinkUrl.ShouldEqual("b");
             }
 
             [Fact]
             public void Should_trim_the_content_with_one_part()
             {
-                ImagePart part = Utility.ExtractImageParts(" a ", ImagePartExtras.None);
+                ImagePart part = Utility.ExtractImageParts(" http://localhost ", ImagePartExtras.None);
 
                 part.ShouldNotBeNull();
-                part.ImageUrl.ShouldEqual("a");
+                part.ImageUrl.ShouldEqual("http://localhost/");
             }
 
             [Fact]
             public void Should_trim_the_content_with_two_parts()
             {
-                ImagePart part = Utility.ExtractImageParts(" a | b ", ImagePartExtras.ContainsText);
+                ImagePart part = Utility.ExtractImageParts(" a | http://localhost ", ImagePartExtras.ContainsText);
 
                 part.ShouldNotBeNull();
                 part.Text.ShouldEqual("a");
-                part.ImageUrl.ShouldEqual("b");
+                part.ImageUrl.ShouldEqual("http://localhost/");
+            }
+
+            [Fact]
+            public void Should_not_remove_url_parts_with_where_comma_does_not_denote_dimensions()
+            {
+                ImagePart part = Utility.ExtractImageParts("http://localhost/image,a,b.gif", ImagePartExtras.None);
+
+                part.ShouldNotBeNull();
+                part.ImageUrl.ShouldEqual("http://localhost/image,a,b.gif");
             }
         }
 

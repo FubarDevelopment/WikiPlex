@@ -62,6 +62,22 @@ namespace WikiPlex.Tests
 
                 ex.ShouldBeNull();
             }
+
+            [Fact]
+            public void Should_combine_parameters_without_key()
+            {
+                string url = Parameters.ExtractUrl(new[] {"url=http://www.foo.com/image", "a", "b.gif"});
+
+                url.ShouldEqual("http://www.foo.com/image,a,b.gif");
+            }
+
+            [Fact]
+            public void Should_combine_parameters_without_key_including_valid_ones()
+            {
+                string url = Parameters.ExtractUrl(new[] { "width=985", "url=http://www.foo.com/image", "a", "b.gif", "height=400" });
+
+                url.ShouldEqual("http://www.foo.com/image,a,b.gif");
+            }
         }
 
         public class ExtractAlign

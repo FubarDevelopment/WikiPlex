@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web.UI.WebControls;
 
 namespace WikiPlex.Common
@@ -10,6 +11,8 @@ namespace WikiPlex.Common
     /// </summary>
     public static class Parameters
     {
+        private static Regex ParamKey = new Regex(@"[^=]+=.+");
+
         /// <summary>
         /// This will extract a url.
         /// </summary>
@@ -190,6 +193,8 @@ namespace WikiPlex.Common
         /// <returns>A boolean value indicating if the value was found or not.</returns>
         public static bool TryGetValue(IEnumerable<string> parameters, string paramName, out string value)
         {
+            parameters = Normalize(parameters);
+
             value = null;
             string paramValue = parameters.FirstOrDefault(s => s.StartsWith(paramName + "=", StringComparison.OrdinalIgnoreCase));
 
@@ -202,6 +207,31 @@ namespace WikiPlex.Common
 
             value = paramValue;
             return true;
+        }
+
+        private static IEnumerable<string> Normalize(IEnumerable<string> parameters)
+        {
+            var normalized = new List<string>();
+
+            string current = null;
+            foreach (string param in parameters)
+            {
+                if (ParamKey.IsMatch(param))
+                {
+                    if (!string.IsNullOrEmpty(current))
+                        normalized.Add(current);
+
+                    current = param;
+                    continue;
+                }
+
+                current += string.Format(",{0}", param);
+            }
+
+            if (!string.IsNullOrEmpty(current))
+                normalized.Add(current);
+
+            return normalized;
         }
     }
 }

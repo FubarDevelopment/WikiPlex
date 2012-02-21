@@ -106,9 +106,9 @@ namespace WikiPlex.Common
             if (parts.Length > 1 && (partExtras & ImagePartExtras.ContainsLink) == ImagePartExtras.ContainsLink)
                 linkUrl = parts.Length == 3 ? parts[2].Trim() : parts[1].Trim();
 
-            string[] parameters = imageUrl.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries);
+            string[] parameters = ("url=" + imageUrl).Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries);
 
-            return new ImagePart(parameters[0], text, linkUrl, Parameters.ExtractDimensions(parameters));
+            return new ImagePart(Parameters.ExtractUrl(parameters), text, linkUrl, Parameters.ExtractDimensions(parameters));
         }
 
         /// <summary>
