@@ -146,7 +146,7 @@ namespace WikiPlex.Common
 
             string toSplit = string.Format("{0}{1}", parseUrl ? "url=" : string.Empty, imageUrl);
             string[] parameters = toSplit.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries);
-            string url = parseUrl ? Parameters.ExtractUrl(parameters) : parameters[0];
+            string url = parseUrl ? Parameters.ExtractUrl(parameters, false) : parameters[0];
 
             return new ImagePart(url, text, linkUrl, Parameters.ExtractDimensions(parameters));
         }

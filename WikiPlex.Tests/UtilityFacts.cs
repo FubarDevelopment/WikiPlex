@@ -252,6 +252,15 @@ namespace WikiPlex.Tests
                 part.ImageUrl.ShouldEqual("localhost");
                 part.LinkUrl.ShouldEqual("b");
             }
+
+            [Fact]
+            public void Should_allow_images_hosted_on_codeplex()
+            {
+                ImagePart part = Utility.ExtractImageParts("http://codeplex.com/image.gif", ImagePartExtras.None);
+
+                part.ShouldNotBeNull();
+                part.ImageUrl.ShouldEqual("http://codeplex.com/image.gif");
+            }
         }
 
         public class CountChars
