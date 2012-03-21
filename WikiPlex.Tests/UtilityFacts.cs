@@ -242,6 +242,16 @@ namespace WikiPlex.Tests
                 part.ShouldNotBeNull();
                 part.ImageUrl.ShouldEqual("http://localhost/image,a,b.gif");
             }
+
+            [Fact]
+            public void Should_return_the_part_with_link_but_not_parse_url()
+            {
+                ImagePart part = Utility.ExtractImageParts("localhost|b", ImagePartExtras.ContainsLink, false);
+
+                part.ShouldNotBeNull();
+                part.ImageUrl.ShouldEqual("localhost");
+                part.LinkUrl.ShouldEqual("b");
+            }
         }
 
         public class CountChars

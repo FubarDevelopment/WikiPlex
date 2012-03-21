@@ -75,6 +75,10 @@ namespace WikiPlex.Common
         /// 
         /// -- or --
         /// 
+        /// Thrown if the extracted url cannot be parsed.
+        /// 
+        /// -- or --
+        /// 
         /// Thrown if the height/width is not a valid unit.
         /// 
         /// -- or --
@@ -83,8 +87,42 @@ namespace WikiPlex.Common
         /// </exception>
         public static ImagePart ExtractImageParts(string input, ImagePartExtras partExtras)
         {
+            return ExtractImageParts(input, partExtras, true);
+        }
+
+        /// <summary>
+        /// Will extract the single text or pair text parts of a string, separated by a |, including the dimensions for the text part.
+        /// </summary>
+        /// <param name="input">The input to inspect.</param>
+        /// <param name="partExtras">The image part extras to extract.</param>
+        /// <param name="parseUrl">Will parse the url and validate it with <see cref="Uri"/>Uri</param>.
+        /// <returns>A new <see cref="ImagePart"/>.</returns>
+        /// <remarks>If there are 2 parts, the first is the text, and the second is the friendly text. Otherwise, only the text is set. Also, should the text contain dimensions, they will be set.</remarks>
+        /// <exception cref="ArgumentNullException">Thrown when the input is null.</exception>
+        /// <exception cref="ArgumentException">
+        /// Thrown when the input is empty.
+        /// 
+        /// -- or --
+        /// 
+        /// Thrown when there are more than 2 parts found.
+        /// 
+        /// -- or --
+        /// 
+        /// Thrown if the extracted url cannot be parsed when parseUrl is true.
+        ///
+        /// 
+        /// -- or --
+        /// 
+        /// Thrown if the height/width is not a valid unit.
+        /// 
+        /// -- or --
+        /// 
+        /// Thrown when the height/width is less than or equal to zero.
+        /// </exception>
+        public static ImagePart ExtractImageParts(string input, ImagePartExtras partExtras, bool parseUrl)
+        {
             Guard.NotNullOrEmpty(input, "input");
-            string[] parts = input.Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries);
+            string[] parts = input.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
 
             if (parts.Length > 3)
                 throw new ArgumentException("Invalid number of parts.", "input");
@@ -106,9 +144,11 @@ namespace WikiPlex.Common
             if (parts.Length > 1 && (partExtras & ImagePartExtras.ContainsLink) == ImagePartExtras.ContainsLink)
                 linkUrl = parts.Length == 3 ? parts[2].Trim() : parts[1].Trim();
 
-            string[] parameters = ("url=" + imageUrl).Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries);
+            string toSplit = string.Format("{0}{1}", parseUrl ? "url=" : string.Empty, imageUrl);
+            string[] parameters = toSplit.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries);
+            string url = parseUrl ? Parameters.ExtractUrl(parameters) : parameters[0];
 
-            return new ImagePart(Parameters.ExtractUrl(parameters), text, linkUrl, Parameters.ExtractDimensions(parameters));
+            return new ImagePart(url, text, linkUrl, Parameters.ExtractDimensions(parameters));
         }
 
         /// <summary>
