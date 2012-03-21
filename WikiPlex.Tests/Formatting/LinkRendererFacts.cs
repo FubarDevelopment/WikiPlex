@@ -36,7 +36,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string result = renderer.Expand(ScopeName.LinkNoText, "http://localhost", x => x, x => x);
 
-                result.ShouldEqual("<a href=\"http://localhost\" class=\"externalLink\">http://localhost<span class=\"externalLinkIcon\"></span></a>");
+                result.ShouldEqual("<a href=\"http://localhost\">http://localhost</a>");
             }
 
             [Fact]
@@ -46,7 +46,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string result = renderer.Expand(ScopeName.LinkWithText, "Local|http://localhost", x => x, x => x);
 
-                result.ShouldEqual("<a href=\"http://localhost\" class=\"externalLink\">Local<span class=\"externalLinkIcon\"></span></a>");
+                result.ShouldEqual("<a href=\"http://localhost\">Local</a>");
             }
 
             [Fact]
@@ -56,7 +56,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string result = renderer.Expand(ScopeName.LinkWithText, "&Local|http://localhost", HttpUtility.HtmlEncode, x => x);
 
-                result.ShouldEqual("<a href=\"http://localhost\" class=\"externalLink\">&amp;Local<span class=\"externalLinkIcon\"></span></a>");
+                result.ShouldEqual("<a href=\"http://localhost\">&amp;Local</a>");
             }
 
             [Fact]
@@ -66,7 +66,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string result = renderer.Expand(ScopeName.LinkAsMailto, "someone@local.com", x => x, x => x);
 
-                result.ShouldEqual("<a href=\"mailto:someone@local.com\" class=\"externalLink\">someone@local.com<span class=\"externalLinkIcon\"></span></a>");
+                result.ShouldEqual("<a href=\"mailto:someone@local.com\">someone@local.com</a>");
             }
 
             [Fact]
@@ -126,7 +126,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string result = renderer.Expand(ScopeName.LinkNoText, "www.microsoft.com", x => x, x => x);
 
-                result.ShouldEqual("<a href=\"http://www.microsoft.com\" class=\"externalLink\">www.microsoft.com<span class=\"externalLinkIcon\"></span></a>");
+                result.ShouldEqual("<a href=\"http://www.microsoft.com\">www.microsoft.com</a>");
             }
 
             [Fact]
@@ -136,7 +136,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string result = renderer.Expand(ScopeName.LinkWithText, "Test|www.microsoft.com", x => x, x => x);
 
-                result.ShouldEqual("<a href=\"http://www.microsoft.com\" class=\"externalLink\">Test<span class=\"externalLinkIcon\"></span></a>");   
+                result.ShouldEqual("<a href=\"http://www.microsoft.com\">Test</a>");   
             }
 
             [Fact]
@@ -146,7 +146,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string result = renderer.Expand(ScopeName.LinkWithText, "Test|mailto:test@user.com", x => x, x => x);
 
-                result.ShouldEqual("<a href=\"mailto:test@user.com\" class=\"externalLink\">Test<span class=\"externalLinkIcon\"></span></a>");
+                result.ShouldEqual("<a href=\"mailto:test@user.com\">Test</a>");
             }
 
             [Fact]
@@ -156,7 +156,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string result = renderer.Expand(ScopeName.LinkNoText, " www.microsoft.com", x => x, x => x);
 
-                result.ShouldEqual("<a href=\"http://www.microsoft.com\" class=\"externalLink\">www.microsoft.com<span class=\"externalLinkIcon\"></span></a>");
+                result.ShouldEqual("<a href=\"http://www.microsoft.com\">www.microsoft.com</a>");
             }
 
             [Fact]
@@ -166,7 +166,7 @@ namespace WikiPlex.Tests.Formatting
 
                 string result = renderer.Expand(ScopeName.LinkAsMailto, " test@test.com ", x => x, x => x);
 
-                result.ShouldEqual("<a href=\"mailto:test@test.com\" class=\"externalLink\">test@test.com<span class=\"externalLinkIcon\"></span></a>");
+                result.ShouldEqual("<a href=\"mailto:test@test.com\">test@test.com</a>");
             }
 
             [Fact]

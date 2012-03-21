@@ -9,7 +9,6 @@ namespace WikiPlex.Formatting.Renderers
     /// </summary>
     public class LinkRenderer : Renderer
     {
-        private const string ExternalLinkFormat = "<a href=\"{0}\" class=\"externalLink\">{1}<span class=\"externalLinkIcon\"></span></a>";
         private const string LinkFormat = "<a href=\"{0}\">{1}</a>";
 
         /// <summary>
@@ -53,7 +52,7 @@ namespace WikiPlex.Formatting.Renderers
                 if (scopeName == ScopeName.LinkWithText)
                     return ExpandLinkWithText(input, attributeEncode, htmlEncode);
                 if (scopeName == ScopeName.LinkAsMailto)
-                    return string.Format(ExternalLinkFormat, attributeEncode("mailto:" + input), htmlEncode(input));
+                    return string.Format(LinkFormat, attributeEncode("mailto:" + input), htmlEncode(input));
                 if (scopeName == ScopeName.Anchor)
                     return string.Format("<a name=\"{0}\"></a>", attributeEncode(input));
                 if (scopeName == ScopeName.LinkToAnchor)
@@ -70,7 +69,7 @@ namespace WikiPlex.Formatting.Renderers
             if (!url.StartsWith("http", StringComparison.OrdinalIgnoreCase) && !url.StartsWith("mailto", StringComparison.OrdinalIgnoreCase))
                 url = "http://" + url;
 
-            return string.Format(ExternalLinkFormat, attributeEncode(url), htmlEncode(part.FriendlyText));
+            return string.Format(LinkFormat, attributeEncode(url), htmlEncode(part.FriendlyText));
         }
 
         private static string ExpandLinkNoText(string input, Func<string, string> attributeEncode, Func<string, string> htmlEncode)
@@ -79,7 +78,7 @@ namespace WikiPlex.Formatting.Renderers
             if (!url.StartsWith("http", StringComparison.OrdinalIgnoreCase))
                 url = "http://" + url;
 
-            return string.Format(ExternalLinkFormat, attributeEncode(url), htmlEncode(input));
+            return string.Format(LinkFormat, attributeEncode(url), htmlEncode(input));
         }
     }
 }
