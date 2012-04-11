@@ -193,8 +193,8 @@ namespace WikiPlex.PerformanceTests
         public void Should_format_image_performantly()
         {
             Macros.Register<ImageMacro>();
-            ExecutePerformanceTest("Image.wiki", 1500);
-            ExecutePerformanceTest("Image.wiki", 1500);
+            ExecutePerformanceTest("Image.wiki", 2250);
+            ExecutePerformanceTest("Image.wiki", 2250);
             Macros.Unregister<ImageMacro>();
         }
 

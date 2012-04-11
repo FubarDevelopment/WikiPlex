@@ -148,6 +148,11 @@ namespace WikiPlex.Common
             string[] parameters = toSplit.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries);
             string url = parseUrl ? Parameters.ExtractUrl(parameters, false) : parameters[0];
 
+            if ((partExtras & ImagePartExtras.ContainsData) == ImagePartExtras.ContainsData && parameters.Length < 2)
+                throw new ArgumentException("Invalid number of parameters, cannot find image data.", "input");
+            if ((partExtras & ImagePartExtras.ContainsData) == ImagePartExtras.ContainsData)
+                url = string.Format("{0},{1}", url, parameters[1]);
+
             return new ImagePart(url, text, linkUrl, Parameters.ExtractDimensions(parameters));
         }
 

@@ -26,6 +26,12 @@ namespace WikiPlex.Common
         /// <summary>
         /// Indicates that the input contains both text and link.
         /// </summary>
-        All = 0x3
+        [Obsolete("This should no longer be used. All is no longer correct, it really means (ContainsText | ContainsLink).")]
+        All = 0x3,
+
+        /// <summary>
+        /// Indicates the input contains data
+        /// </summary>
+        ContainsData = 0x4
     }
 }

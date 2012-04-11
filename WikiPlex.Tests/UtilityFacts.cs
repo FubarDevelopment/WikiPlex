@@ -151,7 +151,7 @@ namespace WikiPlex.Tests
             [Fact]
             public void Should_throw_ArgumentException_if_the_input_contains_more_than_three_parts()
             {
-                var ex = Record.Exception(() => Utility.ExtractImageParts("a|b|c|d", ImagePartExtras.All)) as ArgumentException;
+                var ex = Record.Exception(() => Utility.ExtractImageParts("a|b|c|d", ImagePartExtras.ContainsLink | ImagePartExtras.ContainsText)) as ArgumentException;
 
                 ex.ShouldNotBeNull();
                 ex.ParamName.ShouldEqual("input");
@@ -185,7 +185,7 @@ namespace WikiPlex.Tests
             [Fact]
             public void Should_return_the_fully_loaded_part()
             {
-                ImagePart part = Utility.ExtractImageParts("a|http://localhost|c", ImagePartExtras.All);
+                ImagePart part = Utility.ExtractImageParts("a|http://localhost|c", ImagePartExtras.ContainsLink | ImagePartExtras.ContainsText);
 
                 part.ShouldNotBeNull();
                 part.Text.ShouldEqual("a");
@@ -260,6 +260,25 @@ namespace WikiPlex.Tests
 
                 part.ShouldNotBeNull();
                 part.ImageUrl.ShouldEqual("http://codeplex.com/image.gif");
+            }
+
+            [Fact]
+            public void Should_throw_ArgumentException_if_ContainsData_but_only_one_parameter()
+            {
+                var ex = Record.Exception(() => Utility.ExtractImageParts("data:image/png;base64", ImagePartExtras.ContainsData, false)) as ArgumentException;
+
+                ex.ShouldNotBeNull();
+                ex.ParamName.ShouldEqual("input");
+                ex.Message.ShouldContain("Invalid number of parameters, cannot find image data.");
+            }
+
+            [Fact]
+            public void Should_return_the_part_with_image_data()
+            {
+                ImagePart part = Utility.ExtractImageParts("data:image/png;base64,aabb==", ImagePartExtras.ContainsData);
+
+                part.ShouldNotBeNull();
+                part.ImageUrl.ShouldEqual("data:image/png;base64,aabb==");
             }
         }
 

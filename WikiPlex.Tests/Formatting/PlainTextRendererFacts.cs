@@ -78,6 +78,12 @@ namespace WikiPlex.Tests.Formatting
             [InlineData(ScopeName.ImageWithLinkNoAlt)]
             [InlineData(ScopeName.ImageWithLinkNoAltLeftAlign)]
             [InlineData(ScopeName.ImageWithLinkNoAltRightAlign)]
+            [InlineData(ScopeName.ImageDataLeftAlign)]
+            [InlineData(ScopeName.ImageDataNoAlign)]
+            [InlineData(ScopeName.ImageDataRightAlign)]
+            [InlineData(ScopeName.ImageDataWithLinkNoAlt)]
+            [InlineData(ScopeName.ImageDataWithLinkNoAltLeftAlign)]
+            [InlineData(ScopeName.ImageDataWithLinkNoAltRightAlign)]
             [InlineData(ScopeName.LinkToAnchor)]
             public void Should_return_an_empty_string_for_the_specified_scope_name(string scopeName)
             {
@@ -113,6 +119,12 @@ namespace WikiPlex.Tests.Formatting
             [InlineData(ScopeName.ImageWithLinkWithAlt)]
             [InlineData(ScopeName.ImageWithLinkWithAltLeftAlign)]
             [InlineData(ScopeName.ImageWithLinkWithAltRightAlign)]
+            [InlineData(ScopeName.ImageDataLeftAlignWithAlt)]
+            [InlineData(ScopeName.ImageDataRightAlignWithAlt)]
+            [InlineData(ScopeName.ImageDataNoAlignWithAlt)]
+            [InlineData(ScopeName.ImageDataWithLinkWithAlt)]
+            [InlineData(ScopeName.ImageDataWithLinkWithAltLeftAlign)]
+            [InlineData(ScopeName.ImageDataWithLinkWithAltRightAlign)]
             [InlineData(ScopeName.LinkWithText)]
             public void Should_return_the_friendly_text_for_the_specified_scope_name(string scopeName)
             {

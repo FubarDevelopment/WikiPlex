@@ -31,7 +31,13 @@ namespace WikiPlex.Formatting.Renderers
                                 ScopeName.ImageWithLinkWithAltRightAlign, ScopeName.ImageWithLinkWithAlt,
                                 ScopeName.ImageLeftAlign, ScopeName.ImageRightAlign, 
                                 ScopeName.ImageNoAlign, ScopeName.ImageLeftAlignWithAlt, 
-                                ScopeName.ImageRightAlignWithAlt, ScopeName.ImageNoAlignWithAlt 
+                                ScopeName.ImageRightAlignWithAlt, ScopeName.ImageNoAlignWithAlt,
+                                ScopeName.ImageDataWithLinkNoAltLeftAlign, ScopeName.ImageDataWithLinkNoAltRightAlign, 
+                                ScopeName.ImageDataWithLinkNoAlt, ScopeName.ImageDataWithLinkWithAltLeftAlign, 
+                                ScopeName.ImageDataWithLinkWithAltRightAlign, ScopeName.ImageDataWithLinkWithAlt,
+                                ScopeName.ImageDataLeftAlign, ScopeName.ImageDataRightAlign, 
+                                ScopeName.ImageDataNoAlign, ScopeName.ImageDataLeftAlignWithAlt, 
+                                ScopeName.ImageDataRightAlignWithAlt, ScopeName.ImageDataNoAlignWithAlt 
                              };
             }
         }
@@ -68,11 +74,19 @@ namespace WikiPlex.Formatting.Renderers
                 case ScopeName.ImageLeftAlignWithAlt:
                 case ScopeName.ImageWithLinkNoAltLeftAlign:
                 case ScopeName.ImageWithLinkWithAltLeftAlign:
+                case ScopeName.ImageDataLeftAlign:
+                case ScopeName.ImageDataLeftAlignWithAlt:
+                case ScopeName.ImageDataWithLinkNoAltLeftAlign:
+                case ScopeName.ImageDataWithLinkWithAltLeftAlign:
                     return FloatAlignment.Left;
                 case ScopeName.ImageRightAlign:
                 case ScopeName.ImageRightAlignWithAlt:
                 case ScopeName.ImageWithLinkNoAltRightAlign:
                 case ScopeName.ImageWithLinkWithAltRightAlign:
+                case ScopeName.ImageDataRightAlign:
+                case ScopeName.ImageDataRightAlignWithAlt:
+                case ScopeName.ImageDataWithLinkNoAltRightAlign:
+                case ScopeName.ImageDataWithLinkWithAltRightAlign:
                     return FloatAlignment.Right;
                 default:
                     return FloatAlignment.None;
@@ -87,18 +101,34 @@ namespace WikiPlex.Formatting.Renderers
                 case ScopeName.ImageRightAlign:
                 case ScopeName.ImageNoAlign:
                     return RenderImageNoLinkMacro;
+                case ScopeName.ImageDataLeftAlign:
+                case ScopeName.ImageDataRightAlign:
+                case ScopeName.ImageDataNoAlign:
+                    return RenderImageDataNoLinkMacro;
                 case ScopeName.ImageLeftAlignWithAlt:
                 case ScopeName.ImageRightAlignWithAlt:
                 case ScopeName.ImageNoAlignWithAlt:
                     return RenderImageWithAltMacro;
+                case ScopeName.ImageDataLeftAlignWithAlt:
+                case ScopeName.ImageDataRightAlignWithAlt:
+                case ScopeName.ImageDataNoAlignWithAlt:
+                    return RenderImageDataWithAltMacro;
                 case ScopeName.ImageWithLinkNoAlt:
                 case ScopeName.ImageWithLinkNoAltLeftAlign:
                 case ScopeName.ImageWithLinkNoAltRightAlign:
                     return RenderImageWithLinkMacro;
+                case ScopeName.ImageDataWithLinkNoAlt:
+                case ScopeName.ImageDataWithLinkNoAltLeftAlign:
+                case ScopeName.ImageDataWithLinkNoAltRightAlign:
+                    return RenderImageDataWithLinkMacro;
                 case ScopeName.ImageWithLinkWithAlt:
                 case ScopeName.ImageWithLinkWithAltLeftAlign:
                 case ScopeName.ImageWithLinkWithAltRightAlign:
                     return RenderImageWithLinkAndAltMacro;
+                case ScopeName.ImageDataWithLinkWithAlt:
+                case ScopeName.ImageDataWithLinkWithAltLeftAlign:
+                case ScopeName.ImageDataWithLinkWithAltRightAlign:
+                    return RenderImageDataWithLinkAndAltMacro;
             }
 
             return null;
@@ -112,11 +142,27 @@ namespace WikiPlex.Formatting.Renderers
             return string.Format(format, alignment.GetStyle(), alignment.GetPadding(), encode(parts.ImageUrl), parts.Dimensions);
         }
 
+        private static string RenderImageDataNoLinkMacro(string input, FloatAlignment alignment, Func<string, string> encode)
+        {
+            string format = alignment == FloatAlignment.None ? ImageNoLink : ImageNoLinkWithStyle;
+            ImagePart parts = Utility.ExtractImageParts(input, ImagePartExtras.ContainsData, false);
+
+            return string.Format(format, alignment.GetStyle(), alignment.GetPadding(), encode(parts.ImageUrl), parts.Dimensions);
+        }
+
         private static string RenderImageWithAltMacro(string input, FloatAlignment alignment, Func<string, string> encode)
         {
             string format = alignment == FloatAlignment.None ? ImageNoLinkAndAlt : ImageNoLinkAndAltWithStyle;
             ImagePart parts = Utility.ExtractImageParts(input, ImagePartExtras.ContainsText);
             
+            return string.Format(format, alignment.GetStyle(), alignment.GetPadding(), encode(parts.ImageUrl), encode(parts.Text), parts.Dimensions);
+        }
+
+        private static string RenderImageDataWithAltMacro(string input, FloatAlignment alignment, Func<string, string> encode)
+        {
+            string format = alignment == FloatAlignment.None ? ImageNoLinkAndAlt : ImageNoLinkAndAltWithStyle;
+            ImagePart parts = Utility.ExtractImageParts(input, ImagePartExtras.ContainsText | ImagePartExtras.ContainsData, false);
+
             return string.Format(format, alignment.GetStyle(), alignment.GetPadding(), encode(parts.ImageUrl), encode(parts.Text), parts.Dimensions);
         }
 
@@ -128,10 +174,26 @@ namespace WikiPlex.Formatting.Renderers
             return string.Format(format, alignment.GetStyle(), alignment.GetPadding(), encode(parts.LinkUrl), encode(parts.ImageUrl), parts.Dimensions);
         }
 
+        private static string RenderImageDataWithLinkMacro(string input, FloatAlignment alignment, Func<string, string> encode)
+        {
+            string format = alignment == FloatAlignment.None ? ImageAndLink : ImageAndLinkWithStyle;
+            ImagePart parts = Utility.ExtractImageParts(input, ImagePartExtras.ContainsLink | ImagePartExtras.ContainsData, false);
+
+            return string.Format(format, alignment.GetStyle(), alignment.GetPadding(), encode(parts.LinkUrl), encode(parts.ImageUrl), parts.Dimensions);
+        }
+
         private static string RenderImageWithLinkAndAltMacro(string input, FloatAlignment alignment, Func<string, string> encode)
         {
             string format = alignment == FloatAlignment.None ? ImageLinkAndAlt : ImageLinkAndAltWithStyle;
-            ImagePart parts = Utility.ExtractImageParts(input, ImagePartExtras.All);
+            ImagePart parts = Utility.ExtractImageParts(input, ImagePartExtras.ContainsLink | ImagePartExtras.ContainsText);
+
+            return string.Format(format, alignment.GetStyle(), alignment.GetPadding(), encode(parts.LinkUrl), encode(parts.ImageUrl), encode(parts.Text), parts.Dimensions);
+        }
+
+        private static string RenderImageDataWithLinkAndAltMacro(string input, FloatAlignment alignment, Func<string, string> encode)
+        {
+            string format = alignment == FloatAlignment.None ? ImageLinkAndAlt : ImageLinkAndAltWithStyle;
+            ImagePart parts = Utility.ExtractImageParts(input, ImagePartExtras.ContainsLink | ImagePartExtras.ContainsText | ImagePartExtras.ContainsData, false);
 
             return string.Format(format, alignment.GetStyle(), alignment.GetPadding(), encode(parts.LinkUrl), encode(parts.ImageUrl), encode(parts.Text), parts.Dimensions);
         }

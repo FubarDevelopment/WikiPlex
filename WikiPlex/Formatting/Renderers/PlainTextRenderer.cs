@@ -107,6 +107,12 @@ namespace WikiPlex.Formatting.Renderers
                     || scopeName == ScopeName.ImageWithLinkNoAlt
                     || scopeName == ScopeName.ImageWithLinkNoAltLeftAlign
                     || scopeName == ScopeName.ImageWithLinkNoAltRightAlign
+                    || scopeName == ScopeName.ImageDataLeftAlign
+                    || scopeName == ScopeName.ImageDataNoAlign
+                    || scopeName == ScopeName.ImageDataRightAlign
+                    || scopeName == ScopeName.ImageDataWithLinkNoAlt
+                    || scopeName == ScopeName.ImageDataWithLinkNoAltLeftAlign
+                    || scopeName == ScopeName.ImageDataWithLinkNoAltRightAlign
                     || scopeName == ScopeName.LinkToAnchor);
         }
 
@@ -130,6 +136,12 @@ namespace WikiPlex.Formatting.Renderers
                     || scopeName == ScopeName.ImageWithLinkWithAlt
                     || scopeName == ScopeName.ImageWithLinkWithAltLeftAlign
                     || scopeName == ScopeName.ImageWithLinkWithAltRightAlign
+                    || scopeName == ScopeName.ImageDataLeftAlignWithAlt
+                    || scopeName == ScopeName.ImageDataRightAlignWithAlt
+                    || scopeName == ScopeName.ImageDataNoAlignWithAlt
+                    || scopeName == ScopeName.ImageDataWithLinkWithAlt
+                    || scopeName == ScopeName.ImageDataWithLinkWithAltLeftAlign
+                    || scopeName == ScopeName.ImageDataWithLinkWithAltRightAlign
                     || scopeName == ScopeName.LinkWithText);
         }
     }

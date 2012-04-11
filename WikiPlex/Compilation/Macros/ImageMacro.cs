@@ -37,11 +37,29 @@ namespace WikiPlex.Compilation.Macros
                                        }
                                    ),
                                new MacroRule(
+                                   @"(?i)(<\[image:)((?>data:[^\]\|]*\|https?://[^\]\|]*))(\])",
+                                   new Dictionary<int, string>
+                                       {
+                                           {1, ScopeName.Remove},
+                                           {2, ScopeName.ImageDataWithLinkNoAltLeftAlign},
+                                           {3, ScopeName.Remove}
+                                       }
+                                   ),
+                               new MacroRule(
                                    @"(?i)(>\[image:)((?>https?://[^\]\|]*\|https?://[^\]\|]*))(\])",
                                    new Dictionary<int, string>
                                        {
                                            {1, ScopeName.Remove},
                                            {2, ScopeName.ImageWithLinkNoAltRightAlign},
+                                           {3, ScopeName.Remove}
+                                       }
+                                   ),
+                               new MacroRule(
+                                   @"(?i)(>\[image:)((?>data:[^\]\|]*\|https?://[^\]\|]*))(\])",
+                                   new Dictionary<int, string>
+                                       {
+                                           {1, ScopeName.Remove},
+                                           {2, ScopeName.ImageDataWithLinkNoAltRightAlign},
                                            {3, ScopeName.Remove}
                                        }
                                    ),
@@ -55,11 +73,29 @@ namespace WikiPlex.Compilation.Macros
                                        }
                                    ),
                                new MacroRule(
+                                   @"(?i)(\[image:)((?>data:[^\]\|]*\|https?://[^\]\|]*))(\])",
+                                   new Dictionary<int, string>
+                                       {
+                                           {1, ScopeName.Remove},
+                                           {2, ScopeName.ImageDataWithLinkNoAlt},
+                                           {3, ScopeName.Remove}
+                                       }
+                                   ),
+                               new MacroRule(
                                    @"(?i)(<\[image:)((?>[^\]\|]*\|https?://[^\]\|]*\|https?://[^\]\|]*))(\])",
                                    new Dictionary<int, string>
                                        {
                                            {1, ScopeName.Remove},
                                            {2, ScopeName.ImageWithLinkWithAltLeftAlign},
+                                           {3, ScopeName.Remove}
+                                       }
+                                   ),
+                               new MacroRule(
+                                   @"(?i)(<\[image:)((?>[^\]\|]*\|data:[^\]\|]*\|https?://[^\]\|]*))(\])",
+                                   new Dictionary<int, string>
+                                       {
+                                           {1, ScopeName.Remove},
+                                           {2, ScopeName.ImageDataWithLinkWithAltLeftAlign},
                                            {3, ScopeName.Remove}
                                        }
                                    ),
@@ -73,11 +109,29 @@ namespace WikiPlex.Compilation.Macros
                                        }
                                    ),
                                new MacroRule(
+                                   @"(?i)(>\[image:)((?>[^\]\|]*\|data:[^\]\|]*\|https?://[^\]\|]*))(\])",
+                                   new Dictionary<int, string>
+                                       {
+                                           {1, ScopeName.Remove},
+                                           {2, ScopeName.ImageDataWithLinkWithAltRightAlign},
+                                           {3, ScopeName.Remove}
+                                       }
+                                   ),
+                               new MacroRule(
                                    @"(?i)(\[image:)((?>[^\]\|]*\|https?://[^\]\|]*\|https?://[^\]\|]*))(\])",
                                    new Dictionary<int, string>
                                        {
                                            {1, ScopeName.Remove},
                                            {2, ScopeName.ImageWithLinkWithAlt},
+                                           {3, ScopeName.Remove}
+                                       }
+                                   ),
+                               new MacroRule(
+                                   @"(?i)(\[image:)((?>[^\]\|]*\|data:[^\]\|]*\|https?://[^\]\|]*))(\])",
+                                   new Dictionary<int, string>
+                                       {
+                                           {1, ScopeName.Remove},
+                                           {2, ScopeName.ImageDataWithLinkWithAlt},
                                            {3, ScopeName.Remove}
                                        }
                                    ),
@@ -91,11 +145,29 @@ namespace WikiPlex.Compilation.Macros
                                        }
                                    ),
                                new MacroRule(
+                                   @"(?i)(<\[image:)((?>data:[^\]\|]*))(\])",
+                                   new Dictionary<int, string>
+                                       {
+                                           {1, ScopeName.Remove},
+                                           {2, ScopeName.ImageDataLeftAlign},
+                                           {3, ScopeName.Remove}
+                                       }
+                                   ),
+                               new MacroRule(
                                    @"(?i)(>\[image:)((?>https?://[^\]\|]*))(\])",
                                    new Dictionary<int, string>
                                        {
                                            {1, ScopeName.Remove},
                                            {2, ScopeName.ImageRightAlign},
+                                           {3, ScopeName.Remove}
+                                       }
+                                   ),
+                               new MacroRule(
+                                   @"(?i)(>\[image:)((?>data:[^\]\|]*))(\])",
+                                   new Dictionary<int, string>
+                                       {
+                                           {1, ScopeName.Remove},
+                                           {2, ScopeName.ImageDataRightAlign},
                                            {3, ScopeName.Remove}
                                        }
                                    ),
@@ -109,11 +181,29 @@ namespace WikiPlex.Compilation.Macros
                                        }
                                    ),
                                new MacroRule(
+                                   @"(?i)(\[image:)((?>data:[^\]\|]*))(\])",
+                                   new Dictionary<int, string>
+                                       {
+                                           {1, ScopeName.Remove},
+                                           {2, ScopeName.ImageDataNoAlign},
+                                           {3, ScopeName.Remove}
+                                       }
+                                   ),
+                               new MacroRule(
                                    @"(?i)(<\[image:)((?>[^\]\|]*\|https?://[^\]\|]*))(\])",
                                    new Dictionary<int, string>
                                        {
                                            {1, ScopeName.Remove},
                                            {2, ScopeName.ImageLeftAlignWithAlt},
+                                           {3, ScopeName.Remove}
+                                       }
+                                   ),
+                               new MacroRule(
+                                   @"(?i)(<\[image:)((?>[^\]\|]*\|data:[^\]\|]*))(\])",
+                                   new Dictionary<int, string>
+                                       {
+                                           {1, ScopeName.Remove},
+                                           {2, ScopeName.ImageDataLeftAlignWithAlt},
                                            {3, ScopeName.Remove}
                                        }
                                    ),
@@ -127,11 +217,29 @@ namespace WikiPlex.Compilation.Macros
                                        }
                                    ),
                                new MacroRule(
+                                   @"(?i)(>\[image:)((?>[^\]\|]*\|data:[^\]\|]*))(\])",
+                                   new Dictionary<int, string>
+                                       {
+                                           {1, ScopeName.Remove},
+                                           {2, ScopeName.ImageDataRightAlignWithAlt},
+                                           {3, ScopeName.Remove}
+                                       }
+                                   ),
+                               new MacroRule(
                                    @"(?i)(\[image:)((?>[^\]\|]*\|https?://[^\]\|]*))(\])",
                                    new Dictionary<int, string>
                                        {
                                            {1, ScopeName.Remove},
                                            {2, ScopeName.ImageNoAlignWithAlt},
+                                           {3, ScopeName.Remove}
+                                       }
+                                   ),
+                               new MacroRule(
+                                   @"(?i)(\[image:)((?>[^\]\|]*\|data:[^\]\|]*))(\])",
+                                   new Dictionary<int, string>
+                                       {
+                                           {1, ScopeName.Remove},
+                                           {2, ScopeName.ImageDataNoAlignWithAlt},
                                            {3, ScopeName.Remove}
                                        }
                                    )
