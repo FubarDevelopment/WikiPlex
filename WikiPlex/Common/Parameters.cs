@@ -11,8 +11,6 @@ namespace WikiPlex.Common
     /// </summary>
     public static class Parameters
     {
-        private static Regex ParamKey = new Regex(@"[^=]+=.+");
-
         /// <summary>
         /// This will extract a url.
         /// </summary>
@@ -216,7 +214,9 @@ namespace WikiPlex.Common
             string current = null;
             foreach (string param in parameters)
             {
-                if (ParamKey.IsMatch(param))
+                int index = param.IndexOf('=');
+
+                if (index > 0 && index < param.Length - 1)
                 {
                     if (!string.IsNullOrEmpty(current))
                         normalized.Add(current);
