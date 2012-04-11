@@ -1,0 +1,10 @@
+_resharper*
+*/obj/*
+*/bin/*
+*.aml
+*.user
+*.suo
+_help/
+_zip/
+sample/
+*.sln.cache
