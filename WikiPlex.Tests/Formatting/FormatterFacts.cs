@@ -38,8 +38,8 @@ namespace WikiPlex.Tests.Formatting
             [Fact]
             public void Should_throw_ArgumentNullException_if_scopes_is_null()
             {
-                var renderer = Mocks.OneOf<IRenderer>();
-                var formatter = new Formatter(new[] {renderer});
+                var renderer = new Mock<IRenderer>();
+                var formatter = new Formatter(new[] {renderer.Object});
 
                 var ex = Record.Exception(() => formatter.RecordParse(null)) as ArgumentNullException;
 

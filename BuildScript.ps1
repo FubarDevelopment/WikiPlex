@@ -14,7 +14,8 @@ properties {
     $docSlnPath = "$baseDir\WikiPlex.Documentation\WikiPlex.Documentation.shfbproj"
 }
 
-task default -depends run-clean, run-build, run-tests, run-perf-tests
+task default -depends run-clean, run-build, run-tests
+task perf -depends default, run-perf-tests
 task net35 -depends run-clean35, set-version, run-build35
 task ci -depends run-clean, set-version, run-build, run-tests, build-documentation, clean-documentation-files, build-package
 task doc -depends prepare-documentation
@@ -90,7 +91,7 @@ task build-package -depends prepare-sample, prepare-nuget {
                               "_nuget"
     }
     
-    exec { &"$baseDir\lib\NuGet\NuGet.exe" pack "$nugetDir\WikiPlex.nuspec" >> $NULL }
+    exec { &"$baseDir\.nuget\NuGet.exe" pack "$nugetDir\WikiPlex.nuspec" >> $NULL }
     move-item "$baseDir\*.nupkg" -destination $archiveDir
     
     clean $sampleDir, $nugetDir
