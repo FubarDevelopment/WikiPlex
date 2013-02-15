@@ -59,8 +59,9 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ColorCode, Version=1.0.1.62759, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ColorCode.1.0.1\lib\ColorCode.dll</HintPath>
+    <Reference Include="ColorCode, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\ColorCode\ColorCode.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">

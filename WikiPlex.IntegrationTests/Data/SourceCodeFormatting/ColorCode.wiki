@@ -98,3 +98,11 @@ function Append-RtfBlock ($block, $tokenColor)
    $null = $rtfBuilder.Append("\cf$colorIndex $block")
 }
 {code:powershell}
+
+{code:typescript}
+declare module Test {
+function FunctionName(argOne, argTwo) {
+    return argOne + argTwo;
+}
+}
+{code:typescript}
