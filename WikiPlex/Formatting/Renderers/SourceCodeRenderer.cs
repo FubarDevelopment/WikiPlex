@@ -42,7 +42,7 @@ namespace WikiPlex.Formatting.Renderers
                                 ScopeName.ColorCodeCSharp, ScopeName.ColorCodeCss, ScopeName.ColorCodeHtml,
                                 ScopeName.ColorCodeJava, ScopeName.ColorCodeJavaScript, ScopeName.ColorCodePhp,
                                 ScopeName.ColorCodePowerShell, ScopeName.ColorCodeSql, ScopeName.ColorCodeVbDotNet,
-                                ScopeName.ColorCodeXml, ScopeName.ColorCodeTypeScript,
+                                ScopeName.ColorCodeXml, ScopeName.ColorCodeTypeScript, ScopeName.ColorCodeFSharp,
                              };
             }
         }
@@ -81,6 +81,8 @@ namespace WikiPlex.Formatting.Renderers
                     return Colorize(input, Languages.JavaScript, htmlEncode);
                 case ScopeName.ColorCodeTypeScript:
                     return Colorize(input, Languages.Typescript, htmlEncode);
+                case ScopeName.ColorCodeFSharp:
+                    return Colorize(input, Languages.FSharp, htmlEncode);
                 case ScopeName.ColorCodeSql:
                     return Colorize(input, Languages.Sql, htmlEncode);
                 case ScopeName.ColorCodeVbDotNet:

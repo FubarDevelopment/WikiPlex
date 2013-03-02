@@ -24,7 +24,8 @@ namespace WikiPlex.Compilation.Macros
     /// {code:php} PHP {code:php}
     /// {code:css} CSS {code:css}
     /// {code:powershell} Powershell {code:powershell}
-    /// {code:typescript} Powershell {code:typescript}
+    /// {code:typescript} TypeScript {code:typescript}
+    /// {code:fsharp} FSharp {code:fsharp}
     /// </code></example>
     public class SourceCodeMacro : IMacro
     {
@@ -180,6 +181,14 @@ namespace WikiPlex.Compilation.Macros
                                        {
                                            {1, ScopeName.Remove},
                                            {2, ScopeName.ColorCodeTypeScript},
+                                           {3, ScopeName.Remove}
+                                       }),
+                               new MacroRule(
+                                   @"(?si)(\{code:\s*fsharp\}\r?\n)(.*?)(\r?\n\{code:\s*fsharp\}(?:\r?\n)?)",
+                                   new Dictionary<int, string>
+                                       {
+                                           {1, ScopeName.Remove},
+                                           {2, ScopeName.ColorCodeFSharp},
                                            {3, ScopeName.Remove}
                                        }),
                                new MacroRule(

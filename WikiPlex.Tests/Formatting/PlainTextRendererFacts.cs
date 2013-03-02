@@ -148,6 +148,7 @@ namespace WikiPlex.Tests.Formatting
             [InlineData(ScopeName.ColorCodeJava)]
             [InlineData(ScopeName.ColorCodeJavaScript)]
             [InlineData(ScopeName.ColorCodeTypeScript)]
+            [InlineData(ScopeName.ColorCodeFSharp)]
             [InlineData(ScopeName.ColorCodePhp)]
             [InlineData(ScopeName.ColorCodePowerShell)]
             [InlineData(ScopeName.ColorCodeSql)]

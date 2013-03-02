@@ -106,3 +106,6 @@
 }
 }
 </pre></div>
+<br />
+<div style="color:Black;background-color:White;"><pre>
+<span style="color:Green;">// F# Comment</span><span style="color:Blue;">type</span> Person(name:string, age:int) =<span style="color:Blue;">let</span> <span style="color:Blue;">mutable</span> internalAge = age<span style="color:Blue;">new</span>(name:string) = Person(name, 0)<span style="color:Blue;">member</span> this.Name = name<span style="color:Blue;">member</span> this.Age<span style="color:Blue;">with</span> get() = internalAge<span style="color:Blue;">and</span> set(value) = internalAge &lt;- value<span style="color:Blue;">member</span> this.HasABirthday () = internalAge &lt;- internalAge + 1<span style="color:Blue;">member</span> this.IsOfAge targetAge = internalAge &gt;= targetAge<span style="color:Blue;">override</span> this.ToString () =  <span style="color:#A31515;">&quot;Name:  &quot;</span> + name + <span style="color:#A31515;">&quot;\n&quot;</span> + <span style="color:#A31515;">&quot;Age:&quot;</span> + (string)internalAge</pre></div>
