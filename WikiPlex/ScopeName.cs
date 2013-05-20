@@ -27,6 +27,9 @@
         public const string ColorCodeSql = "Color Coding Block - SQL";
         public const string ColorCodeVbDotNet = "Color Coding Block - Visual Basic .NET";
         public const string ColorCodeXml = "Color Coding Block - XML";
+        public const string ColorCodeMarkdown = "Color Coding Block - Markdown";
+        public const string ColorCodeHaskell = "Color Coding Block - Haskell";
+        public const string ColorCodeKoka = "Color Coding Block - Koka";
         public const string EscapedMarkup = "Escaped Markup Block";
         public const string FlashVideo = "Flash Video";
         public const string HeadingFiveBegin = "Heading Five Begin Tag";

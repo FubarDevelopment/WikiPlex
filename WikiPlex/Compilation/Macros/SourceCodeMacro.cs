@@ -192,6 +192,30 @@ namespace WikiPlex.Compilation.Macros
                                            {3, ScopeName.Remove}
                                        }),
                                new MacroRule(
+                                   @"(?si)(\{code:\s*markdown\}\r?\n)(.*?)(\r?\n\{code:\s*markdown\}(?:\r?\n)?)",
+                                   new Dictionary<int, string>
+                                       {
+                                           {1, ScopeName.Remove},
+                                           {2, ScopeName.ColorCodeMarkdown},
+                                           {3, ScopeName.Remove}
+                                       }),
+                               new MacroRule(
+                                   @"(?si)(\{code:\s*haskell\}\r?\n)(.*?)(\r?\n\{code:\s*haskell\}(?:\r?\n)?)",
+                                   new Dictionary<int, string>
+                                       {
+                                           {1, ScopeName.Remove},
+                                           {2, ScopeName.ColorCodeHaskell},
+                                           {3, ScopeName.Remove}
+                                       }),
+                               new MacroRule(
+                                   @"(?si)(\{code:\s*koka\}\r?\n)(.*?)(\r?\n\{code:\s*koka\}(?:\r?\n)?)",
+                                   new Dictionary<int, string>
+                                       {
+                                           {1, ScopeName.Remove},
+                                           {2, ScopeName.ColorCodeKoka},
+                                           {3, ScopeName.Remove}
+                                       }),
+                               new MacroRule(
                                    @"(?si)(\{code:[^\}]+\}\r?\n)(.*?)(\r?\n\{code:[^\}]+}(?:\r?\n)?)",
                                    new Dictionary<int, string>
                                        {

@@ -34,6 +34,9 @@ namespace WikiPlex.Tests.Formatting
             [InlineData(ScopeName.ColorCodeCss)]
             [InlineData(ScopeName.ColorCodeJava)]
             [InlineData(ScopeName.ColorCodePowerShell)]
+            [InlineData(ScopeName.ColorCodeMarkdown)]
+            [InlineData(ScopeName.ColorCodeHaskell)]
+            [InlineData(ScopeName.ColorCodeKoka)]
             public void Should_be_able_to_resolve_scope_name(string scopeName)
             {
                 var renderer = new SourceCodeRenderer(new Mock<ICodeColorizer>().Object);
@@ -113,6 +116,9 @@ namespace WikiPlex.Tests.Formatting
             [InlineData(LanguageId.Css, ScopeName.ColorCodeCss)]
             [InlineData(LanguageId.Java, ScopeName.ColorCodeJava)]
             [InlineData(LanguageId.PowerShell, ScopeName.ColorCodePowerShell)]
+            [InlineData(LanguageId.Markdown, ScopeName.ColorCodeMarkdown)]
+            [InlineData(LanguageId.Haskell, ScopeName.ColorCodeHaskell)]
+            [InlineData(LanguageId.Koka, ScopeName.ColorCodeKoka)]
             public void Should_resolve_the_color_code_scope_correctly(string languageId, string scopeName)
             {
                 var colorizer = new Mock<ICodeColorizer>();
